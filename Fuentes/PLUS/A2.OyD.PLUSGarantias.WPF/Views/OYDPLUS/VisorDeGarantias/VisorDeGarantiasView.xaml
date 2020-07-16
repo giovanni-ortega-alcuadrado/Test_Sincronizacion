@@ -1,0 +1,1665 @@
+﻿<UserControl
+    x:Class="VisorDeGarantiasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSGarantias"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    d:DesignHeight="200"
+    d:DesignWidth="400"
+    FontSize="10"
+    FontWeight="Normal"
+    Loaded="View_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <src:TamanoInternoLiquidacionConverter x:Key="TamanoInternoLiquidacionConverter" />
+        <src:ColorEstadoInternoConverter x:Key="ColorEstadoInternoConverter" />
+        <src:ValorEstadoInternoConverter x:Key="ValorEstadoInternoConverter" />
+        <src:TamanoLegalLiquidacionConverter x:Key="TamanoLegalLiquidacionConverter" />
+        <src:ColorEstadoLegalConverter x:Key="ColorEstadoLegalConverter" />
+        <src:ValorEstadoLegalConverter x:Key="ValorEstadoLegalConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{StaticResource BackgroundColorBrush}">
+            <Grid
+                Name="gPrincipal"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="450" MinHeight="450" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="2" Orientation="Horizontal">
+
+
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Tipo mercado: " />
+                    <ComboBox
+                        Name="cbTipoMercado"
+                        Height="27"
+                        MinWidth="100"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding lstTipoMercado}"
+                        SelectedValue="{Binding intTipoMercado, Mode=TwoWay}"
+                        SelectedValuePath="intID" />
+
+
+                    <Button
+                        x:Name="btnConsultar"
+                        Margin="15,0,0,0"
+                        Click="btnConsultar_Click"
+                        Content="Consultar"
+                        ToolTipService.ToolTip="Consultar operaciones" />
+
+                    <TextBlock
+                        Margin="30,0,0,0"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Vistas: " />
+                    <ComboBox
+                        Name="cbVistas"
+                        Height="27"
+                        MinWidth="100"
+                        DisplayMemberPath="Value"
+                        SelectedValuePath="Key"
+                        SelectionChanged="cbVistas_SelectionChanged" />
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Filtro rápido: " />
+                    <Button
+                        Name="btnFiltro"
+                        Grid.Column="1"
+                        Width="26"
+                        Height="26"
+                        Click="btnFiltro_Click"
+                        Style="{StaticResource ControlButtonSecundaryStyle}"
+                        ToolTipService.ToolTip="Limpiar Filtro">
+                        <Path
+                            Width="8"
+                            Height="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="M3.5,0.5 L4.5,0.5 L4.5,0.5 L7.5,0.5 L7.5,1.5 L7.5,1.5 L4.5,4.3 L4.5,7.5 L3.5,7.5 L3.5,4.3 L0.5,1.5 L0.5,0.5 L3.5,0.5 z"
+                            Fill="{Binding ColorFiltro}"
+                            Opacity="1"
+                            Stretch="Fill"
+                            Stroke="{Binding ColorFiltro}"
+                            StrokeThickness="1" />
+                    </Button>
+                    <Telerik:RadAutoCompleteBox
+                        Name="acFiltro"
+                        Width="200"
+                        Height="26"
+                        ItemsSource="{Binding ListaFiltros, Mode=TwoWay}"
+                        SearchText="{Binding Filtro, Mode=TwoWay}" />
+                </StackPanel>
+
+                <!--<StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Visibility="{Binding VisualizarCRCC}">
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Fecha carga: " />
+                    <TextBlock
+                        Margin="0,0,15,0"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding dtmFechaCarga}" />
+
+                    <Button
+                        x:Name="btnVerInforme"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Right"
+                        Click="btnVerInforme_Click"
+                        Content="Informe"
+                        ToolTipService.ToolTip="Informe CRCC" />
+
+                    <Button
+                        x:Name="btnEnviarCorreos"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Right"
+                        Click="btnEnviarCorreos_Click"
+                        Content="Enviar correos"
+                        ToolTipService.ToolTip="Enviar correos" />
+
+                </StackPanel>-->
+
+                <!--  Grid principal CRCC  -->
+                <!--<c1:C1DataGrid
+                    Name="gridCRCC"
+                    Grid.Row="1"
+                    Margin="0,0,8,0"
+                    AutoGenerateColumns="False"
+                    CanUserFreezeColumns="None"
+                    CanUserGroup="False"
+                    CanUserResizeColumns="True"
+                    CanUserSort="False"
+                    FontWeight="Normal"
+                    FrozenColumnCount="2"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding lstGarantiasCRCCPaged}"
+                    SelectedItem="{Binding GarantiaCRCCSeleccionada}"
+                    Visibility="{Binding VisualizarCRCC}">
+                    <c1:C1DataGrid.Columns>
+
+                        <c1:DataGridTemplateColumn
+                            Name="cCuentaCRCC"
+                            Width="50"
+                            CanUserMove="False"
+                            Header="Cuenta">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Click="btnAbrirVistaDetalleCRCC_Click"
+                                        Style="{StaticResource ControlButtonSecundaryStyle}"
+                                        Tag="{Binding}">
+
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Cuenta}" />
+                                    </Button>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+
+                -->
+                <!--<c1:DataGridBoundColumn Binding="{Binding Cuenta}" Header="Cuenta" ></c1:DataGridBoundColumn>-->
+                <!--
+                        <c1:DataGridBoundColumn Binding="{Binding IDComitente}" Header="Comitente" />
+                        <c1:DataGridBoundColumn Binding="{Binding Nrodocumento}" Header="Nro documento" />
+
+                        <c1:DataGridTemplateColumn
+                            Name="cEstadoGarantiaCRCC"
+                            Width="100"
+                            CanUserMove="False"
+                            Header="Estado garantía">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock
+                                            Margin="2"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontWeight="Normal"
+                                            Text="{Binding Converter={StaticResource ValorGarantiaCRCCConverter}}" />
+                                        <Rectangle
+                                            Width="100"
+                                            Height="4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Fill="{Binding Converter={StaticResource ColorGarantiaCRCCConverter}}" />
+                                        <Rectangle
+                                            Width="{Binding Converter={StaticResource TamanoGarantiaCRCCConverter}}"
+                                            Height="4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Fill="#FF008DC1" />
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+
+                        <c1:DataGridBoundColumn
+                            HorizontalAlignment="Right"
+                            Binding="{Binding GarantiaExigida}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Garantía exigida" />
+                        <c1:DataGridBoundColumn
+                            HorizontalAlignment="Right"
+                            Binding="{Binding GarantiaDepositada}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Garantía depositada" />
+                        <c1:DataGridBoundColumn
+                            HorizontalAlignment="Right"
+                            Binding="{Binding PorcentajeCumplimiento}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="% Cumplimiento" />
+                        <c1:DataGridBoundColumn
+                            HorizontalAlignment="Right"
+                            Binding="{Binding Riesgo}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Riesgo" />
+
+                        <c1:DataGridTemplateColumn
+                            Name="cBloqueadoTotalOyD"
+                            CanUserMove="False"
+                            Header="Bloqueado OyD">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <c1:C1NumericBox
+                                            Foreground="{Binding ColorEtiquetaEstado}"
+                                            Format="N2"
+                                            IsReadOnly="True"
+                                            ShowButtons="False"
+                                            Value="{Binding BloqueadoTotalOyD}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+
+                        <c1:DataGridBoundColumn
+                            Binding="{Binding Fecha}"
+                            Format="dd/MM/yyyy"
+                            Header="Fecha" />
+                        <c1:DataGridBoundColumn Binding="{Binding NombreCliente}" Header="Nombre comitente" />
+                        <c1:DataGridBoundColumn Binding="{Binding TipoProducto}" Header="Tipo de producto" />
+                        <c1:DataGridBoundColumn Binding="{Binding CodigoReceptor}" Header="Receptor" />
+                        <c1:DataGridBoundColumn Binding="{Binding NombreReceptor}" Header="Nombre receptor" />
+                        <c1:DataGridBoundColumn Binding="{Binding EmailReceptor}" Header="Email receptor" />
+                        <c1:DataGridBoundColumn Binding="{Binding MiembroLiquidador}" Header="Miembro liquidador" />
+                        <c1:DataGridBoundColumn Binding="{Binding MiembroNoLiquidador}" Header="Miembro no liquidador" />
+
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>-->
+
+                <!--  Grid principal bolsa  -->
+                <c1:C1DataGrid
+                    Name="grid"
+                    Grid.Row="1"
+                    Margin="0,0,8,0"
+                    AutoGenerateColumns="False"
+                    CanUserFreezeColumns="None"
+                    CanUserGroup="True"
+                    CanUserResizeColumns="True"
+                    CanUserSort="False"
+                    CreatingRow="grid_CreatingRow"
+                    FontWeight="Normal"
+                    FrozenColumnCount="2"
+                    GroupChanged="grid_GroupChanged"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ListaVisorDeGarantias}"
+                    LoadingRow="grid_LoadingRow"
+                    SelectionChanged="GridVisor_SelectionChanged">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTemplateColumn
+                            Name="cCantidad"
+                            Width="50"
+                            CanUserMove="False"
+                            Header="Cantidad">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Click="btnAbrirVistaDetalle_Click"
+                                        Style="{StaticResource ControlButtonSecundaryStyle}"
+                                        Tag="{Binding}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Text="1" />
+                                            <Rectangle
+                                                Grid.Row="1"
+                                                Width="24"
+                                                Height="3"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
+                                                Fill="{Binding Converter={StaticResource ColorEstadoInternoConverter}}" />
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+
+                        <c1:DataGridTemplateColumn
+                            Name="cTipoGarantia"
+                            CanUserMove="False"
+                            Header="Tipo garantía"
+                            SortMemberPath="IDLiquidacion">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ComboBox
+                                            Name="cbTipoGarantia"
+                                            MinWidth="50"
+                                            DisplayMemberPath="Descripcion"
+                                            ItemsSource="{Binding DataContext.lstTipoGarantia, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding TipoGarantia, Mode=TwoWay}"
+                                            SelectedValuePath="ID" />
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+
+
+                        <c1:DataGridTemplateColumn
+                            Name="cEstadolegal"
+                            Width="100"
+                            CanUserMove="False"
+                            Header="Cobertura legal"
+                            SortMemberPath="IDLiquidacion">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Rectangle
+                                            Width="{Binding Converter={StaticResource TamanoLegalLiquidacionConverter}}"
+                                            Height="22"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            Fill="LightBlue"
+                                            Opacity="0.5" />
+                                        <c1:C1NumericBox
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            FontSize="7"
+                                            Format="N2"
+                                            IsEnabled="False"
+                                            ShowButtons="False"
+                                            Value="{Binding CoberturaBolsa}" />
+                                        <Rectangle
+                                            Width="100"
+                                            Height="4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Fill="{Binding Converter={StaticResource ColorEstadoLegalConverter}}" />
+                                        <Rectangle
+                                            Width="{Binding Converter={StaticResource TamanoLegalLiquidacionConverter}}"
+                                            Height="4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Fill="#FF008DC1" />
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+
+                        <c1:DataGridTemplateColumn
+                            Name="cEstadoInterno"
+                            Width="100"
+                            CanUserMove="False"
+                            Header="Cobertura interna"
+                            SortMemberPath="IDLiquidacion">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Rectangle
+                                            Width="{Binding Converter={StaticResource TamanoInternoLiquidacionConverter}}"
+                                            Height="22"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            Fill="LightBlue"
+                                            Opacity="0.5" />
+                                        <c1:C1NumericBox
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            FontSize="7"
+                                            Format="N2"
+                                            IsEnabled="False"
+                                            ShowButtons="False"
+                                            Value="{Binding CoberturaValores}" />
+                                        <Rectangle
+                                            Width="100"
+                                            Height="4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Fill="{Binding Converter={StaticResource ColorEstadoInternoConverter}}" />
+                                        <Rectangle
+                                            Width="{Binding Converter={StaticResource TamanoInternoLiquidacionConverter}}"
+                                            Height="4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Fill="#FF008DC1" />
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+                        <c1:DataGridBoundColumn
+                            Name="cCoberturaTotal"
+                            Binding="{Binding CoberturaTotal}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Cobertura total"
+                            Tag="IDLiquidacion" />
+                        <c1:DataGridBoundColumn
+                            Name="cLiquidacion"
+                            Binding="{Binding IDLiquidacion}"
+                            CanUserMove="False"
+                            Header="Liquidación"
+                            Tag="IDLiquidacion" />
+                        <c1:DataGridBoundColumn
+                            Name="cIDCliente"
+                            Binding="{Binding IDCliente}"
+                            GroupHeader="Comitente"
+                            Header="Comitente"
+                            SortMemberPath="IDCliente"
+                            Tag="IDCliente" />
+                        <c1:DataGridBoundColumn
+                            Name="cDocumento"
+                            Binding="{Binding NroDocumento}"
+                            GroupHeader="Nro documento"
+                            Header="Nro documento"
+                            SortMemberPath="NroDocumento"
+                            Tag="NroDocumento" />
+                        <c1:DataGridBoundColumn
+                            Name="cCliente"
+                            Binding="{Binding NombreCliente}"
+                            CanUserMove="False"
+                            GroupHeader="Nombre comitente"
+                            Header="Nombre comitente"
+                            SortMemberPath="NombreCliente"
+                            Tag="NombreCliente" />
+                        <c1:DataGridBoundColumn
+                            Name="cTipoOferta"
+                            Binding="{Binding DescripcionTipoOferta}"
+                            GroupHeader="Tipo oferta"
+                            Header="Tipo oferta"
+                            SortMemberPath="DescripcionTipoOferta"
+                            Tag="DescripcionTipoOferta" />
+                        <c1:DataGridBoundColumn
+                            Name="cValorRegreso"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding totalliq_Regreso}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Valor regreso"
+                            Tag="IDLiquidacion" />
+                        <c1:DataGridBoundColumn
+                            Name="cCumplimientoRegreso"
+                            Binding="{Binding CumplimientoRegreso}"
+                            Format="dd/MM/yyyy"
+                            GroupHeader="F regreso"
+                            Header="F regreso"
+                            SortMemberPath="CumplimientoRegreso"
+                            Tag="CumplimientoRegreso" />
+                        <c1:DataGridBoundColumn
+                            Name="cPorcCastigoLegal"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding PorcCastigoLegal}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="% castigo legal"
+                            Tag="PorcCastigoLegal" />
+                        <c1:DataGridBoundColumn
+                            Name="cValorLegalRequerido"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding ValorLegalRequerido}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Garantía exigida bolsa"
+                            Tag="ValorLegalRequerido" />
+
+                        <c1:DataGridBoundColumn
+                            Name="cPorcCastigoInterno"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding PorcCastigoInterno}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="% Castigo interno"
+                            Tag="PorcCastigoInterno" />
+
+                        <c1:DataGridBoundColumn
+                            Name="cValorInternoRequerido"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding ValorInternoRequerido}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Garantía exigida interna"
+                            Tag="ValorInternoRequerido" />
+
+                        <c1:DataGridBoundColumn
+                            Name="cValorLegalAsociado"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding ValorLegalAsociado}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Ajuste legal"
+                            Tag="ValorLegalAsociado" />
+
+                        <c1:DataGridBoundColumn
+                            Name="cValorInternoAsociado"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding ValorInternoAsociado}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Ajuste interno"
+                            Tag="ValorInternoAsociado" />
+
+                        <c1:DataGridBoundColumn
+                            Name="cPorcCumplimientoLegal"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding PorcCumplimientoLegal}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="% Cumplimiento legal"
+                            Tag="PorcCumplimientoLegal" />
+                        <c1:DataGridBoundColumn
+                            Name="cCumplimientoInterno"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding PorcCumplimientoInterno}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="% Cumplimiento interno"
+                            Tag="PorcCumplimientoInterno" />
+                        <c1:DataGridBoundColumn
+                            Name="cTipo"
+                            Binding="{Binding NombreTipoOperacion}"
+                            CanUserMove="False"
+                            Header="Tipo"
+                            Tag="NombreTipoOperacion" />
+                        <c1:DataGridBoundColumn
+                            Name="cEspecie"
+                            Binding="{Binding IDEspecie}"
+                            GroupHeader="Especie"
+                            Header="Especie"
+                            SortMemberPath="IDEspecie"
+                            Tag="IDEspecie" />
+                        <c1:DataGridBoundColumn
+                            Name="cParcial"
+                            Binding="{Binding Parcial}"
+                            CanUserMove="False"
+                            Header="Parcial"
+                            Tag="Parcial" />
+                        <c1:DataGridBoundColumn
+                            Name="cClaseOrden"
+                            Binding="{Binding NombreClase}"
+                            CanUserMove="False"
+                            Header="Clase orden"
+                            Tag="NombreClase" />
+                        <c1:DataGridBoundColumn
+                            Name="cTipoProducto"
+                            Binding="{Binding TipoProducto}"
+                            CanUserMove="False"
+                            Header="Tipo producto"
+                            Tag="TipoProducto" />
+                        <c1:DataGridBoundColumn
+                            Name="cValorInicio"
+                            HorizontalAlignment="Right"
+                            Binding="{Binding totalliq_Inicio}"
+                            CanUserMove="False"
+                            Format="N2"
+                            Header="Valor inicio"
+                            Tag="ValorLiquidacionInicio" />
+                        <c1:DataGridBoundColumn
+                            Name="cCumplimientoInicio"
+                            Binding="{Binding Cumplimiento_Inicio}"
+                            CanUserMove="False"
+                            Format="dd/MM/yyyy"
+                            GroupHeader="F inicio"
+                            Header="F inicio"
+                            Tag="CumplimientoInicio" />
+                        <c1:DataGridNumericColumn
+                            Name="cPrioridadGrupo"
+                            Binding="{Binding PrioridadGrupo}"
+                            CanUserFilter="False"
+                            CanUserMove="False"
+                            CanUserResize="False"
+                            CanUserSort="False"
+                            GroupHeader="Prioridad"
+                            SortMemberPath="PrioridadGrupo"
+                            SortState="Descending"
+                            Visibility="Visible" />
+                        <c1:DataGridNumericColumn
+                            Name="cPrioridad"
+                            Binding="{Binding Prioridad}"
+                            CanUserFilter="False"
+                            CanUserMove="False"
+                            CanUserResize="False"
+                            CanUserSort="False"
+                            GroupHeader="Prioridad"
+                            SortMemberPath="Prioridad"
+                            SortState="Descending"
+                            Visibility="Visible" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+
+            <Grid
+                Name="gDetalle"
+                HorizontalAlignment="Stretch"
+                Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition
+                        Height="Auto"
+                        MinHeight="200"
+                        MaxHeight="300" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition
+                        Height="Auto"
+                        MinHeight="200"
+                        MaxHeight="350" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        x:Name="btnCerrarVistaDetalle"
+                        Margin="5,0,5,0"
+                        Padding="3"
+                        Click="btnCerrarVistaDetalle_Click"
+                        Content="Lista"
+                        Visibility="{Binding Editando, Converter={StaticResource InVisibilityConverter}}" />
+                    <TextBlock
+                        Margin="15,0,0,0"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Operaciones del cliente: " />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="13"
+                        Text="{Binding RegistroSeleccionado.IDCliente}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="13"
+                        Text=" - " />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="13"
+                        Text="{Binding RegistroSeleccionado.NombreCliente}" />
+                </StackPanel>
+
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button
+                        x:Name="btnAceptar"
+                        Margin="20,0,0,0"
+                        Padding="3"
+                        Click="btnAceptar_Click"
+                        Content="Aceptar"
+                        Visibility="{Binding Editando, Converter={StaticResource VisibilityConverter}}" />
+                    <Button
+                        x:Name="btnCancelar"
+                        Margin="5,0,5,0"
+                        Padding="3"
+                        Click="btnCancelar_Click"
+                        Content="Cancelar"
+                        Visibility="{Binding Editando, Converter={StaticResource VisibilityConverter}}" />
+                    <Button
+                        Margin="5,0,5,0"
+                        Padding="3"
+                        Click="btnVerInforme_Click"
+                        Content="Informe"
+                        Visibility="{Binding Editando, Converter={StaticResource InVisibilityConverter}}" />
+                </StackPanel>
+
+                <!--  Saldos y liquidaciones  -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="350" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="5,5,5,2"
+                        FontWeight="Bold"
+                        Text="Operaciones" />
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="5,0,5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="LightGoldenrodYellow"
+                        Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="   Utilice " />
+                        <Button
+                            Width="25"
+                            Height="25"
+                            Style="{StaticResource ControlButtonSecundaryStyle}"
+                            ToolTipService.ToolTip="Bloquear valores para la liquidación">
+                            <Image
+                                Width="12"
+                                Height="12"
+                                HorizontalAlignment="Left"
+                                Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lock32.png" />
+                        </Button>
+                        <TextBlock VerticalAlignment="Center" Text=" para bloquear y " />
+                        <Button
+                            Width="25"
+                            Height="25"
+                            Style="{StaticResource ControlButtonSecundaryStyle}"
+                            ToolTipService.ToolTip="Desbloquear valores para la liquidación">
+                            <Image
+                                Width="12"
+                                Height="12"
+                                HorizontalAlignment="Left"
+                                Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lockDisabled32.png" />
+                        </Button>
+                        <TextBlock VerticalAlignment="Center" Text=" para desbloquear valores en cada liquidación.  " />
+                    </StackPanel>
+                    <c1:C1DataGrid
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        MinHeight="100"
+                        Margin="5,0,5,10"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserEditRows="False"
+                        CanUserFilter="False"
+                        CanUserFreezeColumns="None"
+                        CanUserRemoveRows="False"
+                        FrozenColumnCount="3"
+                        ItemsSource="{Binding LiquidacionesSeleccionadas}"
+                        SelectedItem="{Binding RegistroSeleccionadoCliente, Mode=TwoWay}"
+                        ShowGroupingPanel="False">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTemplateColumn MaxWidth="30" Header=" ">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Button
+                                                Width="25"
+                                                Height="25"
+                                                Click="btnBloquear_Click"
+                                                Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                Tag="{Binding}"
+                                                ToolTipService.ToolTip="Bloquear valores para la liquidación"
+                                                Visibility="{Binding PuedeBloquear, Converter={StaticResource VisibilityConverter}}">
+                                                <Image
+                                                    Width="12"
+                                                    Height="12"
+                                                    HorizontalAlignment="Left"
+                                                    Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lock32.png" />
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+                            <c1:DataGridTemplateColumn MaxWidth="30" Header=" ">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Button
+                                                Width="25"
+                                                Height="25"
+                                                Click="btnDesBloquear_Click"
+                                                Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                Tag="{Binding}"
+                                                ToolTipService.ToolTip="Desbloquear valores para la liquidación"
+                                                Visibility="{Binding PuedeDesBloquear, Converter={StaticResource VisibilityConverter}}">
+                                                <Image
+                                                    Width="12"
+                                                    Height="12"
+                                                    HorizontalAlignment="Left"
+                                                    Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lockDisabled32.png" />
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+                            <!--<c1:DataGridTemplateColumn Header="" MaxWidth="30">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Button Width="25" Height="25" ToolTipService.ToolTip="Distibuir valores bloqueados" Visibility="{Binding PuedeDesBloquear, Converter={StaticResource VisibilityConverter}}"
+                                                    fxui:Interaction.Action="$model.Distribuir($dataContext)" Style="{StaticResource ControlButtonSecundaryStyle}">
+                                                <Image HorizontalAlignment="Left" Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/btnDivide.png" Width="12" Height="12"></Image>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>-->
+
+                            <c1:DataGridBoundColumn Binding="{Binding IDLiquidacion}" Header="Liquidación" />
+                            <c1:DataGridBoundColumn Binding="{Binding DescripcionTipoOferta}" Header="Tipo oferta" />
+                            <c1:DataGridBoundColumn Binding="{Binding IDEspecie}" Header="Especie" />
+                            <c1:DataGridBoundColumn
+                                HorizontalAlignment="Right"
+                                Binding="{Binding totalliq_Regreso}"
+                                Format="N2"
+                                Header="Valor regreso" />
+                            <c1:DataGridBoundColumn
+                                Binding="{Binding CumplimientoRegreso}"
+                                Format="dd/MM/yyyy"
+                                Header="F regreso" />
+
+                            <c1:DataGridTemplateColumn Header="Cobertura legal">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <!--<c1:C1NumericBox FontSize="7" VerticalAlignment="Center" HorizontalAlignment="Right" Value="{Binding CoberturaBolsa}" Margin="2" IsEnabled="False" ShowButtons="False" Format="N2"></c1:C1NumericBox>-->
+                                            <TextBlock
+                                                Margin="2"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontWeight="Normal"
+                                                Text="{Binding Converter={StaticResource ValorEstadoLegalConverter}}" />
+                                            <Grid>
+                                                <Rectangle
+                                                    Width="100"
+                                                    Height="4"
+                                                    HorizontalAlignment="Left"
+                                                    Fill="{Binding Converter={StaticResource ColorEstadoLegalConverter}}" />
+                                                <Rectangle
+                                                    Width="{Binding Converter={StaticResource TamanoLegalLiquidacionConverter}}"
+                                                    Height="4"
+                                                    HorizontalAlignment="Left"
+                                                    Fill="#FF008DC1" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+
+                            <c1:DataGridTemplateColumn Header="Cobertura interna">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <!--<c1:C1NumericBox  FontSize="7"  VerticalAlignment="Center" HorizontalAlignment="Right" Value="{Binding CoberturaValores}" Margin="2" IsEnabled="False" ShowButtons="False" Format="N2"></c1:C1NumericBox>-->
+                                            <TextBlock
+                                                Margin="2"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontWeight="Normal"
+                                                Text="{Binding Converter={StaticResource ValorEstadoInternoConverter}}" />
+                                            <Grid>
+                                                <Rectangle
+                                                    Width="100"
+                                                    Height="4"
+                                                    HorizontalAlignment="Left"
+                                                    Fill="{Binding Converter={StaticResource ColorEstadoInternoConverter}}" />
+                                                <Rectangle
+                                                    Width="{Binding Converter={StaticResource TamanoInternoLiquidacionConverter}}"
+                                                    Height="4"
+                                                    HorizontalAlignment="Left"
+                                                    Fill="#FF008DC1" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+
+                            <c1:DataGridBoundColumn
+                                Name="cdCoberturaTotal"
+                                Binding="{Binding CoberturaTotal}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="Cobertura total"
+                                Tag="IDLiquidacion" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdPorcCastigoLegal"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding PorcCastigoLegal}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="% castigo legal"
+                                Tag="PorcCastigoLegal" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdValorLegalRequerido"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding ValorLegalRequerido}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="Garantía exigida bolsa"
+                                Tag="ValorLegalRequerido" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdPorcCastigoInterno"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding PorcCastigoInterno}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="% Castigo Interno"
+                                Tag="PorcCastigoInterno" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdValorInternoRequerido"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding ValorInternoRequerido}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="Garantía exigida interna"
+                                Tag="ValorInternoRequerido" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdValorLegalAsociado"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding ValorLegalAsociado}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="Ajuste legal"
+                                Tag="ValorLegalAsociado" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdValorInternoAsociado"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding ValorInternoAsociado}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="Ajuste interno"
+                                Tag="ValorInternoAsociado" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdPorcCumplimientoLegal"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding PorcCumplimientoLegal}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="% Cumplimiento legal"
+                                Tag="PorcCumplimientoLegal" />
+
+                            <c1:DataGridBoundColumn
+                                Name="cdCumplimientoInterno"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding PorcCumplimientoInterno}"
+                                CanUserMove="False"
+                                Format="N2"
+                                Header="% Cumplimiento interno"
+                                Tag="PorcCumplimientoInterno" />
+
+                            <c1:DataGridBoundColumn
+                                Binding="{Binding Cumplimiento_Inicio}"
+                                Format="dd/MM/yyyy"
+                                Header="F inicio" />
+                            <c1:DataGridBoundColumn Binding="{Binding Parcial}" Header="Parcial" />
+                            <c1:DataGridBoundColumn Binding="{Binding NombreClase}" Header="Clase orden" />
+                            <c1:DataGridBoundColumn
+                                HorizontalAlignment="Right"
+                                Binding="{Binding totalliq_Inicio}"
+                                Format="N2"
+                                Header="Valor inicio" />
+                            <c1:DataGridNumericColumn
+                                Name="cLiqPrioridad"
+                                Binding="{Binding Prioridad}"
+                                CanUserFilter="False"
+                                CanUserMove="False"
+                                CanUserResize="False"
+                                CanUserSort="False"
+                                GroupHeader="Prioridad"
+                                SortMemberPath="Prioridad"
+                                SortState="Descending"
+                                Visibility="Visible" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+
+                    <Border
+                        Margin="0"
+                        HorizontalAlignment="Center"
+                        Background="LightGoldenrodYellow"
+                        Visibility="{Binding Bloqueando, Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock
+                            Margin="5"
+                            HorizontalAlignment="Center"
+                            FontSize="12"
+                            Text="Seleccione los valores a bloquear"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <Border
+                        Margin="0"
+                        HorizontalAlignment="Center"
+                        Background="LightGoldenrodYellow"
+                        Visibility="{Binding DesBloqueando, Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock
+                            Margin="5"
+                            HorizontalAlignment="Center"
+                            FontSize="12"
+                            Text="Seleccione los valores a desbloquear"
+                            TextWrapping="Wrap" />
+                    </Border>
+
+                    <!--  Border de saldos  -->
+                    <Border
+                        Grid.Row="1"
+                        Margin="1"
+                        Padding="5"
+                        BorderBrush="LightGray"
+                        BorderThickness="1"
+                        CornerRadius="2">
+                        <StackPanel>
+
+                            <Grid Margin="2,1,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20*" />
+                                    <ColumnDefinition Width="25*" />
+                                    <ColumnDefinition Width="20*" />
+                                    <ColumnDefinition Width="35*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="4"
+                                    HorizontalAlignment="Stretch"
+                                    Orientation="Vertical"
+                                    Visibility="{Binding Bloqueando, Converter={StaticResource VisibilityConverter}}">
+
+                                    <StackPanel
+                                        HorizontalAlignment="Stretch"
+                                        Orientation="Horizontal"
+                                        Visibility="{Binding logBloquearOtroCliente, Converter={StaticResource VisibilityConverter}}">
+
+                                        <Label
+                                            Margin="0,0,10,0"
+                                            VerticalAlignment="Bottom"
+                                            Content="Código" />
+
+                                        <Controles:BuscadorCliente
+                                            x:Name="ctrlCliente"
+                                            BorrarCliente="{Binding logBorrarCliente}"
+                                            BuscarAlIniciar="False"
+                                            CargarClientesRestriccion="False"
+                                            ClienteBuscar="{Binding strCodigoClienteBloqueo}"
+                                            EstadoComitente="A"
+                                            TipoVinculacion="C"
+                                            comitenteAsignado="ctrlCliente_comitenteAsignado" />
+                                        <Button
+                                            x:Name="btnLimpiarCliente"
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5,0,0,1"
+                                            VerticalAlignment="Bottom"
+                                            Click="btnLimpiarCliente_Click"
+                                            Cursor="Hand"
+                                            Style="{StaticResource btnLimpiar}"
+                                            ToolTipService.ToolTip="Limpiar cliente" />
+
+                                        <Button
+                                            Name="btnDetalles"
+                                            Height="20"
+                                            Margin="5,0,0,1"
+                                            Click="btnDetalles_Click"
+                                            Style="{StaticResource btnRefrescar}"
+                                            ToolTipService.ToolTip="Consultar saldo y títulos" />
+
+                                    </StackPanel>
+                                    <StackPanel
+                                        Margin="0,3,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Margin="0,0,10,0"
+                                            VerticalAlignment="Bottom"
+                                            Content="Nombre cliente:" />
+                                        <TextBlock Text="{Binding strNombreClienteBloqueo}" />
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,5,0,0"
+                                    FontWeight="Bold"
+                                    Text="Saldos" />
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Margin="0,1,5,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="Disponible:" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Margin="0,1,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding RegistroSeleccionado.SaldoCliente, StringFormat=N2}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Margin="0,1,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="Cargando..."
+                                    Visibility="{Binding bitConsultandoSaldo, Converter={StaticResource VisibilityConverter}}" />
+                                <!--  Grid para los campos de bloqueo y debloqueo  -->
+                                <Grid
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="4"
+                                    Margin="0,10,0,5"
+                                    Visibility="{Binding Bloqueando, Converter={StaticResource VisibilityConverter}}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30*" />
+                                        <ColumnDefinition Width="45*" />
+                                        <ColumnDefinition Width="15*" />
+                                        <ColumnDefinition Width="15*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="0,8,0,0"
+                                        Text="Saldo a bloquear" />
+                                    <c1:C1NumericBox
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="0,8,0,0"
+                                        VerticalAlignment="Center"
+                                        Format="N2"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        RangeValidationMode="Always"
+                                        ShowButtons="False"
+                                        Value="{Binding LiquidacionABloquear.ValorBloquear, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Margin="15,8,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="SAG" />
+                                    <CheckBox
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Margin="0,8,0,0"
+                                        VerticalAlignment="Center"
+                                        IsChecked="{Binding logSAG, Mode=TwoWay}" />
+
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="0,2,0,0"
+                                        Text="Radicado" />
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,2,0,0"
+                                        MaxLength="20"
+                                        Text="{Binding strRadicado, Mode=TwoWay}" />
+
+                                    <StackPanel
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4">
+                                        <TextBlock Margin="0,2,0,0" Text="Notas bloqueo" />
+                                        <TextBox
+                                            MaxLength="100"
+                                            Text="{Binding NotasBloqueo, Mode=TwoWay}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <StackPanel
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="4"
+                                    Visibility="{Binding DesBloqueando, Converter={StaticResource VisibilityConverter}}">
+                                    <TextBlock Margin="0,8,0,0" Text="Notas desbloqueo" />
+                                    <TextBox
+                                        MaxLength="100"
+                                        Text="{Binding NotasBloqueo, Mode=TwoWay}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Grid.Row="6"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,8,0,0"
+                                    Orientation="Horizontal">
+                                    <TextBlock FontWeight="Bold" Text="Saldos bloqueados" />
+                                    <Button
+                                        Name="btnDetallesSaldo"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Click="btnDetallesSaldo_Click"
+                                        Content="{Binding strLabelBtnSaldos}"
+                                        FontFamily="Segoe UI, Segoe WP Semibold, Lucida Sans Unicode, Verdana"
+                                        Style="{StaticResource HyperlinkLikeButton}"
+                                        ToolTipService.ToolTip="Mostrar/Ocultar detalles" />
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="2"
+                                    Margin="0,8,5,0"
+                                    HorizontalAlignment="Right"
+                                    FontWeight="Bold"
+                                    Text="Total:" />
+
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="3"
+                                    Margin="0,8,0,0"
+                                    HorizontalAlignment="Right"
+                                    FontWeight="Bold"
+                                    Text="{Binding TotalSaldoBloqueadoLiq, StringFormat=N2}" />
+
+                                <Telerik:RadBusyIndicator
+                                    x:Name="myBusyIndicatorSaldos"
+                                    Grid.Row="7"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="4"
+                                    MaxHeight="202"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    BusyContent="Cargando..."
+                                    DisplayAfter="0"
+                                    IsBusy="{Binding IsBusySaldosBloqueados}"
+                                    Visibility="{Binding logMostrarDetallesSaldos, Converter={StaticResource VisibilityConverter}}">
+                                    <c1:C1DataGrid
+                                        Name="gridSaldosBloqueados"
+                                        AutoGenerateColumns="False"
+                                        CanUserAddRows="False"
+                                        CanUserFilter="False"
+                                        CanUserFreezeColumns="None"
+                                        CanUserGroup="False"
+                                        CanUserRemoveRows="False"
+                                        ItemsSource="{Binding lstSaldosBloqueados}"
+                                        SelectedItem="{Binding SaldoSeleccionado, Mode=TwoWay}"
+                                        ShowGroupingPanel="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTemplateColumn MaxWidth="40" Header="Bloq.">
+                                                <c1:DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid>
+                                                                <Image
+                                                                    Width="20"
+                                                                    Height="20"
+                                                                    Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lock32.png" />
+                                                            </Grid>
+                                                            <Grid ToolTipService.ToolTip="Desbloquear saldo" Visibility="{Binding Desbloqueando, Converter={StaticResource VisibilityConverter}}">
+
+                                                                <Button
+                                                                    Click="btnDesbloquearSaldoBloqueado_Click"
+                                                                    Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                                    Tag="{Binding}">
+                                                                    <Image
+                                                                        Width="12"
+                                                                        Height="12"
+                                                                        Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lock32.png" />
+                                                                </Button>
+
+                                                                <Button
+                                                                    Click="btnDesbloquearSaldoBloqueado_Click"
+                                                                    Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                                    Tag="{Binding}"
+                                                                    Visibility="{Binding DesbloquearSaldo, Converter={StaticResource VisibilityConverter}}">
+                                                                    <Image
+                                                                        Width="12"
+                                                                        Height="12"
+                                                                        Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lockDisabled32.png" />
+                                                                </Button>
+
+
+                                                            </Grid>
+                                                        </Grid>
+
+                                                    </DataTemplate>
+                                                </c1:DataGridTemplateColumn.CellTemplate>
+                                            </c1:DataGridTemplateColumn>
+                                            <!--  "{Binding DataContext.Navegando,  RelativeSource={RelativeSource AncestorType=UserControl},  -->
+                                            <c1:DataGridTemplateColumn
+                                                MaxWidth="30"
+                                                Header="Div."
+                                                Visibility="{Binding DataContext.Navegando, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource VisibilityConverter}}">
+                                                <c1:DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid ToolTipService.ToolTip="Distribuir bloqueo">
+                                                            <Button
+                                                                Click="btnDistribuirSaldoBloqueado_Click"
+                                                                Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                                Tag="{Binding}">
+                                                                <Image
+                                                                    Width="20"
+                                                                    Height="20"
+                                                                    Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/btnDivide.png" />
+                                                            </Button>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </c1:DataGridTemplateColumn.CellTemplate>
+                                            </c1:DataGridTemplateColumn>
+
+                                            <c1:DataGridBoundColumn Binding="{Binding IDComitente}" Header="Comitente" />
+                                            <c1:DataGridBoundColumn
+                                                HorizontalAlignment="Right"
+                                                Binding="{Binding ValorBloqueado}"
+                                                Format="N2"
+                                                Header="Bloqueado" />
+                                            <c1:DataGridBoundColumn Binding="{Binding Radicado}" Header="Radicado" />
+                                            <c1:DataGridCheckBoxColumn
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Binding="{Binding SAG}"
+                                                Header="SAG" />
+
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Telerik:RadBusyIndicator>
+
+
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Margin="1"
+                        BorderBrush="LightGray"
+                        BorderThickness="1"
+                        CornerRadius="2" />
+                </Grid>
+
+                <!--  totales portafolio  -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="20,5,5,2"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Portafolio" />
+                    <CheckBox
+                        Name="chkFiltros"
+                        Margin="20,5,5,2"
+                        VerticalAlignment="Center"
+                        Content="Filtrar"
+                        IsChecked="{Binding logFiltroTitulos, Mode=TwoWay}" />
+                    <TextBlock
+                        Margin="0,5,5,2"
+                        VerticalAlignment="Center"
+                        Text="Especie:" />
+                    <TextBox
+                        Name="txtEspecieFiltro"
+                        MinWidth="120"
+                        Margin="5,5,5,2"
+                        IsEnabled="{Binding logFiltroTitulos}"
+                        MaxLength="15"
+                        Text="{Binding strIdEspecieFiltro, Mode=TwoWay}" />
+                    <TextBlock
+                        Margin="20,5,5,2"
+                        VerticalAlignment="Center"
+                        Text="Cantidad &gt;=:" />
+                    <c1:C1NumericBox
+                        Name="numCantidadFiltro"
+                        MinWidth="120"
+                        MaxWidth="200"
+                        Margin="5,5,5,2"
+                        Format="N0"
+                        IsEnabled="{Binding logFiltroTitulos}"
+                        Maximum="999999999999999"
+                        Minimum="0"
+                        ShowButtons="False"
+                        Value="{Binding dblCantidadFiltro, Mode=TwoWay}" />
+                    <Button
+                        Name="btnCargarPortafolio"
+                        Height="25"
+                        Margin="5,5,5,2"
+                        Click="btnCargarPortafolio_Click"
+                        Style="{StaticResource btnRefrescar}"
+                        ToolTipService.ToolTip="Consultar títulos" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="20,5,5,2"
+                        VerticalAlignment="Center"
+                        Text="Disponible:" />
+                    <TextBlock
+                        Margin="2,5,5,2"
+                        VerticalAlignment="Center"
+                        Text="{Binding TotalPortafolioDisponible, StringFormat=N2}" />
+                    <TextBlock
+                        Margin="20,5,5,2"
+                        VerticalAlignment="Center"
+                        Text="Asociado a la liquidación:" />
+                    <TextBlock
+                        Margin="2,5,20,2"
+                        VerticalAlignment="Center"
+                        Text="{Binding TotalPortafolioBloqueadoLiq, StringFormat=N2}" />
+                </StackPanel>
+
+                <!--  Portafolio  -->
+                <Telerik:RadBusyIndicator
+                    x:Name="myBusyIndicatorPrtafolio"
+                    Grid.Row="3"
+                    MaxHeight="330"
+                    Margin="5,0,5,5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    BusyContent="Cargando..."
+                    DisplayAfter="0"
+                    IsBusy="{Binding IsBusyPortafolio}">
+                    <c1:C1DataGrid
+                        Name="gridPortafolio"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserFilter="False"
+                        CanUserFreezeColumns="None"
+                        CanUserGroup="False"
+                        CanUserRemoveRows="False"
+                        FrozenColumnCount="2"
+                        ItemsSource="{Binding lstTitulosGarantia}"
+                        SelectedItem="{Binding TituloSeleccionado, Mode=TwoWay}"
+                        ShowGroupingPanel="False">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTemplateColumn MaxWidth="40" Header="Bloq.">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid>
+                                                <Image
+                                                    Width="18"
+                                                    Height="18"
+                                                    Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lockDisabled32.png" />
+                                                <Image
+                                                    Width="20"
+                                                    Height="20"
+                                                    Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lock32.png"
+                                                    Visibility="{Binding Bloqueado, Converter={StaticResource VisibilityConverter}}" />
+                                            </Grid>
+                                            <Grid ToolTipService.ToolTip="Bloquear título del portafolio" Visibility="{Binding BloquearDesbloqueado, Converter={StaticResource VisibilityConverter}}">
+                                                <Button
+                                                    Click="btnBloquearTitulo_Click"
+                                                    Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                    Tag="{Binding}">
+                                                    <Image
+                                                        Width="12"
+                                                        Height="12"
+                                                        Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lockDisabled32.png" />
+                                                </Button>
+                                                <Button
+                                                    Click="btnBloquearTitulo_Click"
+                                                    Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                    Tag="{Binding}"
+                                                    Visibility="{Binding Bloquear, Converter={StaticResource VisibilityConverter}}">
+                                                    <Image
+                                                        Width="12"
+                                                        Height="12"
+                                                        Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lock32.png" />
+                                                </Button>
+                                            </Grid>
+                                            <Grid ToolTipService.ToolTip="Desbloquear título del portafolio" Visibility="{Binding DesBloquearBloqueado, Converter={StaticResource VisibilityConverter}}">
+                                                <Button
+                                                    Click="btnBloquearTitulo_Click"
+                                                    Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                    Tag="{Binding}">
+                                                    <Image
+                                                        Width="12"
+                                                        Height="12"
+                                                        Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lockDisabled32.png" />
+                                                </Button>
+                                                <Button
+                                                    Click="btnBloquearTitulo_Click"
+                                                    Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                    Tag="{Binding}"
+                                                    Visibility="{Binding Bloquear, Converter={StaticResource VisibilityConverter}}">
+                                                    <Image
+                                                        Width="12"
+                                                        Height="12"
+                                                        Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/lock32.png" />
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+
+                            <c1:DataGridTemplateColumn
+                                MaxWidth="30"
+                                Header="Div."
+                                Visibility="{Binding DataContext.Navegando, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource VisibilityConverter}}">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid ToolTipService.ToolTip="Distribuir bloqueo" Visibility="{Binding PuedeReasignar, Converter={StaticResource VisibilityConverter}}">
+                                            <Button
+                                                Click="btnDistribuirTituloBloqueado_Click"
+                                                Style="{StaticResource ControlButtonSecundaryStyle}"
+                                                Tag="{Binding}">
+                                                <Image
+                                                    Width="20"
+                                                    Height="20"
+                                                    Source="/A2.OyD.PLUSGarantias.WPF;component/Imagenes/btnDivide.png" />
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+
+
+                            <c1:DataGridNumericColumn
+                                Name="ColumnCantidadBloquear"
+                                HorizontalAlignment="Right"
+                                Binding="{Binding CantidadBloquear, Mode=TwoWay}"
+                                EditOnSelection="True"
+                                Format="N0"
+                                Maximum="999999999999999"
+                                Minimum="0"
+                                RangeValidationMode="Always"
+                                ShowButtons="False"
+                                Visibility="Collapsed" />
+
+                            <c1:DataGridTemplateColumn MaxWidth="35" Header="SAG">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center">
+                                            <CheckBox
+                                                Name="chkSAG"
+                                                Width="25"
+                                                VerticalAlignment="Center"
+                                                Content=""
+                                                IsChecked="{Binding SAG, Mode=TwoWay}"
+                                                IsEnabled="{Binding EditarBloqueando}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+
+                            <c1:DataGridTemplateColumn Header="Radicado">
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox
+                                            Name="txtRadicado"
+                                            IsEnabled="{Binding EditarBloqueando}"
+                                            MaxLength="20"
+                                            Text="{Binding Radicado, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+
+                            <c1:DataGridBoundColumn Binding="{Binding IDCliente}" Header="Cliente" />
+                            <c1:DataGridBoundColumn Binding="{Binding Especie}" Header="Especie" />
+                            <c1:DataGridBoundColumn
+                                HorizontalAlignment="Right"
+                                Binding="{Binding Cantidad}"
+                                Format="N0"
+                                Header="Cantidad" />
+                            <c1:DataGridBoundColumn
+                                HorizontalAlignment="Right"
+                                Binding="{Binding Total}"
+                                Format="N2"
+                                Header="Valor título" />
+                            <c1:DataGridBoundColumn
+                                HorizontalAlignment="Right"
+                                Binding="{Binding TotalAdmisible}"
+                                Format="N2"
+                                Header="Valor disponible" />
+                            <c1:DataGridBoundColumn Binding="{Binding IDLiquidacionBloqueo}" Header="Liquidación" />
+                            <c1:DataGridBoundColumn Binding="{Binding IDRecibo}" Header="Recibo" />
+                            <c1:DataGridBoundColumn Binding="{Binding Secuencia}" Header="Secuencia" />
+                            <c1:DataGridBoundColumn Binding="{Binding MotivoBloqueo}" Header="Motivo bloqueo" />
+                            <c1:DataGridBoundColumn Binding="{Binding IdCuentaDeceval}" Header="Cuenta deceval" />
+                            <c1:DataGridBoundColumn Binding="{Binding NotasBloqueo}" Header="Notas bloqueo" />
+                            <c1:DataGridBoundColumn Binding="{Binding Isin}" Header="Isin" />
+                            <c1:DataGridBoundColumn Binding="{Binding Fondo}" Header="Fondo" />
+                            <c1:DataGridBoundColumn Binding="{Binding Modalidad}" Header="Modalidad" />
+                            <c1:DataGridBoundColumn
+                                Binding="{Binding Emision}"
+                                Format="dd/MM/yyyy"
+                                Header="Emisión" />
+                            <c1:DataGridBoundColumn
+                                Binding="{Binding Vencimiento}"
+                                Format="dd/MM/yyyy"
+                                Header="Vencimiento" />
+                            <c1:DataGridBoundColumn
+                                Binding="{Binding FechaRecibo}"
+                                Format="dd/MM/yyyy"
+                                Header="Fecha recibo" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Telerik:RadBusyIndicator>
+
+                <Border
+                    Grid.Row="1"
+                    Margin="1,1,1,6"
+                    Padding="5"
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="2" />
+
+                <GridSplitter
+                    Grid.Row="1"
+                    Height="5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom" />
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

@@ -1,0 +1,590 @@
+﻿<UserControl x:Class="TitulosView"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           
+           xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+           xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+           xmlns:src="clr-namespace:A2CFTitulosNet"
+           xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+           
+           
+           
+           xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+           xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+           xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF">
+
+    <!--Descripción:    Diseño para la pantalla Títulos
+        Responsable:    Jorge Peña (Alcuadrado (S.A.)
+        Fecha:          5 de Enero 2015-->
+
+    <UserControl.Resources>
+<src:DisplayNameConverter x:Key="DisplayConverter"/>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator IsBusy="{Binding IsBusy}" DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicator">
+
+        <Grid x:Name="LayoutRoot" Width="1350" ShowGridLines="False" Background="{StaticResource BackgroundColorBrush}" >
+
+            <StackPanel Orientation="Vertical">
+
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <TextBlock Text="Cruce de operaciones" Style="{StaticResource Title1}" />
+                </StackPanel>
+
+                <Border BorderBrush="White" BorderThickness="2"
+                        Margin="2">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--BuscadorCliente-->
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Column="0">
+                            <Telerik:DataFormDataField  Label="Código"
+                                                        LabelPosition="Above"
+                                                        
+                                                        >
+                                <TextBox    x:Name="IDComitente"
+                                            TextAlignment="Right"
+                                            MaxLength="17"
+                                            Width="130"
+                                            Text="{Binding lngIDComitente, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"
+                                            ToolTipService.ToolTip="Digite el código a buscar"
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            GotFocus="seleccionarFocoControl"/>
+                            </Telerik:DataFormDataField>
+
+                            <OyD:BuscadorClienteListaButon  CampoBusqueda="IdComitenteBuscar"
+                                                            EstadoComitente="T"
+                                                            TipoVinculacion="C"
+                                                            Agrupamiento=""
+                                                            finalizoBusqueda="ctrlCliente_comitenteAsignado"  
+                                                            Margin="-8, 30, 0, 0"/>
+
+                            <Button x:Name="btnLimpiarCliente"
+                                    Click="btnLimpiarCliente_Click"
+                                    ToolTipService.ToolTip="Limpiar cliente"
+                                    Cursor="Hand"
+                                    Height="20"
+                                    Width="20"
+                                    Style="{StaticResource btnLimpiar}"
+                                    Margin="0, 30, 0, 0"/>
+
+                        </StackPanel>
+
+                        <!--BuscadorEspecie-->
+                        <Telerik:DataFormDataField  Label="Especie"
+                                                    LabelPosition="Above"
+                                                    
+                                                    
+                                                    Grid.Column="1">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox    TextAlignment="Left"
+                                                MaxLength="15"
+                                                Width="180"
+                                                Text="{Binding strIdEspecie, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"
+                                                ToolTipService.ToolTip="Digite la especie a buscar"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                GotFocus="seleccionarFocoControl"/>
+                                <OyD:BuscadorEspecieListaButon  x:Name="Buscador_Especies"
+                                                                CampoBusqueda="Nemotecnico"
+                                                                Etiqueta="Nemotécnico"
+                                                                EstadoEspecie="A"
+                                                                ClaseOrden="T"
+                                                                Agrupamiento=""
+                                                                HabilitarConsultaISIN="False"
+                                                                finalizoBusqueda="ctrlEspecie_nemotecnicoAsignado"/>
+
+                                <Button x:Name="btnLimpiarEspecie"
+                                        ToolTipService.ToolTip="Limpiar especie"
+                                        Click="btnLimpiarEspecie_Click"
+                                        Cursor="Hand"
+                                        Height="20"
+                                        Width="20"
+                                        Style="{StaticResource btnLimpiar}"/>
+                            </StackPanel>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField  Label="Clase"
+                                                        LabelPosition="Above"
+                                                        
+                                                        
+                                                        Grid.Column="2"
+                                                    >
+                            <ComboBox   ItemsSource="{Binding DiccionarioCombos[CLASETITULO], Source={StaticResource A2VM}}"
+                                            HorizontalAlignment="Left"
+                                            SelectedValue="{Binding DataContext.strClase, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValuePath="ID"
+                                            DisplayMemberPath="Descripcion"
+                                            SelectedIndex="{Binding DataContext.IndexClase, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            ToolTipService.ToolTip="Seleccione la clase de título"/>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField  Label="Fecha de corte"
+                                                    LabelPosition="Above"
+                                                    
+                                                    
+                                                    Grid.Column="3"
+                                                    >
+                            <DatePicker SelectedDate="{Binding DataContext.dtmFechaCorte, RelativeSource={RelativeSource AncestorType=UserControl}, StringFormat='MMM dd,yyyy', Mode=TwoWay}"
+                                            ToolTipService.ToolTip="Fecha" 
+                                            Style="{StaticResource ControlDatePickerStyle}"/>
+                        </Telerik:DataFormDataField>
+                        <!--Se cambia la lupa por la palabra buscar YAPP20151214-->
+                        <Button x:Name="btnConsultarLiquidaciones"
+                               
+                                Content="Buscar"
+                                fxui:Interaction.Action="$model.ConsultarLiquidaciones()"
+                                Grid.Column="3"
+                               
+                                Height="28" 
+                                Margin="0,25,-50,10" Grid.ColumnSpan="2" HorizontalAlignment="Right" Width="44"/>
+
+                        <Telerik:RadBusyIndicator IsBusy="{Binding IsBusyArchivos}"
+                                               DisplayAfter="0"
+                                               BusyContent="Cargando..."
+                                               Grid.Column="5"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Right"
+                                    Margin="45,0,0,5"
+                                    >
+                            <Telerik:DataFormDataField  Label=""
+                                                        LabelPosition="Above"
+                                                        
+                                                        
+                                                        IsReadOnly="True"
+                                                        >
+                                <TextBox    TextAlignment="Left" 
+                                            MaxLength="15"
+                                            Width="315" 
+                                            Text="{Binding strRuta, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"   
+                                            ToolTipService.ToolTip="" 
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            GotFocus="seleccionarFocoControl"/>
+                            </Telerik:DataFormDataField>
+
+                                <Button x:Name="btnArchivosDeceval"
+                                    Content="Seleccionar archivo"
+                                    fxui:Interaction.Action="$model.ConsultarArchivosSolicitados()"
+                                    Height="28" 
+                                    HorizontalAlignment="Right" 
+                                    Margin="0,15,5,0"
+                                    Visibility="{Binding MostrarSolicitudArchivoDeceval, Converter={StaticResource VisibilityConverter}}"
+                                    />
+
+                                <Button x:Name="btnSolicitarArchivoDeceval"
+                                    Content="Solicitar archivos Deceval"
+                                    fxui:Interaction.Action="$model.SolicitarArchivoDeceval()"
+                                    Height="28" 
+                                    HorizontalAlignment="Right" 
+                                    Visibility="{Binding MostrarSolicitudArchivoDeceval, Converter={StaticResource VisibilityConverter}}"
+                                    Margin="0,15,0,0"/>
+
+                            <Controles:ucBtnDialogoImportar x:Name="ucBtnDialogoImportarArchivo" 
+                                                            Generico="True"  
+                                                            Filtros="{Binding strExtensionesPermitidas}"
+                                                            Proceso="MovimientosDeceval"
+                                                            SubirArchivo="ucBtnDialogoImportar_SubirArchivo"
+                                                            CargarArchivoGenerico="ucBtnDialogoImportar_CargarArchivo"
+                                                            HorizontalAlignment="Right"
+                                                            Height="28"                                                
+                                                            Width="180" 
+                                                            Margin="0,15,0,0"
+                                                            Visibility="{Binding MostrarSolicitudArchivoDeceval, Converter={StaticResource InVisibilityConverter}}">
+                            </Controles:ucBtnDialogoImportar>
+                            </StackPanel>
+                        </Telerik:RadBusyIndicator>
+
+                    </Grid>
+                </Border>
+
+                <TabControl x:Name="ContenedorPrincipal"
+                                HorizontalAlignment="Stretch"
+                                Margin="0, 10, 0, 0"
+                                SelectedIndex="{Binding DataContext.TabSeleccionado, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                    <!--Títulos Comprados-->
+                    <TabItem x:Name="TabTitulosComprados" HorizontalAlignment="Stretch" Header="Títulos comprados">
+
+                        <StackPanel Orientation="Vertical">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="900" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="txtFiltroCompras"
+                                         MaxLength="50"
+                                         Width="100"
+                                         Text="{Binding strFiltroCompras, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"
+                                         Height="14"
+                                         KeyUp="txtFiltroCompra_KeyUp"
+                                         KeyDown="txtFiltroCompra_KeyDown"
+                                         Margin="1"
+                                         Grid.Column="0"/>
+
+                                <Button x:Name="btnFiltroCompra"
+                                        Click="btnFiltroCompra_Click" 
+                                        Height="22" Content="..."
+                                        Style="{StaticResource btnBuscar}"
+                                        ToolTipService.ToolTip="Aplicar filtro" 
+                                        Grid.Column="1"/>
+
+                                <Button x:Name="btnLimpiarFiltroCompra"
+                                        ToolTipService.ToolTip="Limpiar filtro"
+                                        Click="btnLimpiarFiltroCompra_Click"
+                                        Cursor="Hand"
+                                        Height="20"
+                                        Width="20"
+                                        Style="{StaticResource btnLimpiar}"
+                                        Grid.Column="2">
+                                </Button>
+
+                                <TextBlock Grid.Column="3" 
+                                           Style="{StaticResource EstiloTextBlock}"
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                           Text="{Binding DataContext.strCantidadRegistrosCompras, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                </TextBlock>
+
+                                <Telerik:RadDataPager x:Name="datapagerCompras"
+                                               Source="{Binding Items, ElementName=dgCompras}"
+                                               PageSize="10"
+                                               HorizontalAlignment="Stretch"
+                                               Grid.Column="4"/>
+                            </Grid>
+
+                            <Telerik:RadGridView  x:Name="dgCompras"
+                				            ItemsSource="{Binding DataContext.ListaEncabezadoPaginadaCompras, RelativeSource={RelativeSource AncestorType=UserControl}}"                                       
+                				            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                				            AutoGenerateColumns="False"
+                				            VerticalAlignment="Top"
+                				            Height="150"                           
+                				            FrozenColumnCount="1"
+                				            >
+
+                                <Telerik:RadGridView.Columns>
+                                    <!--SelectedItem="{Binding DataContext.DiasCalendariosNormaSeleccionado, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"-->
+                                    <Telerik:GridViewDataColumn Header="Liq - parcial" DataMemberBinding="{Binding strLiq_Parcial}"  IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Clase" DataMemberBinding="{Binding strClaseOrden}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="T. operación" DataMemberBinding="{Binding strTipo}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Cliente" DataMemberBinding="{Binding lngIDComitente}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Nro. cuenta" DataMemberBinding="{Binding lngIDCuentaDeceval}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Fondo" DataMemberBinding="{Binding strFondo_Descripcion}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Especie" DataMemberBinding="{Binding strIDEspecie}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. liquidación" DataMemberBinding="{Binding dtmLiquidacion, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. cumplimiento" DataMemberBinding="{Binding dtmCumplimientoTitulo, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Cantidad" DataMemberBinding="{Binding dblCantidad, StringFormat=\{0:n2\}}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="F. emisión" DataMemberBinding="{Binding dtmEmision, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. vencimiento" DataMemberBinding="{Binding dtmVencimiento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Tasa" DataMemberBinding="{Binding dblTasaDescuento}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo tasa" DataMemberBinding="{Binding strTipoTasaFija}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Indicador" DataMemberBinding="{Binding strIndicadorEconomico}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Puntos" DataMemberBinding="{Binding dblPuntosIndicador}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Modalidad" DataMemberBinding="{Binding strModalidad}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Precio" DataMemberBinding="{Binding curPrecio}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Precio total" DataMemberBinding="{Binding curTotalLiq}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Plazo" DataMemberBinding="{Binding lngPlazo}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo oferta" DataMemberBinding="{Binding strTipoDeOferta_Descripcion}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo" DataMemberBinding="{Binding strClase_Descripcion}" IsReadOnly="True"/>
+                                </Telerik:RadGridView.Columns>
+
+                            </Telerik:RadGridView>
+
+                            <Button x:Name="btnComprar"
+                				    Content="Cargar"
+                				    HorizontalAlignment="Right"
+                				    Margin="0, 0, 5, 5"
+                				    IsEnabled="{Binding DataContext.HabilitarbtnComprar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                				    ToolTipService.ToolTip="Custodiar titulos"
+                				    fxui:Interaction.Action="$model.Cargar()"  />
+
+                        </StackPanel>
+
+                    </TabItem>
+
+
+                    <!--Títulos Vendidos-->
+                    <TabItem x:Name="TabTitulosVendidos" HorizontalAlignment="Stretch" Header="Títulos vendidos" >
+
+                        <StackPanel Orientation="Vertical">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="900" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="txtFiltroVentas"
+                                         MaxLength="50"
+                                         Width="100"
+                                         Text="{Binding strFiltroVentas, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"
+                                         Height="14"
+                                         KeyUp="txtFiltroVenta_KeyUp"
+                                         KeyDown="txtFiltroVenta_KeyDown"
+                                         Margin="1"
+                                         Grid.Column="0"/>
+
+                                <Button x:Name="btnFiltroVenta"
+                                        Click="btnFiltroVenta_Click" 
+                                        Height="22" Content="..."
+                                        Style="{StaticResource btnBuscar}"
+                                        ToolTipService.ToolTip="Aplicar filtro" 
+                                        Grid.Column="1"/>
+
+                                <Button x:Name="btnLimpiarFiltroVenta"
+                                        ToolTipService.ToolTip="Limpiar filtro"
+                                        Click="btnLimpiarFiltroVenta_Click"
+                                        Cursor="Hand"
+                                        Height="20"
+                                        Width="20"
+                                        Style="{StaticResource btnLimpiar}"
+                                        Grid.Column="2">
+                                </Button>
+
+                                <TextBlock Grid.Column="3" 
+                                           Style="{StaticResource EstiloTextBlock}"
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                           Text="{Binding DataContext.strCantidadRegistrosVentas, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                </TextBlock>
+
+                                <Telerik:RadDataPager x:Name="datapagerVentas"
+                                               Source="{Binding Items, ElementName=dgVentas}"
+                                               PageSize="10"
+                                               HorizontalAlignment="Stretch"
+                                               Grid.Column="4"/>
+                            </Grid>
+
+                            <Telerik:RadGridView  x:Name="dgVentas"
+                				            ItemsSource="{Binding DataContext.ListaEncabezadoPaginadaVentas, RelativeSource={RelativeSource AncestorType=UserControl}}"                                       
+                				            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                				            AutoGenerateColumns="False"
+                				            VerticalAlignment="Top"
+                				            Height="150"
+                				            FrozenColumnCount="1"
+                				            SelectedItem="{Binding DataContext.DetalleSeleccionado, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                				            >
+                                <Telerik:RadGridView.Columns>
+                                    <!--SelectedItem="{Binding DataContext.DiasCalendariosNormaSeleccionado, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"-->
+                                    <Telerik:GridViewDataColumn Header="Liq - parcial" DataMemberBinding="{Binding strLiq_Parcial}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Clase" DataMemberBinding="{Binding strClaseOrden}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="T. operación" DataMemberBinding="{Binding strTipo}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Cliente" DataMemberBinding="{Binding lngIDComitente}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Nro. cuenta" DataMemberBinding="{Binding lngIDCuentaDeceval}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Fondo" DataMemberBinding="{Binding strFondo_Descripcion}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Especie" DataMemberBinding="{Binding strIDEspecie}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. liquidación" DataMemberBinding="{Binding dtmLiquidacion, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. cumplimiento" DataMemberBinding="{Binding dtmCumplimientoTitulo, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Cantidad" DataMemberBinding="{Binding dblCantidad, StringFormat=\{0:n2\}}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="F. emisión" DataMemberBinding="{Binding dtmEmision, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. vencimiento" DataMemberBinding="{Binding dtmVencimiento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Tasa" DataMemberBinding="{Binding dblTasaDescuento}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo tasa" DataMemberBinding="{Binding strTipoTasaFija}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Indicador" DataMemberBinding="{Binding strIndicadorEconomico}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Puntos" DataMemberBinding="{Binding dblPuntosIndicador}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Modalidad" DataMemberBinding="{Binding strModalidad}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Precio" DataMemberBinding="{Binding curPrecio}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Precio total" DataMemberBinding="{Binding curTotalLiq}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Plazo" DataMemberBinding="{Binding lngPlazo}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo oferta" DataMemberBinding="{Binding strTipoDeOferta_Descripcion}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo" DataMemberBinding="{Binding strClase_Descripcion}" IsReadOnly="True"/>
+
+                                </Telerik:RadGridView.Columns>
+                            </Telerik:RadGridView>
+
+                            <Button x:Name="btnDescargar"
+                				    Content="Descargar"
+                				    HorizontalAlignment="Right"
+                				    Margin="0, 0, 5, 5"
+                				    IsEnabled="{Binding DataContext.HabilitarbtnDescargar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                				    ToolTipService.ToolTip="Quitar custodias de título"
+                				    fxui:Interaction.Action="$model.Descargar()" />
+
+                        </StackPanel>
+
+                    </TabItem>
+
+
+                    <!--Títulos Cruce-->
+                    <TabItem x:Name="TabTitulosCruce" HorizontalAlignment="Stretch" Header="Cruce" >
+
+                        <StackPanel Orientation="Vertical">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="txtFiltroCruce"
+                                         MaxLength="50"
+                                         Width="100"
+                                         Height="14"
+                                         KeyUp="txtFiltroCruce_KeyUp"
+                                         KeyDown="txtFiltroCruce_KeyDown"
+                                         Margin="1"
+                                         Grid.Column="0"/>
+
+                                <Button x:Name="btnFiltroCruce"
+                                        Click="btnFiltroCruce_Click" 
+                                        Height="22" Content="..."
+                                        Style="{StaticResource btnBuscar}"
+                                        ToolTipService.ToolTip="Aplicar filtro" 
+                                        Grid.Column="1"/>
+
+                                <Button x:Name="btnLimpiarFiltroCruce"
+                                        ToolTipService.ToolTip="Limpiar filtro"
+                                        Click="btnLimpiarFiltroCruce_Click"
+                                        Cursor="Hand"
+                                        Height="20"
+                                        Width="20"
+                                        Style="{StaticResource btnLimpiar}"
+                                        Grid.Column="2">
+                                </Button>
+
+                                <Telerik:RadDataPager x:Name="datapagerCruce"
+                                               Source="{Binding Items, ElementName=dgCruce}"
+                                               PageSize="10"
+                                               HorizontalAlignment="Stretch"
+                                               Grid.Column="3"/>
+                            </Grid>
+
+                            <Telerik:RadGridView  x:Name="dgCruce"
+                				            ItemsSource="{Binding DataContext.ListaEncabezadoPaginadaCruce, RelativeSource={RelativeSource AncestorType=UserControl}}"                                       
+                				            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                				            AutoGenerateColumns="False"
+                				            VerticalAlignment="Top"
+                				            Height="300"
+                				            FrozenColumnCount="1"
+                				            >
+                                <Telerik:RadGridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Liq_ParcialVenta" DataMemberBinding="{Binding strLiq_Parcial}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Custodia" DataMemberBinding="{Binding lngIdRecibo}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Secuencia" DataMemberBinding="{Binding lngSecuencia}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Cliente" DataMemberBinding="{Binding lngIDComitente}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Cantidad" DataMemberBinding="{Binding dblCantidad, StringFormat=\{0:n2\}}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="CantidadPedida" DataMemberBinding="{Binding dblCantidadPedida, StringFormat=\{0:n2\}}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Especie" DataMemberBinding="{Binding strIDEspecie}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Clase" DataMemberBinding="{Binding strClase}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo" DataMemberBinding="{Binding strTipo}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Tipo Oferta" DataMemberBinding="{Binding strTipoDeOferta}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. liquidación" DataMemberBinding="{Binding dtmLiquidacion, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. cumplimiento" DataMemberBinding="{Binding dtmCumplimiento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. emisión" DataMemberBinding="{Binding dtmEmision, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="F. vencimiento" DataMemberBinding="{Binding dtmVencimiento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Tasa" DataMemberBinding="{Binding dblTasa}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Indicador" DataMemberBinding="{Binding strIndicadorEconomico}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Puntos" DataMemberBinding="{Binding dblPuntosIndicador}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Modalidad" DataMemberBinding="{Binding strModalidad}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Observaciones" DataMemberBinding="{Binding strObservaciones}" IsReadOnly="True"/>
+                                    <Telerik:GridViewDataColumn Header="Liq_Cantidad" DataMemberBinding="{Binding dblLiq_Cantidad}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                    <Telerik:GridViewDataColumn Header="Cruzar" DataMemberBinding="{Binding intCruzar}" IsReadOnly="True"/>
+
+                                </Telerik:RadGridView.Columns>
+                            </Telerik:RadGridView>
+
+                            <Button x:Name="btnVolver"
+                				    Content="Volver"
+                				    HorizontalAlignment="Right"
+                				    Margin="0, 0, 5, 5"
+                				    IsEnabled="{Binding DataContext.HabilitarbtnVolver, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                				    ToolTipService.ToolTip="Volver al tab Títulos comprados"
+                				    fxui:Interaction.Action="$model.Volver()" />
+
+                        </StackPanel>
+
+                    </TabItem>
+
+                </TabControl>
+                <TabControl x:Name="ContenedorPrincipalPortafolio"
+                                HorizontalAlignment="Stretch"
+                                Margin="0, 10, 0, 0"
+                                Visibility="{Binding DataContext.VisibilidadContenedorPrincipalPortafolio, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedIndex="{Binding DataContext.TabSeleccionado, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                    <!--Portafolio-->
+                    <TabItem x:Name="TabPortafolio" HorizontalAlignment="Stretch" Header="Portafolio" >
+                        <Telerik:RadBusyIndicator IsBusy="{Binding IsBusyPortafolio}" DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicatorPortafolio">
+                            <StackPanel Orientation="Vertical">
+                                <Telerik:RadGridView  x:Name="dgPortafolio"
+                				            ItemsSource="{Binding DataContext.ListaEncabezadoPaginadaPortafolio, RelativeSource={RelativeSource AncestorType=UserControl}}"                                       
+                				            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                				            AutoGenerateColumns="False"
+                				            VerticalAlignment="Top"
+                				            Height="150"
+                				            FrozenColumnCount="2"
+                				            >
+                                    <Telerik:RadGridView.Columns>
+                                        <Telerik:GridViewDataColumn Header="Custodia" DataMemberBinding="{Binding lngIdRecibo}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Secuencia" DataMemberBinding="{Binding lngSecuencia}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Cliente" DataMemberBinding="{Binding lngIDComitente}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Nombre" DataMemberBinding="{Binding strNombre}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Documento" DataMemberBinding="{Binding strNroDocumento}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Nro. cuenta" DataMemberBinding="{Binding lngIdCuentaDeceval}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Fondo" DataMemberBinding="{Binding strDescripcionFondo}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Cantidad" DataMemberBinding="{Binding dblCantidad, StringFormat=\{0:n2\}}"  IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                        <Telerik:GridViewDataColumn Header="Especie" DataMemberBinding="{Binding strIDEspecie}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Estado actual" DataMemberBinding="{Binding strDescripcionEstadoActual}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Liq - parcial" DataMemberBinding="{Binding strLiq_Parcial}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="F. liquidación" DataMemberBinding="{Binding dtmLiquidacion, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="T. liquidación" DataMemberBinding="{Binding strTipoLiquidacion}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="F. emisión" DataMemberBinding="{Binding dtmEmision, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="F. vencimiento" DataMemberBinding="{Binding dtmVencimiento, StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Tasa" DataMemberBinding="{Binding dblTasaDescuento}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                        <Telerik:GridViewDataColumn Header="Tipo tasa" DataMemberBinding="{Binding strTipoTasaFija}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Indicador" DataMemberBinding="{Binding strIndicadorEconomico}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                        <Telerik:GridViewDataColumn Header="Ptos. indicador" DataMemberBinding="{Binding dblPuntosIndicador}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                        <Telerik:GridViewDataColumn Header="Tipo oferta" DataMemberBinding="{Binding strTipoDeOferta}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Tipo" DataMemberBinding="{Binding strClase}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Precio" DataMemberBinding="{Binding curTotalLiq}" IsReadOnly="True" CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+                                        <Telerik:GridViewDataColumn Header="Modalidad" DataMemberBinding="{Binding strDescripcionModalidad}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Estado" DataMemberBinding="{Binding strEstadoActual}" IsReadOnly="True"/>
+                                        <Telerik:GridViewDataColumn Header="Motivo" DataMemberBinding="{Binding strMotivoBloqueo}" IsReadOnly="True"/>
+
+                                    </Telerik:RadGridView.Columns>
+                                </Telerik:RadGridView>
+
+                                <Button x:Name="btnExportarExcel"
+                				    Content="Exportar a excel"
+                				    HorizontalAlignment="Right"
+                				    Margin="0, 0, 5, 5"
+                				    IsEnabled="{Binding DataContext.HabilitarbtnExportarExcel, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                				    Visibility="{Binding DataContext.VisibilidadContenedorPrincipalPortafolio, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                				    fxui:Interaction.Action="$model.ExportarPortafolioExcel()"  />
+                            </StackPanel>
+                        </Telerik:RadBusyIndicator>
+                    </TabItem>
+
+                </TabControl>
+
+            </StackPanel>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

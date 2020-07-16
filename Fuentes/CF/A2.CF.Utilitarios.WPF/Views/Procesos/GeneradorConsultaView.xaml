@@ -1,0 +1,170 @@
+﻿<UserControl
+    x:Class="GeneradorConsultaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Enc="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFUtilitarios"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="800"
+    MaxWidth="800">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
+            <TextBlock
+                Style="{StaticResource Title1}"
+                Text="{Binding EncabezadoSeleccionado.Nombre, Mode=OneWay}"
+                Visibility="{Binding DataContext.MostrarSoloNombreScript, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+            <Border Style="{StaticResource Contenedor_Estilo}">
+                <StackPanel
+                    Height="Auto"
+                    HorizontalAlignment="Stretch"
+                    DataContext="{Binding EncabezadoSeleccionado}"
+                    Orientation="Vertical">
+                    <Grid x:Name="LayoutRoot" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="5,0,0,0"
+                            Style="{StaticResource Title4}"
+                            Text="{Binding Nombre, Mode=OneWay}"
+                            Visibility="{Binding DataContext.MostrarDetalleNombreScript, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                        <A2Utils:ControlRefrescarCache
+                            Grid.Column="1"
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            EventoRefrescarCombos="ControlRefrescarCache_EventoRefrescarCombos" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            IsEnabled="False"
+                            Label="Grupo"
+                            LabelPosition="Above">
+                            <TextBox
+                                Height="50"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                Text="{Binding Grupo, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            IsEnabled="False"
+                            Label="Descripción"
+                            LabelPosition="Above">
+                            <TextBox
+                                Height="50"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                Text="{Binding Descripcion, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                        </Telerik:DataFormDataField>
+                    </Grid>
+
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="65*" />
+                            <ColumnDefinition Width="35*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Telerik:DataFormDataField
+                                IsEnabled="False"
+                                Label="Parámetros"
+                                LabelPosition="Above">
+                                <TextBox Text="Seleccione o digite el valor de los parámetros con los cuales se ejecutará la consulta." />
+                            </Telerik:DataFormDataField>
+
+                            <StackPanel x:Name="splControles" Orientation="Horizontal" />
+
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Telerik:DataFormDataField
+                                IsEnabled="False"
+                                Label="Generación"
+                                LabelPosition="Above">
+                                <TextBox Text="Seleccione el tipo de generación de la consulta." />
+                            </Telerik:DataFormDataField>
+
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Label="Destino"
+                                    LabelPosition="Above">
+                                    <ComboBox
+                                        HorizontalAlignment="Stretch"
+                                        ItemsSource="{Binding DataContext.ListaOpcionesGeneracion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding DataContext.OpcionGeneracionSeleccionado, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="1"
+                                    Label="Diseño"
+                                    LabelPosition="Above"
+                                    Visibility="{Binding DataContext.HabilitarSeleccionDiseno, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                    <ComboBox
+                                        HorizontalAlignment="Stretch"
+                                        DisplayMemberPath="Diseno"
+                                        ItemsSource="{Binding DataContext.ListaDisenos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding DataContext.DisenoSeleccionado, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValuePath="IDScriptDiseno" />
+                                </Telerik:DataFormDataField>
+
+                                <Button
+                                    x:Name="cmdEjecutar"
+                                    Grid.Row="2"
+                                    Width="100"
+                                    Margin="10"
+                                    HorizontalAlignment="Right"
+                                    Click="cmdEjecutar_Click"
+                                    Content="Ejecutar"
+                                    ToolTipService.ToolTip="Dar clic para ejecutar el script" />
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+
+    </Telerik:RadBusyIndicator>
+
+</UserControl>

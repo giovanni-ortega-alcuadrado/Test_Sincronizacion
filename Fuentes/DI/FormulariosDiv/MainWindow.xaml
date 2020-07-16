@@ -1,0 +1,327 @@
+﻿<Window
+    x:Class="MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FormulariosDiv"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Formularios Divisas"
+    Width="525"
+    Height="350"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <Grid Background="#a0a0a0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  header  -->
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Width="Auto"
+                VerticalAlignment="Center"
+                Background="#2c3e50"
+                Orientation="Horizontal">
+                <!--  logo-app  -->
+                <Border
+                    Margin="5"
+                    Padding="0,0,5,3"
+                    VerticalAlignment="Center"
+                    Background="White">
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        FontSize="16"
+                        Foreground="#2c3e50"
+                        Text="DV" />
+                </Border>
+                <!--  /logo-app  -->
+                <!--  nombre-app  -->
+                <TextBlock
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Foreground="White"
+                    Text="Divisas" />
+                <!--  /nombre-app  -->
+
+            </StackPanel>
+            <!--  /header  -->
+
+            <!--  body  -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5"
+                Background="#eeeeee"
+                BorderThickness="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Vertical">
+                        <Menu
+                            Name="menu1"
+                            VerticalContentAlignment="Center"
+                            Background="#476f98"
+                            BorderBrush="#476f98"
+                            BorderThickness="1"
+                            FontSize="14"
+                            Foreground="White">
+
+                            <MenuItem Header="Negociación">
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Ordenes Divisas"
+                                    Tag="Ordenes" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Cargue operaciones"
+                                    Tag="CargueOperaciones" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Cumplimiento"
+                                    Tag="Cumplimiento" />
+
+                            </MenuItem>
+
+                            <MenuItem Header="Formularios">
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Formulario 1"
+                                    Tag="Formulario1" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Formulario 2"
+                                    Tag="Formulario2" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Formulario 3"
+                                    Tag="Formulario3" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Formulario 4"
+                                    Tag="Formulario4" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Formulario 5"
+                                    Tag="Formulario5" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Formulario 6"
+                                    Tag="Formulario6" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Formulario 7"
+                                    Tag="Formulario7" />
+
+                            </MenuItem>
+
+                            <MenuItem Header="Configuracion">
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Módulos"
+                                    Tag="Modulos" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Módulos estados configuración"
+                                    Tag="ModuloConfiguracion" />
+                            </MenuItem>
+
+                            <MenuItem Header="P y G">
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Ajustes de mesas"
+                                    Tag="AjustesMesas" />
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Cierre divisas"
+                                    Tag="CierreDivisas" />
+                            </MenuItem>
+
+                            <MenuItem Header="Reportes">
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Ajustes por mesa"
+                                    Tag="Reporte_AjustesMesa" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Consultar Utilidad Perdida"
+                                    Tag="Consultar_UtilidadPerdida" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Imprimir Utilidad Perdida"
+                                    Tag="Imprimir_UtilidadPerdida" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Constancia Operaciones"
+                                    Tag="ConstanciaOperaciones" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Spread comisiones"
+                                    Tag="SpreadComision" />
+                                <!--  JAPC20181009 menu Exportación movimiento DIAN  -->
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Exportación movimiento DIAN"
+                                    Tag="ExportacionMovDIAN" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Archivos Banco república"
+                                    Tag="ArchivosBancoRepublica" />
+
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="UIAF"
+                                    Tag="UIAF" />
+
+                            </MenuItem>
+                            <MenuItem Header="Maestros form">
+                                <MenuItem
+                                    Background="#476f98"
+                                    BorderBrush="#476f98"
+                                    Click="Button_Click"
+                                    Header="Destinos inversión formularios"
+                                    Tag="DestinosInverForm" />
+                            </MenuItem>
+                        </Menu>
+                        <Border BorderBrush="#2c3e50" BorderThickness="2" />
+                    </StackPanel>
+
+                    <!--<StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
+				        <Button Content="Formulario1" Tag="Formulario1" Click="Button_Click" Style="{StaticResource HyperlinkLikeButton}" />
+				        <Button Content="Formulario2" Tag="Formulario2" Click="Button_Click" Style="{StaticResource HyperlinkLikeButton}" />
+			        </StackPanel>-->
+
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderBrush="#2c3e50"
+                        BorderThickness="1">
+                        <Grid
+                            x:Name="GridPrincipal"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" />
+                    </Border>
+                </Grid>
+
+            </Border>
+            <!--  /body  -->
+
+            <!--  footer  -->
+
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <!--  footer-text  -->
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="Gray"
+                    Text="Divisas 1.0.0 - Derechos reservados Alcuadrado S.A. - 2018 - ALCUADRADO\usuario" />
+                <!--  /footer-text  -->
+
+                <!--  logo-company  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right">
+                    <Image Margin="5" Source="img/LogoA2.png" />
+                </Border>
+                <!--  /logo-company  -->
+
+
+            </Grid>
+            <!--  /footer  -->
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

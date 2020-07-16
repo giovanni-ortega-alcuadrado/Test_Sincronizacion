@@ -1,0 +1,176 @@
+﻿<UserControl
+    x:Class="InactivacionClientesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2OYDClientes"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDClientes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="350"
+    MaxWidth="800"
+    d:DesignWidth="667"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+        <src:StringConverter x:Key="StringConverter" />
+        <!--<src:ArregloUBICACIONTITULOViewModel x:Name="VM2"/>-->
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Border>
+            <Grid MaxWidth="800">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Style="{StaticResource Title1}"
+                    Text="Inactivación de Clientes" />
+
+                <Border Grid.Row="1" Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <!--<Button Content="Aplazar"  fxui:Interaction.Action="$model.Aplazamientos()" Margin="0,0,10,0" Height="20" Width="85" IsEnabled="{Binding habilitaboton}">
+
+                                    </Button>-->
+                        <Button
+                            x:Name="btnAceptar"
+                            Width="85"
+                            Content="Aceptar" />
+                        <Button
+                            x:Name="btnConsultar"
+                            Width="85"
+                            Content="Consultar" />
+                        <Button
+                            x:Name="btnCancelar"
+                            Width="85"
+                            Content="Cancelar" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                    <Grid MaxWidth="800">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="20*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Label="Grupo: "
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboGrupos"
+                                Grid.Column="2"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosA2[grupos(Todos)], Source={StaticResource A2VM}}"
+                                SelectedValue="{Binding GrupoSeleccionado.ID, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+
+                        <!--  Sucursales  -->
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Label="Sucursal: "
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboSucursales"
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosA2[Sucursales(Todos)], Source={StaticResource A2VM}}"
+                                SelectedValue="{Binding SucursalSeleccionada.ID, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+
+                        <!--  Lista de Clientes para inactivar  -->
+                        <Border
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource Contenedor_Paginador}">
+                            <A2UTILGEN:A2DataPager
+                                x:Name="datapager1"
+                                PageSize="10"
+                                Source="{Binding Items, ElementName=dgListaClientes}" />
+                        </Border>
+
+                        <A2UTILGEN:A2GridView
+                            Name="dgListaClientes"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            AutoGenerateColumns="False"
+                            ItemsSource="{Binding ListaClientesPaged}"
+                            SelectedItem="{Binding ClienteSeleccionado, Mode=TwoWay}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn Width="80" Header="Selección">
+
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                x:Name="chkCliente"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                IsChecked="{Binding Borrar, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding Codigo, Mode=TwoWay}" Header="Código" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding Nombre, Mode=TwoWay}" Header="Nombre" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding Grupo, Mode=TwoWay}" Header="Grupo" />
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+
+                        <!--  Botones de Acción  -->
+                        <ProgressBar
+                            Name="ProgressBar1"
+                            Grid.Row="5"
+                            Grid.ColumnSpan="2"
+                            Height="22"
+                            VerticalAlignment="Top"
+                            Maximum="{Binding TotalRegistros}"
+                            Visibility="{Binding MostrarProgreso}"
+                            Value="{Binding PorcProgreso}" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

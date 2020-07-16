@@ -1,0 +1,169 @@
+﻿<UserControl
+    x:Class="BuscadorGenerico"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2ComunesControl"
+    MinWidth="120"
+    MinHeight="20"
+    Margin="0"
+    d:DesignHeight="121"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0"
+        VerticalAlignment="Top">
+        <Grid.Resources>
+            <src:BuscadorGenericoViewModel x:Key="VM" />
+            <src:clsItemConverter x:Key="cvItem" />
+            <src:clsFiltroBuscadorGenerico x:Key="clsFiltroBuscadorGenerico" />
+
+            <!--  DataTemplate  -->
+            <DataTemplate x:Key="ListaDataTemplate">
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=ItemBusqueda.Nombre}" />
+                            <TextBlock Text=", " />
+                            <TextBlock Text="{Binding Path=ItemBusqueda.EtiquetaIdItem}" />
+                            <TextBlock Text="{Binding Path=ItemBusqueda.IdItem}" />
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding Path=ItemBusqueda.Descripcion}" />
+                    </Grid>
+                    <Line
+                        Height="1"
+                        Margin="0,0,0,0"
+                        Stretch="Fill"
+                        Stroke="Silver"
+                        X1="0"
+                        X2="200"
+                        Y1="20"
+                        Y2="20" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="22" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Foreground="Gray"
+            Text="Consultando....."
+            Visibility="{Binding MostrarConsultando, Source={StaticResource VM}}" />
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal">
+            <Telerik:RadAutoCompleteBox
+                x:Name="acbItems"
+                Width="200"
+                AutoCompleteMode="Suggest"
+                DisplayMemberPath="DescripcionBuscador"
+                DropDownItemTemplate="{StaticResource ListaDataTemplate}"
+                DropDownWidth="300"
+                FilteringBehavior="{StaticResource clsFiltroBuscadorGenerico}"
+                IsEnabled="{Binding Path=Activar}"
+                ItemsSource="{Binding ListaBusquedaControl, Source={StaticResource VM}}"
+                KeyDown="acbItems_KeyDown"
+                KeyUp="acbItems_KeyUp"
+                SelectedItem="{Binding ItemSeleccionadoBuscador, Mode=TwoWay, Source={StaticResource VM}}"
+                SelectionChanged="acbGenerico_SelectionChanged"
+                SelectionMode="Single"
+                TextSearchMode="Contains" />
+
+            <Button
+                x:Name="cmdBuscar"
+                Margin="2,0,0,0"
+                Click="cmdBuscar_Click"
+                Content="..."
+                IsEnabled="{Binding Path=Activar}"
+                Style="{StaticResource btnBuscar}"
+                ToolTipService.ToolTip="Buscar items" />
+
+            <Button
+                x:Name="cmbLimpiar"
+                Margin="2,0,0,0"
+                Click="CmbLimpiar_Click"
+                Content="..."
+                IsEnabled="{Binding Path=Activar}"
+                Style="{StaticResource btnLimpiar}"
+                ToolTipService.ToolTip="Limpiar"
+                Visibility="Collapsed" />
+        </StackPanel>
+
+        <Grid
+            x:Name="grDatosClt"
+            Grid.Row="2"
+            Grid.Column="0"
+            DataContext="{Binding ItemSeleccionado, Source={StaticResource VM}}"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" MinWidth="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Orientation="Horizontal">
+                <TextBlock Text="{Binding EtiquetaIdItem}" />
+                <TextBlock Text=" " />
+                <TextBlock FontWeight="Bold" Text="{Binding IdItem}" />
+                <TextBlock Text=", " />
+                <TextBlock Text="{Binding Nombre}" />
+            </StackPanel>
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="{Binding Descripcion}" />
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <TextBlock Text="{Binding EtiquetaCodItem}" />
+                <TextBlock Text=" " />
+                <TextBlock Text="{Binding CodItem}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

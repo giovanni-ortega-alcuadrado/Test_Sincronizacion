@@ -1,0 +1,285 @@
+﻿<Window
+    x:Class="wppFrmCargarPagosAFondos_RC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:ControlesPLUS="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:myCrtl="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSTesoreria"
+    Title="Cargar pagos a fondos"
+    Height="auto"
+    MaxWidth="700"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <src:VisibilityConverter x:Key="VisibilityConverter" />
+            <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label="Código OYD Cliente"
+            LabelPosition="Above">
+            <TextBox
+                x:Name="NumValorGMF"
+                VerticalAlignment="Stretch"
+                IsEnabled="False"
+                Text="{Binding strCodigoOyDCliente}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="1"
+            Label="Valor Total">
+            <TextBox
+                VerticalAlignment="Stretch"
+                IsEnabled="False"
+                Text="{Binding ValorTotalGenerarOrden, StringFormat=C2}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="2"
+            Label="Valor Disponible">
+            <TextBox
+                VerticalAlignment="Stretch"
+                IsEnabled="False"
+                Text="{Binding ValorDisponibleCargarPagoFondos, StringFormat=C2}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label="Tipo cliente"
+            LabelPosition="Above">
+            <ComboBox
+                x:Name="cboTipoCliente"
+                VerticalAlignment="Stretch"
+                DisplayMemberPath="Descripcion"
+                ItemsSource="{Binding DiccionarioCombosOYDPlus[TIPOCLIENTECARGARPAGOSFONDOS]}"
+                SelectedValue="{Binding IDTipoClienteCargarPagosAFondos, Mode=TwoWay}"
+                SelectedValuePath="Retorno" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label="Código OyD Fondos"
+            LabelPosition="Above">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Name="txbCodigoOyDCargarPagosA"
+                    Grid.Column="0"
+                    Width="auto"
+                    MinWidth="170"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="{Binding FondoTextoBuscadoresHabilitado}"
+                    IsEnabled="False"
+                    MouseLeftButtonDown="TextBlockCliente_MouseLeftButtonDown"
+                    Text="{Binding strCodigoOyDCargarPagosAFondos, Mode=TwoWay}" />
+
+                <myCrtl:BuscadorClienteListaButon
+                    x:Name="Buscador_Cliente"
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Left"
+                    CampoBusqueda="IDComitente"
+                    EstadoComitente="A"
+                    Etiqueta="Lista de Clientes"
+                    GotFocus="Buscador_Cliente_GotFocus"
+                    TipoProducto="{Binding TesoreriaOrdenesPlusRC_Selected.ValorTipoProducto}"
+                    TipoVinculacion="C"
+                    finalizoBusqueda="Buscador_finalizoBusquedaClientes" />
+                <Button
+                    x:Name="btnLimpiarCliente"
+                    Grid.Column="2"
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Top"
+                    Click="btnLimpiarCliente_Click"
+                    Style="{StaticResource btnLimpiar}"
+                    ToolTipService.ToolTip="Limpiar" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Stretch"
+            IsEnabled="{Binding HabilitarConceptoDetalles}"
+            Label="Concepto"
+            LabelPosition="Above">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="{Binding FondoTextoBuscadoresHabilitado}"
+                    IsEnabled="False"
+                    MouseLeftButtonDown="TextBlockConcepto_MouseLeftButtonDown"
+                    Text="{Binding DescripcionComboConceptoFondos}"
+                    TextWrapping="Wrap" />
+
+                <myCrtl:BuscadorGenericoListaButon
+                    x:Name="ctlBuscadorConcepto"
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Left"
+                    Agrupamiento="{Binding TesoreriaOrdenesPlusRC_Selected.strCodigoReceptor}"
+                    CampoBusqueda="conceptos"
+                    Condicion1="{Binding TesoreriaOrdenesPlusRC_Selected.strCarteraColectivaFondos}"
+                    EstadoItem="A"
+                    TipoItem="conceptosrecibos"
+                    finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                <Button
+                    x:Name="btnLimpiarConcepto"
+                    Grid.Column="2"
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Top"
+                    Click="btnLimpiarConcepto_Click"
+                    Style="{StaticResource btnLimpiar}"
+                    ToolTipService.ToolTip="Limpiar" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="2"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Width="300"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Label="Detalle concepto"
+            LabelPosition="Above">
+            <TextBox
+                Name="txtConcepto"
+                Height="45"
+                GotFocus="SeleccionarFocoControl"
+                Text="{Binding DescripcionConceptoFondos, Mode=TwoWay}"
+                TextChanged="txtConcepto_TextChanged_1"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="3"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Label="Descripción encargo"
+            LabelPosition="Above"
+            Visibility="{Binding HabilitarNroEncargo, Converter={StaticResource InVisibilityConverter}}">
+            <TextBox
+                Name="txtDescripcionConcepto"
+                GotFocus="SeleccionarFocoControl"
+                Text="{Binding DescripcionEncargoFondos, Mode=TwoWay}"
+                TextChanged="txtDescripcionConcepto_TextChanged_1"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="3"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Label="Nro encargo"
+            LabelPosition="Above"
+            Visibility="{Binding HabilitarNroEncargo, Converter={StaticResource VisibilityConverter}}">
+            <ComboBox
+                x:Name="cboNroEncargoFondos"
+                MinWidth="120"
+                DisplayMemberPath="NroEncargo"
+                ItemsSource="{Binding ListaEncargosCarteraColectiva}"
+                SelectedValue="{Binding NroEncargoFondos, Mode=TwoWay}"
+                SelectedValuePath="NroEncargo" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="3"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Label="Llevar saldo disponible"
+            LabelPosition="Above">
+            <CheckBox HorizontalAlignment="Right" IsChecked="{Binding LlevarSaldoDisponibleCargarPagosAFondos, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="3"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label="Valor"
+            LabelPosition="Above">
+            <A2UTILGEN:A2NumericBox
+                VerticalAlignment="Stretch"
+                GotFocus="SeleccionarFocoControl"
+                Maximum="99999999999999"
+                Minimum="0"
+                NumberDecimalDigits="2"
+                ShowButtons="False"
+                ValueFormat="Numeric"
+                Value="{Binding ValorCargarPagoAFondos, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Margin="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
+            <Button
+                Width="120"
+                HorizontalAlignment="Right"
+                Command="{Binding GuardarCargarPagosAFondosSalir, Mode=TwoWay}"
+                Content="Grabar y salir" />
+            <Button
+                Width="80"
+                HorizontalAlignment="Right"
+                Command="{Binding CancelarCargarPagosAFondosGrabacion, Mode=TwoWay}"
+                Content="Cancelar" />
+        </StackPanel>
+    </Grid>
+
+</Window>

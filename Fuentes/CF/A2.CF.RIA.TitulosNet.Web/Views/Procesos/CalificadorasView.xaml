@@ -1,0 +1,220 @@
+﻿<UserControl x:Class="A2.OyD.TitulosNet.SL.CalificadorasView"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           
+           xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+           xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+           xmlns:src="clr-namespace:A2.OyD.TitulosNet.SL"
+           xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+           
+           
+           >
+    
+    <UserControl.Resources>
+<src:DisplayNameConverter x:Key="DisplayConverter"/>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+    </UserControl.Resources>
+
+    <!--Descripción:    Diseño para la pantalla Calificadoras (Cálculos Financieros)
+        Responsable:    Jorge Peña (Alcuadrado (S.A.)
+        Fecha:          21 de Febrero 2014-->    
+    
+    <Telerik:RadBusyIndicator IsBusy="{Binding IsBusy}"  DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicator">
+        <Grid x:Name="LayoutRoot"  ShowGridLines="False" Background="{StaticResource BackgroundColorBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Fila del menu-->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--Fila de la forma/grid-->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition  Width="800"></ColumnDefinition>
+                <ColumnDefinition  Width="1"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <TextBlock Text="Test Titulos.NET   - Calificadoras -" Style="{StaticResource Title1}" />
+                <TextBlock Text="*" Style="{StaticResource ControlLabelStyle}" Visibility="{Binding EncabezadoSeleccionado.HasChanges, Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Text="  (" Style="{StaticResource ControlLabelStyle}" />
+                <TextBlock Text="{Binding ListaEncabezado.Count, StringFormat=n0}" Style="{StaticResource ControlLabelStyle}" />
+                <TextBlock Text=" registros)" Style="{StaticResource ControlLabelStyle}" />
+            </StackPanel>
+
+            <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" Margin="0,0,0,10">
+                <StackPanel>
+                    <A2Utils:ControlMenuA2 x:Name="cm"                                                						
+                                                Mensaje="{Binding MensajeMVVM, Mode= TwoWay}"
+ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                                                EstadoMenu="{Binding EstadoMenuVM, Mode= TwoWay}"
+                                                Filtro="{Binding FiltroVM, Mode= TwoWay}"
+                                                Modo="{Binding ModoMVVM, Mode= TwoWay}"                                                
+                                                IsItemValid="True"
+                                                HayDataForm="False"
+                                                MensajeError="{Binding ErrorForma}"
+                                                DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"							
+                                                DicBotonesMenu="{Binding DicBotonesMenuVM, Mode= TwoWay}"
+                                                
+                                                ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                                                TextoFiltroTooltip="Nombre"
+                                                PreguntarConfirmacion="False"
+                                                >
+                    </A2Utils:ControlMenuA2>
+
+                    <TextBlock Text="{Binding ErrorForma}" Height="Auto" Foreground="Red"  Margin="3"  Visibility="{Binding VisibilidadErrores}" />
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="2" x:Name="grdGridForma"  Grid.Column="1" >
+                <Border  Width="800" HorizontalAlignment="Center">
+                    <!-- =========================== -->
+                    <!-- Grid de navegación paginada -->
+                    <!-- =========================== -->
+                    <StackPanel VerticalAlignment="Top" Grid.Column="0" x:Name="Buscar" Width="Auto"  Height="Auto" >
+                        <Telerik:RadDataPager x:Name="datapager1" Source="{Binding Items, ElementName=dg}" PageSize="10" />
+                        <Telerik:RadGridView x:Name="dg" ItemsSource="{Binding ListaEncabezadoPaginada}" IsReadOnly="True" SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                                       ScrollViewer.VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" VerticalAlignment="Top" Height="Auto">
+                            <Telerik:RadGridView.Columns>
+                                <Telerik:GridViewDataColumn  SortMemberPath="Código calificadora" Header="Código calificadora">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource HyperlinkLikeButton}" VerticalAlignment="Center" Content="{Binding intCodCalificadora, Mode=TwoWay}" Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=Telerik:RadGridView}}" CommandParameter="{Binding}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding strNomCalificadora}" Header="Nombre calificadora" />
+
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmActualizacion, StringFormat='MMM dd, yyyy hh:mm:ss tt'}" Header="Fecha actualización" />
+                            </Telerik:RadGridView.Columns>
+                        </Telerik:RadGridView>
+                    </StackPanel>
+                </Border>
+
+                <Border  Width="800" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- ==================== -->
+                        <!-- Dataform de búsqueda -->
+                        <!-- ==================== -->
+                        <Telerik:RadDataForm x:Name="dfBuscar" AutoGenerateFields="False" AutoEdit="True" CommandButtonsVisibility="None"
+	                        VerticalAlignment="Top" Visibility="{Binding visBuscando}" CurrentItem="{Binding cb}"
+							BorderThickness="0" Background="{StaticResource BackgroundColorBrush}">
+                            <Telerik:RadDataForm.EditTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="White" BorderThickness="2" >
+                                        <StackPanel Orientation="Vertical"  
+                                                     
+                                                    Width="600"
+                                                    HorizontalAlignment="Left">
+                                            <Telerik:DataFormDataField Label="Código calificadora" 
+                                                                       LabelPosition="Above"
+                                                                       Margin="10, 10, 0, 0"
+                                                                        
+                                                                       >
+                                                <Telerik:RadNumericUpDown  Minimum="0"
+                                                                  Maximum="999999999" 
+                                                                  ShowButtons="False" 
+                                                                    
+                                                                  Value="{Binding  intCodCalificadora, Mode=TwoWay,  ValidatesOnExceptions=True }"  
+                                                                  ToolTipService.ToolTip="Código calificadora" 
+                                                                  GotFocus="seleccionarFocoControl"/>
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField Label="Nombre calificadora"
+                                                                       LabelPosition="Above"
+                                                                       Margin="10, 5, 0, 10"
+                                                                         
+                                                                        >
+                                                <TextBox TextAlignment="Left" 
+                                                     MaxLength="60" 
+                                                     Text="{Binding strNomCalificadora,Mode=TwoWay,NotifyOnValidationError=True,  ValidatesOnExceptions=True }"  
+                                                     ToolTipService.ToolTip="Nombre calificadora" 
+                                                     GotFocus="seleccionarFocoControl"/>
+                                            </Telerik:DataFormDataField>
+
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </Telerik:RadDataForm.EditTemplate>
+                        </Telerik:RadDataForm>
+
+                        <StackPanel Grid.Column="1" Grid.Row="1" x:Name="Editar"  Height="Auto" Visibility="{Binding visNavegando}"
+                                    HorizontalAlignment="Stretch">
+                            <!-- ============================ -->
+                            <!-- Dataform edición de registro -->
+                            <!-- ============================ -->
+                            <Border BorderBrush="White" BorderThickness="2">
+                                <Grid 
+                                      VerticalAlignment="Top"
+                                      Background="{StaticResource BackgroundColorBrush}"
+                                      DataContext="{Binding EncabezadoSeleccionado}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="600" />
+                                        <!--<ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />-->
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=intIdCalificadora}" 
+                                                                
+                                                               
+                                                               Grid.Column="0" Grid.Row="0"
+                                                               Visibility="{Binding DataContext.VisibilidadIdentityCalificadoras, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Telerik:RadNumericUpDown  Maximum="9999999" 
+                                                          ShowButtons="False" 
+                                                           
+                                                          Minimum="0" 
+                                                          Value="{Binding  intIdCalificadora, Mode=TwoWay,  ValidatesOnExceptions=True }"  
+                                                          ToolTipService.ToolTip="ID calificadora" 
+                                                          GotFocus="seleccionarFocoControl" 
+                                                          IsEnabled="{Binding DataContext.HabilitarCodCalificadoras, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField Label="Código calificadora"
+                                                               LabelPosition="Above"
+                                                               Margin="10, 10, 0, 0"
+                                                               
+                                                               
+                                                               Grid.Column="0" Grid.Row="1">
+                                        <Telerik:RadNumericUpDown  Minimum="0" 
+                                                          Maximum="99999999" 
+                                                          ShowButtons="False" 
+                                                           
+                                                          Value="{Binding  intCodCalificadora, Mode=TwoWay,  ValidatesOnExceptions=True }"  
+                                                          ToolTipService.ToolTip="Código calificadora" 
+                                                          IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                          GotFocus="seleccionarFocoControl"/>
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField Label="Nombre calificadora"
+                                                               LabelPosition="Above"
+                                                               Margin="10, 5, 0, 10"
+                                                               
+                                                                
+                                                               Grid.Column="0" Grid.Row="2">
+                                        <TextBox TextAlignment="Left" MaxLength="60"
+                                                 Text="{Binding strNomCalificadora,Mode=TwoWay,NotifyOnValidationError=True,  ValidatesOnExceptions=True }"   
+                                                 ToolTipService.ToolTip="Nombre calificadora" 
+                                                 IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                 GotFocus="seleccionarFocoControl"/>
+                                    </Telerik:DataFormDataField>
+                                    
+                                </Grid>
+                            </Border>                           
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>            
+        </Grid>        
+    </Telerik:RadBusyIndicator>            
+</UserControl>
+

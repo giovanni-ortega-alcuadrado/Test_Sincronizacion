@@ -1,0 +1,78 @@
+﻿<Window
+    x:Class="EspecieDividendos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:ControlesPLUS="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    Title="Seleccionar especie dividendos"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Margin="10"
+            Orientation="Horizontal"
+            Visibility="{Binding MostrarBusquedaEspecies}">
+            <Label
+                Margin="0,0,10,0"
+                VerticalAlignment="Bottom"
+                Content="Buscar especie"
+                Style="{StaticResource EstiloLabel}" />
+            <Controles:BuscadorEspecie
+                x:Name="ctlrEspecies"
+                BorrarEspecie="{Binding BorrarEspecie}"
+                BuscarAlIniciar="False"
+                ClaseOrden="A"
+                EstadoEspecie="A"
+                HabilitarConsultaISIN="False"
+                VerDetalle="False"
+                nemotecnicoAsignado="ctlrEspecies_nemotecnicoAsignado_1" />
+            <Button
+                x:Name="btnLimpiarEspecie"
+                Margin="2,0,0,1"
+                Click="btnLimpiarEspecie_Click_1"
+                Style="{StaticResource btnLimpiar}"
+                ToolTipService.ToolTip="Limpiar especie" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Margin="0,0,10,0"
+                Content="Especie: "
+                Style="{StaticResource EstiloLabel}" />
+
+            <Label Grid.Column="1" Content="{Binding EspecieSeleccionada}" />
+        </Grid>
+
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnAceptar"
+                Width="75"
+                Margin="0,0,10,0"
+                Click="btnAceptar_Click"
+                Content="Aceptar" />
+            <Button
+                x:Name="btnCancelar"
+                Width="75"
+                Click="btnCancelar_Click"
+                Content="Cancelar" />
+        </StackPanel>
+    </Grid>
+</Window>

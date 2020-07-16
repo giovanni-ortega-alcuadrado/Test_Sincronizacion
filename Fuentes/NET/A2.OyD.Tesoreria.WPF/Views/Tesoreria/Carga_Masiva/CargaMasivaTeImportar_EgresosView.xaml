@@ -1,0 +1,707 @@
+﻿<UserControl
+    x:Class="CargaMasivaTeImportar_EgresosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+    </UserControl.Resources>
+
+
+
+    <Grid x:Name="LayoutRoot" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            x:Name="GridEdicion"
+            Grid.Row="0"
+            Grid.Column="0"
+            Height="Auto"
+            HorizontalAlignment="Stretch"
+            DataContext="{Binding ImportacionEncabezadoTeSelected}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="0"
+                IsEnabled="{Binding DiccionarioEdicionCampos[FechaDocumento], Source={StaticResource VMTesoreria}}"
+                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Documento}"
+                LabelPosition="Above">
+                <A2UTILGEN:A2DatePicker
+                    Name="fechaDocumentoBuscar"
+                    SelectedDate="{Binding Documento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    ToolTipService.ToolTip="Documento" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="1"
+                IsEnabled="{Binding DiccionarioEdicionCampos[IdBanco], Source={StaticResource VMTesoreria}}"
+                Label="Banco"
+                LabelPosition="Above">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Height="20"
+                        VerticalAlignment="Center"
+                        Background="{Binding FondoTextoBuscadorBanco, Source={StaticResource VMTesoreria}}">
+                        <TextBox
+                            HorizontalAlignment="Stretch"
+                            IsReadOnly="True"
+                            MouseLeftButtonDown="Banco_MouseLeftButtonDown"
+                            Text="{Binding IDBanco, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left" />
+                    </StackPanel>
+                    <Controles:BuscadorGenericoListaButon
+                        x:Name="ctlBuscadorBanco"
+                        Grid.Column="1"
+                        Margin="2,0,0,0"
+                        Agrupamiento="BANCOSXCONSECUTIVO"
+                        CampoBusqueda="IDBanco"
+                        Condicion1="{Binding strCompaniaConsecutivo, Source={StaticResource VMTesoreria}, Mode=OneWay}"
+                        Condicion2="{Binding ConsecutivoSeleccionado, Source={StaticResource VMTesoreria}, Mode=OneWay}"
+                        EstadoItem="A"
+                        Etiqueta="Lista de Bancos"
+                        TipoItem="cuentasbancarias"
+                        finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                </Grid>
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="2"
+                Label="Nombre banco"
+                LabelPosition="Above">
+                <TextBox
+                    IsEnabled="False"
+                    Text="{Binding NombreBco, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    ToolTipService.ToolTip="NombreBco" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="3"
+                VerticalAlignment="Top"
+                IsEnabled="{Binding DiccionarioEdicionCampos[NroCheque], Source={StaticResource VMTesoreria}}"
+                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NumCheque}"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    Maximum="999999999999"
+                    Minimum="0"
+                    NumberDecimalDigits="0"
+                    ShowButtons="False"
+                    ValueFormat="NoSeparator"
+                    Value="{Binding NumCheque, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="0"
+                IsEnabled="{Binding HabilitarIDComitente, Source={StaticResource VMTesoreria}}"
+                Label="Comitente"
+                LabelPosition="Above">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Height="20"
+                        VerticalAlignment="Center"
+                        Background="{Binding FondoTextoBuscadorCliente, Source={StaticResource VMTesoreria}}">
+                        <TextBox
+                            HorizontalAlignment="Stretch"
+                            IsReadOnly="True"
+                            MouseLeftButtonDown="txtComitente_MouseLeftButtonDown"
+                            Text="{Binding IdComitente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left" />
+                    </StackPanel>
+                    <Controles:BuscadorClienteListaButon
+                        x:Name="ctlBuscadorClientes"
+                        Grid.Column="1"
+                        Margin="2,0,0,0"
+                        Agrupamiento="mostrardigito"
+                        CampoBusqueda="IDComitente"
+                        EstadoComitente="A"
+                        TipoVinculacion="C"
+                        finalizoBusqueda="Buscar_finalizoBusqueda" />
+                </Grid>
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                IsEnabled="{Binding DiccionarioEdicionCampos[Nombre], Source={StaticResource VMTesoreria}}"
+                Label="A favor de"
+                LabelPosition="Above">
+                <TextBox
+                    MaxLength="80"
+                    Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    ToolTipService.ToolTip="A favor de" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="3"
+                IsEnabled="{Binding DiccionarioEdicionCampos[TipoIdentificacion], Source={StaticResource VMTesoreria}}"
+                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoIdentificacion}"
+                LabelPosition="Above">
+                <ComboBox
+                    x:Name="cmbTipoIdentificacion"
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCargaTesoreria[TipoIdentificacionCE], Source={StaticResource VMTesoreria}}"
+                    SelectedValue="{Binding TipoIdentificacion, Mode=TwoWay}"
+                    SelectedValuePath="ID" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="4"
+                IsEnabled="{Binding DiccionarioEdicionCampos[NroDocumento], Source={StaticResource VMTesoreria}}"
+                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NroDocumento}"
+                LabelPosition="Above">
+                <TextBox
+                    MaxLength="15"
+                    Text="{Binding NroDocumento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    TextAlignment="Right" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="0"
+                IsEnabled="{Binding DiccionarioEdicionCampos[FormaPago], Source={StaticResource VMTesoreria}}"
+                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FormaPagoCE}"
+                LabelPosition="Above">
+                <ComboBox
+                    x:Name="cmbFormaPago"
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCargaTesoreria[FormaPagoCE], Source={StaticResource VMTesoreria}}"
+                    SelectedValue="{Binding FormaPagoCE, Mode=TwoWay}"
+                    SelectedValuePath="ID" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="1"
+                IsEnabled="{Binding HabilitarTipoCheque, Source={StaticResource VMTesoreria}}"
+                Label="Tipo Cheque"
+                LabelPosition="Above">
+                <ComboBox
+                    x:Name="cmbTipoCheque"
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCargaTesoreria[TIPOSELLO], Source={StaticResource VMTesoreria}}"
+                    SelectedValue="{Binding Tipocheque, Mode=TwoWay}"
+                    SelectedValuePath="ID" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="2"
+                IsEnabled="{Binding HabilitarCuentaBancaria, Source={StaticResource VMTesoreria}}"
+                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CuentaCliente}"
+                LabelPosition="Above">
+                <ComboBox
+                    x:Name="cmbCuentaclientes"
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding listCuentasbancarias, Source={StaticResource VMTesoreria}}"
+                    SelectedValue="{Binding CuentaCliente, Mode=TwoWay}"
+                    SelectedValuePath="ID" />
+            </Telerik:DataFormDataField>
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource Contenedor_TabControl}">
+            <TabControl Height="330" HorizontalAlignment="Stretch">
+                <TabItem
+                    Name="TabDetalleTesoreri"
+                    HorizontalAlignment="Stretch"
+                    Header="Detalle Comprobantes">
+                    <Grid DataContext="{Binding ImportacionDetalleTeSelected}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[IdConcepto], Source={StaticResource VMTesoreria}}"
+                            Label="Concepto"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    Background="{Binding FondoTextoBuscadorConcepto, Source={StaticResource VMTesoreria}}">
+                                    <TextBox
+                                        IsReadOnly="True"
+                                        MouseLeftButtonDown="Concepto_MouseLeftButtonDown"
+                                        Text="{Binding IDConcepto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        TextAlignment="Left" />
+                                </StackPanel>
+                                <Button
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Click="Button_Click_BuscadorListaConceptos"
+                                    Style="{StaticResource btnBuscar}" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[IdComitente], Source={StaticResource VMTesoreria}}"
+                            Label="Código cliente"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    Background="{Binding FondoTextoBuscadorClienteD, Source={StaticResource VMTesoreria}}">
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        IsReadOnly="True"
+                                        MouseLeftButtonDown="txtComitenteD_MouseLeftButtonDown"
+                                        Text="{Binding IDComitente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        TextAlignment="Left" />
+                                </StackPanel>
+                                <Controles:BuscadorClienteListaButon
+                                    x:Name="ctlBuscadorClientesD"
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="IDComitente"
+                                    EstadoComitente="A"
+                                    ExcluirCodigosCompania="True"
+                                    IDCompania="{Binding IDCompaniaConsecutivo, Source={StaticResource VMTesoreria}}"
+                                    TipoVinculacion="C"
+                                    finalizoBusqueda="Buscar_finalizoBusquedaD" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[Nombre], Source={StaticResource VMTesoreria}}"
+                            Label="Nombre"
+                            LabelPosition="Above">
+                            <TextBox IsEnabled="False" Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[Detalle], Source={StaticResource VMTesoreria}}"
+                            Label="Detalle"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="80" Text="{Binding Detalle, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[CuentaContable], Source={StaticResource VMTesoreria}}"
+                            Label="Cuenta contable"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    Background="{Binding FondoTextoBuscadorCuentaContable, Source={StaticResource VMTesoreria}}">
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        IsReadOnly="True"
+                                        MouseLeftButtonDown="txtCuentaContable_MouseLeftButtonDown"
+                                        Text="{Binding IDCuentaContable, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        TextAlignment="Left" />
+                                </StackPanel>
+                                <Controles:BuscadorGenericoListaButon
+                                    x:Name="ctlBuscadorCuentaContable"
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="IDCuentaContable"
+                                    Etiqueta="Cuentas Contables"
+                                    TipoItem="CuentasContables"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusquedaD" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="5"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[Nit], Source={StaticResource VMTesoreria}}"
+                            Label="NIT"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    Background="{Binding FondoTextoBuscadorNIT, Source={StaticResource VMTesoreria}}">
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        IsReadOnly="True"
+                                        MouseLeftButtonDown="txtNIT_MouseLeftButtonDown"
+                                        Text="{Binding NIT, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        TextAlignment="Left" />
+                                </StackPanel>
+                                <Controles:BuscadorGenericoListaButon
+                                    x:Name="ctlBuscadorNIT"
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="NITS"
+                                    Etiqueta="Lista Nits"
+                                    TipoItem="NITS"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusquedaNITS" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[CentroCostos], Source={StaticResource VMTesoreria}}"
+                            Label="Centro de costos"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    Background="{Binding FondoTextoBuscadorCentroCostos, Source={StaticResource VMTesoreria}}">
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        IsReadOnly="True"
+                                        MouseLeftButtonDown="txtCentroCosto_MouseLeftButtonDown"
+                                        Text="{Binding CentroCosto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        TextAlignment="Left" />
+                                </StackPanel>
+                                <Controles:BuscadorGenericoListaButon
+                                    x:Name="ctlBuscadorCentroCosto"
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="CentrosCosto"
+                                    EstadoItem="A"
+                                    Etiqueta="Centros de costo"
+                                    TipoItem="CentrosCosto"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsEnabled="{Binding DiccionarioEdicionCampos[Valor], Source={StaticResource VMTesoreria}}"
+                            Label="Valor"
+                            LabelPosition="Above">
+                            <A2UTILGEN:A2NumericBox
+                                Maximum="999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding Valor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            IsEnabled="{Binding HabilitarFormaEntrega, Source={StaticResource VMTesoreria}}"
+                            Label="Forma de Entrega"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    IsEnabled="False"
+                                    MaxLength="50"
+                                    Text="{Binding DescripcionFormaEntrega, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    TextAlignment="Right" />
+                                <Controles:BuscadorGenericoListaButon
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="FormaEntrega"
+                                    EstadoItem="A"
+                                    Etiqueta="Forma de Entrega"
+                                    TipoItem="FormaEntrega"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusquedaFE" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            IsEnabled="{Binding HabilitarBeneficiario, Source={StaticResource VMTesoreria}}"
+                            Label="Beneficiario"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="50" Text="{Binding Beneficiario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            IsEnabled="{Binding HabilitarTipoIdenBeneficiario, Source={StaticResource VMTesoreria}}"
+                            Label="Tipo Ident Beneficiario"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    IsEnabled="False"
+                                    MaxLength="50"
+                                    Text="{Binding DescripcionTipoIdentBeneficiario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    TextAlignment="Right" />
+                                <Controles:BuscadorGenericoListaButon
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="TipoIdentBeneficiario"
+                                    EstadoItem="A"
+                                    Etiqueta="TipoIdentBeneficiario"
+                                    TipoItem="TipoIdentBeneficiario"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusquedaBene" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="5"
+                            IsEnabled="{Binding HabilitarIdentificacionBeneficiario, Source={StaticResource VMTesoreria}}"
+                            Label="Identificacion Beneficiario"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="25" Text="{Binding IdentificacionBenficiciario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            IsEnabled="{Binding HabilitarNombrePersonaRecoge, Source={StaticResource VMTesoreria}}"
+                            Label="Nombre Persona Recoge"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="50" Text="{Binding NombrePersonaRecoge, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            IsEnabled="{Binding HabilitarIdentificacionPersonaRecoge, Source={StaticResource VMTesoreria}}"
+                            Label="Identificacion Persona Recoge"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="25" Text="{Binding IdentificacionPerRecoge, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            IsEnabled="{Binding HabilitarOficina, Source={StaticResource VMTesoreria}}"
+                            Label="Oficina"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="50" Text="{Binding OficinaEntrega, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            IsEnabled="{Binding HabilitarEntidad, Source={StaticResource VMTesoreria}}"
+                            Label="Entidad"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    IsEnabled="False"
+                                    MaxLength="50"
+                                    Text="{Binding NombreBancoDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    TextAlignment="Right" />
+                                <Controles:BuscadorGenericoListaButon
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="EntidadBancoDestino"
+                                    EstadoItem="A"
+                                    Etiqueta="Entidad"
+                                    TipoItem="EntidadBancoDestino"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusquedaBD" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="4"
+                            IsEnabled="{Binding HabilitarTipoCuenta, Source={StaticResource VMTesoreria}}"
+                            Label="Tipo Cuenta"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    IsEnabled="False"
+                                    MaxLength="50"
+                                    Text="{Binding DescripcionTipoCuenta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    TextAlignment="Right" />
+                                <Controles:BuscadorGenericoListaButon
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="TipoCuenta"
+                                    EstadoItem="A"
+                                    Etiqueta="TipoCuenta"
+                                    TipoItem="TipoCuenta"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusquedaTC" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="5"
+                            IsEnabled="{Binding HabilitarNroCuenta, Source={StaticResource VMTesoreria}}"
+                            Label="NroCuenta"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="25" Text="{Binding CuentaDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            IsEnabled="{Binding HabilitarTipoIDTitular, Source={StaticResource VMTesoreria}}"
+                            Label="Tipo Id Titular"
+                            LabelPosition="Above">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    IsEnabled="False"
+                                    MaxLength="50"
+                                    Text="{Binding DescripcionTipoIdTitular, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    TextAlignment="Right" />
+                                <Controles:BuscadorGenericoListaButon
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="TipoIdTitular"
+                                    EstadoItem="A"
+                                    Etiqueta="Tipo Id Titular"
+                                    TipoItem="TipoIdTitular"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusquedaTT" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            IsEnabled="{Binding HabilitarIDTitular, Source={StaticResource VMTesoreria}}"
+                            Label="Id Titular"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="25" Text="{Binding IdentificacionTitular, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            IsEnabled="{Binding HabilitarNombreTitular, Source={StaticResource VMTesoreria}}"
+                            Label="Nombre Titular"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="50" Text="{Binding Titular, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            IsEnabled="{Binding HabilitarCodCartera, Source={StaticResource VMTesoreria}}"
+                            Label="Cod. Cartera"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="10" Text="{Binding CodigoCartera, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="3"
+                            Grid.Column="4"
+                            IsEnabled="{Binding HabilitarOficinaCuentaInversion, Source={StaticResource VMTesoreria}}"
+                            Label="Ofi. Cuenta Inversión"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="10" Text="{Binding OficinaCuentaInversion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="3"
+                            Grid.Column="5"
+                            IsEnabled="{Binding HabilitarNombreCarteraColectiva, Source={StaticResource VMTesoreria}}"
+                            Label="Nombre Cartera Colectiva"
+                            LabelPosition="Above">
+                            <TextBox MaxLength="30" Text="{Binding NombreCarteraColectiva, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                </TabItem>
+            </TabControl>
+        </Border>
+    </Grid>
+
+</UserControl>

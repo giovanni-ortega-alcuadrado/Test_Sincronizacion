@@ -1,0 +1,197 @@
+﻿<UserControl
+    x:Class="UnificarISIN"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFEspecies"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="660">
+
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <!--<src:A2UtilsViewModel x:Key="A2VM"/>-->
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            MaxWidth="660"
+            ShowGridLines="False">
+            <!--<Grid.Resources>
+
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Orientation="Horizontal"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Unificación de ISIN" />
+            </StackPanel>
+
+
+            <Grid
+                x:Name="grdGridForma"
+                Grid.Row="1"
+                MaxWidth="660">
+
+                <Border Width="660">
+                    <StackPanel
+                        x:Name="Buscar"
+                        Grid.Column="0"
+                        Width="660"
+                        VerticalAlignment="Top">
+                        <Border
+                            Width="660"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                            <StackPanel
+                                Margin="470,0,0,0"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="btnUnificar"
+                                    Width="85"
+                                    Margin="0,0,5,0"
+                                    Content="Unificar"
+                                    IsEnabled="{Binding DataContext.Habilitaboton, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                <Button
+                                    x:Name="btnCancelar"
+                                    Width="85"
+                                    Margin="0,0,5,0"
+                                    Content="Cancelar" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource Contenedor_Estilo}">
+                            <Grid
+                                x:Name="Unificar"
+                                MinWidth="450"
+                                MaxWidth="660"
+                                DataContext="{Binding DataContext.unifica, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                ShowGridLines="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="325" />
+                                    <ColumnDefinition Width="325" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+
+                                </Grid.RowDefinitions>
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal">
+                                    <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nemotecnico}" LabelPosition="Above">
+                                        <Grid x:Name="Buscar_Especie">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Width="207"
+                                                Margin="0,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                IsEnabled="False"
+                                                Text="{Binding Nemotecnico}" />
+                                            <my1:BuscadorEspecieListaButon
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="2,0,0,0"
+                                                ClaseOrden="T"
+                                                EstadoEspecie="A"
+                                                Etiqueta="Lista de Especies"
+                                                HabilitarConsultaISIN="False"
+                                                TraerEspeciesVencidas="True"
+                                                finalizoBusqueda="BuscadorEspecieListaButon_finalizoBusqueda_1" />
+                                        </Grid>
+
+                                    </Telerik:DataFormDataField>
+
+                                    <!--<my1:BuscadorGenericoListaButon TipoItem="especies" Etiqueta="Lista de Especies" EstadoItem="A" finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda"  Margin="0,0,0,0" IsEnabled="{Binding HabilitarBuscEspe}" />-->
+                                </StackPanel>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ISINRetira}"
+                                    LabelPosition="Above">
+                                    <TextBox
+                                        IsEnabled="{Binding HabilitaISIN}"
+                                        LostFocus="Rfocus"
+                                        MaxLength="15"
+                                        Text="{Binding ISINRetira, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        ToolTipService.ToolTip="ISIN a retirar" />
+                                </Telerik:DataFormDataField>
+                                <Telerik:DataFormDataField
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreISINRetira}"
+                                    LabelPosition="Above">
+                                    <TextBox
+                                        IsEnabled="False"
+                                        Text="{Binding NombreISINRetira, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        ToolTipService.ToolTip="Nombre" />
+                                </Telerik:DataFormDataField>
+                                <Telerik:DataFormDataField
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ISINUnifica}"
+                                    LabelPosition="Above">
+                                    <TextBox
+                                        IsEnabled="{Binding HabilitaISIN}"
+                                        LostFocus="Ufocus"
+                                        MaxLength="15"
+                                        Text="{Binding ISINUnifica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        ToolTipService.ToolTip="ISIN a unificar" />
+                                </Telerik:DataFormDataField>
+                                <Telerik:DataFormDataField
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreISINUnifica}"
+                                    LabelPosition="Above">
+                                    <TextBox
+                                        IsEnabled="False"
+                                        Text="{Binding NombreISINUnifica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        ToolTipService.ToolTip="Nombre" />
+                                </Telerik:DataFormDataField>
+
+
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+    </Telerik:RadBusyIndicator>
+
+
+</UserControl>
+

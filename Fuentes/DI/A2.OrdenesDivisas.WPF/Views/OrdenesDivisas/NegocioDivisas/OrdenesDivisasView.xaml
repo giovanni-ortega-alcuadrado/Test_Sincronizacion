@@ -1,0 +1,830 @@
+﻿<UserControl
+    x:Class="OrdenesDivisasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OrdenesDivisasWPF"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
+
+    <Grid x:Name="LayoutRoot" ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Telerik:RadTabControl x:Name="ControlTabHijos">
+
+            <Telerik:RadTabItem Name="TabDetalleDivisas" Header="Resumen">
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    DataContext="{Binding EncabezadoEdicionSeleccionado}"
+                    Orientation="Vertical">
+
+                    <!--  GRID 1  -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[MESA].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[MESA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[MESA].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[MESA].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[MESATODAS], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding strMesa, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOREFERENCIA].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOREFERENCIA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOREFERENCIA].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOREFERENCIA].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.dicCombosEspecificos[REFERENCIASDIVISAS], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding strTipoReferencia, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="2"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOCUMPLIMIENTO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOCUMPLIMIENTO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOCUMPLIMIENTO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[TIPOCUMPLIMIENTO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.HabilitarForward, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.dicCombosEspecificos[TIPOCUMPLIMIENTOFOR], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding strTipoCumplimiento, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+                        </Telerik:DataFormDataField>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="3"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[DESTINOINVERSION].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[DESTINOINVERSION].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[DESTINOINVERSION].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[DESTINOINVERSION].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.logDestinoInversion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.dicCombosEspecificos[DESTINOINVERSION], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding intDestinoInversion, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="4"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[COMPENSACION].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[COMPENSACION].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[COMPENSACION].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[COMPENSACION].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.logCompensacion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.dicCombosEspecificos[COMPENSACIONES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding strCompensacion, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+                        </Telerik:DataFormDataField>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="5"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[MONEDA].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[MONEDA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[MONEDA].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[MONEDA].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.dicCombosEspecificos[MONEDAS], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding intIDMoneda, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+
+
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="6"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[FOLIO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FOLIO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[FOLIO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <TextBox
+                                IsEnabled="False"
+                                MaxLength="200"
+                                Text="{Binding strFolio, Mode=TwoWay}"
+                                TextAlignment="Left" />
+                        </Telerik:DataFormDataField>
+
+
+                    </Grid>
+
+                    <!--  GRID 2  -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDAD].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDAD].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDAD].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-99999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblCantidad, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORTRM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORTRM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORTRM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorTRM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="2"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORSPOT].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORSPOT].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORSPOT].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblSpot, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="3"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[DEVALUACION].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[DEVALUACION].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[DEVALUACION].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.HabilitarForward, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="4"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblDevaluacion, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="4"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORTASAFORWARD].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORTASAFORWARD].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORTASAFORWARD].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.HabilitarForward, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorTasaForward, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="5"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[SPREADCOMISION].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[SPREADCOMISION].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[SPREADCOMISION].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblSpreadComision, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="6"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.HabilitarPrecio, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-99999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblPrecioParcial, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="7"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOTOTAL].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOTOTAL].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOTOTAL].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblPrecio, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="8"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorBruto, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[RTEFUENTE].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[RTEFUENTE].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[RTEFUENTE].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="True"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="4"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorRteFuente, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[BASEIVA].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[BASEIVA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[BASEIVA].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="True"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblBaseIVA, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="2"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORIVA].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORIVA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORIVA].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="True"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorIVA, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="3"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORNETO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORNETO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORNETO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorNeto, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="4"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORGMF].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORGMF].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORGMF].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="True"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorGMF, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[OBSERVACIONES].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[OBSERVACIONES].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[OBSERVACIONES].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <TextBox
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                MaxLength="250"
+                                Text="{Binding strObservaciones, Mode=TwoWay}"
+                                TextAlignment="Left" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                </StackPanel>
+            </Telerik:RadTabItem>
+
+            <Telerik:RadTabItem Name="TabInstruccionesCumplimiento" Header="Instrucciones de cumplimiento">
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.ColumnSpan="1"
+                    DataContext="{Binding EncabezadoEdicionSeleccionado}"
+                    Orientation="Vertical">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMULARIO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMULARIO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMULARIO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMULARIO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="strDescripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.lstFormularios, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding intIDFormulario, Mode=TwoWay}"
+                                SelectedValuePath="strRetorno" />
+
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERAL].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERAL].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERAL].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERAL].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="strDescripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.lstNumerales, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding intIDNumeral, Mode=TwoWay}"
+                                SelectedValuePath="strRetorno" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="4*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[PAIS].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[PAIS].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[PAIS].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[PAIS].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.dicCombosEspecificos[PAISES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding intIdPais, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[CIUDAD].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[CIUDAD].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[CIUDAD].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[CIUDAD].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="strDescripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.lstCiudades, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding intIdciudad, Mode=TwoWay}"
+                                SelectedValuePath="strRetorno" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="2"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[CODSWIFT].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            IsEnabled="{Binding DataContext.logActivarCodSwift, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[CODSWIFT].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[CODSWIFT].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+
+                            <ComboBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[CODSWIFT].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ItemsSource="{Binding DataContext.dicCombosEspecificos[CODIGOSSWIFT], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding IntCODSWIFT, Mode=TwoWay}"
+                                SelectedValuePath="Retorno" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[OBSERVACIONES].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[OBSERVACIONES].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[OBSERVACIONES].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <TextBox
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                MaxLength="250"
+                                Text="{Binding strObservaciones, Mode=TwoWay}"
+                                TextAlignment="Left" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                </StackPanel>
+            </Telerik:RadTabItem>
+
+
+            <Telerik:RadTabItem
+                Name="TabMultimoneda"
+                Header="Multimoneda"
+                IsEnabled="{Binding DataContext.logActivarMultimoneda, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                IsSelected="{Binding logTabParticipacionSeleccionado}">
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    DataContext="{Binding EncabezadoEdicionSeleccionadoMultimoneda}"
+                    Orientation="Vertical">
+
+                    <!--  GRID 1  -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDADMULTIMONEDA].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDADMULTIMONEDA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDADMULTIMONEDA].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <A2UTILGEN:A2NumericBox
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDADMULTIMONEDA].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Maximum="9999999999999999"
+                                Minimum="-999999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblCantidadMultimoneda, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOINTERMEDIOM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOINTERMEDIOM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOINTERMEDIOM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOINTERMEDIOM].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-999999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblPrecioIntermedioM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="2"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTOMULTIMONEDA].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTOMULTIMONEDA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTOMULTIMONEDA].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTOMULTIMONEDA].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-99999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorBrutoMultimoneda, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="3"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[SPREADCOMISIONM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[SPREADCOMISIONM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[SPREADCOMISIONM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[SPREADCOMISIONM].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-9999999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblspreadComisionM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="4"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[COMISIONUSD].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[COMISIONUSD].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[COMISIONUSD].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[COMISIONUSD].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-999999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblComisionUSD, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="5"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOMONEDANEGOCIADAM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOMONEDANEGOCIADAM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOMONEDANEGOCIADAM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOMONEDANEGOCIADAM].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-999999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblPrecioMonedaNegociadaM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                    <!--  GRID 2  -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDADM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDADM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[CANTIDADM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="0"
+                                NumberDecimalDigits="0"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblCantidadM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[PRECIOM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-999999999999999"
+                                NumberDecimalDigits="4"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblPrecioM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="2"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTOM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTOM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORBRUTOM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="True"
+                                Maximum="9999999999999999"
+                                Minimum="-9999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorBrutoM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="3"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[COMISIONCOP].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[COMISIONCOP].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[COMISIONCOP].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="{Binding DataContext.EdtandoDetalleDivisas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-9999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblComisionCOP, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="4"
+                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORNETOM].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORNETOM].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            LabelPosition="Above"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORNETOM].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:RadNumericUpDown
+                                IsEnabled="False"
+                                IsInteger="False"
+                                Maximum="9999999999999999"
+                                Minimum="-9999999999999"
+                                NumberDecimalDigits="2"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding dblValorNetoM, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+                </StackPanel>
+            </Telerik:RadTabItem>
+
+
+
+        </Telerik:RadTabControl>
+    </Grid>
+
+</UserControl>

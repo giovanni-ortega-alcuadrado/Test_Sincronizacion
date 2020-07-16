@@ -1,0 +1,386 @@
+﻿<!--
+    Descripción: Se migra pantalla de facturar liquidaciones y enviar a cadena de Bancolombia
+    Por:         Ricardo Barrientos Pérez (Alcuadardo S.A.)
+    Fecha:       Mayo 03 de 2016
+-->
+<UserControl
+    x:Class="FacturarLiquidacionesVBView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDBolsa"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="800"
+    MaxWidth="980">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+
+        <!--<src:StringConverter x:Key="StringConverter"/>-->
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock
+                Grid.Row="0"
+                Style="{StaticResource Title1}"
+                Text="Imprime las Facturas de las Liquidaciones que están Pendientes" />
+
+            <Border Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="LayoutRoot" ShowGridLines="False">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--<StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Label Content="Imprime las Facturas de las Liquidaciones que están Pendientes" Style="{StaticResource lblHead}" />
+                </StackPanel>-->
+
+                    <StackPanel Grid.Row="1">
+                        <Border VerticalAlignment="Center" CornerRadius="0">
+                            <StackPanel
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="btnCancelar"
+                                    Width="80"
+                                    Height="25"
+                                    Margin="0,0,15,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Click="btnCancelar_Click"
+                                    Content="Cancelar"
+                                    IsEnabled="False" />
+                                <Button
+                                    x:Name="btnAceptar"
+                                    Width="80"
+                                    Height="25"
+                                    Margin="0,0,15,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Click="btnAceptar_Click"
+                                    Content="Aceptar"
+                                    IsEnabled="False" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <Border Grid.Row="2" HorizontalAlignment="Stretch">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="Sucursal"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbSucursal"
+                                    DisplayMemberPath="Descripcion"
+                                    IsEnabled="False"
+                                    ItemsSource="{Binding DiccionarioCombosA2[Sucursales(Todos)]}"
+                                    LostFocus="cmbSucursal_LostFocus"
+                                    SelectedValue="{Binding DataContext.SucursalesTodos, Mode=TwoWay}"
+                                    SelectedValuePath="ID"
+                                    ToolTipService.ToolTip="Sucursal" />
+
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Column="1"
+                                VerticalAlignment="Top"
+                                Label="Del Código"
+                                LabelPosition="Above">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox
+                                        Width="287"
+                                        IsEnabled="False"
+                                        MaxLength="17"
+                                        Text="{Binding IDComitenteDesde, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                    <my1:BuscadorClienteListaButon
+                                        Margin="1,0,0,0"
+                                        CampoBusqueda="Nombre"
+                                        EstadoComitente="A"
+                                        IsEnabled="False"
+                                        TipoVinculacion="C"
+                                        finalizoBusqueda="Buscar_finalizoBusquedaComitenteDesde" />
+                                </StackPanel>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Column="2"
+                                VerticalAlignment="Top"
+                                Label="Al Código"
+                                LabelPosition="Above">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox
+                                        Width="287"
+                                        IsEnabled="False"
+                                        MaxLength="17"
+                                        Text="{Binding DataContext.IDComitenteHasta, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                    <my1:BuscadorClienteListaButon
+                                        Margin="1,0,0,0"
+                                        CampoBusqueda="Nombre"
+                                        EstadoComitente="A"
+                                        IsEnabled="False"
+                                        TipoVinculacion="C"
+                                        finalizoBusqueda="Buscar_finalizoBusquedaComitenteHasta" />
+                                </StackPanel>
+                            </Telerik:DataFormDataField>
+                        </Grid>
+                    </Border>
+
+                    <Telerik:DataFormDataField Grid.Row="3" LabelPosition="Above">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+
+                            </Grid.RowDefinitions>
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Top">
+                                <Telerik:DataFormDataField
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Content="Tipo de Impresión" />
+                                <CheckBox
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="7,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="LightBlue"
+                                    Content="TMV"
+                                    IsChecked="{Binding chkVIP, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    IsEnabled="True"
+                                    ToolTipService.ToolTip="Tipo mensajería VIP." />
+                                <CheckBox
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="7,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Content="TMC"
+                                    IsChecked="{Binding chkCompleta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    IsEnabled="True"
+                                    ToolTipService.ToolTip="Tipo mensajería completa." />
+                                <CheckBox
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="7,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Content="TMP"
+                                    IsChecked="{Binding chkParcial, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    IsEnabled="True"
+                                    ToolTipService.ToolTip="Tipo mensajería parcial." />
+                                <CheckBox
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Margin="7,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Content="TMN"
+                                    IsChecked="{Binding chkNinguna, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    IsEnabled="False"
+                                    ToolTipService.ToolTip="Tipo mensajería ninguna." />
+                            </StackPanel>
+                        </Grid>
+                    </Telerik:DataFormDataField>
+
+                    <StackPanel
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        VerticalAlignment="Top">
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="Envió a Cadena" />
+
+                    </StackPanel>
+
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="0"
+                            VerticalAlignment="Top"
+                            Label="Cliente"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cmbClientesEnvioCadena"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosA2[FACTURASPAPELETAS], Source={StaticResource A2VM}}"
+                                SelectedIndex="{Binding DataContext.IndexClientesEnvioCadena, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding DataContext.ClientesEnvioCadena, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValuePath="ID"
+                                ToolTipService.ToolTip="Envio a cadena Normal o APT" />
+
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Column="1"
+                            VerticalAlignment="Top"
+                            Label="Tipo"
+                            LabelPosition="Above"
+                            Visibility="{Binding DataContext.VisibilidadTipoDocumentoAP, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}">
+
+                            <ComboBox
+                                x:Name="cboTipo"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosA2[TIPODOCUMENTOAPT], Source={StaticResource A2VM}}"
+                                SelectedIndex="{Binding DataContext.IndexClientesTipoPersona, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedValue="{Binding TIPODOCUMENTOAPT, Mode=TwoWay}"
+                                SelectedValuePath="ID"
+                                ToolTipService.ToolTip="Tipo de Persona Natural o Juridica" />
+                        </Telerik:DataFormDataField>
+                        <Telerik:DataFormDataField
+                            Grid.Column="2"
+                            VerticalAlignment="Top"
+                            LabelPosition="Above">
+                            <Button
+                                x:Name="btnEnviar"
+                                Width="90"
+                                Height="30"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Click="btnEnviar_Click"
+                                Content="Enviar"
+                                Visibility="{Binding DataContext.VisibilidadBotonEnviarCadena, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Margin="0"
+                        Visibility="{Binding DataContext.VisibilidadTipoDocumentoAP, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="1,0,0,0"
+                                FontWeight="Bold"
+                                Label="Seleccionar todo"
+                                LabelPosition="Above">
+                                <CheckBox
+                                    IsChecked="{Binding DataContext.SeleccionarTodos, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                    IsEnabled="True"
+                                    Visibility="{Binding DataContext.VisibilidadTipoDocumentoAP, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Orientation="Vertical">
+                                <A2UTILGEN:A2GridView
+                                    x:Name="grdClientesApt"
+                                    Height="110"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateColumns="False"
+                                    IsHitTestVisible="{Binding EditandoRegistro}"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding DataContext.ListaClientesAPT, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    SelectedItem="{Binding BeneficiariosOrdenSelected, Mode=TwoWay}"
+                                    ValidatesOnDataErrors="None"
+                                    Visibility="{Binding DataContext.VisibilidadTipoDocumentoAP, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}">
+                                    <A2UTILGEN:A2GridView.Columns>
+                                        <Telerik:GridViewDataColumn Header="Generar">
+                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <CheckBox
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            IsChecked="{Binding Seleccionado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            IsEnabled="{Binding DataContext.EditandoInstrucciones, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                        </Telerik:GridViewDataColumn>
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Cliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="Cliente" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Clase, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="Clase" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Tipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="Tipo" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Parcial, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="Parcial" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Fecha, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="Fecha" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding NroLiq, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="NroLiq" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding ClienteAPT, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="ClienteAPT" />
+                                    </A2UTILGEN:A2GridView.Columns>
+                                </A2UTILGEN:A2GridView>
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Orientation="Vertical">
+                                <Button
+                                    x:Name="btnConsultar"
+                                    Width="150"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Click="btnConsultar_Click"
+                                    Content="Consultar Documentos"
+                                    Visibility="{Binding DataContext.VisibilidadTipoDocumentoAP, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}" />
+                            </StackPanel>
+
+                        </Grid>
+                    </Telerik:DataFormDataField>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

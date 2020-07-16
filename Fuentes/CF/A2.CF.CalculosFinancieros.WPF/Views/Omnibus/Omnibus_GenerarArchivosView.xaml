@@ -1,0 +1,231 @@
+﻿<UserControl
+    x:Class="Omnibus_GenerarArchivosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCalculosFinancieros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MaxWidth="410">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <!--  *************************************************  -->
+
+    <StackPanel>
+        <TextBlock Style="{StaticResource Title1}" Text="Generar archivos Omnibus" />
+        <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+            <Telerik:RadBusyIndicator
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BusyContent="Consultando...."
+                DisplayAfter="0"
+                IsBusy="{Binding IsBusy}">
+
+                <!--  *************************************************  -->
+                <Grid x:Name="LayoutRoot" MaxWidth="600">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Label="Gestor"
+                        LabelPosition="Above">
+                        <ComboBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            DisplayMemberPath="strNombreEntidad"
+                            ItemsSource="{Binding ListaGestores}"
+                            SelectedValue="{Binding intIDGestor, Mode=TwoWay}"
+                            SelectedValuePath="intIDEntidad"
+                            TabIndex="1"
+                            ToolTipService.ToolTip="Gestor" />
+                    </Telerik:DataFormDataField>
+
+                    <!--  ****************************************  -->
+                    <Telerik:DataFormDataField
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Label="Fondo"
+                        LabelPosition="Above">
+                        <StackPanel>
+
+                            <ComboBox
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding HabilitarSeleccionExportacion}"
+                                ItemsSource="{Binding ListaComboFondos}"
+                                SelectedValue="{Binding strCodigoFondo, Mode=TwoWay}"
+                                SelectedValuePath="ID"
+                                TabIndex="2"
+                                ToolTipService.ToolTip="Fondo"
+                                Visibility="{Binding MostrarMultiseleccionCompanias, Converter={StaticResource InVisibilityConverter}}" />
+                            <Border
+                                BorderBrush="Gray"
+                                BorderThickness="0"
+                                Visibility="{Binding MostrarMultiseleccionCompanias, Converter={StaticResource VisibilityConverter}}">
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox
+                                        x:Name="chkFondosTodos"
+                                        Margin="0,0,0,0"
+                                        Content="(Todos)"
+                                        IsChecked="{Binding SeleccionarTodosFondos, Mode=TwoWay}"
+                                        IsEnabled="{Binding HabilitarSeleccionExportacion}" />
+                                    <ListBox
+                                        MinHeight="20"
+                                        IsEnabled="{Binding HabilitarSeleccionExportacion}"
+                                        ItemsSource="{Binding ListaFondosMultiseleccion}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    Name="chkSeleccionadasFondos"
+                                                    Content="{Binding Descripcion}"
+                                                    IsChecked="{Binding Seleccionado, Mode=TwoWay}"
+                                                    Tag="{Binding ID}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Label="Tipo movimiento"
+                        LabelPosition="Above">
+                        <StackPanel>
+                            <ComboBox
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding HabilitarSeleccionExportacion}"
+                                ItemsSource="{Binding ListaComboTipoMovimientos}"
+                                SelectedValue="{Binding strTipoMovimiento, Mode=TwoWay}"
+                                SelectedValuePath="ID"
+                                TabIndex="2"
+                                ToolTipService.ToolTip="Fondo"
+                                Visibility="{Binding MostrarMultiseleccionTipoMovimiento, Converter={StaticResource InVisibilityConverter}}" />
+                            <Border
+                                BorderBrush="Gray"
+                                BorderThickness="0"
+                                Visibility="{Binding MostrarMultiseleccionTipoMovimiento, Converter={StaticResource VisibilityConverter}}">
+
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox
+                                        x:Name="chkTiposMovimientosTodos"
+                                        Margin="0,0,0,0"
+                                        Content="(Todos)"
+                                        IsChecked="{Binding SeleccionarTodosTiposMovimientos, Mode=TwoWay}"
+                                        IsEnabled="{Binding HabilitarSeleccionExportacion}" />
+                                    <ListBox
+                                        MinHeight="20"
+                                        IsEnabled="{Binding HabilitarSeleccionExportacion}"
+                                        ItemsSource="{Binding ListaTipoMovimientoMultiseleccion}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    Name="chkSeleccionadasTipoMovimiento"
+                                                    Content="{Binding Descripcion}"
+                                                    IsChecked="{Binding Seleccionado, Mode=TwoWay}"
+                                                    Tag="{Binding ID}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Label="Banco"
+                        LabelPosition="Above"
+                        Visibility="{Binding MostrarSeleccionBanco, Converter={StaticResource VisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                IsEnabled="False"
+                                Text="{Binding strDescripcionBanco, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                ToolTipService.ToolTip="Banco"
+                                Visibility="{Binding MostrarSeleccionBanco, Converter={StaticResource VisibilityConverter}}" />
+                            <my1:BuscadorGenericoListaButon
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="2,0,0,0"
+                                CampoBusqueda="cuentasbancarias"
+                                Condicion1="{Binding intCodigoFondo}"
+                                EstadoItem="A"
+                                IsEnabled="{Binding HabilitarSeleccionExportacion}"
+                                TipoItem="cuentasbancarias"
+                                Visibility="{Binding MostrarSeleccionBanco, Converter={StaticResource VisibilityConverter}}"
+                                finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                        </Grid>
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Label="Tipo Inversionista"
+                        LabelPosition="Above"
+                        Visibility="{Binding DataContext.MostrarInversionista, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <ComboBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            DisplayMemberPath="Descripcion"
+                            IsEnabled="{Binding HabilitarSeleccionExportacion}"
+                            ItemsSource="{Binding ListaComboTipoInversionista}"
+                            SelectedValue="{Binding strTipoInversionista, Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            TabIndex="2"
+                            ToolTipService.ToolTip="Tipo Inversionista"
+                            Visibility="{Binding DataContext.MostrarInversionista, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Telerik:DataFormDataField>
+
+                    <StackPanel
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Margin="0,10,10,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btnGenerar"
+                            MinWidth="100"
+                            Click="btnGenerar_Click"
+                            Content="Generar" />
+                    </StackPanel>
+                </Grid>
+            </Telerik:RadBusyIndicator>
+
+        </Border>
+    </StackPanel>
+
+</UserControl>
+

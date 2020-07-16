@@ -1,0 +1,270 @@
+﻿<UserControl
+    x:Class="ConsecutivosVsUsuariosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="650"
+    MaxWidth="900">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+    </UserControl.Resources>
+    <!--
+        Descripción:    Diseño para la pantalla Consecutivos vs Usuarios
+        Responsable:    Jose Walter Sierra J (S.A.)
+        Fecha:          5 de Mayo 2016
+    -->
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Tipo documento, número documento, nombre o tipo compañía"
+                    TituloVista="Consecutivos Usuarios"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CantidadRegistros="{Binding ListaConsecutivosVsUsuarios.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Telerik:DataFormDataField Grid.Column="0" Label="Tipo">
+                        <ComboBox
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DataContext.DiccionarioCombosPermisos[PermisosConsecVsUsu], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedValue="{Binding DataContext.strModulos, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="Tipo" />
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Column="1"
+                        Label="Compañía"
+                        Visibility="{Binding DataContext.MostrarCompañia, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Grid MaxWidth="900">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                x:Name="txtCompañías"
+                                IsEnabled="True"
+                                IsReadOnly="True"
+                                MaxLength="15"
+                                Text="{Binding DataContext.strNombreCompañia, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                TextAlignment="Left"
+                                ToolTipService.ToolTip="Compañía" />
+
+                            <!--  Usuarios  -->
+                            <my1:BuscadorGenericoListaButon
+                                x:Name="ctlConsecutivosVsUsuarios"
+                                Grid.Column="1"
+                                Margin="2,0,0,0"
+                                VerticalAlignment="Center"
+                                Agrupamiento="incluircompaniasclasestodasconfirma"
+                                CampoBusqueda="compania"
+                                EstadoItem="A"
+                                Etiqueta="Compañia"
+                                IsEnabled="True"
+                                TipoItem="compania"
+                                ToolTipService.ToolTip="Buscador Compañías"
+                                Visibility="{Binding DataContext.MostrarCompañia, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                finalizoBusqueda="ctlCompanias_itemAsignado" />
+
+                            <Button
+                                x:Name="btnLimpiarCompañia"
+                                Grid.Column="2"
+                                Margin="2,0,0,0"
+                                Click="btnLimpiarCia_Dataform_Edicion_Click"
+                                IsEnabled="True"
+                                Style="{StaticResource btnLimpiar}"
+                                TabIndex="-1"
+                                ToolTipService.ToolTip="Limpiar compañía"
+                                Visibility="{Binding DataContext.MostrarCompañia, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                        </Grid>
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Column="2"
+                        Label="{Binding DataContext.strlabelProceso, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Visibility="{Binding DataContext.MostrarCompañia, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Grid MaxWidth="900">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Consecutivos  -->
+                            <TextBox
+                                IsEnabled="True"
+                                IsReadOnly="True"
+                                MaxLength="15"
+                                Text="{Binding DataContext.strCondicionTipo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                TextAlignment="Left"
+                                ToolTipService.ToolTip="{Binding DataContext.strlabelProceso, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                            <my1:BuscadorGenericoListaButon
+                                x:Name="ctlConsecutivosVsUsuariosA2"
+                                Grid.Column="1"
+                                Margin="2,0,0,0"
+                                VerticalAlignment="Center"
+                                Agrupamiento="EXCLUIRTODOS"
+                                CampoBusqueda="LOGIN_USUARIOS"
+                                IsEnabled="True"
+                                TipoItem="LOGIN_USUARIOS"
+                                ToolTipService.ToolTip="Usuarios"
+                                Visibility="{Binding DataContext.MostrarBuscadorUsuarios, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                finalizoBusqueda="ctlConsecutivosVsUsuarios_itemAsignado" />
+
+                            <my1:BuscadorGenericoListaButon
+                                x:Name="ctlConsecutivosVsUsuariosA3"
+                                Grid.Column="2"
+                                Margin="2,0,0,0"
+                                VerticalAlignment="Center"
+                                Agrupamiento=""
+                                CampoBusqueda="ConsecutivosxCompania"
+                                Condicion1="{Binding DataContext.intCompanias, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                EstadoItem="A"
+                                Etiqueta="ConsecutivosXCompania"
+                                IsEnabled="True"
+                                TipoItem="ConsecutivosxCompania"
+                                ToolTipService.ToolTip="Buscador Consecutivos"
+                                Visibility="{Binding DataContext.MostrarBuscadorConsecutivos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                finalizoBusqueda="ctlConsecutivos_itemAsignado" />
+                        </Grid>
+                    </Telerik:DataFormDataField>
+
+                    <Button
+                        x:Name="btnConsultar"
+                        Grid.Column="3"
+                        VerticalAlignment="Bottom"
+                        HorizontalContentAlignment="Right"
+                        Click="btnConsultar_Click"
+                        Content="Consultar"
+                        Visibility="{Binding DataContext.MostrarCompañia, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdAsignar">
+                    <!--  ==============================  -->
+                    <!--  Grid de asignación de permisos  -->
+                    <!--  ==============================  -->
+                    <StackPanel
+                        Grid.Column="0"
+                        Width="Auto"
+                        Height="Auto"
+                        VerticalAlignment="Top">
+                        <Grid MaxWidth="900" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox
+                                x:Name="chkSeleccionarTodo"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Click="chkSeleccionarTodo_Click"
+                                Content="Seleccionar todo"
+                                IsChecked="{Binding DataContext.chkSeleccionarTodo, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                IsEnabled="{Binding DataContext.logHabilitarGrid, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            <Border
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="15"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                        </Grid>
+
+                        <A2UTILGEN:A2GridView
+                            x:Name="dg"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            CanUserDeleteRows="False"
+                            CanUserInsertRows="False"
+                            IsReadOnly="False"
+                            ItemsSource="{Binding DataContext.ListaConsecutivosVsUsuariosPaginada, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            SelectedItem="{Binding DataContext.ListaConsecutivosVsUsuariosSeleccionado, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn Width="60">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                x:Name="chkSeleccionar"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding Seleccionado, Mode=TwoWay}"
+                                                IsEnabled="{Binding DataContext.logHabilitarGrid, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding Descripcion}"
+                                    Header="Compañía"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding NombreConsecutivo}"
+                                    Header="Tipo"
+                                    IsReadOnly="True" />
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+

@@ -1,0 +1,113 @@
+﻿<UserControl
+    x:Class="ImportarArchivoFondosPLUSView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:ControlesPLUS="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:documentos="clr-namespace:A2DocumentosWPF;assembly=A2.Documentos.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="200"
+    MaxWidth="850"
+    mc:Ignorable="d">
+
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:SubirArchivoFondosViewModel_OYDPLUS x:Key="VMSubirArchivo" x:Name="VMSubirArchivo" />
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock Style="{StaticResource Title1}" Text=" Importación de Archivos fondos" />
+        <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+            <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+     
+                <Grid x:Name="LayoutRoot" MaxWidth="1200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                 
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Label="Tipo importación"
+                        LabelPosition="Above">
+                        <ComboBox
+                            MinWidth="300"
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DiccionarioCombosOYDPlus[TIPOSIMPORTACION_FONDOS], Mode=TwoWay}"
+                            SelectedValue="{Binding TipoImportacion, Mode=TwoWay}"
+                            SelectedValuePath="Retorno" />
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Label="Eliminar registros tabla"
+                        LabelPosition="Above">
+                        <CheckBox IsChecked="{Binding EliminarRegistros, Mode=TwoWay}" />
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Label="Archivo"
+                        LabelPosition="Above">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox
+                                Width="250"
+                                IsEnabled="False"
+                                Text="{Binding NombreArchivo}"
+                                TextWrapping="Wrap" />
+                            <Controles:ucBtnDialogoImportar
+                                x:Name="btnSubirArchivoFondos"
+                                CargarArchivo="btnSubirArchivoFondos_CargarArchivo_1"
+                                Filtros="XLSX files (*.xlsx)|*.xlsx|XLS files (*.xls)|*.xls|CSV (*.csv)|*.csv"
+                                Proceso="ImpFondos" />
+                        </StackPanel>
+                    </Telerik:DataFormDataField>
+
+                    <Button
+                        x:Name="btnImportarArchivo"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Margin="10"
+                        HorizontalAlignment="Right"
+                        Click="btnImportarArchivo_Click_1"
+                        Content="Importar" />
+
+                </Grid>
+         
+    </Telerik:RadBusyIndicator>
+        </Border>
+    </StackPanel>
+</UserControl>

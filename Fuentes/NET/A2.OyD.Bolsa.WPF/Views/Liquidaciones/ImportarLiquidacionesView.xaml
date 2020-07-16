@@ -1,0 +1,167 @@
+﻿<UserControl
+    x:Class="ImportarLiquidacionesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="800"
+    MaxWidth="850">
+    <!--<ScrollViewer VerticalAlignment="Top" Height="400" Width="910" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" HorizontalScrollBarVisibility="Auto" MinHeight="400" MinWidth="910" BorderBrush="{x:Null}" BorderThickness="0">-->
+    <Telerik:RadBusyIndicator Name="BI" BusyContent="Procesando, por favor espere...">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                VerticalAlignment="Top"
+                Style="{StaticResource Title1}"
+                Text="Importación de liquidaciones" />
+
+            <Border Grid.Row="1" Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                <StackPanel
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Name="btnAceptar"
+                        Width="100"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Content="Cargar"
+                        IsEnabled="{Binding habilitar}" />
+                    <Button
+                        Name="btnTrasladarLiq"
+                        Width="100"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Content="Trasladar" />
+                    <Button
+                        Name="btnEliminarImportados"
+                        Width="100"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Content="Eliminar" />
+                    <local:ucBtnAyuda
+                        AltoVentanaAyuda="500"
+                        Ancho="25"
+                        AnchoVentanaAyuda="1024"
+                        Ayuda="RUTAMANUALUSUARIO"
+                        TopicoHtm="liquidaciones.htm" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Telerik:DataFormDataField
+                        Grid.Column="0"
+                        Label="Bolsa"
+                        LabelPosition="Above">
+                        <ComboBox Name="Bolsas" ItemsSource="{Binding}">
+                            <ComboBoxItem Content="COLOMBIA" IsSelected="True" />
+                        </ComboBox>
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField
+                        Grid.Column="1"
+                        Label="Desde"
+                        LabelPosition="Above">
+                        <A2UTILGEN:A2DatePicker
+                            Name="dtpDesde"
+                            VerticalAlignment="Top"
+                            SelectedDate="{Binding FechaHoraActual}" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField
+                        Grid.Column="2"
+                        Label="Hasta"
+                        LabelPosition="Above">
+                        <A2UTILGEN:A2DatePicker
+                            Name="dtpHasta"
+                            VerticalAlignment="Top"
+                            SelectedDate="{Binding FechaHoraActual}" />
+                    </Telerik:DataFormDataField>
+
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Height="Auto">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Telerik:DataFormDataField Label="Archivo" LabelPosition="Above">
+                            <TextBox
+                                Name="cbArchivosASubir"
+                                VerticalAlignment="Top"
+                                IsReadOnly="True"
+                                Text="{Binding ArchivoSeleccionado.Nombre}"
+                                TextWrapping="Wrap" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField Grid.Column="1" LabelPosition="Above">
+                            <local:ucBtnDialogoImportar
+                                x:Name="ucbtnCargar"
+                                HorizontalAlignment="Right"
+                                Filtros="Archivo de Liq.(*.dat)|*.dat|Archivo de Liq.(*.txt)|*.txt" />
+                        </Telerik:DataFormDataField>
+                    </Grid>
+
+                    <TextBox
+                        Name="tbResultados"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Height="175"
+                        Margin="5,10,10,0"
+                        VerticalAlignment="Top"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        VerticalScrollBarVisibility="Auto" />
+
+                    <Button
+                        x:Name="btnExportar"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Width="100"
+                        Margin="0,10,10,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="btnExportar_Click"
+                        Content="Exportar" />
+
+                </Grid>
+
+
+            </Border>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+    <!--</ScrollViewer>-->
+</UserControl>
+

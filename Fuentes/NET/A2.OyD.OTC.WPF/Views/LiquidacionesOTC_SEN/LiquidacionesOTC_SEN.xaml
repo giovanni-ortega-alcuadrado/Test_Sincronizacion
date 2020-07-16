@@ -1,0 +1,159 @@
+﻿<UserControl
+    x:Class="LiquidacionesOTC_SEN"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDOTC"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    d:DesignHeight="450"
+    d:DesignWidth="1200"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+    <Telerik:RadBusyIndicator
+        x:Name="BI"
+        BusyContent="Cargando..."
+        DisplayAfter="0">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Name="StackPanel1"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                Style="{StaticResource stpHead}">
+                <TextBlock
+                    Grid.Row="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource Title1}"
+                    Text="Importación de Archivos de Liquidación SEN (Banco de la República)" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+
+                    <Button
+                        Name="btnAceptar"
+                        Width="100"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Content="Cargar"
+                        IsEnabled="{Binding habilitar}" />
+                    <Button
+                        Name="btnCancelar"
+                        Width="100"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Content="Cancelar"
+                        IsEnabled="{Binding habilitar}" />
+                    <Button
+                        x:Name="btnAyuda"
+                        Width="100"
+                        Content="Ayuda" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            VerticalAlignment="Top"
+                            Label="Archivo"
+                            LabelPosition="Above">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    Name="txtArchivoSeleccionado"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    IsReadOnly="True"
+                                    Text="{Binding ArchivoSeleccionado.Nombre}"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="Archivo Importado" />
+                                <my1:ucBtnDialogoImportar
+                                    x:Name="ucbtnCargar"
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Filtros="*.txt|*.txt" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+
+                    <StackPanel Grid.Row="1">
+                        <Border Style="{StaticResource Contenedor_Paginador}">
+                            <A2UTILGEN:A2DataPager
+                                x:Name="datapagerLiquidaciones"
+                                PageSize="10"
+                                Source="{Binding Items, ElementName=dgLiquidacionesImportadas}" />
+                        </Border>
+                        <A2UTILGEN:A2GridView
+                            Name="dgLiquidacionesImportadas"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ListaRegPaged}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding lngIDOperacion, Mode=TwoWay}" Header="Nro.Operación" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding strTipo, Mode=TwoWay}" Header="Tipo" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding strTipoNegociacion, Mode=TwoWay}" Header="Clase" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmLiquidacion, StringFormat='MMM dd, yyyy'}" Header="Cumplimiento" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmFechaImportacion, StringFormat='MMM dd, yyyy'}" Header="Fecha" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmHoraImportacion, StringFormat='hh:mm:ss tt'}" Header="Hora" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding strEspecie, Mode=TwoWay}" Header="Especie" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding strISIN, Mode=TwoWay}" Header="ISIN" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmEmision, StringFormat='MMM dd, yyyy'}" Header="Emisión" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmVencimiento, StringFormat='MMM dd, yyyy'}" Header="Vencimiento" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding lngDiasVencimiento, Mode=TwoWay}" Header="Días al Vto" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding curEquivalente, Mode=TwoWay}" Header="Equivalente" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding curTotal, StringFormat='N1'}" Header="Monto" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblCantidad, StringFormat='N1'}" Header="Cantidad" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding curPrecio, StringFormat='N1'}" Header="Precio" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding strRueda, Mode=TwoWay}" Header="Rueda" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblCantidadGarantia, StringFormat='N1'}" Header="Cant. Garantía" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding lngIdComitente, Mode=TwoWay}" Header="Comitente" />
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+

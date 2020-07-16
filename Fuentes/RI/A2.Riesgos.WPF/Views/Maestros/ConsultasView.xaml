@@ -1,0 +1,228 @@
+﻿<UserControl
+    x:Class="ConsultasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:data="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+    xmlns:dataFormToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2Riesgos"
+    MinWidth="650"
+    MaxWidth="750">
+
+    <UserControl.Resources>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <!--
+        Descripción:    Diseño para la pantalla Consultas
+        Responsable:    Jorge Peña (Alcuadrado (S.A.)
+        Fecha:          9 de Enero 2015
+    -->
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{StaticResource BackgroundColorBrush}"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    GridViewRegistros="{Binding ItemsSource, ElementName=dg}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                    PreguntarConfirmacion="True"
+                    TextoFiltroTooltip="Calificación, Tipo calificación, Calificación inversión"
+                    TipoAnimacion="Slide"
+                    TituloVista="Consultas"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding EncabezadoSeleccionado.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma">
+                    <Border HorizontalAlignment="Stretch">
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Width="Auto"
+                            Height="Auto"
+                            VerticalAlignment="Stretch">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="15"
+                                    Source="{Binding ItemsSource, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="Consulta" SortMemberPath="Consulta">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding strConsulta}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strProcedimiento}" Header="Procedimiento" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding dtmActualizacion, StringFormat='MMM dd, yyyy hh:mm:ss tt'}"
+                                        Header="Fecha actualización"
+                                        IsReadOnly="True" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid>
+                            <!--  ====================  -->
+                            <!--  Dataform de búsqueda  -->
+                            <!--  ====================  -->
+                            <src:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoEdit="True"
+                                AutoGenerateFields="False"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <src:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Border>
+                                            <Grid VerticalAlignment="Top">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Label="Consulta"
+                                                    LabelPosition="Above">
+                                                    <TextBox
+                                                        GotFocus="seleccionarFocoControl"
+                                                        MaxLength="10"
+                                                        Text="{Binding strConsulta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        TextAlignment="Left"
+                                                        ToolTipService.ToolTip="Consulta" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Label="Procedimiento"
+                                                    LabelPosition="Above">
+                                                    <TextBox
+                                                        GotFocus="seleccionarFocoControl"
+                                                        MaxLength="500"
+                                                        Text="{Binding strProcedimiento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        TextAlignment="Left"
+                                                        ToolTipService.ToolTip="Procedimiento" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </src:A2DataForm.EditTemplate>
+                            </src:A2DataForm>
+
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                HorizontalAlignment="Stretch"
+                                Visibility="{Binding visNavegando}">
+                                <!--  ============================  -->
+                                <!--  Dataform edición de registro  -->
+                                <!--  ============================  -->
+                                <Border>
+                                    <Grid
+                                        x:Name="gridEd"
+                                        VerticalAlignment="Top"
+                                        Background="{StaticResource BackgroundColorBrush}"
+                                        DataContext="{Binding EncabezadoSeleccionado}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Label="Consulta"
+                                            LabelPosition="Above">
+                                            <TextBox
+                                                GotFocus="seleccionarFocoControl"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                MaxLength="100"
+                                                Text="{Binding strConsulta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                TextAlignment="Left"
+                                                ToolTipService.ToolTip="Consulta" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="1"
+                                            Label="Procedimiento"
+                                            LabelPosition="Above">
+                                            <TextBox
+                                                GotFocus="seleccionarFocoControl"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                MaxLength="400"
+                                                Text="{Binding strProcedimiento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                TextAlignment="Left"
+                                                ToolTipService.ToolTip="Procedimiento" />
+                                        </Telerik:DataFormDataField>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+
+
+

@@ -1,0 +1,197 @@
+﻿<UserControl
+    x:Class="ImportarPreciosEspeciesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="850"
+    d:DesignHeight="400"
+    d:DesignWidth="920"
+    mc:Ignorable="d">
+    <!--<ScrollViewer VerticalAlignment="Top" Height="400" Width="910" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" HorizontalScrollBarVisibility="Auto" MinHeight="400" MinWidth="910" BorderBrush="{x:Null}" BorderThickness="0">-->
+    <Telerik:RadBusyIndicator
+        Name="BI"
+        Width="800"
+        Height="400"
+        BusyContent="Procesando, por favor espere...">
+        <Grid
+            x:Name="LayoutRoot"
+            Width="800"
+            Height="400"
+            MaxWidth="850"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*" />
+                <ColumnDefinition Width="742" />
+                <ColumnDefinition Width="28*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="479*" />
+                <RowDefinition Height="29*" />
+            </Grid.RowDefinitions>
+
+
+            <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                MinWidth="450"
+                MaxWidth="850">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="45" />
+                    <RowDefinition Height="418" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    Grid.Row="0"
+                    Orientation="Horizontal"
+                    Style="{StaticResource stpHead}">
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource Title1}"
+                        Text="Importación Movimiento Precios Especies" />
+                </StackPanel>
+                <StackPanel Grid.Row="1" Style="{StaticResource stpFiltro}">
+                    <TextBlock
+                        Name="textBlock1"
+                        Height="Auto"
+                        Margin="10,5,5,10"
+                        Style="{StaticResource stA2VTexto}"
+                        Text="Descripción">
+                        <TextBlock.Inlines>
+                            <LineBreak />
+                            <Run FontWeight="Bold" Text="Importa movimiento precios especies. El archivo plano debe tener los siguientes campos separados por coma:" />
+                            <LineBreak />
+                            <Run Text="Nemotécnico de la especie, fecha en formato dd/mm/aaaa, precio y la letra E ó T que indican si es una acción o una renta fija." />
+                        </TextBlock.Inlines>
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="0,0,0,-8">
+                    <Border
+                        Width="742"
+                        Height="24"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                            <Button
+                                Name="btnAceptar"
+                                Width="100"
+                                Height="20"
+                                Margin="0"
+                                HorizontalAlignment="Right"
+                                HorizontalContentAlignment="Center"
+                                Content="Cargar"
+                                IsEnabled="{Binding habilitar}" />
+                            <!--<local:ucBtnAyuda Ancho="20"
+                                              Alto="20"
+                                              Ayuda="RUTAMANUALUSUARIO"
+                                              TopicoHtm="liquidaciones.htm"
+                                              AnchoVentanaAyuda="1024"
+                                              AltoVentanaAyuda="500"/>-->
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource Contenedor_Estilo}">
+                        <Grid MaxWidth="650" Style="{StaticResource grdContent}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Height="22"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Text="Fecha"
+                                TextAlignment="Right"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Height="22"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Text="Archivo"
+                                TextAlignment="Right"
+                                TextWrapping="NoWrap" />
+
+                            <A2UTILGEN:A2DatePicker
+                                Name="dtpDesde"
+                                Grid.Column="1"
+                                Height="23"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                SelectedDate="{Binding FechaHoraActual}" />
+
+                            <Grid
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                MinWidth="100"
+                                MaxWidth="450"
+                                HorizontalAlignment="Left">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    Name="cbArchivosASubir"
+                                    Grid.Column="0"
+                                    Width="450"
+                                    Height="23"
+                                    HorizontalAlignment="Left"
+                                    IsReadOnly="True"
+                                    Text="{Binding ArchivoSeleccionado.Nombre}"
+                                    TextWrapping="Wrap" />
+
+                                <local:ucBtnDialogoImportar
+                                    x:Name="ucbtnCargar"
+                                    Grid.Column="1"
+                                    Height="23"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Top"
+                                    Filtros="Archivo de Especies (.*txt).|*.txt" />
+                            </Grid>
+
+                            <!--<TextBlock Name="tbArchivoImportarSeleccionado"
+                                   Height="23"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Visibility="Collapsed" />-->
+
+                            <!--<Button Content="Cancelar" Name="btnCancelar" Width="75" Margin="471,0,0,6" HorizontalAlignment="Left" Height="23" VerticalAlignment="Bottom" />-->
+                            <TextBox
+                                Name="tbResultados"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Height="175"
+                                Margin="0,2,0,0"
+                                VerticalAlignment="Top"
+                                HorizontalScrollBarVisibility="Auto"
+                                IsReadOnly="True"
+                                VerticalScrollBarVisibility="Auto" />
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+    <!--</ScrollViewer>-->
+</UserControl>
+

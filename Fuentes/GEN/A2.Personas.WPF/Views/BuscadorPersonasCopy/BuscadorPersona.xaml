@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="BuscadorPersona"
+             xmlns:src="clr-namespace:A2PersonasWPF"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"    
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+			
+	mc:Ignorable="d"
+             d:DesignHeight="121" d:DesignWidth="400" MinWidth="120" MinHeight="20" Margin="0">
+	<Grid x:Name="LayoutRoot" Margin="0" VerticalAlignment="Top">
+		<Grid.Resources>
+			<src:clsPersonaConverter x:Key="cvPersona" />
+			<src:clsVisibilityConverter x:Key="cvVisibility"/>
+			<src:clsFiltroPersonas x:Key="clsFiltroPersonas"/>
+			<DataTemplate x:Key="ListaDataTemplate">
+				<StackPanel Orientation="Vertical">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="5" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+
+						<StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+							<TextBlock Text="{Binding Path=strNombre1}" FontWeight="Bold" Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+							<TextBlock Text=" " Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+							<TextBlock Text="{Binding Path=strNombre2}" Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+							<TextBlock Text=" " Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+							<TextBlock Text="{Binding Path=strApellido1}" Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+							<TextBlock Text="{Binding Path=strNombre}" Visibility="{Binding Path=logPersonaJuridica, Converter={StaticResource cvVisibility}}"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0"	Grid.ColumnSpan="2">
+							<TextBlock Text="{Binding Path=DataContext.DiccionarioEtiquetasPantalla[CODIGOOYD].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" Visibility="{Binding Path=logMostrarCodigo, Converter={StaticResource cvVisibility}}"/>
+							<TextBlock Text="{Binding Path=strCodigoOyD}" FontWeight="Bold" Visibility="{Binding Path=logMostrarCodigo, Converter={StaticResource cvVisibility}}"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+							<TextBlock Text="{Binding Path=DataContext.DiccionarioEtiquetasPantalla[PERSONA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+							<TextBlock Text="{Binding Path=strNombreEtiqueta}"/>
+						</StackPanel>
+						
+						<StackPanel  Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+							<TextBlock Text="{Binding Path=strTipoIdentificacion}" />
+							<TextBlock Text=" " />
+							<TextBlock Text="{Binding Path=strNroDocumento}" />
+						</StackPanel>
+
+					</Grid>
+					<Line Height="1" Stretch="Fill" Stroke="Silver" X1="0" Y1="20" X2="200" Y2="20" Margin="0,0,0,0"/>
+				</StackPanel>
+			</DataTemplate>
+		</Grid.Resources>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="22" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Vertical">
+			<StackPanel Orientation="Horizontal">
+			</StackPanel>
+			<TextBlock Text="{Binding DataContext.DiccionarioEtiquetasPantalla[MOSTRARCONSULTANDO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" Foreground="Gray"
+					   Visibility="{Binding MostrarConsultando}"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+			<Telerik:RadAutoCompleteBox x:Name="acbPersonas"
+										SelectedItem="{Binding PersonaSeleccionado, Mode=TwoWay}"
+										SelectionChanged="acbPersonas_SelectionChanged"
+										ItemsSource="{Binding ListaPersonas}"
+										DropDownItemTemplate="{StaticResource ListaDataTemplate}"
+										FilteringBehavior="{StaticResource clsFiltroPersonas}"
+										AutoCompleteMode="Suggest"
+										DisplayMemberPath="strSeleccion"
+										TextSearchPath="strSeleccion"
+										TextSearchMode="Contains"
+										MinWidth="200"
+										Height="22"
+										SelectionMode="Single"
+							/>
+			<!--<inputToolkit:AutoCompleteBox x:Name="acbPersonas"
+                                          FilterMode="Custom"
+                                          ItemTemplate="{StaticResource ListaDataTemplate}"
+                                          ItemsSource="{Binding ListaPersonas}"
+                                          SelectedItem="{Binding PersonaSeleccionado, Mode=TwoWay}"
+                                          MinimumPrefixLength="1"
+                                          IsTextCompletionEnabled="False"
+                                          IsEnabled="{Binding Activar}"
+                                          SelectionChanged="acbPersonas_SelectionChanged"
+                                          MinWidth="200"
+                                          Height="22"
+                                          TextChanged="acbPersonas_SearchTextChanged"
+                                         />-->
+			<Button x:Name="cmdBuscar" Height="22" Content="..." IsEnabled="{Binding Activar, Mode=OneWay}" 
+                    Click="cmdBuscar_Click" ToolTipService.ToolTip="Buscar clientes" 
+                    Style="{StaticResource btnBuscar}"/>
+		</StackPanel>
+		<Grid x:Name="grDatosClt" Grid.Row="2" Grid.Column="0" DataContext="{Binding PersonaSeleccionado}" Visibility="Collapsed">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="5" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+				<TextBlock Text="{Binding Path=strNombre1}" FontWeight="Bold" Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+				<TextBlock Text=" " Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+				<TextBlock Text="{Binding Path=strNombre2}" Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+				<TextBlock Text=" " Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+				<TextBlock Text="{Binding Path=strApellido1}" Visibility="{Binding Path=logPersonaNatural, Converter={StaticResource cvVisibility}}"/>
+				<TextBlock Text="{Binding Path=strNombre}" Visibility="{Binding Path=logPersonaJuridica, Converter={StaticResource cvVisibility}}"/>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0"	Grid.ColumnSpan="2">
+				<TextBlock Text="Codigo OyD: " Visibility="{Binding Path=logMostrarCodigo, Converter={StaticResource cvVisibility}}"/>
+				<TextBlock Text="{Binding Path=strCodigoOyD}" FontWeight="Bold" Visibility="{Binding Path=logMostrarCodigo, Converter={StaticResource cvVisibility}}"/>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+				<TextBlock Text="Persona "/>
+				<TextBlock Text="{Binding Path=strNombreEtiqueta}"/>
+			</StackPanel>
+
+			<StackPanel  Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+				<TextBlock Text="{Binding Path=strTipoIdentificacion}" />
+				<TextBlock Text=" " />
+				<TextBlock Text="{Binding Path=strNroDocumento}" />
+			</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

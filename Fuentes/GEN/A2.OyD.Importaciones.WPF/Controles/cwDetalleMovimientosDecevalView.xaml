@@ -1,0 +1,251 @@
+﻿<Window
+    x:Class="cwDetalleMovimientosDecevalView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Movimientos archivo Deceval (Detalle)"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </Window.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <!--<StackPanel Orientation="Vertical"
+                    VerticalAlignment="Top">-->
+        <Grid
+            x:Name="LayoutRoot"
+            MaxHeight="420"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1200" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Orientation="Horizontal">
+
+                <Telerik:DataFormDataField
+                    IsEnabled="False"
+                    Label="Linea"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        Maximum="999999999999999"
+                        Minimum="-999999999999999"
+                        ShowButtons="False"
+                        ToolTipService.ToolTip="Linea"
+                        Value="{Binding intLineaArchivo, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField Label="Especie" LabelPosition="Above">
+                    <TextBox
+                        x:Name="IDComitente"
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        GotFocus="seleccionarFocoControl"
+                        IsEnabled="False"
+                        MaxLength="17"
+                        Text="{Binding strIDEspecie, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        TextAlignment="Left"
+                        ToolTipService.ToolTip="Especie" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField Label="ISIN" LabelPosition="Above">
+                    <TextBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        GotFocus="seleccionarFocoControl"
+                        IsEnabled="False"
+                        MaxLength="17"
+                        Text="{Binding strISIN, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        TextAlignment="Left"
+                        ToolTipService.ToolTip="ISIN" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    IsEnabled="False"
+                    Label="Fungible"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        Maximum="999999999999999"
+                        Minimum="-999999999999999"
+                        ShowButtons="False"
+                        ToolTipService.ToolTip="Fungible"
+                        Value="{Binding lngIDFungible, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    IsEnabled="False"
+                    Label="NroCuenta"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        Maximum="999999999999999"
+                        Minimum="-999999999999999"
+                        ShowButtons="False"
+                        ToolTipService.ToolTip="NroCuenta"
+                        Value="{Binding dblNroCuenta, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    IsEnabled="True"
+                    Label="Comitente"
+                    LabelPosition="Above">
+                    <ComboBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        DisplayMemberPath="CodCliente"
+                        GotFocus="seleccionarFocoControl"
+                        IsEnabled="True"
+                        ItemsSource="{Binding ListaClientesActivosNoBloqueados, Mode=TwoWay}"
+                        SelectedValue="{Binding lngIDComitente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        SelectedValuePath="CodCliente"
+                        ToolTipService.ToolTip="Comitente" />
+                </Telerik:DataFormDataField>
+
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Orientation="Horizontal">
+
+                <Telerik:DataFormDataField Label="Documento" LabelPosition="Above">
+                    <TextBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        GotFocus="seleccionarFocoControl"
+                        IsEnabled="False"
+                        MaxLength="17"
+                        Text="{Binding strNroDocumento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        TextAlignment="Left"
+                        ToolTipService.ToolTip="Documento" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField Label="Nombre" LabelPosition="Above">
+                    <TextBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        GotFocus="seleccionarFocoControl"
+                        IsEnabled="False"
+                        MaxLength="17"
+                        Text="{Binding strNombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        TextAlignment="Left"
+                        ToolTipService.ToolTip="Nombre" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    IsEnabled="False"
+                    Label="Fecha"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2DatePicker
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        SelectedDate="{Binding dtmMovimiento, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                        ToolTipService.ToolTip="Fecha" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    IsEnabled="False"
+                    Label="Cantidad"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        Maximum="999999999999999"
+                        Minimum="-999999999999999"
+                        NumberDecimalDigits="4"
+                        ShowButtons="False"
+                        ToolTipService.ToolTip="Cantidad"
+                        ValueFormat="Numeric"
+                        Value="{Binding dblCantidad, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField Label="Valor valorizado" LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        Maximum="999999999999999"
+                        Minimum="-999999999999999"
+                        NumberDecimalDigits="4"
+                        ShowButtons="False"
+                        ToolTipService.ToolTip="Valor valorizado"
+                        ValueFormat="Numeric"
+                        Value="{Binding dblVlrValorizado, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField Label="Movimiento" LabelPosition="Above">
+                    <TextBox
+                        Width="180"
+                        HorizontalAlignment="Left"
+                        GotFocus="seleccionarFocoControl"
+                        IsEnabled="False"
+                        MaxLength="17"
+                        Text="{Binding strDescripcionMovimiento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        TextAlignment="Left"
+                        ToolTipService.ToolTip="Movimiento" />
+                </Telerik:DataFormDataField>
+
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="1050,15,0,5"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+
+                <Button
+                    x:Name="btnAceptar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnAceptar_Click"
+                    Content="Aceptar"
+                    RenderTransformOrigin="0.533,-0.87" />
+
+                <Button
+                    x:Name="btnCerrar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnCerrar_Click"
+                    Content="Cerrar"
+                    RenderTransformOrigin="0.533,-0.87" />
+
+            </StackPanel>
+
+        </Grid>
+        <!--</StackPanel>-->
+    </Telerik:RadBusyIndicator>
+
+</Window>
+
+

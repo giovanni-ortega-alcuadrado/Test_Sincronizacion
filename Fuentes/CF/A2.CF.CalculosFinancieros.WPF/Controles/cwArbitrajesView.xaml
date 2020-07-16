@@ -1,0 +1,279 @@
+﻿<Window
+    x:Class="cwArbitrajesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Detalle"
+    Width="1240"
+    MaxHeight="450"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </Window.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <!--<StackPanel Orientation="Vertical"
+                    VerticalAlignment="Top">-->
+        <Grid
+            x:Name="LayoutRoot"
+            MaxHeight="420"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1240" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Orientation="Horizontal">
+
+                <!--  BuscadorOperaciones  -->
+                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+
+                    <Telerik:DataFormDataField Label="Operación" LabelPosition="Above">
+                        <TextBox
+                            x:Name="IDOperaciones"
+                            Width="550"
+                            GotFocus="seleccionarFocoControl"
+                            IsEnabled="False"
+                            MaxLength="17"
+                            Text="{Binding strDatosOperacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left"
+                            ToolTipService.ToolTip="Digite la operación a buscar" />
+                    </Telerik:DataFormDataField>
+
+                    <OyD:BuscadorGenericoListaButon
+                        Margin="-8,28,0,0"
+                        Agrupamiento="{Binding strDatosEncabezado, Mode=TwoWay, ValidatesOnExceptions=True}"
+                        CampoBusqueda="OperacionesCB"
+                        EstadoItem="A"
+                        Etiqueta="Operaciones"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        TipoItem="ARBITRAJE_OPERACIONES"
+                        finalizoBusqueda="BuscadorGenerico_finalizo_Dataform_Edicion" />
+
+                    <Button
+                        x:Name="btnLimpiarDatosOperacion"
+                        Margin="2,38,0,10"
+                        Click="btnLimpiarDatosOperacion_Click"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        Style="{StaticResource btnLimpiar}"
+                        ToolTipService.ToolTip="Limpiar datos de la operación" />
+
+                </StackPanel>
+
+
+                <!--  BuscadorCruce  -->
+                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+
+                    <Telerik:DataFormDataField
+                        Margin="8,3,0,0"
+                        Label="Cruce"
+                        LabelPosition="Above"
+                        TabIndex="2">
+                        <!--  Margin="8, 3, 0, 0"  -->
+                        <TextBox
+                            x:Name="IDCruce"
+                            Width="550"
+                            GotFocus="seleccionarFocoControl"
+                            IsEnabled="False"
+                            MaxLength="15"
+                            Text="{Binding strDatosOperacionCruce, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left"
+                            ToolTipService.ToolTip="Digite la operación a buscar" />
+                    </Telerik:DataFormDataField>
+
+                    <OyD:BuscadorGenericoListaButon
+                        Margin="-5,33,0,0"
+                        Agrupamiento="{Binding strIDLiquidacionesOperacionOrigen, Mode=TwoWay, ValidatesOnExceptions=True}"
+                        CampoBusqueda="CruceCB"
+                        EstadoItem="A"
+                        Etiqueta="Operaciones cruce"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        TipoItem="ARBITRAJE_CRUCE"
+                        finalizoBusqueda="BuscadorGenerico_finalizo_Dataform_Edicion" />
+
+                    <Button
+                        x:Name="btnLimpiarDatosCruce"
+                        Margin="2,33,0,0"
+                        Click="btnLimpiarDatosCruce_Click"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        Style="{StaticResource btnLimpiar}"
+                        ToolTipService.ToolTip="Limpiar datos de la operación" />
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Orientation="Horizontal">
+
+                <!--  Portafolio replica  -->
+                <StackPanel Orientation="Horizontal">
+
+                    <Telerik:DataFormDataField
+                        Label="Portafolio replica"
+                        LabelPosition="Above"
+                        TabIndex="2">
+                        <TextBox
+                            x:Name="txtCodigoOyD"
+                            Width="110"
+                            GotFocus="seleccionarFocoControl"
+                            IsEnabled="{Binding HabilitarEncabezado}"
+                            LostFocus="txtCodigoOyD_LostFocus"
+                            MaxLength="17"
+                            Text="{Binding lngIDComitenteReplica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Right"
+                            ToolTipService.ToolTip="Portafolio replica" />
+                    </Telerik:DataFormDataField>
+
+                    <OyD:BuscadorClienteListaButon
+                        Margin="-8,31,0,0"
+                        Agrupamiento=""
+                        CampoBusqueda="IDComitente"
+                        EstadoComitente="T"
+                        Etiqueta="Portafolio replica"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        TabIndex="3"
+                        TipoVinculacion="C"
+                        finalizoBusqueda="BuscadorClienteListaButon_finalizoBusqueda" />
+
+                    <Button
+                        x:Name="btnLimpiarCliente"
+                        Margin="2,31,0,0"
+                        Click="btnLimpiarCliente_Dataform_Edicion_Click"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        Style="{StaticResource btnLimpiar}"
+                        TabIndex="4"
+                        ToolTipService.ToolTip="Limpiar datos del cliente" />
+
+                    <!--  Nombre Portafolio  -->
+                    <Telerik:DataFormDataField
+                        Margin="0,19,0,0"
+                        IsEnabled="False"
+                        Label=""
+                        LabelPosition="Above">
+                        <TextBox
+                            Width="433"
+                            Text="{Binding strNombreComitente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left"
+                            ToolTipService.ToolTip="Nombre" />
+                    </Telerik:DataFormDataField>
+
+                </StackPanel>
+
+                <!--  Traslado  -->
+                <StackPanel Orientation="Horizontal">
+
+                    <Telerik:DataFormDataField
+                        Label="Traslado"
+                        LabelPosition="Above"
+                        TabIndex="2">
+                        <TextBox
+                            x:Name="txtCodigoOyDTraslado"
+                            Width="110"
+                            GotFocus="seleccionarFocoControl"
+                            IsEnabled="{Binding HabilitarEncabezado}"
+                            LostFocus="txtCodigoOyDTraslado_LostFocus"
+                            MaxLength="17"
+                            Text="{Binding lngIDComitenteTraslado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Right"
+                            ToolTipService.ToolTip="Código OyD" />
+                    </Telerik:DataFormDataField>
+
+                    <OyD:BuscadorClienteListaButon
+                        Margin="-8,31,0,0"
+                        Agrupamiento=""
+                        CampoBusqueda="IDComitenteTraslado"
+                        EstadoComitente="T"
+                        Etiqueta="Portafolio traslado"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        TabIndex="3"
+                        TipoVinculacion="C"
+                        finalizoBusqueda="BuscadorClienteListaButon_finalizoBusqueda" />
+
+                    <Button
+                        x:Name="btnLimpiarClienteTraslado"
+                        Margin="2,31,0,0"
+                        Click="btnLimpiarClienteTraslado_Dataform_Edicion_Click"
+                        IsEnabled="{Binding HabilitarEncabezado}"
+                        Style="{StaticResource btnLimpiar}"
+                        TabIndex="4"
+                        ToolTipService.ToolTip="Limpiar datos del cliente" />
+
+                    <!--  Nombre Traslado  -->
+                    <Telerik:DataFormDataField
+                        Margin="0,19,0,0"
+                        IsEnabled="False"
+                        Label=""
+                        LabelPosition="Above">
+                        <TextBox
+                            Width="433"
+                            Text="{Binding strNombreComitenteTraslado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left"
+                            ToolTipService.ToolTip="Nombre" />
+                    </Telerik:DataFormDataField>
+                </StackPanel>
+
+            </StackPanel>
+
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="1060,15,0,5"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+
+                <Button
+                    x:Name="btnAceptar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnAceptar_Click"
+                    Content="Aceptar"
+                    IsEnabled="{Binding HabilitarEncabezado}"
+                    RenderTransformOrigin="0.533,-0.87"
+                    TabIndex="5" />
+
+                <Button
+                    x:Name="btnCerrar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnCerrar_Click"
+                    Content="Cerrar"
+                    RenderTransformOrigin="0.533,-0.87"
+                    TabIndex="6" />
+
+            </StackPanel>
+
+        </Grid>
+        <!--</StackPanel>-->
+    </Telerik:RadBusyIndicator>
+</Window>                      

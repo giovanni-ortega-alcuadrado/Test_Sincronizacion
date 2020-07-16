@@ -1,0 +1,327 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: ReglasView.xaml
+    Generado el : 11/04/2012 17:13:33
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="ReglasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--    -->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding ReglaSelected}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Código regla - Nombre corto - Módulo"
+                    TituloVista="Reglas"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding ReglaSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaReglas.Count}"
+                    VisibilidadRefrescarCombos="True" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="650">
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaReglasPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding ReglaSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="ID">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IDRegla, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Código regla">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding CodigoRegla, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreCorto, Mode=TwoWay}" Header="Nombre corto" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Modulo, Mode=TwoWay}" Header="Módulo" />
+                                    <Telerik:GridViewDataColumn Header="Motor cálculos">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    Margin="30,5,-30,0"
+                                                    IsChecked="{Binding MotorCalculos, Mode=TwoWay}"
+                                                    IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Prioridad, Mode=TwoWay}" Header="Prioridad" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding DescripcionCodigoTipoRegla, Mode=TwoWay}" Header="Acción Regla" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="650">
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Telerik:DataFormDataField Grid.Row="0" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CodigoRegla}">
+                                                <TextBox GotFocus="SeleccionarFocoControl" Text="{Binding CodigoRegla, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="1" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreCorto}">
+                                                <TextBox GotFocus="SeleccionarFocoControl" Text="{Binding NombreCorto, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="2" Label="Motor cálculos">
+                                                <CheckBox IsChecked="{Binding MotorCalculos, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    BorderThickness="0"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding ReglaSelected}"
+                                    IsEnabled="{Binding Editando}">
+
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid MaxWidth="650">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CodigoRegla}">
+                                                    <TextBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        MaxLength="50"
+                                                        Text="{Binding CodigoRegla, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Código Regla" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="Módulos">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosA2[MODULOSOYDPLUSREGLAS], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding Modulo, Mode=TwoWay}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Módulo" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreCorto}">
+                                                    <TextBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        MaxLength="50"
+                                                        Text="{Binding NombreCorto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Nombre Corto" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    IsEnabled="False"
+                                                    Label="Motor cálculos">
+                                                    <CheckBox IsChecked="{Binding MotorCalculos, Mode=TwoWay}" IsEnabled="False" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=DescripcionRegla}">
+                                                    <TextBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        MaxLength="200"
+                                                        Text="{Binding DescripcionRegla, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        TextWrapping="Wrap"
+                                                        ToolTipService.ToolTip="DescripcionRegla" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Label="Acción Regla">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DataContext.ListaTipoRegla, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding CodigoTipoRegla, Mode=TwoWay}"
+                                                        SelectedValuePath="Codigo" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Prioridad}">
+                                                    <A2UTILGEN:A2NumericBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        Maximum="100"
+                                                        Minimum="0"
+                                                        ShowButtons="False"
+                                                        ToolTipService.ToolTip="Prioridad"
+                                                        Value="{Binding Prioridad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="Causas Justificación"
+                                                    Visibility="{Binding DataContext.MostrarJustificaciones, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+                                                        <StackPanel Orientation="Horizontal" Visibility="{Binding DataContext.MostrarEditando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                            <TextBox
+                                                                x:Name="txtJustificacion"
+                                                                MinWidth="300"
+                                                                HorizontalAlignment="Stretch"
+                                                                GotFocus="SeleccionarFocoControl"
+                                                                Text="{Binding DataContext.NuevaJustificacion, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                                                ToolTipService.ToolTip="Justificación" />
+                                                            <Button
+                                                                x:Name="btnAdicionar"
+                                                                Click="btnAdicionar_Click"
+                                                                Content="Adicionar" />
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <ListBox
+                                                                MaxHeight="130"
+                                                                HorizontalAlignment="Left"
+                                                                ItemsSource="{Binding DataContext.ListaCausasJustificacion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                                                <ListBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <CheckBox IsChecked="{Binding Path=Seleccionada, Mode=TwoWay}" />
+                                                                            <TextBlock Text="{Binding Path=Causa}" />
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </ListBox.ItemTemplate>
+                                                            </ListBox>
+                                                        </StackPanel>
+                                                    </StackPanel>
+
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

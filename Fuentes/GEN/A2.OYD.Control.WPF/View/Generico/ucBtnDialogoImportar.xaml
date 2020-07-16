@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="ucBtnDialogoImportar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2ComunesControl"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Background="Transparent"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="271*" />
+            <ColumnDefinition Width="129*" />
+        </Grid.ColumnDefinitions>
+        <Telerik:RadBusyIndicator
+            x:Name="BI_ProgresoUpload"
+            Width="120"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center"
+            BusyContent="">
+            <Button
+                x:Name="btnSubirArchivo"
+                Width="120"
+                Click="btnSubirArchivo_Click"
+                Content="Seleccionar archivo" />
+        </Telerik:RadBusyIndicator>
+
+        <!--  Ejemplo de implementación de boton de ayuda  -->
+        <local:ucBtnAyuda
+            Grid.Column="1"
+            Alto="20"
+            AltoVentanaAyuda="500"
+            Ancho="20"
+            AnchoVentanaAyuda="1024"
+            Ayuda="RUTAMANUALUSUARIO"
+            TopicoHtm="importar.htm"
+            Visibility="Collapsed" />
+
+    </Grid>
+</UserControl>

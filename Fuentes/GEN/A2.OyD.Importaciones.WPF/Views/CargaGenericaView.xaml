@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="CargaGenericaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2ComunesImportaciones"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="1300">
+
+    <Telerik:RadBusyIndicator
+        Name="BI"
+        BusyContent="Procesando, por favor espere..."
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                Style="{StaticResource Title1}"
+                Text="Importación de Archivos" />
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Label="Proceso"
+                            LabelPosition="Above">
+                            <ComboBox
+                                Name="cbArchivosASubir"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DataContext.ListaComboSistema, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                SelectedItem="{Binding SistemaSelected, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                    <A2UTILGEN:A2GridView
+                        x:Name="dgImportaciones"
+                        Margin="5"
+                        VerticalAlignment="Top"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ListaCargasArchivos}"
+                        SelectedItem="{Binding CargasArchivoSeleccionado, Mode=TwoWay}"
+                        ValidatesOnDataErrors="None">
+                        <A2UTILGEN:A2GridView.Columns>
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding strModulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="Módulo" />
+                            <Telerik:GridViewDataColumn
+                                DataMemberBinding="{Binding strDescripcion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                Header="Descripción"
+                                TextWrapping="Wrap" />
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding strArchivoFormato, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Header="Archivo de formato" />
+                            <Telerik:GridViewDataColumn Header="Importar">
+                                <Telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <local:ucBtnDialogoImportar
+                                            CargarArchivoGenerico="ucBtnDialogoImportar_CargarArchivoGenerico"
+                                            Filtros="{Binding strExtensionesPermitidas}"
+                                            Generico="True"
+                                            Proceso="{Binding strModulo}"
+                                            SubirArchivo="ucBtnDialogoImportar_SubirArchivo" />
+                                    </DataTemplate>
+                                </Telerik:GridViewDataColumn.CellTemplate>
+                            </Telerik:GridViewDataColumn>
+                        </A2UTILGEN:A2GridView.Columns>
+                    </A2UTILGEN:A2GridView>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

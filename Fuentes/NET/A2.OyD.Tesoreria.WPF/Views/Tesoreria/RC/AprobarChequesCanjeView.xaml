@@ -1,0 +1,285 @@
+﻿<UserControl
+    x:Class="AprobarChequesCanjeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Height="500"
+    MinWidth="350"
+    MaxWidth="1300">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <!--<src:A2UtilsViewModel x:Key="A2VM"/>-->
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Name="StackPanelTitulo"
+                Grid.Row="0"
+                VerticalAlignment="Top"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Aprobar/Desaprobar canje cheques" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Style="{StaticResource stpHead}">
+                <TextBlock
+                    x:Name="textBlock1"
+                    Height="50"
+                    Margin="5,5,5,10"
+                    Text="Descripción">
+                    <LineBreak />
+                    <Run Text="Busca y aprueba o desaprueba los cheques de los recibos de caja siempre y cuando" />
+                    <LineBreak />
+                    <Run Text="el parámetro que indica si la firma maneja el control de canje de cheques o no" />
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel
+                x:Name="StackPanelAceptar"
+                Grid.Row="2"
+                VerticalAlignment="Top"
+                Style="{StaticResource stpFiltro}">
+                <Border
+                    Height="Auto"
+                    Margin="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel
+                        Height="Auto"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btnAprobar"
+                            Width="85"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnAprobar_Click"
+                            Content="Aprobar" />
+                        <Button
+                            x:Name="btnDesaprobar"
+                            Width="85"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnDesaprobar_Click"
+                            Content="Desaprobar" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Label="Fecha"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2DatePicker
+                        x:Name="dtpFecha"
+                        VerticalAlignment="Top"
+                        SelectedDate="{Binding FechaBusqueda, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    x:Name="txtCompania"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Label="Compañía"
+                    LabelPosition="Above">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25*" />
+                            <ColumnDefinition Width="70*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <A2UTILGEN:A2NumericBox
+                            LostFocus="C1NumericBox_LostFocus"
+                            Maximum="2147483647"
+                            Minimum="0"
+                            NumberDecimalDigits="0"
+                            ShowButtons="False"
+                            ValueFormat="NoSeparator"
+                            Value="{Binding IDCompania, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        <TextBox
+                            Grid.Column="1"
+                            Margin="2,0,0,0"
+                            IsEnabled="False"
+                            MaxLength="50"
+                            Text="{Binding NombreCompania, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            ToolTipService.ToolTip="" />
+                        <my:BuscadorGenericoListaButon
+                            Grid.Column="2"
+                            Margin="2,0,0,0"
+                            Agrupamiento="incluircompaniasclaseshijasconfirma"
+                            CampoBusqueda="compania"
+                            EstadoItem="A"
+                            Etiqueta="Compania"
+                            TipoItem="compania"
+                            ToolTipService.ToolTip="Buscador Compañías"
+                            finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                    </Grid>
+                </Telerik:DataFormDataField>
+
+                <Button
+                    x:Name="btnBuscar"
+                    Grid.Column="2"
+                    Width="100"
+                    Margin="5,10,10,0"
+                    VerticalAlignment="Bottom"
+                    Click="btnBuscarCheques_Click"
+                    Content="Buscar" />
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Label="Consecutivo notas"
+                    LabelPosition="Above"
+                    Visibility="{Binding MostrarInfoCompaniaFirma}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox
+                            x:Name="cboConsecutivoNotas"
+                            Height="Auto"
+                            DisplayMemberPath="ID"
+                            ItemsSource="{Binding listConsecutivos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            SelectedValue="{Binding ConsecutivoNota, Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            Visibility="{Binding MostrarInfoCompaniaFirma}" />
+                        <Label Grid.Column="1" Content="(Solo aplica para desaprobar)" />
+                    </Grid>
+
+                </Telerik:DataFormDataField>
+
+                <CheckBox
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="10,5"
+                    Checked="SeleccionarTodos_Checked"
+                    Content="Seleccionar todos"
+                    IsChecked="{Binding Check}"
+                    Unchecked="NoSeleccinarTodos_Unchecked" />
+
+            </Grid>
+
+            <A2UTILGEN:A2GridView
+                x:Name="dtgChequesxAprobar"
+                Grid.Row="5"
+                Height="250"
+                VerticalAlignment="Center"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding ListaChequesxAprobar}"
+                ValidatesOnDataErrors="None"
+                Visibility="{Binding MostrarInfoCompaniaFirma}">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn Header="Aprobar/Desaprobar">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding ActualizarEstado, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Tipo}" Header="Tipo" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Documento}" Header="Documento" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivo}" Header="Consecutivo" />
+                    <Telerik:GridViewDataColumn
+                        DataFormatString="n2"
+                        DataMemberBinding="{Binding ValorCheque}"
+                        Header="Valor" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NumCheque}" Header="Cheque" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding BancoGirador}" Header="Banco girador" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding CodComitente}" Header="Cliente" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreBanco}" Header="Banco consignación" />
+                    <Telerik:GridViewDataColumn
+                        DataFormatString="dd/MM/yyyy"
+                        DataMemberBinding="{Binding FechaConsignacion}"
+                        Header="Fecha consignación" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+            <A2UTILGEN:A2GridView
+                x:Name="dtgChequesxAprobarFondos"
+                Grid.Row="5"
+                Height="250"
+                VerticalAlignment="Center"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding ListaChequesxAprobar}"
+                ValidatesOnDataErrors="None"
+                Visibility="{Binding MostrarInfoCompaniaFondos}">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn Header="Aprobar/Desaprobar">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding ActualizarEstado, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NroEncargo}" Header="Nro Encargo" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding CodComitente}" Header="Cliente" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreCliente}" Header="Nombre cliente" />
+                    <Telerik:GridViewDataColumn
+                        DataFormatString="n2"
+                        DataMemberBinding="{Binding ValorCheque}"
+                        Header="Valor" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding TipoMovimiento}" Header="Tipo movimiento" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Tipo}" Header="Tipo" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Documento}" Header="Documento" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivo}" Header="Consecutivo" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NumCheque}" Header="Cheque" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding BancoGirador}" Header="Banco girador" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreBanco}" Header="Banco consignación" />
+                    <Telerik:GridViewDataColumn
+                        DataFormatString="dd/MM/yyyy"
+                        DataMemberBinding="{Binding FechaConsignacion}"
+                        Header="Fecha consignación" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

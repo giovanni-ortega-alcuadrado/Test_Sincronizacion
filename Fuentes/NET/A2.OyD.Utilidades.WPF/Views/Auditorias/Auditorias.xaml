@@ -1,0 +1,317 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: AuditoriaView.xaml
+    Generado el : 08/31/2011 11:43:51
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="Auditorias"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDUtilidades"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="200"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--<Grid.Resources>
+                <src2:DataContextProxy  x:Key="A2DataContextProxy"></src2:DataContextProxy>
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding AuditoriSelected}"
+                    TextoFiltroTooltip="Se filtra por el campo Nombre"
+                    TituloVista="Auditoría"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding AuditoriSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaAuditoria.Count}"
+                    VisibilidadRefrescarCombos="True" />
+
+
+            </StackPanel>
+
+            <Grid x:Name="grdGridForma" Grid.Row="1">
+
+
+                <Border>
+                    <StackPanel
+                        x:Name="Buscar"
+                        Width="650"
+                        Height="Auto"
+                        VerticalAlignment="Top">
+                        <Border Style="{StaticResource Contenedor_Paginador}">
+                            <A2UTILGEN:A2DataPager
+                                x:Name="datapager1"
+                                PageSize="10"
+                                Source="{Binding Items, ElementName=dg}" />
+                        </Border>
+                        <A2UTILGEN:A2GridView
+                            x:Name="dg"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ListaAuditoriaPaged}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectedItem="{Binding AuditoriSelected, Mode=TwoWay}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+
+                                <Telerik:GridViewDataColumn Header="Nombre Tabla" SortMemberPath="NombreTabla">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button
+                                                VerticalAlignment="Center"
+                                                Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                CommandParameter="{Binding}"
+                                                Content="{Binding NombreTabla}"
+                                                Style="{StaticResource HyperlinkLikeButton}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn Header="Ingreso" SortMemberPath="Ingreso">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding Ingreso, Mode=TwoWay}"
+                                                IsEnabled="False" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn Header="Modificación" SortMemberPath="Modificacion">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding Modificacion, Mode=TwoWay}"
+                                                IsEnabled="False" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn Header="Eliminación" SortMemberPath="Eliminacion">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding Eliminacion, Mode=TwoWay}"
+                                                IsEnabled="False" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Width="650"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    CornerRadius="5">
+                    <Grid>
+                        <!--  Dataform de búsqueda  -->
+                        <A2UTILGEN:A2DataForm
+                            x:Name="dfBuscar"
+                            VerticalAlignment="Top"
+                            AutoGenerateFields="False"
+                            CommandButtonsVisibility="None"
+                            CurrentItem="{Binding cb}"
+                            Visibility="{Binding visBuscando}">
+                            <A2UTILGEN:A2DataForm.EditTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+
+                                        <Border>
+                                            <Grid MaxWidth="650" VerticalAlignment="Top">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="3"
+                                                    Label="Nombre Tabla">
+                                                    <ComboBox
+                                                        x:Name="cmbNombreTablaBusqueda"
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DataContext.DiccionarioLista, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding NombreTabla, Mode=TwoWay}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="NombreTabla" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Label="Ingresa">
+                                                    <CheckBox IsChecked="{Binding Ingresa, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Ingreso" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Label="Modifica">
+                                                    <CheckBox IsChecked="{Binding Modifica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Modificacion" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Label="Retira">
+                                                    <CheckBox IsChecked="{Binding Retira, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Eliminacion" />
+                                                </Telerik:DataFormDataField>
+
+                                            </Grid>
+
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </A2UTILGEN:A2DataForm.EditTemplate>
+                        </A2UTILGEN:A2DataForm>
+
+                        <!--  Dataform edición de registro  -->
+
+                        <StackPanel
+                            x:Name="Editar"
+                            Grid.Row="1"
+                            Width="650"
+                            Height="Auto"
+                            Visibility="{Binding visNavegando}">
+                            <A2UTILGEN:A2DataForm
+                                x:Name="df"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding AuditoriSelected, Mode=TwoWay}"
+                                IsEnabled="{Binding Editando}">
+
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="650">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="3"
+                                                Label="Nombre Tabla"
+                                                Visibility="{Binding DataContext.MostrarComboNombreTabla, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InVisibilityConverter}}">
+                                                <TextBox
+                                                    IsEnabled="False"
+                                                    Text="{Binding NombreTabla}"
+                                                    ToolTipService.ToolTip="NombreTabla" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="3"
+                                                Label="Nombre Tabla"
+                                                Visibility="{Binding DataContext.MostrarComboNombreTabla, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource VisibilityConverter}}">
+                                                <ComboBox
+                                                    x:Name="cmbNombreTablaEdicion"
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioListaTablas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding DataContext.NombreTablaNuevoRegistro, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="NombreTabla" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Label="Ingresa">
+                                                <CheckBox IsChecked="{Binding Ingreso, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Ingreso" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Label="Modifica">
+                                                <CheckBox IsChecked="{Binding Modificacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Modificacion" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="2"
+                                                Label="Retira">
+                                                <CheckBox IsChecked="{Binding Eliminacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Eliminacion" />
+                                            </Telerik:DataFormDataField>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

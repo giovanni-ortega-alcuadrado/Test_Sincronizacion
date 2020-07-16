@@ -1,0 +1,432 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: ClasificacionesView.xaml
+    Generado el : 02/24/2011 13:27:31
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="ClasificacionesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="800">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <!--<src:ClasificacionesViewModel x:Key="myViewModel" />-->
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--<Grid.Resources>
+
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2utils:ControlMenuA2
+                    x:Name="cm"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding ClasificacionSelected}"
+                    TextoFiltroTooltip="Filtra por el campo Nombre"
+                    TituloVista="Clasificaciones"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding ClasificacionSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaClasificaciones.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="800">
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaClasificacionesPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding ClasificacionSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Código" SortMemberPath="Código">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Código}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Nombre" SortMemberPath="Nombre">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Nombre}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Clase">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    HorizontalAlignment="Center"
+                                                    IsChecked="{Binding EsGrupo, Mode=TwoWay}"
+                                                    IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombrePerteneceA}" Header="Pertenece A" />
+                                    <!--<Telerik:GridViewDataColumn  Header="Pertenece A">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox x:Name="cmbPerteneceA2"
+                                                          ItemsSource="{Binding DataContext.ListaClasificacionesPerteneceA, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                          ToolTipService.ToolTip="Pertenece A"
+                                                          SelectedValue="{Binding IDPerteneceA, Mode=TwoWay}"
+                                                          SelectedValuePath="Código"
+                                                          DisplayMemberPath="Nombre"
+                                                          IsEnabled="False"/>
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>-->
+
+                                    <Telerik:GridViewDataColumn Header="Aplica A">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox
+                                                    x:Name="cmbAplicaA"
+                                                    DisplayMemberPath="Descripcion"
+                                                    IsEnabled="False"
+                                                    ItemsSource="{Binding DiccionarioCombosA2[CLASIFICACIONES], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding AplicaA, Mode=TwoWay}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Aplicado A" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border>
+                        <Grid MaxWidth="800">
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="800">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Código}">
+                                                <A2UTILGEN:A2NumericBox
+                                                    Maximum="2147483647"
+                                                    Minimum="0"
+                                                    NumberDecimalDigits="0"
+                                                    ShowButtons="False"
+                                                    ValueFormat="NoSeparator"
+                                                    Value="{Binding Código, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nombre}">
+                                                <TextBox MaxLength="50" Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=AplicaA}"
+                                                Visibility="{Binding cmbAplicaAVisible, Mode=TwoWay}">
+                                                <ComboBox
+                                                    x:Name="cmbAplicaA"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosA2[CLASIFICACIONES], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding AplicaA, Mode=TwoWay}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Aplicado A" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField Grid.Row="1" Grid.Column="1">
+                                                <Grid MaxWidth="800">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <RadioButton
+                                                        x:Name="rdbGrupo"
+                                                        Grid.Column="0"
+                                                        Content="Grupo"
+                                                        GroupName="rdbClasificaciones"
+                                                        IsChecked="{Binding EsGrupo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Grupo" />
+
+                                                    <RadioButton
+                                                        x:Name="rdbSubgrupo"
+                                                        Grid.Column="1"
+                                                        Content="SubGrupo"
+                                                        GroupName="rdbClasificaciones"
+                                                        IsChecked="{Binding EsSubgrupo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Subgrupo"
+                                                        Visibility="{Binding rdbSubgrupoVisible}" />
+
+                                                    <RadioButton
+                                                        x:Name="rdbSector"
+                                                        Grid.Column="2"
+                                                        Content="Sector"
+                                                        GroupName="rdbClasificaciones"
+                                                        IsChecked="{Binding EsSector, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Sector"
+                                                        Visibility="{Binding rdbSectorVisible}" />
+
+                                                    <RadioButton
+                                                        x:Name="rdbSubsector"
+                                                        Grid.Column="3"
+                                                        Content="SubSector"
+                                                        GroupName="rdbClasificaciones"
+                                                        IsChecked="{Binding EsSubsector, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Subsector"
+                                                        Visibility="{Binding rdbSubsectorVisible}" />
+
+                                                </Grid>
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDPerteneceA}"
+                                                Visibility="{Binding cmbPerteneceAVisible}">
+                                                <ComboBox
+                                                    x:Name="cmbPerteneceA"
+                                                    DisplayMemberPath="Nombre"
+                                                    ItemsSource="{Binding ListaClasificacionesPerteneceA, Mode=TwoWay}"
+                                                    SelectedValue="{Binding IDPerteneceA, StringFormat='#', Mode=TwoWay}"
+                                                    SelectedValuePath="Código"
+                                                    ToolTipService.ToolTip="Pertenece A" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding visNavegando}">
+                                <Grid MaxWidth="800" DataContext="{Binding ClasificacionSelected}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Código">
+                                        <TextBlock Text="{Binding Código}" ToolTipService.ToolTip="Código" />
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nombre}">
+                                        <TextBox
+                                            MaxLength="50"
+                                            Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            ToolTipService.ToolTip="Nombre" />
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=AplicaA}"
+                                        Visibility="{Binding DataContext.cmbAplicaAVisible, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}">
+                                        <ComboBox
+                                            x:Name="cmbAplicaA"
+                                            DisplayMemberPath="Descripcion"
+                                            ItemsSource="{Binding DiccionarioCombosA2[CLASIFICACIONES], Source={StaticResource A2VM}}"
+                                            SelectedValue="{Binding AplicaA, Mode=TwoWay}"
+                                            SelectedValuePath="ID"
+                                            ToolTipService.ToolTip="Aplicado A" />
+                                        <!--  IsEnabled="{Binding DataContext.cmbAplicaAHabilitado, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" />  -->
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Grid MaxWidth="800">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <RadioButton
+                                                x:Name="rdbGrupo"
+                                                Grid.Column="0"
+                                                Content="Grupo"
+                                                GroupName="rdbClasificaciones"
+                                                IsChecked="{Binding EsGrupo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                ToolTipService.ToolTip="Grupo"
+                                                Visibility="{Binding DataContext.rdbGrupoVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                            <RadioButton
+                                                x:Name="rdbSubgrupo"
+                                                Grid.Column="1"
+                                                Content="Subgrupo"
+                                                GroupName="rdbClasificaciones"
+                                                IsChecked="{Binding EsSubgrupo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                ToolTipService.ToolTip="Subgrupo"
+                                                Visibility="{Binding DataContext.rdbSubgrupoVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                            <RadioButton
+                                                x:Name="rdbSector"
+                                                Grid.Column="2"
+                                                Content="Sector"
+                                                GroupName="rdbClasificaciones"
+                                                IsChecked="{Binding EsSector, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                ToolTipService.ToolTip="Sector"
+                                                Visibility="{Binding DataContext.rdbSectorVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                            <RadioButton
+                                                x:Name="rdbSubsector"
+                                                Grid.Column="3"
+                                                Content="Subsector"
+                                                GroupName="rdbClasificaciones"
+                                                IsChecked="{Binding EsSubsector, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                ToolTipService.ToolTip="Subsector"
+                                                Visibility="{Binding DataContext.rdbSubsectorVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </Grid>
+                                    </Telerik:DataFormDataField>
+
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Pertenece A"
+                                        Visibility="{Binding DataContext.cmbPerteneceAVisible, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Grid>
+
+                                            <TextBox Text="{Binding NombrePerteneceA}" Visibility="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InVisibilityConverter}}" />
+                                            <ComboBox
+                                                x:Name="cmbPerteneceA"
+                                                DisplayMemberPath="Nombre"
+                                                ItemsSource="{Binding DataContext.ListaClasificacionesPerteneceA, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                SelectedValue="{Binding IDPerteneceA, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                SelectedValuePath="Código"
+                                                ToolTipService.ToolTip="Pertenece A"
+                                                Visibility="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource VisibilityConverter}}" />
+                                        </Grid>
+
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="3"
+                                        Grid.Column="0"
+                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nemo}"
+                                        Visibility="{Binding DataContext.txtNemoVisible, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <TextBox
+                                            x:Name="txtNemo"
+                                            MaxLength="2"
+                                            Text="{Binding Nemo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            ToolTipService.ToolTip="Nemo" />
+                                    </Telerik:DataFormDataField>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

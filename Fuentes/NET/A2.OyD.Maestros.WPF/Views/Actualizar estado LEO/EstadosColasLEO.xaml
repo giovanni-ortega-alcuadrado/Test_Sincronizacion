@@ -1,0 +1,136 @@
+﻿<Window
+    x:Class="EstadosColasLEO"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="300"
+    MinHeight="50"
+    MaxWidth="400"
+    MaxHeight="250"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </Window.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+            <Grid Grid.Row="0">
+                <TextBlock
+                    Margin="6,0,0,0"
+                    Style="{StaticResource Title1}"
+                    Text="Modificar datos" />
+            </Grid>
+
+
+
+            <Grid x:Name="grdGridForma" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Width="388"
+                    HorizontalAlignment="Left"
+                    Label="Usuario"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cmbUsuariosEstado"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombosA2[USUARIO_OPERADOR_COLAS_LEO], Source={StaticResource A2VM}, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        SelectedValue="{Binding Login, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Label="Fecha/Hora"
+                    LabelPosition="Above">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <A2UTILGEN:A2DatePicker
+                            x:Name="FechaEstado"
+                            Grid.Column="0"
+                            Width="130"
+                            HorizontalAlignment="Left"
+                            SelectedDate="{Binding dtmMovimiento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            ToolTipService.ToolTip="Fecha" />
+                        <A2UTILGEN:A2TimePicker
+                            x:Name="Hora"
+                            Grid.Column="1"
+                            Width="130"
+                            HorizontalAlignment="Left"
+                            SelectedValue="{Binding dtmMovimiento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            ToolTipService.ToolTip="Hora" />
+                    </Grid>
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField Grid.Row="2" Grid.Column="0">
+                    <TextBlock />
+                </Telerik:DataFormDataField>
+
+
+                <Telerik:DataFormDataField Grid.Row="3" Grid.Column="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            x:Name="btnAceptarEstado"
+                            Width="150"
+                            BorderThickness="0"
+                            Click="btnAceptar_Click"
+                            Content="Aceptar" />
+                        <Button
+                            x:Name="btnCancelarEstado"
+                            Grid.Column="1"
+                            Width="150"
+                            BorderThickness="0"
+                            Click="btnCancelar_Click"
+                            Content="Cancelar" />
+                    </Grid>
+                </Telerik:DataFormDataField>
+
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

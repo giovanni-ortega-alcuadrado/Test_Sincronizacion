@@ -1,0 +1,271 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: DiasNoHabilesView.xaml
+    Generado el : 04/15/2011 08:42:14
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="DiasNoHabilesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding DiasNoHabileSelected}"
+                    TextoFiltroTooltip="Filtra por el campo Día no hábil"
+                    TituloVista="Días no hábiles."
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding DiasNoHabileSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaDiasNoHabiles.Count}" />
+                <!--<TextBlock Text="(*) Campos por los cuales se realiza el filtro." Margin="5,0,0,0" Style="{StaticResource txbNumRegistros}"/>-->
+
+
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" Grid.Row="1">
+
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaDiasNoHabilesPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding DiasNoHabileSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Día no hábil" SortMemberPath="Día no hábil">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding NoHabil, StringFormat='MMM dd,yyy'}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Activo">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Activo, Mode=TwoWay}" IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding dActivo, StringFormat='MMM dd,yyy'}" Header="Fecha Activo" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Inactivo, StringFormat='MMM dd,yyy'}" Header="Fecha Inactivo" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombrePai}" Header="País" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="650">
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="650">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="AUTO" />
+                                                <RowDefinition Height="AUTO" />
+                                            </Grid.RowDefinitions>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NoHabil}">
+                                                <A2UTILGEN:A2DatePicker
+                                                    IsTodayHighlighted="True"
+                                                    SelectedDate="{Binding NoHabil, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    ToolTipService.ToolTip="Día" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IdPais}">
+                                                <ComboBox
+                                                    x:Name="FontsCombo"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosA2[Paises], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding IdPais, StringFormat='#', Mode=TwoWay}"
+                                                    SelectedValuePath="ID"
+                                                    Text="{Binding Limpiar}"
+                                                    ToolTipService.ToolTip="Pais" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel x:Name="Editar" Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding DiasNoHabileSelected}"
+                                    IsEnabled="{Binding Editando}">
+
+
+
+                                    <!--<A2UTILGEN:A2DataForm.Resources>
+
+                                </A2UTILGEN:A2DataForm.Resources>-->
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid MaxWidth="650">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    IsEnabled="{Binding DataContext.habilitar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NoHabil}">
+                                                    <A2UTILGEN:A2DatePicker
+                                                        IsTodayHighlighted="True"
+                                                        SelectedDate="{Binding NoHabil, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Día" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    IsEnabled="{Binding DataContext.habilitar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=strIdPais}">
+                                                    <ComboBox
+                                                        x:Name="FontsCombo"
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosA2[Paises], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding strIdPais, StringFormat='#', Mode=TwoWay}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Pais" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="3"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Activo}">
+                                                    <ListBox
+                                                        BorderThickness="0"
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosA2[EstadoDia], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding Activo, Converter={StaticResource BooleanoConverterRadio}, Mode=TwoWay}"
+                                                        SelectedValuePath="ID">
+                                                        <ListBox.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel Orientation="Horizontal" />
+                                                            </ItemsPanelTemplate>
+                                                        </ListBox.ItemsPanel>
+                                                        <ListBox.ItemContainerStyle>
+                                                            <Style TargetType="ListBoxItem">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                                            <Grid Background="Transparent">
+                                                                                <RadioButton
+                                                                                    Margin="2"
+                                                                                    IsChecked="{TemplateBinding IsSelected}"
+                                                                                    IsHitTestVisible="False">
+                                                                                    <ContentPresenter />
+                                                                                </RadioButton>
+                                                                            </Grid>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ListBox.ItemContainerStyle>
+                                                    </ListBox>
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

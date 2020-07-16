@@ -1,0 +1,539 @@
+﻿<UserControl
+    x:Class="ModulosEstadosConfiguracionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:A2OrdenesDivisasWPF"
+    MinWidth="800"
+    MinHeight="500"
+    Padding="10"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
+    mc:Ignorable="d">
+
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila ControlMenu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Titulo  -->
+            <!--<StackPanel Grid.Row="0" Grid.Column="0">
+
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        FontSize="22"
+                        Foreground="#2c3e50"
+                        Text="{Binding DataContext.DiccionarioEtiquetasPantalla[SUBTITULO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <Border
+                            Height="28"
+                            Margin="0"
+                            Padding="5,3,5,5"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Background="#868686"
+                            BorderThickness="0">
+                            <TextBlock
+                                FontSize="16"
+                                Foreground="white"
+                                Text="{Binding DataContext.DiccionarioEtiquetasPantalla[TITULO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                        </Border>
+                        <Border
+                            Height="28"
+                            Margin="0"
+                            Padding="5,5,5,5"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Background="#a0a0a0"
+                            BorderThickness="0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="white"
+                                    Text="{Binding ListaEncabezado.Count, StringFormat=n0}" />
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="white"
+                                    Text=" registros" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </Grid>
+
+
+                <Border
+                    Width="Auto"
+                    Margin="0"
+                    BorderBrush="#868686"
+                    BorderThickness="0.5" />
+
+
+
+            </StackPanel>-->
+
+
+            <!--  ControlMenu  -->
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,5,0,10"
+                BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <A2Utils:ControlMenuA2
+                        x:Name="cm"
+                        Margin="0"
+                        DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                        DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                        EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                        Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                        HayDataForm="False"
+                        IsItemValid="True"
+                        ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                        Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                        MensajeError="{Binding ErrorForma}"
+                        Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                        ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                        PreguntarConfirmacion="False"
+                        TextoFiltroTooltip="{Binding DataContext.DiccionarioEtiquetasPantalla[FILTRO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        TituloVista="{Binding DataContext.DiccionarioEtiquetasPantalla[TITULO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        TituloVistaAdicional="registros"
+                        TituloVista_CambioSelected="{Binding EncabezadoSeleccionado.HasChanges}"
+                        TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}" />
+
+                </Grid>
+            </Border>
+            <!--  /ControlMenu  -->
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma">
+                    <!--  ====================  -->
+                    <!--  Controles de contenido  -->
+                    <!--  ====================  -->
+                    <Border>
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Width="Auto"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="20"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="2"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}">
+
+                                <Telerik:RadGridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="{Binding DataContext.DiccionarioEtiquetasPantalla[ID].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <!--<Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Click="NavegarAForma"
+                                                    Content="{Binding intId, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}"
+                                                    Tag="{Binding intId}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>-->
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding intId}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+
+                                                <Telerik:RadComboBox
+                                                    MaxWidth="320"
+                                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    DisplayMemberPath="Descripcion"
+                                                    IsEnabled="False"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[MODULO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding intIdModulo, Mode=TwoWay}"
+                                                    SelectedValuePath="Retorno" />
+
+
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+
+                                                <ComboBox
+                                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    DisplayMemberPath="Descripcion"
+                                                    IsEnabled="False"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOSGENERALES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding strEstadoInicial, Mode=TwoWay}"
+                                                    SelectedValuePath="Retorno" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+
+                                    <Telerik:GridViewDataColumn Header="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+
+                                                <ComboBox
+                                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    DisplayMemberPath="Descripcion"
+                                                    IsEnabled="False"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOSGENERALES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding strEstadoPermitido, Mode=TwoWay}"
+                                                    SelectedValuePath="Retorno" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+
+                                    <Telerik:GridViewDataColumn Header="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOREGISTRO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+
+                                                <ComboBox
+                                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOREGISTRO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    DisplayMemberPath="Descripcion"
+                                                    IsEnabled="False"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOREGISTRO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding strEstadoRegistro, Mode=TwoWay}"
+                                                    SelectedValuePath="Retorno" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+
+                                </Telerik:RadGridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  ====================  -->
+                            <!--  Dataform de búsqueda  -->
+                            <!--  ====================  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoEdit="True"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <Telerik:RadDataForm.EditTemplate>
+                                    <DataTemplate>
+
+                                        <Grid VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Column="0"
+                                                Label="{Binding DataContext.DiccionarioEtiquetasPantalla[ID].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                LabelPosition="Above"
+                                                ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[ID].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <Telerik:RadNumericUpDown
+                                                    GotFocus="seleccionarFocoControl"
+                                                    Maximum="2147483647"
+                                                    Minimum="0"
+                                                    NumberDecimalDigits="0"
+                                                    ShowButtons="False"
+                                                    ValueFormat="Numeric"
+                                                    Value="{Binding intId, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Column="1"
+                                                Label="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                LabelPosition="Above"
+                                                ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <Telerik:RadComboBox
+                                                    MaxWidth="320"
+                                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[MODULO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding intIdModulo, Mode=TwoWay}"
+                                                    SelectedValuePath="Retorno" />
+
+
+
+                                            </Telerik:DataFormDataField>
+
+
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Column="2"
+                                                Label="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                LabelPosition="Above"
+                                                ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                                                <ComboBox
+                                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOSGENERALES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding strEstadoInicial, Mode=TwoWay}"
+                                                    SelectedValuePath="Retorno" />
+
+                                            </Telerik:DataFormDataField>
+
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Column="3"
+                                                Label="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                LabelPosition="Above"
+                                                ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                                                <ComboBox
+                                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOSGENERALES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding strEstadoPermitido, Mode=TwoWay}"
+                                                    SelectedValuePath="Retorno" />
+
+                                            </Telerik:DataFormDataField>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </Telerik:RadDataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <ScrollViewer
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                CanContentScroll="True"
+                                VerticalScrollBarVisibility="Auto"
+                                Visibility="{Binding visNavegando}">
+                                <!--  ============================  -->
+                                <!--  Dataform edición de registro  -->
+                                <!--  ============================  -->
+
+
+                                <Border BorderThickness="0">
+
+                                    <StackPanel DataContext="{Binding EncabezadoEdicionSeleccionado}" Orientation="Vertical">
+
+
+
+                                        <StackPanel
+                                            x:Name="gridEd23"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Margin="10,0,0,0"
+                                            Orientation="Vertical">
+
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="0"
+                                                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[ID].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[ID].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    LabelPosition="Above"
+                                                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[ID].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <TextBox
+                                                        IsEnabled="False"
+                                                        Text="{Binding intId, Mode=TwoWay}"
+                                                        TextAlignment="Left" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="1"
+                                                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    LabelPosition="Above"
+                                                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <Telerik:RadComboBox
+                                                        MaxWidth="320"
+                                                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[MODULO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[MODULO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding intIdModulo, Mode=TwoWay}"
+                                                        SelectedValuePath="Retorno" />
+
+                                                </Telerik:DataFormDataField>
+
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="2"
+                                                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    LabelPosition="Above"
+                                                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                                                    <ComboBox
+                                                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOINICIAL].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOSGENERALES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding strEstadoInicial, Mode=TwoWay}"
+                                                        SelectedValuePath="Retorno" />
+
+                                                </Telerik:DataFormDataField>
+
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="3"
+                                                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    LabelPosition="Above"
+                                                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                                                    <ComboBox
+                                                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOPERMITIDO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOSGENERALES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding strEstadoPermitido, Mode=TwoWay}"
+                                                        SelectedValuePath="Retorno" />
+
+                                                </Telerik:DataFormDataField>
+
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="4"
+                                                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOREGISTRO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    LabelPosition="Above"
+                                                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOREGISTRO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                                                    <ComboBox
+                                                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[ESTADOREGISTRO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[ESTADOREGISTRO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding strEstadoRegistro, Mode=TwoWay}"
+                                                        SelectedValuePath="Retorno" />
+
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="5"
+                                                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[USUARIOACTUALIZACION].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[USUARIOACTUALIZACION].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    LabelPosition="Above"
+                                                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[USUARIOACTUALIZACION].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <TextBox
+                                                        IsEnabled="False"
+                                                        Text="{Binding strUsuario, Mode=TwoWay}"
+                                                        TextAlignment="Left" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="6"
+                                                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAACTUALIZACION].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAACTUALIZACION].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    LabelPosition="Above"
+                                                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAACTUALIZACION].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <Telerik:RadDatePicker
+                                                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAACTUALIZACION].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        Culture="en-CA"
+                                                        DateTimeWatermarkContent="{Binding DataContext.DiccionarioEtiquetasPantalla[INGRESEFECHA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        IsEnabled="False"
+                                                        SelectedDate="{Binding dtmActualizacion, Mode=TwoWay}"
+                                                        TextAlignment="Left" />
+                                                </Telerik:DataFormDataField>
+
+                                            </Grid>
+
+
+
+                                        </StackPanel>
+
+
+
+                                    </StackPanel>
+
+                                </Border>
+
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Telerik:RadBusyIndicator>
+</UserControl>

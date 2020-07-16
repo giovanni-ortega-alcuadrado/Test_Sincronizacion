@@ -1,0 +1,136 @@
+﻿<Window
+    x:Class="DetalleArchivosDeceval"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    x:Name="DetalleArchivosDeceval"
+    Title="Detalle Procesos"
+    Width="Auto"
+    Height="Auto"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Height="25"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Center"
+                    Content="Nombre del proceso: " />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Height="25"
+                    Margin="3,0,0,-5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    Text="{Binding NombreArchivo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    ToolTipService.ToolTip="Nombre del Archivo" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Height="25"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Center"
+                    Content="Usuario: " />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Height="25"
+                    Margin="3,0,0,-5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    Text="{Binding UsuarioArchivo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    ToolTipService.ToolTip="Usuario del Archivo" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Height="25"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Center"
+                    Content="Generado Automatico: " />
+                <CheckBox
+                    Name="ChkTipoEjecucion"
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding DataContext.GeneracionAutomatica, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Window}}"
+                    IsEnabled="False" />
+            </Grid>
+
+            <Button
+                x:Name="btnRefrescar"
+                Grid.Row="1"
+                Width="25"
+                Height="25"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Right"
+                Click="btnRefrescar_Click"
+                Style="{StaticResource btnRefrescar}"
+                ToolTipService.ToolTip="Traer Detalle Archivos" />
+
+            <A2UTILGEN:A2GridView
+                x:Name="dg"
+                Grid.Row="2"
+                Width="710"
+                Height="400"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding ListaDetalleArchivos}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SelectedItem="{Binding DetalleArchivosSelected, Mode=TwoWay}"
+                ValidatesOnDataErrors="None">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Fecha, StringFormat='dd/MM/yyyy hh:mm:ss tt', ConverterCulture=es-CO}" Header="Fecha" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Detalle}" Header="Detalle" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+
+            <Button
+                x:Name="Cerrar"
+                Grid.Row="3"
+                Width="75"
+                Height="23"
+                HorizontalAlignment="Right"
+                Click="Cerrar_Click"
+                Content="Cerrar" />
+
+        </Grid>
+
+
+
+    </Telerik:RadBusyIndicator>
+</Window>

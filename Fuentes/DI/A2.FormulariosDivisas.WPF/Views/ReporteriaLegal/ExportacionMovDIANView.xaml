@@ -1,0 +1,285 @@
+﻿<UserControl
+    x:Class="ExportacionMovDIANView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Persona="clr-namespace:A2PersonasWPF;assembly=A2.Personas.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:A2FormulariosDivisasWPF"
+    MinWidth="800"
+    MinHeight="400"
+    Padding="10"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:BooleanNumeroConverter x:Key="BooleanConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            Background="{StaticResource BackgroundColorBrush}"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila Título  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila forma/grid  -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+
+
+            <Grid
+                x:Name="grdGridForma"
+                Grid.Row="2"
+                Grid.Column="1">
+
+                <Grid>
+
+                    <!--  ============================  -->
+                    <!--  Dataform edición de registro  -->
+                    <!--  ============================  -->
+
+                    <StackPanel Orientation="Vertical">
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <!--  Seccion parametros exportacion DIAN  -->
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <!--  Seccion parametros exportacion DIAN  -->
+                            <StackPanel
+                                x:Name="gridEd1"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0,0,0,0"
+                                Orientation="Vertical">
+
+
+
+                                <Border
+                                    Padding="5"
+                                    Background="#e0e0e0"
+                                    BorderBrush="#c5c5c5"
+                                    BorderThickness="0.5">
+
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            MinWidth="140"
+                                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMATO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMATO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            LabelPosition="Above"
+                                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMATO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <Telerik:RadComboBox
+                                                Name="cbFormato"
+                                                MaxWidth="100"
+                                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[FORMATO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                DisplayMemberPath="Descripcion"
+                                                ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[FORMATO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                SelectedValue="{Binding strFormato, Mode=TwoWay}"
+                                                SelectedValuePath="Retorno"
+                                                SelectionChanged="RadComboBox_SelectionChanged" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField
+                                            MinWidth="700"
+                                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[DESCRIPCION].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[DESCRIPCION].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            LabelPosition="Above"
+                                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[DESCRIPCION].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <TextBox
+                                                MaxWidth="680"
+                                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[DESCRIPCION].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                IsEnabled="False"
+                                                Text="{Binding strDescripcion, Mode=TwoWay}"
+                                                TextAlignment="Left" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField
+                                            MinWidth="100"
+                                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[CODIGO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[CODIGO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            LabelPosition="Above"
+                                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[CODIGO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <TextBox
+                                                BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[CODIGO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                IsEnabled="False"
+                                                Text="{Binding strCodigo, Mode=TwoWay}"
+                                                TextAlignment="Left" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField>
+                                            <Persona:BuscadorClienteListaButon
+                                                IsEnabled="{Binding logBucador, Mode=TwoWay}"
+                                                RolPersona="Comitente"
+                                                finalizoBusqueda="BuscadorClienteListaButon_finalizoBusqueda" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField
+                                            Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[TODOS].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[TODOS].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            LabelPosition="Above"
+                                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[TODOS].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <CheckBox IsChecked="{Binding logTodos, Mode=TwoWay}" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField
+                                            Grid.Column="1"
+                                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAINICIO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            LabelPosition="Above"
+                                            ToolTipService.ToolTip="Fecha creación">
+                                            <Telerik:RadDatePicker DateTimeWatermarkContent="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAINICIO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedDate="{Binding dtmFechaInicial, Mode=TwoWay}" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField
+                                            Grid.Column="1"
+                                            Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAFIN].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            LabelPosition="Above"
+                                            ToolTipService.ToolTip="Fecha creación">
+                                            <Telerik:RadDatePicker DateTimeWatermarkContent="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAFIN].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedDate="{Binding dtmFechaFinal, Mode=TwoWay}" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <Button Command="{Binding DataContext.CargarCmd, RelativeSource={RelativeSource AncestorType=UserControl}}" Content="{Binding DataContext.DiccionarioEtiquetasPantalla[CARGAR].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <Button Command="{Binding DataContext.ExportarCmd, RelativeSource={RelativeSource AncestorType=UserControl}}" Content="{Binding DataContext.DiccionarioEtiquetasPantalla[EXPORTAR].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </Telerik:DataFormDataField>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!--  Seccion grid carga de datos formato 1062  -->
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Visibility="{Binding logVisible1062, Mode=TwoWay}">
+
+                                <A2UTILGEN:A2GridView
+                                    x:Name="dg1062"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Height="Auto"
+                                    AutoGenerateColumns="True"
+                                    ItemsSource="{Binding lstArchivosLegalesDIAN_Formato1062, Mode=TwoWay}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+                            </StackPanel>
+
+                            <!--  Seccion grid carga de datos formato 1059  -->
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Visibility="{Binding logVisible1059, Mode=TwoWay}">
+
+                                <A2UTILGEN:A2GridView
+                                    x:Name="dg1059"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    AutoGenerateColumns="True"
+                                    ItemsSource="{Binding lstArchivosLegalesDIAN_Formato1059, Mode=TwoWay}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    ShowGroupPanel="False" />
+
+                            </StackPanel>
+
+
+                            <!--  Seccion grid carga de datos formato 1060  -->
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Visibility="{Binding logVisible1060, Mode=TwoWay}">
+
+                                <A2UTILGEN:A2GridView
+                                    x:Name="dg1060"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Height="Auto"
+                                    AutoGenerateColumns="True"
+                                    ItemsSource="{Binding lstArchivosLegalesDIAN_Formato1060, Mode=TwoWay}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+                            </StackPanel>
+
+
+                            <!--  Seccion grid carga de datos formato 1061  -->
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Visibility="{Binding logVisible1061, Mode=TwoWay}">
+
+                                <A2UTILGEN:A2GridView
+                                    x:Name="dg1061"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Height="Auto"
+                                    AutoGenerateColumns="True"
+                                    ItemsSource="{Binding lstArchivosLegalesDIAN_Formato1061, Mode=TwoWay}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+                            </StackPanel>
+
+                            <!--  Seccion grid carga de datos formato 1063  -->
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Visibility="{Binding logVisible1063, Mode=TwoWay}">
+
+                                <A2UTILGEN:A2GridView
+                                    x:Name="dg1063"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Height="Auto"
+                                    AutoGenerateColumns="True"
+                                    ItemsSource="{Binding lstArchivosLegalesDIAN_Formato1063, Mode=TwoWay}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+                            </StackPanel>
+
+                            <!--  Seccion grid carga de datos formato 1063  -->
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Visibility="{Binding logVisible1064, Mode=TwoWay}">
+
+                                <A2UTILGEN:A2GridView
+                                    x:Name="dg1064"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Height="Auto"
+                                    AutoGenerateColumns="True"
+                                    ItemsSource="{Binding lstArchivosLegalesDIAN_Formato1064, Mode=TwoWay}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+                            </StackPanel>
+
+
+                        </Grid>
+
+                    </StackPanel>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+

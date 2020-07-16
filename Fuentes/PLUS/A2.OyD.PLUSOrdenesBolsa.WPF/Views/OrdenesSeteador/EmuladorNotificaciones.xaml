@@ -1,0 +1,179 @@
+﻿<UserControl
+    x:Class="EmuladorNotificaciones"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c1Extended="clr-namespace:C1.Silverlight.Extended;assembly=C1.Silverlight.Extended.5"
+    xmlns:c1g="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSOrdenesBolsa"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="9">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Margin="4"
+                    HorizontalAlignment="Right"
+                    Content="Numero de orden:" />
+                <TextBox
+                    x:Name="txtOrden"
+                    Grid.Column="1"
+                    MinWidth="200"
+                    Margin="4"
+                    HorizontalAlignment="Left"
+                    Text="{Binding idOrdenSeleccionada, Mode=TwoWay}" />
+            </Grid>
+        </StackPanel>
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding Refrescar}"
+            Content="Orden Nueva" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding Refrescar}"
+            Content="Orden modificada" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding EnviadaXSAE}"
+            Content="Enviada por SAE" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="3"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding SAERecibe}"
+            Content="Recibida  (Bloqueo)" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="4"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding EnviadaBVCNoRespuesta}"
+            Content="Enviada BVC sin respuesta" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="5"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding RecibidaXBVC}"
+            Content="Recibida por BVC" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="6"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding DevueltaBVC}"
+            Content="Devuelta" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="7"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding LanRecibidaBVC}"
+            Content="Lanzada - Recibida BVC" />
+        <Button
+            Grid.Row="1"
+            Grid.Column="8"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding CalzRecibidaBVC}"
+            Content="Calzada - Recibida BVC" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding CompEnviada}"
+            Content="Complementada Enviada" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding CompRecibidaBVC}"
+            Content="Complementada Recibida BVC" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding CompDevuelta}"
+            Content="Complementada Devuelta" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="3"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding excluirOrden}"
+            Content="Orden Cancelada" />
+        <Button
+            Name="Button1"
+            Grid.Row="2"
+            Grid.Column="4"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding devolverOrden}"
+            Content="Orden devuelta" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="5"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding consultaLiquidaciones}"
+            Content="Notificación de liquidaciones" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="6"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding excluirOrden}"
+            Content="Orden cumplida" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="7"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding excluirOrden}"
+            Content="Orden Anulada" />
+    </Grid>
+</UserControl>

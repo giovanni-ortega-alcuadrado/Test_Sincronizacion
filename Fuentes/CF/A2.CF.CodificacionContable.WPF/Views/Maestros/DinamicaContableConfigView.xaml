@@ -1,0 +1,529 @@
+﻿<UserControl
+    x:Class="DinamicaContableConfigView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCodificacionContable"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="1000"
+    MaxWidth="1300">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+    </UserControl.Resources>
+
+    <!--
+        Desarrollada por: Cristian Ciceri Muñetón
+        Fecha:            Agosto/2015
+    -->
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0">
+                <StackPanel>
+                    <A2Utils:ControlMenuA2
+                        x:Name="cm"
+                        DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                        DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                        EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                        Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                        HayDataForm="False"
+                        IsItemValid="True"
+                        ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                        Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                        MensajeError="{Binding ErrorForma}"
+                        Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                        ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                        PreguntarConfirmacion="False"
+                        TextoFiltroTooltip="Código o descripción dinámica contable"
+                        TituloVista="Configuración contable"
+                        TituloVistaAdicional="registros"
+                        TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}" />
+
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Paginador}">
+                <Grid x:Name="grdGridForma" Grid.Row="2">
+                    <Border>
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel
+                            x:Name="Buscar"
+                            Width="Auto"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding visLista}">
+                            <Border>
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Configuración contable" SortMemberPath="Codigo">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding NombreConfiguracion, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Descripcion}" Header="Descripción" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Activa}" Header="Activa" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border>
+                        <Grid>
+                            <!--  ====================  -->
+                            <!--  Dataform de búsqueda  -->
+                            <!--  ====================  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Border>
+                                            <Grid VerticalAlignment="Top">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Label="Configuración contable"
+                                                    LabelPosition="Above">
+                                                    <TextBox
+                                                        GotFocus="seleccionarFocoControl"
+                                                        MaxLength="40"
+                                                        Text="{Binding NombreConfiguracion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Nombre de la configuración contable" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Label="Descripción"
+                                                    LabelPosition="Above">
+                                                    <TextBox
+                                                        GotFocus="seleccionarFocoControl"
+                                                        MaxLength="100"
+                                                        Text="{Binding Descripcion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Descripción de la configuración contable" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Label="Activa"
+                                                    LabelPosition="Above">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        GotFocus="seleccionarFocoControl"
+                                                        ItemsSource="{Binding DataContext.CombosGenerales[REGISTROACTIVO], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding Activa, Mode=TwoWay}"
+                                                        SelectedValuePath="Codigo"
+                                                        ToolTipService.ToolTip="Indica si la configuración contable está o no activa" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <StackPanel
+                                x:Name="Editar"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Height="Auto"
+                                HorizontalAlignment="Stretch"
+                                Visibility="{Binding visNavegando}">
+                                <!--  ============================  -->
+                                <!--  Dataform edición de registro  -->
+                                <!--  ============================  -->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="5" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="5" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                </Grid>
+
+                                <Border Grid.Row="0">
+                                    <Grid VerticalAlignment="Top" DataContext="{Binding EncabezadoSeleccionado}">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30*" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="20*" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="50*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Nombre configuración"
+                                            LabelPosition="Above">
+                                            <TextBox
+                                                GotFocus="seleccionarFocoControl"
+                                                MaxLength="40"
+                                                Text="{Binding NombreConfiguracion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                ToolTipService.ToolTip="Nombre del tipo de confiuración contable" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            IsEnabled="{Binding DataContext.HabilitarEstadoConfig, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Activa"
+                                            LabelPosition="Above">
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                GotFocus="seleccionarFocoControl"
+                                                ItemsSource="{Binding DataContext.CombosGenerales[REGISTROACTIVO], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                SelectedValue="{Binding Activa, Mode=TwoWay}"
+                                                SelectedValuePath="Codigo"
+                                                ToolTipService.ToolTip="Indica si el tipo de configuración contable está activa o no" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="4"
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Descripción"
+                                            LabelPosition="Above">
+                                            <TextBox
+                                                GotFocus="seleccionarFocoControl"
+                                                MaxLength="240"
+                                                Text="{Binding Descripcion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                ToolTipService.ToolTip="Descripción de la configuración contable" />
+                                        </Telerik:DataFormDataField>
+                                    </Grid>
+                                </Border>
+
+                                <!--  controlar alto de fila con tipo de letra muy pequeño  -->
+                                <Border
+                                    Grid.Row="2"
+                                    BorderBrush="White"
+                                    BorderThickness="2">
+                                    <Telerik:DataFormDataField
+                                        Grid.Column="4"
+                                        IsEnabled="{Binding DataContext.NormaContableTipoInversionActiva, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Norma contable"
+                                        LabelPosition="Above">
+                                        <ComboBox
+                                            x:Name="cboNormaConfigurar"
+                                            DisplayMemberPath="Descripcion"
+                                            GotFocus="seleccionarFocoControl"
+                                            ItemsSource="{Binding DataContext.CombosGenerales[NORMA_TPOINVERSION], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedItem="{Binding NormaContableTipoInversionSeleccion, Mode=TwoWay}"
+                                            SelectedValuePath="Codigo"
+                                            SelectionChanged="cboNormaConfigurar_SelectionChanged"
+                                            ToolTipService.ToolTip="Norma contable y tipo de inversión" />
+                                    </Telerik:DataFormDataField>
+                                </Border>
+
+                                <Border
+                                    Grid.Row="4"
+                                    Margin="0,10,0,0"
+                                    Style="{StaticResource Contenedor_TabControl}">
+                                    <TabControl IsEnabled="{Binding DataContext.HabilitarDetalle, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <TabItem Header="Dinámica contable">
+                                            <StackPanel
+                                                x:Name="Dinamica"
+                                                VerticalAlignment="Top"
+                                                Orientation="Vertical">
+
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Telerik:DataFormDataField
+                                                        IsEnabled="True"
+                                                        Label="Evento contable"
+                                                        LabelPosition="Above">
+                                                        <ComboBox
+                                                            x:Name="cboEventoDinamica"
+                                                            Width="600"
+                                                            HorizontalAlignment="Left"
+                                                            DisplayMemberPath="Descripcion"
+                                                            GotFocus="seleccionarFocoControl"
+                                                            ItemsSource="{Binding DataContext.ListaConfiguracionNorma, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            SelectedItem="{Binding EventoContableSeleccion, Mode=TwoWay}"
+                                                            SelectedValuePath="Codigo"
+                                                            SelectionChanged="cboEventoDinamica_SelectionChanged"
+                                                            ToolTipService.ToolTip="Evento contable que se quiere revisar" />
+                                                    </Telerik:DataFormDataField>
+
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Column="6"
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        Label="   "
+                                                        LabelPosition="Above"
+                                                        Visibility="{Binding DataContext.VisibilidadDuplicarDinamica, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                        <Button
+                                                            Name="cmdDuplicarConfiguracion"
+                                                            Click="cmdDuplicarConfiguracion_Click"
+                                                            Content="Duplicar configuración" />
+                                                    </Telerik:DataFormDataField>
+                                                </StackPanel>
+
+                                                <A2UTILGEN:A2GridView
+                                                    x:Name="dgDinamica"
+                                                    Height="250"
+                                                    VerticalAlignment="Top"
+                                                    AutoGenerateColumns="False"
+                                                    IsReadOnly="True"
+                                                    ItemsSource="{Binding ListaDetalleDinamica}"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                    SelectedItem="{Binding DetalleDinamicaSeleccionado, Mode=TwoWay}"
+                                                    ValidatesOnDataErrors="None">
+                                                    <A2UTILGEN:A2GridView.Columns>
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding ConceptoContable}" Header="Concepto contable" />
+
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Naturaleza}" Header="Naturaleza" />
+
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding TipoValor}" Header="Tipo valor a reportar" />
+
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding CuentaContable}" Header="Grupo contable" />
+
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Activa}" Header="Activa" />
+
+                                                    </A2UTILGEN:A2GridView.Columns>
+                                                </A2UTILGEN:A2GridView>
+                                            </StackPanel>
+                                        </TabItem>
+
+                                        <TabItem Header="Conceptos comunes">
+                                            <StackPanel
+                                                x:Name="ConceptosComunes"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                VerticalAlignment="Top">
+
+                                                <Border Style="{StaticResource Contenedor_Paginador}">
+                                                    <A2UTILGEN:A2DataPager
+                                                        x:Name="datapagerCComun"
+                                                        PageSize="25"
+                                                        Source="{Binding Items, ElementName=dgConceptosComunes}" />
+                                                </Border>
+                                                <A2UTILGEN:A2GridView
+                                                    x:Name="dgConceptosComunes"
+                                                    Height="250"
+                                                    VerticalAlignment="Top"
+                                                    AutoGenerateColumns="False"
+                                                    IsReadOnly="True"
+                                                    ItemsSource="{Binding ListaDetalleConceptosComunesPag}"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                    SelectedItem="{Binding DetalleConceptosComunesSeleccionado, Mode=TwoWay}"
+                                                    ValidatesOnDataErrors="None">
+                                                    <A2UTILGEN:A2GridView.Columns>
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding ConceptoContable}" Header="Concepto contable" />
+
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Naturaleza}" Header="Naturaleza" />
+
+                                                        <Telerik:GridViewDataColumn Header="Tipo ccosto">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <ComboBox
+                                                                        Width="100"
+                                                                        HorizontalAlignment="Left"
+                                                                        DisplayMemberPath="Descripcion"
+                                                                        GotFocus="seleccionarFocoControl"
+                                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        ItemsSource="{Binding DataContext.CombosGenerales[TIPO_CCOSTO], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        SelectedValue="{Binding IdTipoCCosto, Mode=TwoWay}"
+                                                                        SelectedValuePath="IdLista"
+                                                                        ToolTipService.ToolTip="Tipo del centro de costo que se debe asignar al movimiento" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+
+                                                        <Telerik:GridViewDataColumn Header="Tipo tercero">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <ComboBox
+                                                                        Width="100"
+                                                                        HorizontalAlignment="Left"
+                                                                        DisplayMemberPath="Descripcion"
+                                                                        GotFocus="seleccionarFocoControl"
+                                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        ItemsSource="{Binding DataContext.CombosGenerales[TIPO_TERCERO_ASIENTO], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        SelectedValue="{Binding IdTipoTercero, Mode=TwoWay}"
+                                                                        SelectedValuePath="IdLista"
+                                                                        ToolTipService.ToolTip="Tipo del tercero de costo que se debe asignar al movimiento" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+
+                                                        <Telerik:GridViewDataColumn Header="Cuenta contable">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBox IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" Text="{Binding CuentaContable, Mode=TwoWay}" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+                                                    </A2UTILGEN:A2GridView.Columns>
+                                                </A2UTILGEN:A2GridView>
+                                            </StackPanel>
+                                        </TabItem>
+
+                                        <TabItem Header="Conceptos por clase contable">
+
+                                            <StackPanel
+                                                x:Name="ConceptosClase"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                VerticalAlignment="Top">
+
+                                                <Telerik:DataFormDataField
+                                                    IsEnabled="True"
+                                                    Label="Clase contable"
+                                                    LabelPosition="Above">
+                                                    <ComboBox
+                                                        x:Name="cboClaseContable"
+                                                        Width="600"
+                                                        HorizontalAlignment="Left"
+                                                        DisplayMemberPath="Descripcion"
+                                                        GotFocus="seleccionarFocoControl"
+                                                        ItemsSource="{Binding DataContext.CombosGenerales[CLASECONTABLE], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedItem="{Binding ClaseContableSeleccion, Mode=TwoWay}"
+                                                        SelectedValuePath="Codigo"
+                                                        SelectionChanged="cboClaseContable_SelectionChanged"
+                                                        ToolTipService.ToolTip="Clase contable que se configura" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Border Style="{StaticResource Contenedor_Paginador}">
+                                                    <A2UTILGEN:A2DataPager
+                                                        x:Name="datapagerCClase"
+                                                        PageSize="25"
+                                                        Source="{Binding Items, ElementName=dgConceptosClase}" />
+                                                </Border>
+                                                <A2UTILGEN:A2GridView
+                                                    x:Name="dgConceptosClase"
+                                                    Height="250"
+                                                    VerticalAlignment="Top"
+                                                    AutoGenerateColumns="False"
+                                                    IsReadOnly="True"
+                                                    ItemsSource="{Binding ListaDetalleConceptosEspecificosPag}"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                    SelectedItem="{Binding DetalleConceptosEspecificosSeleccionado, Mode=TwoWay}"
+                                                    ValidatesOnDataErrors="None">
+                                                    <A2UTILGEN:A2GridView.Columns>
+                                                        <!--<Telerik:GridViewDataColumn DataMemberBinding="{Binding EventoContable}" Header="Evento" />-->
+
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding ConceptoContable}" Header="Concepto contable" />
+
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Naturaleza}" Header="Naturaleza" />
+
+                                                        <!--<Telerik:GridViewDataColumn DataMemberBinding="{Binding TipoValor}" Header="Tipo valor a reportar" />-->
+
+                                                        <Telerik:GridViewDataColumn Header="Tipo ccosto">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <ComboBox
+                                                                        Width="100"
+                                                                        HorizontalAlignment="Left"
+                                                                        DisplayMemberPath="Descripcion"
+                                                                        GotFocus="seleccionarFocoControl"
+                                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        ItemsSource="{Binding DataContext.CombosGenerales[TIPO_CCOSTO], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        SelectedValue="{Binding IdTipoCCosto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        SelectedValuePath="IdLista"
+                                                                        ToolTipService.ToolTip="Tipo del centro de costo que se debe asignar al movimiento" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+
+                                                        <Telerik:GridViewDataColumn Header="Tipo tercero">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <ComboBox
+                                                                        Width="100"
+                                                                        HorizontalAlignment="Left"
+                                                                        DisplayMemberPath="Descripcion"
+                                                                        GotFocus="seleccionarFocoControl"
+                                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        ItemsSource="{Binding DataContext.CombosGenerales[TIPO_TERCERO_ASIENTO], Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        SelectedValue="{Binding IdTipoTercero, Mode=TwoWay}"
+                                                                        SelectedValuePath="IdLista"
+                                                                        ToolTipService.ToolTip="Tipo del tercero de costo que se debe asignar al movimiento" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+
+                                                        <Telerik:GridViewDataColumn Header="Cuenta contable">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBox IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" Text="{Binding CuentaContable, Mode=TwoWay}" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+                                                    </A2UTILGEN:A2GridView.Columns>
+                                                </A2UTILGEN:A2GridView>
+                                            </StackPanel>
+                                        </TabItem>
+                                    </TabControl>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
