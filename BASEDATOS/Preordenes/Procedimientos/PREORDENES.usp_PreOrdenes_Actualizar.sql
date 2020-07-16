@@ -61,9 +61,8 @@ ALTER PROCEDURE [PREORDENES].[usp_PreOrdenes_Actualizar]
 @pstrTablaValidaciones	VARCHAR(100),
 @pstrUsuario			VARCHAR(60), -- Usuario que ejecuta la acci�n
 @pstrMaquina			VARCHAR(60), -- Maquina que ejecuta la acci�n
-@pstrInfosesion			VARCHAR(2000) = Null -- XML con inofrmaci�n que se utiliza para auditoria (usuario, ip m�quina usuario, nombre m�quina usuario, servidor web, etc.)
---WITH ENCRYPTION
-@pstrInfosesionTEMPORAL			VARCHAR(2000) = Null -- ADICIONAL
+@pstrInfosesion			VARCHAR(2000) = Null, -- XML con inofrmaci�n que se utiliza para auditoria (usuario, ip m�quina usuario, nombre m�quina usuario, servidor web, etc.)
+@pstrInfosesionTEMPORAL		VARCHAR(2000) = Null
 AS 
 
 SET NOCOUNT ON
