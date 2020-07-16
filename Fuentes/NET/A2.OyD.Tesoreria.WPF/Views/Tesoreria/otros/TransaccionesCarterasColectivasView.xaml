@@ -1,0 +1,322 @@
+﻿<UserControl
+    x:Class="TransaccionesCarterasColectivasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
+
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <Grid
+            x:Name="LayoutRoot"
+            Width="1300"
+            ShowGridLines="False">
+
+            <StackPanel Orientation="Vertical">
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource Title1}" Text="Transacciones para Carteras Colectivas" />
+                </StackPanel>
+
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource Contenedor_Estilo}">
+
+
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                Orientation="Horizontal">
+                                <Telerik:DataFormDataField Label="Tipo Consecutivo" LabelPosition="Above">
+                                    <ComboBox
+                                        x:Name="cboConsecutivo"
+                                        Width="250"
+                                        HorizontalAlignment="Left"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding DiccionarioCarga[TIPOCONSECUTIVO]}"
+                                        SelectedValue="{Binding ConsecutivoSeleccionado, Mode=TwoWay}"
+                                        SelectedValuePath="ID"
+                                        ToolTipService.ToolTip="Consecutivo" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Label="F. Proceso"
+                                    LabelPosition="Above">
+                                    <A2UTILGEN:A2DatePicker SelectedDate="{Binding FechaProceso, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                </Telerik:DataFormDataField>
+                            </StackPanel>
+                        </Grid>
+
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock
+                                Margin="7"
+                                Style="{StaticResource Title6}"
+                                Text="Cuentas" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Column="0"
+                                    Label="Cuentas"
+                                    LabelPosition="Above">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox
+                                            Grid.Column="0"
+                                            Width="150"
+                                            VerticalAlignment="Center"
+                                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                                            Text="{Binding CuentaBancaria, Mode=TwoWay}"
+                                            ToolTipService.ToolTip="Cuenta bancaria" />
+
+                                        <OyD:BuscadorGenericoListaButon
+                                            x:Name="ctlBuscadorCuentasBancarias"
+                                            Grid.Column="1"
+                                            Margin="2,0,0,0"
+                                            CampoBusqueda="cuentasbancarias"
+                                            Condicion1="{Binding strFechaProceso}"
+                                            Condicion2="{Binding ConsecutivoSeleccionado}"
+                                            EstadoItem="A"
+                                            Etiqueta="Lista de cuentas"
+                                            TipoItem="CUENTASTRANSACCIONESCC"
+                                            finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                    </Grid>
+                                </Telerik:DataFormDataField>
+
+                                <Button
+                                    x:Name="btnConsultarDocumentos"
+                                    Grid.Column="1"
+                                    Width="100"
+                                    VerticalAlignment="Bottom"
+                                    Click="btnConsultarDocumentos_Click"
+                                    Content="Consultar" />
+
+                                <Telerik:DataFormDataField
+                                    Grid.Column="2"
+                                    Label="Nombre"
+                                    LabelPosition="Above">
+                                    <TextBox
+                                        IsEnabled="False"
+                                        Text="{Binding NombreCuentaBancaria, Mode=TwoWay}"
+                                        ToolTipService.ToolTip="Nombre" />
+                                </Telerik:DataFormDataField>
+                            </Grid>
+                        </StackPanel>
+
+
+
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Column="0"
+                                    Label="Nro registros"
+                                    LabelPosition="Above">
+                                    <A2UTILGEN:A2NumericBox
+                                        IsEnabled="False"
+                                        NumberDecimalDigits="0"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Nro registros"
+                                        ValueFormat="NoSeparator"
+                                        Value="{Binding NroRegistros, Mode=TwoWay}" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Column="1"
+                                    Label="Total"
+                                    LabelPosition="Above">
+                                    <A2UTILGEN:A2NumericBox
+                                        IsEnabled="False"
+                                        NumberDecimalDigits="2"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Valor total registros"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding ValorTotal, Mode=TwoWay}" />
+                                </Telerik:DataFormDataField>
+                            </Grid>
+                        </StackPanel>
+
+
+                        <Border Grid.Row="4" Style="{StaticResource Contenedor_TabControl}">
+                            <TabControl Height="230" HorizontalAlignment="Stretch">
+                                <TabItem
+                                    Name="TabDetalleTesoreri"
+                                    HorizontalAlignment="Stretch"
+                                    Header="Detalle transacciones carteras colectivas  ">
+                                    <StackPanel Orientation="Vertical">
+
+                                        <Border Style="{StaticResource Contenedor_Paginador}">
+                                            <A2UTILGEN:A2DataPager
+                                                x:Name="datapagerdetalle"
+                                                PageSize="10"
+                                                Source="{Binding Items, ElementName=dgLista}" />
+                                        </Border>
+                                        <A2UTILGEN:A2GridView
+                                            x:Name="dgLista"
+                                            Height="150"
+                                            VerticalAlignment="Top"
+                                            AutoGenerateColumns="False"
+                                            CanUserDeleteRows="False"
+                                            CanUserInsertRows="False"
+                                            IsReadOnly="True"
+                                            ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                            ValidatesOnDataErrors="None">
+                                            <A2UTILGEN:A2GridView.Columns>
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding CodigoFondo, Mode=TwoWay}"
+                                                    Header="Código del fondo"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="CodigoFondo" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding CodigoOficina, Mode=TwoWay}"
+                                                    Header="Código oficina"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="CodigoOficina" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding IdentificacionCliente, Mode=TwoWay}"
+                                                    Header="Identificación cliente"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="IdentificacionCliente" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataFormatString="n2"
+                                                    DataMemberBinding="{Binding ValorAdicion, Mode=TwoWay}"
+                                                    Header="Valor adición"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="ValorAdicion" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding CodigoBanco, Mode=TwoWay}"
+                                                    Header="Código banco"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="CodigoBanco" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding CuentaBancaria, Mode=TwoWay}"
+                                                    Header="Cuenta bancaria"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="CuentaBancaria" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding TipoCuenta, Mode=TwoWay}"
+                                                    Header="Tipo cuenta"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="TipoCuenta" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding DescripcionOperacion, Mode=TwoWay}"
+                                                    Header="Descripción operación"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="DescripcionOperacion" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding CuentaOyD, Mode=TwoWay}"
+                                                    Header="Cuenta OYD"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="CuentaOyD" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding TipoOperacion, Mode=TwoWay}"
+                                                    Header="Tipo operación"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="TipoOperacion" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataFormatString="dd/MM/yyyy"
+                                                    DataMemberBinding="{Binding FechaComprobante, Mode=TwoWay}"
+                                                    Header="Fecha comprobante"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="FechaComprobante" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding NumeroComprobante, Mode=TwoWay}"
+                                                    Header="Número comprobante"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="NumeroComprobante" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding NombreConsecutivo, Mode=TwoWay}"
+                                                    Header="Nombre consecutivo"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="NombreConsecutivo" />
+                                                <Telerik:GridViewDataColumn
+                                                    DataMemberBinding="{Binding TipoCuentaBancaria, Mode=TwoWay}"
+                                                    Header="Tipo cuenta bancaria"
+                                                    IsReadOnly="True"
+                                                    SortMemberPath="TipoCuentaBancaria" />
+                                            </A2UTILGEN:A2GridView.Columns>
+                                        </A2UTILGEN:A2GridView>
+                                    </StackPanel>
+                                </TabItem>
+                            </TabControl>
+                        </Border>
+
+                        <StackPanel
+                            Grid.Row="5"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="btnAceptar"
+                                Width="130"
+                                Height="30"
+                                Click="btnAceptar_Click"
+                                Content="Aceptar" />
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

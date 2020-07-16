@@ -1,0 +1,97 @@
+﻿<UserControl
+    x:Class="ImprimirChequesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="200"
+    MaxWidth="700"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" MaxWidth="700">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Name="StackPanelTitulo"
+                Grid.Row="0"
+                Width="700"
+                HorizontalAlignment="Left"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Impresión de cheques" />
+            </StackPanel>
+            <StackPanel
+                x:Name="StackPanelAceptar"
+                Grid.Row="1"
+                Width="700"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Style="{StaticResource stpFiltro}">
+                <Border
+                    Width="700"
+                    Margin="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btnImprimir"
+                            Width="85"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnBuscarChequesxImprimir_Click"
+                            Content="Imprimir" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <A2UTILGEN:A2GridView
+                x:Name="dtgChequesxImprimir"
+                Grid.Row="2"
+                Width="750"
+                Height="350"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding ListaChequesxImprimir}"
+                SelectedItem="{Binding ChequesxImprimirSelected, Mode=TwoWay}"
+                ValidatesOnDataErrors="None">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding IdBanco}" Header="Código" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreBanco}" Header="Nombre banco" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding ChequeXImprimir}" Header="Cheques por Imprimir" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding lngActual}" Header="Próximo cheque" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivo}" Header="Consecutivo" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding FormatoBanco}" Header="Reporte Cheque" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

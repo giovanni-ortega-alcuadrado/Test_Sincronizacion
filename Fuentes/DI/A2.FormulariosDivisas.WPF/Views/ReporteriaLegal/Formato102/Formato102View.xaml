@@ -1,0 +1,228 @@
+﻿<UserControl
+    x:Class="Formato102View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:A2FormulariosDivisasWPF"
+    MinWidth="800"
+    MinHeight="500"
+    Padding="10"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
+    mc:Ignorable="d">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila Título  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila forma/grid  -->
+                <RowDefinition Height="*" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Titulo  -->
+            <StackPanel Grid.Row="0" Grid.Column="0">
+
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <!--  Titulo  -->
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Width="Auto"
+                            HorizontalAlignment="Left"
+                            FontSize="22"
+                            Foreground="#2c3e50"
+                            Text="{Binding DataContext.DiccionarioEtiquetasPantalla[TITULO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                    </StackPanel>
+
+                </Grid>
+
+
+                <Border
+                    Width="Auto"
+                    Margin="0"
+                    BorderBrush="#868686"
+                    BorderThickness="0.5" />
+
+
+
+            </StackPanel>
+
+
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid
+                    Grid.Row="0"
+                    VerticalAlignment="Top"
+                    Background="{StaticResource BackgroundColorBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <Telerik:DataFormDataField
+                        Grid.Column="0"
+                        Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHADESDE].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHADESDE].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        LabelPosition="Above"
+                        ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHADESDE].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Telerik:RadDatePicker
+                            BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHADESDE].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Culture="en-CA"
+                            DateTimeWatermarkContent="{Binding DataContext.DiccionarioEtiquetasPantalla[INGRESEFECHA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedDate="{Binding DataContext.cb.dtmFecha, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                            TextAlignment="Left" />
+                    </Telerik:DataFormDataField>
+
+                    <Button
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding DataContext.ConsultarCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Content="{Binding DataContext.DiccionarioEtiquetasPantalla[CONSULTAR].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        IsEnabled="True" />
+
+                </Grid>
+
+                <Telerik:RadTabControl x:Name="ControlTabHijos" Grid.Row="1">
+
+
+                    <Telerik:RadTabItem Header="Formato 102">
+
+                        <A2UTILGEN:A2GridView
+                            x:Name="dgF1"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            BorderThickness="0"
+                            FrozenColumnCount="0"
+                            ItemsSource="{Binding DataContext.ListaFormato102, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            ShowGroupPanel="False">
+
+
+                            <Telerik:RadGridView.Columns>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding TIPO}"
+                                    Header="Tipo"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding COLUMNA}"
+                                    Header="COLUMNA"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding UNIDADCAPTURA}"
+                                    Header="UNIDADCAPTURA"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding SUBCUENTA}"
+                                    Header="SUBCUENTA"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding VALOR}"
+                                    Header="VALOR"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding FLIQUIDACION}"
+                                    Header="FLIQUIDACION"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding TIPOENTIDAD}"
+                                    Header="TIPOENTIDAD"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding CODIGOENTIDAD}"
+                                    Header="CODIGOENTIDAD"
+                                    IsReadOnly="True" />
+
+                            </Telerik:RadGridView.Columns>
+
+                        </A2UTILGEN:A2GridView>
+
+                    </Telerik:RadTabItem>
+
+                </Telerik:RadTabControl>
+
+                <Grid
+                    Grid.Row="2"
+                    VerticalAlignment="Top"
+                    Background="{StaticResource BackgroundColorBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Telerik:DataFormDataField
+                        Grid.Column="0"
+                        Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[NOMBREARCHIVO].ColorLetra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Label="{Binding DataContext.DiccionarioEtiquetasPantalla[NOMBREARCHIVO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        LabelPosition="Above"
+                        ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[NOMBREARCHIVO].Tooltip, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                        <TextBox
+                            VerticalAlignment="Center"
+                            BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[NOMBREARCHIVO].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Text="{Binding DataContext.strNombreArchivo, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" />
+                    </Telerik:DataFormDataField>
+
+                    <Button
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding DataContext.ArchivoCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Content="{Binding DataContext.DiccionarioEtiquetasPantalla[ARCHIVO].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        IsEnabled="True" />
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
+    </Telerik:RadBusyIndicator>
+</UserControl>

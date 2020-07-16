@@ -1,0 +1,117 @@
+﻿<Window
+    x:Class="ConsultaRelacionSaldo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDClientes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Consulta Saldos"
+    MinWidth="350"
+    MaxWidth="600"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Window.Resources>
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </Window.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Telerik:RadBusyIndicator
+            x:Name="myBusyIndicator"
+            BusyContent="Cargando..."
+            DisplayAfter="0"
+            IsBusy="{Binding IsBusy}">
+            <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Telerik:DataFormDataField Grid.Row="0" Label="Receptor">
+                        <ComboBox
+                            x:Name="cmbReceptor"
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DiccionarioCombosA2[CodReceptor], Source={StaticResource A2VM}}"
+                            SelectedValue="{Binding Receptor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="Receptor" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField Grid.Row="1" Label="Sucursal">
+                        <ComboBox
+                            x:Name="cmbSucursal"
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DiccionarioCombosA2[Sucursales(Todos)], Source={StaticResource A2VM}}"
+                            SelectedValue="{Binding Sucursal, StringFormat='#', Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="Sucursal" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField Grid.Row="2" Label="Tipo Valores">
+                        <ComboBox
+                            x:Name="cmbTipoValores"
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DiccionarioCombosA2[TipoLimite], Source={StaticResource A2VM}}"
+                            SelectedValue="{Binding TipoLimite, StringFormat='#', Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="TipoValores" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField Grid.Row="3" Label="Valor límite">
+                        <A2UTILGEN:A2NumericBox
+                            Maximum="999999999999998"
+                            ShowButtons="False"
+                            ToolTipService.ToolTip="ValorLimite"
+                            Value="{Binding ValorLimite, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField Grid.Row="4" Label="Estado Clientes">
+                        <ComboBox
+                            x:Name="cmbEstadocli"
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DiccionarioCombosA2[EstadoCliSaldo], Source={StaticResource A2VM}}"
+                            SelectedValue="{Binding EstadoClientes, StringFormat='#', Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="EstadoCliSaldo" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField Grid.Row="5" Label="Fecha de Corte">
+                        <A2UTILGEN:A2DatePicker SelectedDate="{Binding Fcorte, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Fecha corte" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField Grid.Row="6" Label="Tipo Cartera">
+                        <ComboBox
+                            x:Name="cmbTipoCartera"
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DiccionarioCombosA2[TipoCartera], Source={StaticResource A2VM}}"
+                            SelectedValue="{Binding TipoCartera, StringFormat='#', Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="TipoCartera" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField Grid.Row="7" Label="">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="OKButton"
+                                Width="75"
+                                Content="Aceptar" />
+                            <Button
+                                x:Name="CancelButton"
+                                Grid.Column="1"
+                                Width="75"
+                                Content="Cancelar" />
+                        </Grid>
+
+                    </Telerik:DataFormDataField>
+                </Grid>
+            </StackPanel>
+        </Telerik:RadBusyIndicator>
+    </Grid>
+</Window>
+

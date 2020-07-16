@@ -1,0 +1,1160 @@
+﻿<UserControl
+    x:Class="FormaOrdenesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OYDPLUSControles="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSOrdenesDerivados"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:clsLiderConverter x:Key="cvLider" />
+        <src:LongConverter x:Key="cvCodigo" />
+        <src:DateTimeHoraFinDiaConverter x:Key="cvDateTimeHoraFinDiaConverter" />
+
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        DataContext="{Binding OrdenOYDPLUSSelected, Source={StaticResource VMOrdenes}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,2,0,2"
+            HorizontalAlignment="Stretch"
+            BorderBrush="White"
+            BorderThickness="1">
+            <StackPanel Margin="5,0,0,0" Orientation="Horizontal">
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Notificación" Style="{StaticResource LabelNormal}" />
+                    <Button
+                        x:Name="txtNotificacion"
+                        VerticalAlignment="Bottom"
+                        Click="txtNotificacion_Click"
+                        Content="{Binding Notificacion}"
+                        Style="{StaticResource HyperlinkLikeButton}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Trazabilidad" Style="{StaticResource LabelNormal}" />
+                    <OYDPLUSControles:ConsultarEstadosDocumentoBoton
+                        IDDocumento="{Binding NroOrden}"
+                        IDNumeroUnico="{Binding ID}"
+                        Modulo="{Binding Modulo, Source={StaticResource VMOrdenes}}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="ID PreOrden" Style="{StaticResource LabelNormal}" />
+                    <TextBlock
+                        x:Name="txtIDPreorden"
+                        Style="{StaticResource ControlTextBlockNormalInfo}"
+                        Text="{Binding IDPreorden}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Nro Orden" Style="{StaticResource LabelNormal}" />
+                    <TextBlock
+                        x:Name="txtNroOrden"
+                        Style="{StaticResource ControlTextBlockNormalInfo}"
+                        Text="{Binding NroOrden}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Fecha PreOrden" Style="{StaticResource LabelNormal}" />
+                    <A2UTILGEN:A2DatePicker IsEnabled="False" SelectedDate="{Binding FechaPreorden, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Fecha Orden" Style="{StaticResource LabelNormal}" />
+                    <A2UTILGEN:A2DatePicker IsEnabled="False" SelectedDate="{Binding FechaOrden, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Estado" Style="{StaticResource LabelNormal}" />
+                    <ComboBox
+                        x:Name="cboEstado"
+                        MinWidth="100"
+                        DisplayMemberPath="Descripcion"
+                        IsEnabled="False"
+                        ItemsSource="{Binding DiccionarioCombosOYDPlus[ESTADOORDEN], Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding SubEstado, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Prima" Style="{StaticResource LabelNormal}" />
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtPrima"
+                        MinWidth="100"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="False"
+                        Maximum="99999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="0"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding Prima, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Días aviso cumplimiento" Style="{StaticResource LabelNormal}" />
+                    <TextBox
+                        x:Name="txtDiasAvisoCumplimiento"
+                        MinWidth="100"
+                        IsEnabled="False"
+                        Text="{Binding DiasAvisoCumplimiento, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Usuario ingreso" Style="{StaticResource LabelNormal}" />
+                    <TextBox
+                        x:Name="txtUsuarioIngreso"
+                        MinWidth="100"
+                        IsEnabled="False"
+                        Text="{Binding UsuarioCreacion, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Usuario modificación" Style="{StaticResource LabelNormal}" />
+                    <TextBox
+                        x:Name="txtUsuarioModificacion"
+                        MinWidth="100"
+                        IsEnabled="False"
+                        Text="{Binding Usuario, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,1,25,1" Orientation="Vertical">
+                    <Label Content="Ultima modificación" Style="{StaticResource LabelNormal}" />
+                    <A2UTILGEN:A2DatePicker IsEnabled="False" SelectedDate="{Binding Actualizacion, Mode=TwoWay}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,2,0,2"
+            HorizontalAlignment="Stretch"
+            BorderBrush="White"
+            BorderThickness="1">
+            <Grid x:Name="GridControlesIniciales">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    IsEnabled="{Binding HabilitarEncabezado, Source={StaticResource VMOrdenes}}"
+                    Label="Receptor"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboReceptores"
+                        DisplayMemberPath="Nombre"
+                        ItemsSource="{Binding ListaReceptoresUsuario, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding Receptor, Mode=TwoWay}"
+                        SelectedValuePath="CodigoReceptor" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsEnabled="{Binding HabilitarEncabezado, Source={StaticResource VMOrdenes}}"
+                    Label="Fecha generar"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboFechaGenerar"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombosOYDPlus[FECHASGENERAR], Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding FechaVigenciaOrden, Mode=TwoWay}"
+                        SelectedValuePath="Retorno" />
+                </Telerik:DataFormDataField>
+
+                <TextBlock
+                    x:Name="lblTituloCaracteristicasCliente"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="0,10,20,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource Title5}"
+                    Text="Características del cliente"
+                    Visibility="{Binding Editando, Source={StaticResource VMOrdenes}, Converter={StaticResource InVisibilityConverter}}" />
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    Visibility="{Binding Editando, Source={StaticResource VMOrdenes}, Converter={StaticResource VisibilityConverter}}">
+                    <Controles:BuscadorCliente
+                        x:Name="ctrlCliente"
+                        BorrarCliente="{Binding BorrarCliente, Source={StaticResource VMOrdenes}}"
+                        BuscarAlIniciar="False"
+                        CargarClientesRestriccion="True"
+                        CargarClientesTercero="Visible"
+                        ClienteBuscar="{Binding ClienteBuscar, Source={StaticResource VMOrdenes}}"
+                        EstadoComitente="A"
+                        IDReceptor="{Binding Receptor}"
+                        IsEnabled="{Binding HabilitarEncabezado, Source={StaticResource VMOrdenes}}"
+                        TipoNegocio="{Binding TipoNegocio}"
+                        TipoVinculacion="C"
+                        comitenteAsignado="ctrlCliente_comitenteAsignado" />
+                    <Button
+                        x:Name="btnLimpiarCliente"
+                        Margin="2,0,0,10"
+                        VerticalAlignment="Bottom"
+                        Click="btnLimpiarCliente_Click"
+                        Style="{StaticResource btnLimpiar}"
+                        ToolTipService.ToolTip="Limpiar cliente" />
+                </StackPanel>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Label="Código OYD"
+                    LabelPosition="Above">
+                    <Label x:Name="txtCodigoOYD" Content="{Binding CodigoOYD}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Label="Nombre"
+                    LabelPosition="Above">
+                    <Label x:Name="txtNombreCliente" Content="{Binding NombreCliente}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    Label="Nro documento"
+                    LabelPosition="Above">
+                    <Label x:Name="txtIdentificacion" Content="{Binding NroDocumento}" />
+                </Telerik:DataFormDataField>
+
+                <!--<Telerik:DataFormDataField LabelPosition="Above"
+                                           Label="Ordenante"
+                                           Grid.Column="6"
+                                           Grid.Row="0"
+                                           Grid.ColumnSpan="3">
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="lblDescripcionOrdenante" Content="{Binding NombreOrdenante}"
+                                                           Visibility="{Binding Editando, Source={StaticResource VMOrdenes}, Converter={StaticResource InVisibilityConverter}}"/>
+                        <ComboBox x:Name="cboOrdenantes"
+                                      ItemsSource="{Binding ListaOrdenantesOYDPLUS, Source={StaticResource VMOrdenes},Mode=OneWay}"
+                                      SelectedItem="{Binding OrdenanteSeleccionadoOYDPLUS, Source={StaticResource VMOrdenes}, Mode=TwoWay}"
+                                      SelectedValuePath="IdOrdenante"
+                                      Visibility="{Binding HabilitarEncabezado, Source={StaticResource VMOrdenes}, Converter={StaticResource VisibilityConverter}}">
+
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"
+                                                                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                                    MaxWidth="320"
+                                                                    Height="Auto" />
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Left"
+                                                                    Height="Auto"
+                                                                    Margin="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Path=DescripcionOrdenante}"
+                                                                           Style="{StaticResource ControlTextBlockNormalInfo}"/>
+                                            <TextBlock Text=" - "
+                                                                           Style="{StaticResource ControlTextBlockNormalInfo}"/>
+                                            <TextBlock Text="{Binding Path=Lider, Converter={StaticResource cvLider}}"
+                                                                           Style="{StaticResource ControlTextBlockNormalInfo}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock  Text="{Binding Path=TipoIdentificacion}"
+                                                                            Style="{StaticResource ControlTextBlockNormalInfo}"/>
+                                            <TextBlock Text="{Binding Path=NroDocumento, StringFormat=' nro. \{0}'}"
+                                                                           Style="{StaticResource ControlTextBlockNormalInfo}"/>
+                                        </StackPanel>
+
+                                        <Line Height="1"
+                                                Stretch="Fill"
+                                                Stroke="Silver"
+                                                X1="0"
+                                                Y1="20"
+                                                X2="100"
+                                                Y2="20"
+                                                Margin="0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip>
+                                    <StackPanel Orientation="Vertical"
+                                                DataContext="{Binding OrdenanteSeleccionado, Source={StaticResource VMOrdenes}}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label  Content="{Binding Path=TipoIdentificacion}" />
+                                            <Label  Content="{Binding Path=NroDocumento, StringFormat=' nro. \{0}'}" />
+                                        </StackPanel>
+                                        <Label Content="{Binding Path=IdOrdenante, StringFormat='Código OYD \{0}'}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </ComboBox>
+                    </StackPanel>
+                </Telerik:DataFormDataField>-->
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[intIdCuentaCRCC], Source={StaticResource VMOrdenes}}"
+                    Label="Cuenta CRCC"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboCuentaCRCC"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboCuentasCCCR, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding IDCuenta, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[intIdSubcuentaCRCC], Source={StaticResource VMOrdenes}}"
+                    Label="Subcuenta CRCC"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboSubCuentaCRCC"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboSubCuentasCCCR, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding IDSubCuenta, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Operación"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboTipoOperacion"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombosOYDPlus[TIPOOPERACION], Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding TipoOperacion, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Tipo instrumento"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboTipoInstrumento"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombosOYDPlus[TIPOINSTRUMENTO], Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding TipoInstruccion, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Tipo"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboTipoOpcion"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboTipoOpcion, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding TipoRegularOSpread, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Instrumento"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboInstrumento"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboInstrumento, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding Instrumento, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="6"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Vencimiento inicial"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboVencimientoInicial"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboVenimientoInicial, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding VencimientoInicial, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="7"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Vencimiento final"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboVencimientoFinal"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboVenimientoFinal, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding VencimientoFinal, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="8,3,10,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <Label Content="Precio" Style="{StaticResource EstiloLabel}" />
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtPrecio"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numPrecio], Source={StaticResource VMOrdenes}}"
+                        Maximum="99999999"
+                        Minimum="0"
+                        NumberDecimalDigits="3"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding Precio, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="8,3,10,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <Label Content="Cantidad contratos" Style="{StaticResource EstiloLabel}" />
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtCantidad"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numCantidad], Source={StaticResource VMOrdenes}}"
+                        Maximum="9999999"
+                        Minimum="0"
+                        NumberDecimalDigits="0"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding Cantidad, Mode=TwoWay}" />
+                </StackPanel>
+
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numComision], Source={StaticResource VMOrdenes}}"
+                    Label="Comisión por"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboTipoComision"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombosOYDPlus[TIPOCOMISION], Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding TipoComision, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Margin="8,3,10,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <Label Content="Comisión" Style="{StaticResource EstiloLabel}" />
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtComosion"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numComision], Source={StaticResource VMOrdenes}}"
+                        Maximum="99999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="0"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Visibility="{Binding MostrarComision, Source={StaticResource VMOrdenes}, Converter={StaticResource VisibilityConverter}}"
+                        Value="{Binding Comision, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Margin="8,3,10,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <Label Content="Comisión" Style="{StaticResource EstiloLabel}" />
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtPorcentajeComosion"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numComision], Source={StaticResource VMOrdenes}}"
+                        Maximum="100"
+                        Minimum="0"
+                        NumberDecimalDigits="3"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Visibility="{Binding MostrarComision, Source={StaticResource VMOrdenes}, Converter={StaticResource InVisibilityConverter}}"
+                        Value="{Binding PorcentajeComision, Mode=TwoWay}" />
+                </StackPanel>
+
+                <!--    -->
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Facturar comisión"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboFacturarComision"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombosOYDPlus[FACTURARCOMISION], Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding FacturarComision, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="5"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Ya registrado en bolsa"
+                    LabelPosition="Above">
+                    <CheckBox IsChecked="{Binding RegistroEnBolsa, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Tipo registro"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboTipoRegistro"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombosOYDPlus[TIPOREGISTRO], Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding TipoRegistro, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Contraparte"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboContraparte"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboContraparte, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding Contraparte, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Canal"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboCanal"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboCanalesActivos, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding Canal, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Medio verificable"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboMedioVerificable"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding ListaComboMedioVerificable, Source={StaticResource VMOrdenes}}"
+                        SelectedValue="{Binding MedioVerificable, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="4"
+                    IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                    Label="Hora toma"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2TimePicker
+                        x:Name="txtFechaHoraToma"
+                        SelectedValue="{Binding FechaHoraToma, Mode=TwoWay}"
+                        ToolTipService.ToolTip="Hora toma" />
+                </Telerik:DataFormDataField>
+
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.Column="5"
+                    Grid.ColumnSpan="2"
+                    Margin="8,3,10,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <Label Content="Detalle medio verificable" Style="{StaticResource EstiloLabel}" />
+                    <TextBox
+                        x:Name="txtDetalleMedioVerificable"
+                        IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                        MaxLength="500"
+                        Text="{Binding DetalleMedioVerificable, Mode=TwoWay}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.Column="7"
+                    Margin="8,3,10,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <Label Content="Precio spot" Style="{StaticResource EstiloLabel}" />
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtPrecioSpot"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numPrecioSpot], Source={StaticResource VMOrdenes}}"
+                        Maximum="99999999"
+                        Minimum="0"
+                        NumberDecimalDigits="3"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding PrecioSpot, Mode=TwoWay}" />
+                </StackPanel>
+
+
+            </Grid>
+        </Border>
+
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,10,0,0"
+            Style="{StaticResource Contenedor_TabControl}">
+            <TabControl
+                x:Name="tabControlesAdicionales"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+
+                <TabItem x:Name="tabItemCondicionesOrden" Header="Condiciones de la orden">
+                    <Grid
+                        x:Name="GridDatosCondiciones"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[intIdTipoOrdenNaturaleza], Source={StaticResource VMOrdenes}}"
+                            Label="Naturaleza"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboNaturaleza"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosOYDPlus[NATURALEZA], Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding Naturaleza, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[intIdTipoOrdenEjecucion], Source={StaticResource VMOrdenes}}"
+                            Label="Tipo ejecución"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboTipoEjecucion"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding ListaComboTipoEjecucion, Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding TipoEjecucion, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Cantidad minima" Style="{StaticResource EstiloLabel}" />
+                            <A2UTILGEN:A2NumericBox
+                                x:Name="txtCantidadMinima"
+                                FuncionalidadAutocomplete="True"
+                                GotFocus="SeleccionarFocoControl"
+                                IsEnabled="{Binding HabilitarCantidadMinima, Source={StaticResource VMOrdenes}}"
+                                Maximum="99999999"
+                                Minimum="0"
+                                NumberDecimalDigits="3"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding CantidadMinima, Mode=TwoWay}" />
+                        </StackPanel>
+
+
+                        <!--    -->
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[intIdTipoOrdenDuracion], Source={StaticResource VMOrdenes}}"
+                            Label="Duración"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboDuracion"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosOYDPlus[DURACION], Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding Duracion, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Precio stop" Style="{StaticResource EstiloLabel}" />
+                            <A2UTILGEN:A2NumericBox
+                                x:Name="txtPrecioStop"
+                                FuncionalidadAutocomplete="True"
+                                GotFocus="SeleccionarFocoControl"
+                                IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numPrecioStop], Source={StaticResource VMOrdenes}}"
+                                Maximum="99999999"
+                                Minimum="0"
+                                NumberDecimalDigits="3"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding PrecioStop, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="5"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Cantidad visible" Style="{StaticResource EstiloLabel}" />
+                            <A2UTILGEN:A2NumericBox
+                                x:Name="txtCantidadVisible"
+                                FuncionalidadAutocomplete="True"
+                                GotFocus="SeleccionarFocoControl"
+                                IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[numCantidadVisible], Source={StaticResource VMOrdenes}}"
+                                Maximum="9999999"
+                                Minimum="0"
+                                NumberDecimalDigits="0"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding CantidadVisible, Mode=TwoWay}" />
+                        </StackPanel>
+
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="6"
+                            IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[intIdInstrumentoSeguimiento], Source={StaticResource VMOrdenes}}"
+                            Label="Instrumento"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboInstrumentoOtro"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding ListaComboInstrumentoSeguimiento, Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding OtroInstrumento, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="7"
+                            IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                            Label="Tipo precio"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboTipoPrecio"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosOYDPlus[TIPOPRECIOINSTRUMENTO], Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding TipoPrecio, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+                    </Grid>
+                </TabItem>
+
+                <TabItem
+                    x:Name="tabItemDistribucionComisiones"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Header="Distribución de comisiones">
+                    <StackPanel
+                        x:Name="stackDistribucionComisiones"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <A2:ControlMenuDetalleA2
+                            x:Name="cmReceptoresOrden"
+                            HorizontalAlignment="Stretch"
+                            IsEnabled="{Binding HabilitarCondicionesNegociacion, Source={StaticResource VMOrdenes}}"
+                            Mensaje="{Binding MensajeMVVM, Source={StaticResource VMOrdenes}, Mode=TwoWay}"
+                            NombreDetalle="{Binding NombreColeccionDetalle, Source={StaticResource VMOrdenes}, Mode=TwoWay}"
+                            ObjetoSeleccionado="{Binding ReceptoresOrdenSelected, Source={StaticResource VMOrdenes}}" />
+                        <A2UTILGEN:A2GridView
+                            x:Name="dgReceptoresOrden"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            AutoGenerateColumns="False"
+                            CanUserDeleteRows="False"
+                            CanUserInsertRows="False"
+                            IsEnabled="{Binding HabilitarCondicionesNegociacion, Source={StaticResource VMOrdenes}}"
+                            IsHitTestVisible="True"
+                            ItemsSource="{Binding ListaReceptoresOrdenes, Source={StaticResource VMOrdenes}}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            SelectedItem="{Binding ReceptoresOrdenSelected, Source={StaticResource VMOrdenes}, Mode=TwoWay}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn Width="Auto" Header="">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <src:BuscadorReceptorListaButon
+                                                CampoBusqueda="IdReceptor"
+                                                Etiqueta="Receptor"
+                                                IsEnabled="{Binding HabilitarCondicionesNegociacion, Source={StaticResource VMOrdenes}}"
+                                                finalizoBusqueda="BuscadorReceptorListaButon_finalizoBusqueda" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding IDReceptor, Mode=TwoWay}"
+                                    Header="Código receptor"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding Nombre}"
+                                    Header="Nombre receptor"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn Width="Auto" Header="Porcentaje">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <A2UTILGEN:A2NumericBox
+                                                Maximum="100"
+                                                Minimum="0"
+                                                ShowButtons="False"
+                                                Value="{Binding Porcentaje, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn Width="Auto">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label VerticalAlignment="Center" Content="%" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem x:Name="tabItemInstruccionesPago" Header="Instrucciones pago">
+                    <Grid
+                        x:Name="GridInstruccionesPago"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Instrucciones" Style="{StaticResource EstiloLabel}" />
+                            <TextBox
+                                x:Name="txtInstrucciones"
+                                IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[strInstruccionesPago], Source={StaticResource VMOrdenes}}"
+                                MaxLength="8000"
+                                Text="{Binding Instrucciones, Mode=TwoWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="tabItemFinalidad" Header="Finalidad">
+                    <Grid
+                        x:Name="GridFinalidad"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            IsEnabled="{Binding HabilitarNegocio, Source={StaticResource VMOrdenes}}"
+                            Label="Finalidad"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboFinalidad"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosOYDPlus[FINALIDAD], Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding Finalidad, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            IsEnabled="{Binding HabilitarDatosAdicionalesFinalidad, Source={StaticResource VMOrdenes}}"
+                            Label="Tipo cobertura"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboTipoCobertura"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding ListaComboTipoFinalidad, Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding TipoCobertura, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            IsEnabled="{Binding HabilitarDatosAdicionalesFinalidad, Source={StaticResource VMOrdenes}}"
+                            Label="Ubicación posición"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboUbicacionPosicion"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding ListaComboUbicacionPosicion, Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding UbicacionPosicion, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Grid.ColumnSpan="2"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Descripción posición" Style="{StaticResource EstiloLabel}" />
+                            <TextBox
+                                x:Name="txtDescripcionPosicion"
+                                MaxLength="500"
+                                Text="{Binding DescripcionPosicion, Mode=TwoWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Monto cubrir" Style="{StaticResource EstiloLabel}" />
+                            <A2UTILGEN:A2NumericBox
+                                x:Name="txtMontoCubrir"
+                                FuncionalidadAutocomplete="True"
+                                GotFocus="SeleccionarFocoControl"
+                                IsEnabled="{Binding HabilitarDatosAdicionalesTipoFinalidad, Source={StaticResource VMOrdenes}}"
+                                Maximum="9999999"
+                                Minimum="0"
+                                NumberDecimalDigits="0"
+                                ShowButtons="False"
+                                ValueFormat="Numeric"
+                                Value="{Binding MontoCubrir, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <!--    -->
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsEnabled="{Binding HabilitarDatosAdicionalesTipoFinalidad, Source={StaticResource VMOrdenes}}"
+                            Label="Moneda"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboMoneda"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosOYDPlus[MONEDA], Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding Moneda, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="tabItemGiveOut" Header="GiveOut">
+                    <Grid
+                        x:Name="GridGiveOut"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[bitEsGiveOut], Source={StaticResource VMOrdenes}}"
+                            Label="Es GiveOut"
+                            LabelPosition="Above">
+                            <CheckBox IsChecked="{Binding GiveOut, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            IsEnabled="{Binding HabilitarGiveOut, Source={StaticResource VMOrdenes}}"
+                            Label="Firma GiveOut"
+                            LabelPosition="Above">
+                            <ComboBox
+                                x:Name="cboFirmaGiveOut"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding ListaComboFirmasGiveOut, Source={StaticResource VMOrdenes}}"
+                                SelectedValue="{Binding FirmaGiveOut, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                        </Telerik:DataFormDataField>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Referencia GiveOut" Style="{StaticResource EstiloLabel}" />
+                            <TextBox
+                                x:Name="txtReferenciaGiveOut"
+                                IsEnabled="False"
+                                MaxLength="100"
+                                Text="{Binding ReferenciaGiveOut, Mode=TwoWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="tabItemComentarios" Header="Comentarios">
+                    <Grid
+                        x:Name="GridComentarios"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="8,3,10,0"
+                            HorizontalAlignment="Stretch"
+                            Orientation="Vertical">
+                            <Label Content="Comentarios" Style="{StaticResource EstiloLabel}" />
+                            <TextBox
+                                x:Name="txtComentarios"
+                                IsEnabled="{Binding DiccionarioEdicionCamposOYDPLUS[strObservaciones], Source={StaticResource VMOrdenes}}"
+                                MaxLength="8000"
+                                Text="{Binding Comentarios, Mode=TwoWay}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Border>
+    </Grid>
+</UserControl>

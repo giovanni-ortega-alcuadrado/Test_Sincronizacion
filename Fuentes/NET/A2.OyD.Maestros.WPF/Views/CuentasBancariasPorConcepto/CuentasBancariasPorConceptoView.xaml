@@ -1,0 +1,278 @@
+﻿<UserControl
+    x:Class="CuentasBancariasPorConceptoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="550"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                Style="{StaticResource stpFiltro}">
+                <A2utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding CuentasBancariasPorConceptoSelected}"
+                    TextoFiltroTooltip="Filtra por el campo código y concepto"
+                    TituloVista="Cuentas bancarias por conceptos"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding CuentasBancariasPorConceptoSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaCuentasBancariasPorConcepto.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma">
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding visLista}">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaCuentasBancariasPorConceptoPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding CuentasBancariasPorConceptoSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Código Cta Bancaria" SortMemberPath="IdCuentaBancaria">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IdCuentaBancaria}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreCuentaBancaria}" Header="Nombre Cta bancaria" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding IDCodigoBanco}" Header="Código banco" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreBanco}" Header="Nombre banco" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding IdConcepto}" Header="Concepto" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding DescripcionConcepto}" Header="Nombre concepto" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding CuentaContable}" Header="Cuenta contable" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <Telerik:DataFormDataField Label="Cuentas bancarias">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="70*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBox
+                                                        Grid.Column="0"
+                                                        IsEnabled="False"
+                                                        MaxLength="15"
+                                                        Text="{Binding IdCuentaBancaria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+
+                                                    <my1:BuscadorGenericoListaButon
+                                                        Grid.Column="1"
+                                                        Margin="2,0,0,0"
+                                                        Agrupamiento="CUENTASBANCARIASCONCEPTO"
+                                                        CampoBusqueda="BancoConsultar"
+                                                        EstadoItem="A"
+                                                        Etiqueta="Lista de Bancos"
+                                                        TipoItem="cuentasbancarias"
+                                                        finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+
+                                                    <TextBox
+                                                        Grid.Column="2"
+                                                        Margin="2,0,0,0"
+                                                        IsEnabled="False"
+                                                        Text="{Binding NombreCuentaBancaria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Nombre cuenta bancaria" />
+                                                </Grid>
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Label="Cuenta contable">
+                                                <A2UTILGEN:A2TextBox
+                                                    MaxLength="15"
+                                                    Text="{Binding CuentaContable, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    TipoExpresion="SoloNumeros" />
+                                            </Telerik:DataFormDataField>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding CuentasBancariasPorConceptoSelected}"
+                                    IsEnabled="{Binding Editando}">
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <Telerik:DataFormDataField Label="Cuenta bancaria">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="30*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="70*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBox
+                                                            Grid.Column="0"
+                                                            IsEnabled="False"
+                                                            MaxLength="15"
+                                                            Text="{Binding IdCuentaBancaria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                        <my1:BuscadorGenericoListaButon
+                                                            Grid.Column="1"
+                                                            Margin="2,0,0,0"
+                                                            Agrupamiento="CUENTASBANCARIASCONCEPTO"
+                                                            CampoBusqueda="BancoProcesar"
+                                                            EstadoItem="A"
+                                                            Etiqueta="Lista de Bancos"
+                                                            TipoItem="cuentasbancarias"
+                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                                        <TextBox
+                                                            Grid.Column="2"
+                                                            Margin="2,0,0,0"
+                                                            IsEnabled="False"
+                                                            Text="{Binding NombreCuentaBancaria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                    </Grid>
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField Label="Código banco">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="30*" />
+                                                            <ColumnDefinition Width="70*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBox
+                                                            Grid.Column="0"
+                                                            IsEnabled="False"
+                                                            MaxLength="15"
+                                                            Text="{Binding IDCodigoBanco, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            ToolTipService.ToolTip="Banco" />
+                                                        <TextBox
+                                                            Grid.Column="1"
+                                                            Margin="2,0,0,0"
+                                                            IsEnabled="False"
+                                                            MaxLength="15"
+                                                            Text="{Binding NombreBanco, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            ToolTipService.ToolTip="Nombre banco" />
+                                                    </Grid>
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField Label="Concepto">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBox
+                                                            Grid.Column="0"
+                                                            IsEnabled="False"
+                                                            MaxLength="15"
+                                                            Text="{Binding DescripcionConcepto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            ToolTipService.ToolTip="Concepto" />
+
+                                                        <my1:BuscadorGenericoListaButon
+                                                            x:Name="ctlConsecutivosVsUsuariosA2"
+                                                            Grid.Column="1"
+                                                            Margin="3,0,0,0"
+                                                            Agrupamiento=""
+                                                            CampoBusqueda="ConceptoXConsecutivos"
+                                                            Etiqueta="Concepto"
+                                                            TipoItem="ConceptoXConsecutivos"
+                                                            ToolTipService.ToolTip="Conceptos"
+                                                            finalizoBusqueda="ctlConsecutivosVsUsuarios_itemAsignado" />
+                                                    </Grid>
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField Label="Cuenta contable">
+                                                    <A2UTILGEN:A2TextBox
+                                                        MaxLength="15"
+                                                        Text="{Binding CuentaContable, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        TipoExpresion="SoloNumeros"
+                                                        ToolTipService.ToolTip="Cuenta contable" />
+                                                </Telerik:DataFormDataField>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

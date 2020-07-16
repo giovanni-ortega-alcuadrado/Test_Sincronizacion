@@ -1,0 +1,310 @@
+﻿<UserControl
+    x:Class="ConfiguracionBursatilidadView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFEspecies"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="950">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <src:BooleanSiNOConverter x:Key="BooleanSiNOConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+
+        <src:StringConverter x:Key="StringConverter" />
+
+    </UserControl.Resources>
+
+    <!--
+        Descripción:    Diseño para la pantalla Configuracion Bursatilidad (Especies)
+        Responsable:    Yessid Andres Paniagua Pabon (Alcuadrado (S.A.)
+        Fecha:          16 de Octubre 2015
+    -->
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            MinWidth="450"
+            MaxWidth="950"
+            
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <!--  Control Menu  -->
+            <StackPanel Grid.Row="0">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Bursatilidad, Entidad vigilada, Clase inversión y Clase contable"
+                    TituloVista="Configuración bursatilidad"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding EncabezadoSeleccionado.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}"
+                    VisibilidadRefrescarCombos="True" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="950">
+                    <Border>
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding DataContext.visLista, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="15"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="1"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="Bursatilidad" SortMemberPath="Bursatilidad">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding strBursatilidadDescripcion, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding logEntidadVigilada, Converter={StaticResource BooleanSiNOConverter}}" Header="Entidad vigilada" />
+
+                                    <Telerik:GridViewDataColumn
+                                        Width="400"
+                                        DataMemberBinding="{Binding strClaseInversionDescripcion}"
+                                        Header="Clase inversión" />
+
+                                    <Telerik:GridViewDataColumn
+                                        Width="250"
+                                        DataMemberBinding="{Binding strClaseContableDescripcion}"
+                                        Header="Clase contable" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="950">
+                            <!--  ====================  -->
+                            <!--  Dataform de búsqueda  -->
+                            <!--  ====================  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="950">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!--  Tipo Bursatilidad  -->
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Label="Bursatilidad"
+                                                LabelPosition="Above">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    GotFocus="seleccionarFocoControl"
+                                                    ItemsSource="{Binding DiccionarioCombos[BURSATILIDADESPECIE], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strBursatilidad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Bursatilidad" />
+                                            </Telerik:DataFormDataField>
+
+                                            <!--  Tipo Entidad vigilada  -->
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Label="Entidad vigilada"
+                                                LabelPosition="Above">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    GotFocus="seleccionarFocoControl"
+                                                    ItemsSource="{Binding DiccionarioCombos[BENTIDADVIGILADA], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strlogEntidadVigilada, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Entidad Vigilada**" />
+                                            </Telerik:DataFormDataField>
+
+                                            <!--  Tipo Clase inversión  -->
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Label="Clase inversión"
+                                                LabelPosition="Above">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    GotFocus="seleccionarFocoControl"
+                                                    ItemsSource="{Binding DiccionarioCombos[TIPOESPECIECLASEINVERSION], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strClaseInversion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Clase Inversión" />
+                                            </Telerik:DataFormDataField>
+
+                                            <!--  Tipo Clase contable  -->
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="3"
+                                                Label="Clase contable"
+                                                LabelPosition="Above">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    GotFocus="seleccionarFocoControl"
+                                                    ItemsSource="{Binding DiccionarioCombos[TIPOTITULOBURSATILIDAD], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strClaseContable, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Clase contable" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  ********  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <!--  ============================  -->
+                                <!--  Dataform edición de registro  -->
+                                <!--  ============================  -->
+                                <Grid
+                                    x:Name="gridEd"
+                                    MaxWidth="950"
+                                    VerticalAlignment="Top"
+                                    DataContext="{Binding EncabezadoSeleccionado}">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Bursatilidad"
+                                        LabelPosition="Above">
+                                        <ComboBox
+                                            DisplayMemberPath="Descripcion"
+                                            ItemsSource="{Binding DiccionarioCombos[BURSATILIDADESPECIE], Source={StaticResource A2VM}}"
+                                            SelectedValue="{Binding strBursatilidad, StringFormat='#', Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            SelectedValuePath="ID"
+                                            TabIndex="-1"
+                                            ToolTipService.ToolTip="Bursatilidad" />
+                                    </Telerik:DataFormDataField>
+
+
+                                    <!--  Tipo Entidad vigilada  -->
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="1"
+                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Entidad Vigilada"
+                                        LabelPosition="Above">
+                                        <ComboBox
+                                            DisplayMemberPath="Descripcion"
+                                            GotFocus="seleccionarFocoControl"
+                                            ItemsSource="{Binding DiccionarioCombos[BENTIDADVIGILADA], Source={StaticResource A2VM}}"
+                                            SelectedValue="{Binding logEntidadVigilada, Converter={StaticResource BooleanoConverterRadio}, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            SelectedValuePath="ID"
+                                            ToolTipService.ToolTip="Entidad Vigilada" />
+                                    </Telerik:DataFormDataField>
+
+                                    <!--  Tipo Clase inversión  -->
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="2"
+                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Clase inversión"
+                                        LabelPosition="Above">
+                                        <ComboBox
+                                            DisplayMemberPath="Descripcion"
+                                            ItemsSource="{Binding DiccionarioCombos[TIPOESPECIECLASEINVERSION], Source={StaticResource A2VM}}"
+                                            SelectedValue="{Binding strClaseInversion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            SelectedValuePath="ID"
+                                            TabIndex="-1"
+                                            ToolTipService.ToolTip="Clase de inversión" />
+                                    </Telerik:DataFormDataField>
+
+                                    <!--  Tipo Clase contable  -->
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="3"
+                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Clase Contable"
+                                        LabelPosition="Above">
+                                        <ComboBox
+                                            DisplayMemberPath="Descripcion"
+                                            ItemsSource="{Binding DiccionarioCombos[TIPOTITULOBURSATILIDAD], Source={StaticResource A2VM}}"
+                                            SelectedValue="{Binding strClaseContable, StringFormat='#', Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            SelectedValuePath="ID"
+                                            TabIndex="-1"
+                                            ToolTipService.ToolTip="Clase de inversión" />
+                                    </Telerik:DataFormDataField>
+                                </Grid>
+                            </StackPanel>
+                            <!--  ********  -->
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+
+</UserControl>
+
+
+

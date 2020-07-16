@@ -1,0 +1,315 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: TarifasView.xaml
+    Generado el : 04/15/2011 16:56:04
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="TarifasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="800"
+    MaxWidth="800">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--<Grid.Resources>
+
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    ManejaMakerAndChecker="{Binding visibleap}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding TarifaSelected}"
+                    RegistroConVersion="{Binding visible}"
+                    TextoFiltroTooltip="Filtra por los campos Nombre y Código"
+                    TextoVersion="{Binding content}"
+                    TituloVista="Tarifas"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding TarifaSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaTarifas.Count}" />
+
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="800">
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaTarifasPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding TarifaSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="Código" SortMemberPath="Codigo">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding ID}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Nombre" SortMemberPath="Nombre">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Nombre}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn
+                                        Header="Estado Aprobación"
+                                        IsVisible="{Binding DataContext.visibleap, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SortMemberPath="Por Aprobar">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Por_Aprobar}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <!--<Telerik:GridViewDataColumn DataMemberBinding="{Binding Header}"    Header="Por Aprobar"  />-->
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="800">
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid
+                                            x:Name="GridBusqueda"
+                                            MaxWidth="800"
+                                            ShowGridLines="False">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ID}">
+                                                <A2UTILGEN:A2NumericBox
+                                                    Maximum="2147483647"
+                                                    Minimum="0"
+                                                    NumberDecimalDigits="0"
+                                                    ShowButtons="False"
+                                                    ValueFormat="NoSeparator"
+                                                    Value="{Binding ID, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nombre}">
+                                                <TextBox MaxLength="50" Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Visibility="{Binding DataContext.visibilidad, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}">
+                                                <RadioButton
+                                                    Content="Aprobados"
+                                                    GroupName="Busqueda"
+                                                    IsChecked="{Binding Filtro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Visibility="{Binding DataContext.visibilidad, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}">
+                                                <RadioButton Content="Por aprobar" GroupName="Busqueda" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding TarifaSelected}"
+                                    IsEnabled="{Binding Editando}">
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid MaxWidth="800">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30*" />
+                                                    <ColumnDefinition Width="70*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Telerik:DataFormDataField Grid.Column="0" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ID}">
+                                                    <TextBlock Text="{Binding ID, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField Grid.Column="1" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nombre}">
+                                                    <TextBox MaxLength="50" Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                                <Border Style="{StaticResource Contenedor_TabControl}">
+                                    <TabControl Height="240">
+                                        <TabItem Name="TabDetalleTarifa" Header="Detalles Tarifas">
+                                            <StackPanel>
+                                                <A2Utils:ControlMenuDetalleA2
+                                                    x:Name="cmDetalleTarifa"
+                                                    IsEnabled="{Binding Editando}"
+                                                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                                                    NombreDetalle="{Binding NombreColeccionDetalle, Mode=TwoWay}" />
+                                                <A2UTILGEN:A2GridView
+                                                    x:Name="dgDetalleTarifa"
+                                                    Height="180"
+                                                    VerticalAlignment="Top"
+                                                    AutoGenerateColumns="False"
+                                                    ItemsSource="{Binding ListaDetalleTarifas}"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                    SelectedItem="{Binding DetalleTarifaSelected, Mode=TwoWay}"
+                                                    ValidatesOnDataErrors="None">
+                                                    <A2UTILGEN:A2GridView.Columns>
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Codigo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" IsReadOnly="True" />
+                                                        <Telerik:GridViewDataColumn Header="Fecha Valor">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <A2UTILGEN:A2DatePicker
+                                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        SelectedDate="{Binding FechaValor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="FechaValor" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+                                                        <Telerik:GridViewDataColumn Width="130" Header="Valor">
+                                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        Maximum="999999999"
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding Valor, NotifyOnValidationError=True, ValidatesOnExceptions=True, Mode=TwoWay}" />
+                                                                </DataTemplate>
+                                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                                        </Telerik:GridViewDataColumn>
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Usuario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" IsReadOnly="True" />
+                                                        <Telerik:GridViewDataColumn
+                                                            DataMemberBinding="{Binding Actualizacion, Mode=TwoWay, StringFormat='MMM dd,yyyy hh:mm:ss tt', NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            Header="F. Actualización"
+                                                            IsReadOnly="True" />
+                                                        <Telerik:GridViewDataColumn
+                                                            DataMemberBinding="{Binding Por_Aprobar, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            IsReadOnly="True"
+                                                            IsVisible="False" />
+                                                        <Telerik:GridViewDataColumn
+                                                            DataMemberBinding="{Binding Estado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            IsReadOnly="True"
+                                                            IsVisible="False" />
+                                                    </A2UTILGEN:A2GridView.Columns>
+                                                </A2UTILGEN:A2GridView>
+                                            </StackPanel>
+                                        </TabItem>
+                                    </TabControl>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

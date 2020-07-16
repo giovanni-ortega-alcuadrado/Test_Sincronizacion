@@ -1,0 +1,234 @@
+﻿<UserControl
+    x:Class="ModIdentiClientesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDClientes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="800"
+    d:DesignHeight="440"
+    d:DesignWidth="470"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" MaxWidth="800">
+            <Grid.Resources />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Titulo fila 0  -->
+            <StackPanel
+                Name="StackPanel1"
+                Grid.Row="0"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Modifica Identificación de un Cliente" />
+            </StackPanel>
+
+            <!--  Barra de munu fila 1  -->
+            <StackPanel
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                Style="{StaticResource stpFiltro}">
+                <Border VerticalAlignment="Center" Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Name="btnConsultar"
+                            Width="85"
+                            Click="btnConsultar_Click"
+                            Content="Consultar"
+                            IsEnabled="{Binding Consultar}" />
+                        <Button
+                            Name="btnModificar"
+                            Width="85"
+                            Click="btnModificar_Click"
+                            Content="Modificar"
+                            IsEnabled="{Binding Modificar}" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+            <!--  Formulario fila 1  -->
+            <StackPanel Grid.Row="2" VerticalAlignment="Top">
+
+                <Border Style="{StaticResource Contenedor_Estilo}">
+                    <StackPanel Orientation="Vertical">
+                        <Grid MaxWidth="800" DataContext="{Binding ClienteSelected}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.ColumnSpan="2"
+                                Label="Tipo Persona"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbClasifi"
+                                    Grid.Row="0"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosA2[TipoPersona], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding DataContext.Clasificacion, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                    SelectedValuePath="ID"
+                                    ToolTipService.ToolTip="Clasificacion" />
+                            </Telerik:DataFormDataField>
+
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Label="Tipo Identificación actual"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbTipoIdentificacion"
+                                    DisplayMemberPath="Descripcion"
+                                    IsEnabled="{Binding DataContext.Habilitar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    ItemsSource="{Binding objTipoId}"
+                                    SelectedValue="{Binding TipoIdentificacionIdActual, Mode=TwoWay}"
+                                    SelectedValuePath="ID"
+                                    ToolTipService.ToolTip="Tipo Identificación" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Label="Número Identificación Actual"
+                                LabelPosition="Above">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Name="NumeroActual"
+                                        Grid.Column="0"
+                                        VerticalAlignment="Top"
+                                        IsEnabled="{Binding DataContext.HabilitarTextoNroNuevo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Text="{Binding NumeroDocumentoActual, Mode=TwoWay}"
+                                        TextAlignment="Right" />
+
+                                    <my:BuscadorClienteListaButon
+                                        x:Name="Buscador_Cliente"
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="IDComitente"
+                                        Etiqueta="Lista de Clientes"
+                                        GotFocus="Buscador_Cliente_GotFocus"
+                                        IsEnabled="{Binding DataContext.HabilitarTextoNroNuevo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        TipoVinculacion="C"
+                                        finalizoBusqueda="Buscador_finalizoBusquedaClientes" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Label="Tipo Identificación nuevo"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbTipoIdentificacion1"
+                                    Grid.Row="1"
+                                    DisplayMemberPath="Descripcion"
+                                    IsEnabled="{Binding DataContext.Habilitar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    ItemsSource="{Binding objTipoId}"
+                                    SelectedValue="{Binding TipoIdentificacionIdNuevo, Mode=TwoWay}"
+                                    SelectedValuePath="ID"
+                                    ToolTipService.ToolTip="Tipo Identificación" />
+
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Label="Número Identificación Nuevo"
+                                LabelPosition="Above">
+
+                                <!--<A2UTILGEN:A2NumericBox x:Name="NumeroDocumentoActual" Grid.Column="1" Value="{Binding IngresoMensual,Mode=TwoWay,NotifyOnValidationError=True,  ValidatesOnExceptions=True }" ToolTipService.ToolTip="Ingreso Mensual"  ShowButtons="False"    Format="##,##" Margin="19,25,59,23"></A2UTILGEN:A2NumericBox>-->
+                                <TextBox
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    IsEnabled="{Binding DataContext.Habilitar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    MaxLength="15"
+                                    Text="{Binding NumeroDocumentoNuevo, Mode=TwoWay}"
+                                    TextAlignment="Right"
+                                    ToolTipService.ToolTip="Nu" />
+                            </Telerik:DataFormDataField>
+                        </Grid>
+
+                        <TextBox
+                            Name="TextBox1"
+                            Height="23"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            IsEnabled="False"
+                            Text="{Binding Texto}"
+                            TextAlignment="Center" />
+
+                        <Grid Name="Grid2" HorizontalAlignment="Stretch">
+                            <A2UTILGEN:A2GridView
+                                Name="DataGrid1"
+                                Height="200"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding DataContext.CodigoCliente, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding IDComitente, Mode=TwoWay}"
+                                        Header="Código"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Nombre, Mode=TwoWay}"
+                                        Header="Nombre"
+                                        IsReadOnly="True" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </Grid>
+
+
+                    </StackPanel>
+
+
+                </Border>
+            </StackPanel>
+
+            <!--<StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Button Content="Consultar" Grid.Row="4" Height="23" Name="btnConsultar" IsEnabled="{Binding Consultar}" Click="btnConsultar_Click"  Width="75" />
+                <Button Content="Modificar" Grid.Row="4" Height="23"  Name="btnModificar" Margin="15,0,0,0" Width="75" IsEnabled="{Binding Modificar}" Click="btnModificar_Click"/>
+            </StackPanel>-->
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

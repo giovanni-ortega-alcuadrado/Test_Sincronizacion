@@ -1,0 +1,188 @@
+﻿<UserControl
+    x:Class="ControlInfoGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c1FlexGrid="clr-namespace:C1.WPF.FlexGrid;assembly=C1.WPF.FlexGrid.4"
+    xmlns:c1FlexGridFilter="clr-namespace:C1.WPF.FlexGrid;assembly=C1.WPF.FlexGridFilter.4"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2CFUtilitarios"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="700"
+    d:DesignWidth="1200"
+    mc:Ignorable="d">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btnBorrarFiltros"
+                        Width="120"
+                        Margin="5,0"
+                        Click="btnBorrarFiltros_Click"
+                        Content="Borrar filtros" />
+                    <Button
+                        x:Name="btnQuitarDiseno"
+                        Width="120"
+                        Margin="5,0"
+                        Click="btnQuitarDiseno_Click"
+                        Content="Quitar diseño" />
+                    <Button
+                        x:Name="btnExportar"
+                        Width="120"
+                        Margin="5,0"
+                        Click="btnExportar_Click"
+                        Content="Exportar" />
+                    <Button
+                        x:Name="btnGuardarDiseno"
+                        Width="120"
+                        Margin="5,0"
+                        Click="btnGuardarDiseno_Click"
+                        Content="Guardar diseño" />
+                </StackPanel>
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Expander
+                    x:Name="ExpanderColumnas"
+                    Grid.Column="0"
+                    VerticalAlignment="Stretch"
+                    ExpandDirection="Right"
+                    FlowDirection="LeftToRight"
+                    IsExpanded="False">
+                    <Expander.Header>
+                        <TextBlock Style="{StaticResource Title4}" Text="Columnas">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="270" />
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                x:Name="txtFiltroColumnas"
+                                Grid.Column="0"
+                                Height="25"
+                                VerticalContentAlignment="Center"
+                                GotFocus="txtFiltroColumnas_GotFocus"
+                                Text="{Binding FiltroColumnas, Mode=TwoWay}"
+                                TextChanged="txtFiltroColumnas_TextChanged" />
+                            <Button
+                                x:Name="btnFiltrarColumnas"
+                                Grid.Column="1"
+                                Margin="2,0,0,0"
+                                Click="btnFiltrarColumnas_Click"
+                                Style="{StaticResource btnBuscar}" />
+                            <Button
+                                x:Name="btnQuitarFiltroColumnas"
+                                Grid.Column="2"
+                                Margin="2,0,0,0"
+                                Click="btnQuitarFiltroColumnas_Click"
+                                Style="{StaticResource btnLimpiar}" />
+                        </Grid>
+
+                        <CheckBox
+                            x:Name="chkSeleccionarTodos"
+                            Grid.Row="1"
+                            Checked="chkSeleccionarTodos_Checked"
+                            Content="Seleccionar todos"
+                            FontSize="12"
+                            Unchecked="chkSeleccionarTodos_Unchecked" />
+
+                        <ListBox
+                            x:Name="lbColumnas"
+                            Grid.Row="2"
+                            HorizontalAlignment="Stretch"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox
+                                            Click="chkColumnas_Click"
+                                            IsChecked="{Binding Visible}"
+                                            Tag="{Binding Nombre}" />
+                                        <TextBlock
+                                            Height="12"
+                                            MinWidth="120"
+                                            FontSize="10"
+                                            Text="{Binding Nombre}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Expander>
+                <c1FlexGrid:C1FlexGrid
+                    x:Name="fg"
+                    Grid.Column="2"
+                    VerticalAlignment="Stretch"
+                    FontSize="9"
+                    IsReadOnly="True"
+                    ShowSort="True">
+                    <c1FlexGridFilter:C1FlexGridFilterService.FlexGridFilter>
+                        <c1FlexGridFilter:C1FlexGridFilter FilterApplied="C1FlexGridFilter_FilterApplied" />
+                    </c1FlexGridFilter:C1FlexGridFilterService.FlexGridFilter>
+                </c1FlexGrid:C1FlexGrid>
+            </Grid>
+
+            <StatusBar
+                x:Name="sbar"
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Bottom">
+                <StatusBarItem HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                    <TextBlock
+                        x:Name="Registros"
+                        HorizontalAlignment="Right"
+                        FontFamily="SegoeUI">
+                        <Run Text="{Binding NumeroRegistrosFiltrados}" />
+                        <Run Text="/" />
+                        <Run Text="{Binding NumeroRegistrosTotal}" />
+                    </TextBlock>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

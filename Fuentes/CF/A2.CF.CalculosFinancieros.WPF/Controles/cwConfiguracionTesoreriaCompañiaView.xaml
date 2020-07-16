@@ -1,0 +1,250 @@
+﻿<Window
+    x:Class="cwConfiguracionTesoreriaCompañiaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Configuracion tesorería compañía (Detalle)"
+    Width="600"
+    Height="Auto"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Telerik:RadBusyIndicator
+                HorizontalAlignment="Center"
+                BusyContent="Consultando..."
+                DisplayAfter="0"
+                IsBusy="{Binding IsBusyTipoOperacion, Mode=TwoWay}">
+                <!--  Maneja Tipo de Operacion  -->
+                <Telerik:DataFormDataField
+                    x:Name="dfTipoDeOperacion"
+                    Width="290"
+                    Margin="3,0,0,0"
+                    Label="Tipo de operación"
+                    LabelPosition="Above">
+
+                    <ComboBox
+                        x:Name="cbTipoDeOperacion"
+                        Width="250"
+                        HorizontalAlignment="Left"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombos[TIPOOPCOMPANIATES], Source={StaticResource A2VM}}"
+                        SelectedItem="{Binding itemComboOperacion, Mode=TwoWay}"
+                        SelectedValue="{Binding strTipoOperacion, StringFormat='#', Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        SelectedValuePath="ID"
+                        SelectionChanged="cbTipoDeOperacion_SelectionChanged"
+                        TabIndex="-1"
+                        ToolTipService.ToolTip="Tipo de Operacion" />
+
+
+
+                </Telerik:DataFormDataField>
+
+
+            </Telerik:RadBusyIndicator>
+
+            <!--  Dias Aplica Transacción  -->
+            <Telerik:DataFormDataField
+                x:Name="dfMontoMin"
+                Margin="10,0,0,0"
+                IsEnabled="True"
+                Label="Días aplica transacción"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtDiasAplicaTransaccion"
+                    Width="80"
+                    Height="23"
+                    Margin="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    ShowButtons="False"
+                    Value="{Binding intDiasAplicaTransaccion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+            <!--  Dias Aplica Transacción  -->
+
+
+            <!--  Dias Aplicación día bancos  -->
+            <Telerik:DataFormDataField
+                x:Name="dfdiaspago"
+                Margin="10,0,0,0"
+                IsEnabled="True"
+                Label="Días de pago"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtDiasdepago"
+                    Width="80"
+                    Height="23"
+                    Margin="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    ShowButtons="False"
+                    Value="{Binding intDiasPago, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+
+
+
+
+        </StackPanel>
+
+
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="12,10,0,0"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Label
+                Height="26"
+                Margin="0,-20,0,0"
+                Content="Concepto Contable"
+                Style="{StaticResource EstiloLabel}" />
+            <my1:BuscadorGenericoListaButon
+                HorizontalAlignment="Stretch"
+                Margin="-20,35,0,0"
+                Agrupamiento="{Binding strTipoOperacion}"
+                CampoBusqueda="ConceptosXCompaniaTes"
+                Etiqueta="Conceptos Contables"
+                IsEnabled="True"
+                TipoItem="ConceptosXCompaniaTes"
+                finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+
+            <TextBox
+                Width="70"
+                Height="20"
+                Margin="-125,30,0,0"
+                IsEnabled="True"
+                IsReadOnly="True"
+                MaxLength="15"
+                Text="{Binding lngIDConcepto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                TextAlignment="Right" />
+
+
+
+
+
+        </StackPanel>
+
+
+
+        <!--<StackPanel x:Name="SpAliass" Grid.Row="0" Grid.Column="0"
+                                                Orientation="Vertical"
+                                                HorizontalAlignment="Stretch"
+                                                Margin="130,5,10,0">
+            <Label Content="Nombre corto"
+                                                   Style="{StaticResource EstiloLabel}"/>
+            <TextBox x:Name="TxtNombreCorto"
+                                                                Text="{Binding strNombreCorto, Mode=TwoWay,NotifyOnValidationError=True,  ValidatesOnExceptions=True}"
+                                                                Width="110"
+                                                                ToolTipService.ToolTip="Nombre"
+                                                                TextAlignment="Left"
+                                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                MaxLength="50"
+                                                                TabIndex="-1"
+                                                                HorizontalAlignment="Left"
+                                                                KeyDown="TxtNombreCorto_KeyDown"
+                                                                TextChanged="TxtNombreCorto_TextChanged"
+                                                                Margin="-1,0,0,0"/>
+        </StackPanel>-->
+
+        <StackPanel
+            x:Name="SpDetalle"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="130,15,10,0"
+            HorizontalAlignment="Stretch"
+            Orientation="Vertical">
+            <Label Content="Detalle" Style="{StaticResource EstiloLabel}" />
+            <TextBox
+                x:Name="TxtDetalleConcepto"
+                Width="180"
+                Margin="-1,0,0,0"
+                HorizontalAlignment="Left"
+                IsEnabled="True"
+                IsReadOnly="True"
+                MaxLength="50"
+                TabIndex="-1"
+                Text="{Binding strDetalleConcepto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                TextAlignment="Left"
+                ToolTipService.ToolTip="Nombre" />
+        </StackPanel>
+
+
+
+
+
+
+
+
+
+
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,30,0,20"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnAceptar"
+                Width="125"
+                Height="30"
+                HorizontalAlignment="Right"
+                Click="btnAceptar_Click"
+                Content="Aceptar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotonesExtra, Mode=TwoWay}" />
+            <Button
+                x:Name="btnCerrar"
+                Width="125"
+                Height="30"
+                HorizontalAlignment="Right"
+                Click="btnCerrar_Click"
+                Content="Cerrar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotonesExtra, Mode=TwoWay}" />
+            <Button
+                x:Name="btnGuardarySalir"
+                Width="125"
+                Height="30"
+                HorizontalAlignment="Right"
+                Click="btnGuardarySalir_Click"
+                Content="Guardar y salir"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotones, Mode=TwoWay}" />
+            <Button
+                x:Name="btnGuardaryContinuar"
+                Width="125"
+                Height="30"
+                HorizontalAlignment="Right"
+                Click="btnGuardaryContinuar_Click"
+                Content="Guardar y continuar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotones, Mode=TwoWay}" />
+            <Button
+                x:Name="btnSalir"
+                Width="125"
+                Height="30"
+                HorizontalAlignment="Right"
+                Click="btnSalir_Click"
+                Content="Salir"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotones, Mode=TwoWay}" />
+
+
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,177 @@
+﻿<Window
+    x:Class="cwConfiguracionRendimientos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Configuración Tasas Rendimientos"
+    Width="410"
+    Height="250"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <src:DoubleConverterString x:Key="DoubleConverterString" />
+    </Window.Resources>
+
+
+    <Grid x:Name="LayoutRoot" Margin="2">
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Horizontal">
+
+
+            <!--  Valor Inicial  -->
+            <Telerik:DataFormDataField
+                x:Name="dfValorInicial"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Right"
+                Label="Valor Inicial"
+                LabelPosition="Above"
+                Visibility="Visible">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtValorInicial"
+                    Width="125"
+                    NumberDecimalDigits="0"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValorInicial, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+            <!--  Valor Inicial  -->
+
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Orientation="Horizontal">
+
+
+            <!--  Valor Final  -->
+            <Telerik:DataFormDataField
+                x:Name="dfValorFinal"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Right"
+                Label="Valor Final"
+                LabelPosition="Above"
+                Visibility="Visible">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtValorFinal"
+                    Width="125"
+                    NumberDecimalDigits="0"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValorFinal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, Converter={StaticResource DoubleConverterString}}" />
+            </Telerik:DataFormDataField>
+            <!--  Valor Final  -->
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="10,30,0,0"
+                HorizontalAlignment="Stretch"
+                Orientation="Horizontal">
+                <Label Content="Máximo valor" />
+                <CheckBox
+                    x:Name="chkMaximovalor"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Content=""
+                    IsChecked="{Binding logValorMaximo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    TabIndex="-1"
+                    ToolTipService.ToolTip="Máximo valor" />
+
+            </StackPanel>
+
+
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Orientation="Horizontal">
+
+            <!--  Valor Porcentaje  -->
+            <Telerik:DataFormDataField
+                x:Name="dfPorcentaje"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Right"
+                Label="Valor tasa rendimiento"
+                LabelPosition="Above"
+                Visibility="Visible">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtPorcentaje"
+                    Width="125"
+                    NumberDecimalDigits="2"
+                    ShowButtons="False"
+                    ValueFormat="Percentage"
+                    Value="{Binding dblTasaRendimiento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+            <!--  Valor Porcentaje  -->
+
+        </StackPanel>
+
+
+
+        <Button
+            x:Name="btnCerrar"
+            Grid.Row="3"
+            Width="75"
+            Margin="0,12,0,0"
+            HorizontalAlignment="Right"
+            Click="btnCerrar_Click"
+            Content="Cerrar"
+            Visibility="{Binding MostrarBotonesEditar, Mode=TwoWay}" />
+        <Button
+            x:Name="btnGuardaryContinuar"
+            Grid.Row="4"
+            Width="124"
+            Margin="0,12,79,0"
+            HorizontalAlignment="Right"
+            Click="btnGuardaryContinuar_Click"
+            Content="Guardar y Continuar"
+            Visibility="{Binding MostrarBotonesNuevo, Mode=TwoWay}" />
+        <Button
+            x:Name="btnAceptar"
+            Grid.Row="3"
+            Width="98"
+            Margin="0,13,80,2"
+            HorizontalAlignment="Right"
+            Click="btnAceptar_Click"
+            Content="Aceptar"
+            Visibility="{Binding MostrarBotonesEditar, Mode=TwoWay}" />
+        <Button
+            x:Name="btnGuardarySalir"
+            Grid.Row="4"
+            Width="91"
+            Margin="0,12,208,0"
+            HorizontalAlignment="Right"
+            Click="btnGuardarySalir_Click"
+            Content="Guardar y salir"
+            Visibility="{Binding MostrarBotonesNuevo, Mode=TwoWay}" />
+        <Button
+            x:Name="btnCerrar1"
+            Grid.Row="4"
+            Width="75"
+            Margin="0,12,0,0"
+            HorizontalAlignment="Right"
+            Click="btnCerrar_Click"
+            Content="Cerrar"
+            Visibility="{Binding MostrarBotonesNuevo, Mode=TwoWay}" />
+    </Grid>
+</Window>

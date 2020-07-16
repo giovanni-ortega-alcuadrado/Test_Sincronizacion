@@ -1,0 +1,126 @@
+﻿<UserControl
+    x:Class="UnificarFormatosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCalculosFinancieros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="300"
+    MaxWidth="500">
+
+    <!--
+        Descripción:    Diseño para la pantalla Unificar Formatos.
+        Desarrollado:   Jeison Ramírez Pino - IOsoft (S.A.S.)
+        Fecha:          Oct 08/2016
+    -->
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            Width="500"
+            MaxWidth="500"
+            ShowGridLines="False">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBlock Style="{StaticResource Title1}" Text="Unificar Formatos" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid
+                    Grid.Row="1"
+                    MaxWidth="500"
+                    VerticalAlignment="Top"
+                    DataContext="{Binding UnificarFormatosSelected}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Label="Formato principal"
+                        LabelPosition="Above">
+                        <TextBox
+                            IsEnabled="False"
+                            Text="{Binding strFormatoPrincipal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            ToolTipService.ToolTip="Formato Principal" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        VerticalAlignment="Bottom">
+                        <OyD:ucBtnDialogoImportar
+                            x:Name="btnSubirArchivoPrincipal"
+                            CargarArchivo="btnSubirArchivo_CargarArchivoPrincipal"
+                            Filtros="Todos|*.*|Archivo de Texto|*.txt|Archivo DAT|*.dat"
+                            Proceso="ImpUnificarFormatos" />
+                    </Telerik:DataFormDataField>
+
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Label="Formato productos"
+                        LabelPosition="Above">
+                        <TextBox
+                            IsEnabled="False"
+                            Text="{Binding strFormatoProductos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            ToolTipService.ToolTip="Formato Principal" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        VerticalAlignment="Bottom">
+                        <OyD:ucBtnDialogoImportar
+                            CargarArchivo="btnSubirArchivo_CargarArchivoProducto"
+                            Filtros="Todos|*.*|Archivo de Texto|*.txt|Archivo DAT|*.dat"
+                            Proceso="ImpUnificarFormatos" />
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField Grid.Row="2" Grid.Column="1">
+                        <Button
+                            x:Name="btnUnificar"
+                            Click="btnUnificar_Click"
+                            Content="Unificar" />
+                    </Telerik:DataFormDataField>
+                </Grid>
+            </Border>
+
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

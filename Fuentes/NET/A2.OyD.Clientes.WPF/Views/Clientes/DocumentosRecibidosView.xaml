@@ -1,0 +1,190 @@
+﻿<!--
+    Descripción:   Desarollo para adjuntar documentos del cliente en físico. Caso 5133
+    Responsable:   Jorge Peña (Alcuadrado S.A.)
+    Fecha:         18 de octubre 2013
+-->
+<UserControl
+    x:Class="DocumentosRecibidosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2OYDClientes"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c11="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:myControl="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDClientes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="1060"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Style="{StaticResource Title1}" Text="Documentos recibidos del Cliente" />
+
+            <Grid Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+
+                <Telerik:DataFormDataField Label="Cliente" LabelPosition="Above">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="70*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="txtCliente" Text="{Binding lngIdComitente, Mode=TwoWay}" />
+                        <myControl:BuscadorClienteListaButon
+                            Grid.Column="1"
+                            Margin="2,0,0,0"
+                            EstadoComitente="A"
+                            Etiqueta="Clientes"
+                            finalizoBusqueda="BuscadorClienteListaButon_finalizoBusqueda" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Margin="2,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding strNombre, Mode=TwoWay}" />
+                    </Grid>
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Column="1"
+                    Label="Tipo"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cmbTipoDocumento"
+                        DisplayMemberPath="Descripcion"
+                        IsEnabled="False"
+                        ItemsSource="{Binding DiccionarioCombosA2[TIPOID], Source={StaticResource A2VM}}"
+                        SelectedValue="{Binding strTipoIdentificacion, StringFormat='#', Mode=TwoWay}"
+                        SelectedValuePath="ID"
+                        ToolTipService.ToolTip="TipoDocumento" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Column="2"
+                    Label="Número"
+                    LabelPosition="Above">
+                    <TextBlock Text="{Binding strNroDocumento, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+            </Grid>
+
+            <Grid x:Name="grdLista" Grid.Row="2">
+                <Grid.Effect>
+                    <DropShadowEffect
+                        Direction="-45"
+                        Opacity="0.5"
+                        ShadowDepth="5"
+                        Color="Gray" />
+                </Grid.Effect>
+
+                <StackPanel
+                    x:Name="Buscar"
+                    Grid.Column="0"
+                    Height="Auto"
+                    VerticalAlignment="Top">
+
+                    <Border Style="{StaticResource Contenedor_Paginador}">
+                        <A2UTILGEN:A2DataPager
+                            x:Name="datapagerDocumentos"
+                            PageSize="10"
+                            Source="{Binding Items, ElementName=dgrDocumentos}" />
+                    </Border>
+                    <A2UTILGEN:A2GridView
+                        x:Name="dgrDocumentos"
+                        Height="Auto"
+                        VerticalAlignment="Top"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding ListaDocumentosPaged}"
+                        SelectedItem="{Binding DocumentoSeleccionado, Mode=TwoWay}"
+                        ValidatesOnDataErrors="None">
+                        <A2UTILGEN:A2GridView.Columns>
+
+                            <Telerik:GridViewDataColumn
+                                DataMemberBinding="{Binding CodigoDocto, Mode=TwoWay}"
+                                Header="Código"
+                                IsReadOnly="True" />
+
+                            <Telerik:GridViewDataColumn
+                                DataMemberBinding="{Binding NombreDocumento, Mode=TwoWay}"
+                                Header="Documento"
+                                IsReadOnly="True" />
+
+                            <Telerik:GridViewDataColumn Width="80" Header="Requerido">
+                                <Telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox
+                                            x:Name="chkRequerido"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            IsChecked="{Binding Requerido, Mode=TwoWay}"
+                                            IsEnabled="False" />
+                                    </DataTemplate>
+                                </Telerik:GridViewDataColumn.CellTemplate>
+                            </Telerik:GridViewDataColumn>
+
+                            <Telerik:GridViewDataColumn
+                                DataMemberBinding="{Binding FechaEntrega, Mode=TwoWay, StringFormat='MMM dd, yyyy'}"
+                                Header="Fecha Entrega"
+                                IsReadOnly="True" />
+
+                            <Telerik:GridViewDataColumn
+                                DataMemberBinding="{Binding FechaInicioVigencia, Mode=TwoWay, StringFormat='MMM dd, yyyy'}"
+                                Header="Fecha Inicio Vigencia"
+                                IsReadOnly="True" />
+
+                            <Telerik:GridViewDataColumn
+                                DataMemberBinding="{Binding FechaFinDeVigencia, Mode=TwoWay, StringFormat='MMM dd, yyyy'}"
+                                Header="Fecha Fin Vigencia"
+                                IsReadOnly="True" />
+
+                            <Telerik:GridViewDataColumn Width="100" Header="Cargar/Eliminar">
+
+                                <Telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            x:Name="btnCargar"
+                                            Width="100"
+                                            Height="20"
+                                            Click="btnCargar_Click"
+                                            Content="Cargar/Eliminar" />
+                                    </DataTemplate>
+                                </Telerik:GridViewDataColumn.CellTemplate>
+                            </Telerik:GridViewDataColumn>
+
+                        </A2UTILGEN:A2GridView.Columns>
+                    </A2UTILGEN:A2GridView>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+

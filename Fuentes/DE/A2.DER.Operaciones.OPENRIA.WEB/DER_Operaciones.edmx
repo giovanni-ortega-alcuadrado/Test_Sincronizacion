@@ -1,0 +1,580 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DER_OperacionesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbOyDNet_V6.2.0.DE.tblCRCC_CTRADES' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblCRCC_CTRADES">
+          <Key>
+            <PropertyRef Name="intID" />
+            <PropertyRef Name="dtmSessionDate" />
+            <PropertyRef Name="strClearingHouseCode" />
+            <PropertyRef Name="intTradeID" />
+            <PropertyRef Name="strSide" />
+            <PropertyRef Name="strUsuario" />
+            <PropertyRef Name="dtmActualizacion" />
+            <PropertyRef Name="bitCazada" />
+          </Key>
+          <Property Name="intID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtmSessionDate" Type="datetime" Nullable="false" />
+          <Property Name="strClearingHouseCode" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="intTradeID" Type="int" Nullable="false" />
+          <Property Name="strSide" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="strMember" Type="varchar" MaxLength="4" />
+          <Property Name="strUserID" Type="varchar" MaxLength="3" />
+          <Property Name="strAccount" Type="varchar" MaxLength="5" />
+          <Property Name="strContractCode" Type="varchar" MaxLength="20" />
+          <Property Name="strTradeType" Type="varchar" MaxLength="1" />
+          <Property Name="numPrice" Type="decimal" Precision="20" Scale="6" />
+          <Property Name="numQuantity" Type="money" />
+          <Property Name="strTradeReference" Type="varchar" MaxLength="18" />
+          <Property Name="strOpenCloseIndicator" Type="varchar" MaxLength="1" />
+          <Property Name="numTradingFee" Type="money" />
+          <Property Name="numClearingFee" Type="money" />
+          <Property Name="strCurrency" Type="varchar" MaxLength="3" />
+          <Property Name="dtmSettleDate" Type="datetime" />
+          <Property Name="strRegDate" Type="varchar" MaxLength="8" />
+          <Property Name="strRegTime" Type="varchar" MaxLength="8" />
+          <Property Name="intPreviousTradeID" Type="int" />
+          <Property Name="intInitialTradeID" Type="int" />
+          <Property Name="strInitialTradeMarketCode" Type="varchar" MaxLength="2" />
+          <Property Name="strInitialTradeExecID" Type="varchar" MaxLength="12" />
+          <Property Name="dtmInitialTradeTradingDate" Type="datetime" />
+          <Property Name="strInitialTradeType" Type="varchar" MaxLength="1" />
+          <Property Name="strExecutionDate" Type="varchar" MaxLength="8" />
+          <Property Name="strExecutionTime" Type="varchar" MaxLength="8" />
+          <Property Name="strOrderNumber" Type="varchar" MaxLength="12" />
+          <Property Name="numGrossTradeAmt" Type="money" />
+          <Property Name="strUsuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dtmActualizacion" Type="datetime" Nullable="false" />
+          <Property Name="bitCazada" Type="bit" Nullable="false" />
+          <Property Name="strReferencia" Type="varchar" MaxLength="18" />
+          <Property Name="OrigTradeReference1" Type="varchar" MaxLength="18" />
+          <Property Name="OrigTradeReference2" Type="varchar" MaxLength="18" />
+          <Property Name="UTI" Type="varchar" MaxLength="100" />
+          <Property Name="NotTransferredQty" Type="varchar" MaxLength="100" />
+          <Property Name="NextTradeID" Type="varchar" MaxLength="100" />
+          <Property Name="Yield" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbOyDNet_V6.2.0.DE.tblCRCC_CTRADETYP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblCRCC_CTRADETYP">
+          <Key>
+            <PropertyRef Name="SessionDate" />
+            <PropertyRef Name="ClearingHouseCode" />
+            <PropertyRef Name="TradeType" />
+            <PropertyRef Name="dtmFechaActualizacion" />
+            <PropertyRef Name="strUsuario" />
+          </Key>
+          <Property Name="SessionDate" Type="datetime" Nullable="false" />
+          <Property Name="ClearingHouseCode" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="TradeType" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="TradeTypeDescription" Type="varchar" MaxLength="200" />
+          <Property Name="dtmFechaActualizacion" Type="datetime" Nullable="false" />
+          <Property Name="strUsuario" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Function Name="usp_Procesos_CruceOperaciones_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pstrNemotecnico" Type="varchar" Mode="In" />
+          <Parameter Name="pintFolioBVC" Type="bigint" Mode="In" />
+          <Parameter Name="pintFolioCamara" Type="int" Mode="In" />
+          <Parameter Name="bitCruzada" Type="bit" Mode="In" />
+          <Parameter Name="pdtmFechaImportacion" Type="varchar" Mode="In" />
+          <Parameter Name="pstrGestionOperaciones" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_CruceOperaciones_CruceAutomatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_CruceOperaciones_CruceManual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pintTime" Type="int" Mode="In" />
+          <Parameter Name="pstrTradeReference" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_CruceOperaciones_DescalzarLiquidaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pintIdImportacion" Type="int" Mode="In" />
+          <Parameter Name="pbitCalcularCantidadPendiente" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_CruceOperaciones_Retirar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_CruceOperaciones_TimeSpread_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pintOrden" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_CruceOperaciones_TipoOperacion_TimeSpread" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pstrTradeType" Type="varchar" Mode="InOut" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_Utilitarios_CargarCombos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pstrOpcion" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTopico" Type="varchar" Mode="In" />
+          <Parameter Name="pstrParametroAdicional1" Type="varchar" Mode="In" />
+          <Parameter Name="pstrParametroAdicional2" Type="varchar" Mode="In" />
+          <Parameter Name="pstrParametroAdicional3" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_ValidarOrdenes_Liquidacion_InicialTimeSpread" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DE">
+          <Parameter Name="pstrIntIdImportacionesLiq" Type="int" Mode="In" />
+          <Parameter Name="pstrTradeReference" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="DER_OperacionesModelStoreContainer">
+          <EntitySet Name="tblCRCC_CTRADES" EntityType="Self.tblCRCC_CTRADES" store:Type="Tables" store:Schema="DE">
+            <DefiningQuery>SELECT 
+    [tblCRCC_CTRADES].[intID] AS [intID], 
+    [tblCRCC_CTRADES].[dtmSessionDate] AS [dtmSessionDate], 
+    [tblCRCC_CTRADES].[strClearingHouseCode] AS [strClearingHouseCode], 
+    [tblCRCC_CTRADES].[intTradeID] AS [intTradeID], 
+    [tblCRCC_CTRADES].[strSide] AS [strSide], 
+    [tblCRCC_CTRADES].[strMember] AS [strMember], 
+    [tblCRCC_CTRADES].[strUserID] AS [strUserID], 
+    [tblCRCC_CTRADES].[strAccount] AS [strAccount], 
+    [tblCRCC_CTRADES].[strContractCode] AS [strContractCode], 
+    [tblCRCC_CTRADES].[strTradeType] AS [strTradeType], 
+    [tblCRCC_CTRADES].[numPrice] AS [numPrice], 
+    [tblCRCC_CTRADES].[numQuantity] AS [numQuantity], 
+    [tblCRCC_CTRADES].[strTradeReference] AS [strTradeReference], 
+    [tblCRCC_CTRADES].[strOpenCloseIndicator] AS [strOpenCloseIndicator], 
+    [tblCRCC_CTRADES].[numTradingFee] AS [numTradingFee], 
+    [tblCRCC_CTRADES].[numClearingFee] AS [numClearingFee], 
+    [tblCRCC_CTRADES].[strCurrency] AS [strCurrency], 
+    [tblCRCC_CTRADES].[dtmSettleDate] AS [dtmSettleDate], 
+    [tblCRCC_CTRADES].[strRegDate] AS [strRegDate], 
+    [tblCRCC_CTRADES].[strRegTime] AS [strRegTime], 
+    [tblCRCC_CTRADES].[intPreviousTradeID] AS [intPreviousTradeID], 
+    [tblCRCC_CTRADES].[intInitialTradeID] AS [intInitialTradeID], 
+    [tblCRCC_CTRADES].[strInitialTradeMarketCode] AS [strInitialTradeMarketCode], 
+    [tblCRCC_CTRADES].[strInitialTradeExecID] AS [strInitialTradeExecID], 
+    [tblCRCC_CTRADES].[dtmInitialTradeTradingDate] AS [dtmInitialTradeTradingDate], 
+    [tblCRCC_CTRADES].[strInitialTradeType] AS [strInitialTradeType], 
+    [tblCRCC_CTRADES].[strExecutionDate] AS [strExecutionDate], 
+    [tblCRCC_CTRADES].[strExecutionTime] AS [strExecutionTime], 
+    [tblCRCC_CTRADES].[strOrderNumber] AS [strOrderNumber], 
+    [tblCRCC_CTRADES].[numGrossTradeAmt] AS [numGrossTradeAmt], 
+    [tblCRCC_CTRADES].[strUsuario] AS [strUsuario], 
+    [tblCRCC_CTRADES].[dtmActualizacion] AS [dtmActualizacion], 
+    [tblCRCC_CTRADES].[bitCazada] AS [bitCazada], 
+    [tblCRCC_CTRADES].[strReferencia] AS [strReferencia], 
+    [tblCRCC_CTRADES].[OrigTradeReference1] AS [OrigTradeReference1], 
+    [tblCRCC_CTRADES].[OrigTradeReference2] AS [OrigTradeReference2], 
+    [tblCRCC_CTRADES].[UTI] AS [UTI], 
+    [tblCRCC_CTRADES].[NotTransferredQty] AS [NotTransferredQty], 
+    [tblCRCC_CTRADES].[NextTradeID] AS [NextTradeID], 
+    [tblCRCC_CTRADES].[Yield] AS [Yield]
+    FROM [DE].[tblCRCC_CTRADES] AS [tblCRCC_CTRADES]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblCRCC_CTRADETYP" EntityType="Self.tblCRCC_CTRADETYP" store:Type="Tables" store:Schema="DE">
+            <DefiningQuery>SELECT 
+    [tblCRCC_CTRADETYP].[SessionDate] AS [SessionDate], 
+    [tblCRCC_CTRADETYP].[ClearingHouseCode] AS [ClearingHouseCode], 
+    [tblCRCC_CTRADETYP].[TradeType] AS [TradeType], 
+    [tblCRCC_CTRADETYP].[TradeTypeDescription] AS [TradeTypeDescription], 
+    [tblCRCC_CTRADETYP].[dtmFechaActualizacion] AS [dtmFechaActualizacion], 
+    [tblCRCC_CTRADETYP].[strUsuario] AS [strUsuario]
+    FROM [DE].[tblCRCC_CTRADETYP] AS [tblCRCC_CTRADETYP]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DER_OperacionesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCRCC_CTRADES">
+          <Key>
+            <PropertyRef Name="intID" />
+            <PropertyRef Name="dtmSessionDate" />
+            <PropertyRef Name="strClearingHouseCode" />
+            <PropertyRef Name="intTradeID" />
+            <PropertyRef Name="strSide" />
+            <PropertyRef Name="strUsuario" />
+            <PropertyRef Name="dtmActualizacion" />
+            <PropertyRef Name="bitCazada" />
+          </Key>
+          <Property Name="intID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtmSessionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strClearingHouseCode" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="intTradeID" Type="Int32" Nullable="false" />
+          <Property Name="strSide" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strMember" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="strUserID" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="strAccount" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="strContractCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="strTradeType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="numPrice" Type="Decimal" Precision="20" Scale="6" />
+          <Property Name="numQuantity" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="strTradeReference" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="strOpenCloseIndicator" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="numTradingFee" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="numClearingFee" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="strCurrency" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="dtmSettleDate" Type="DateTime" Precision="3" />
+          <Property Name="strRegDate" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="strRegTime" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="intPreviousTradeID" Type="Int32" />
+          <Property Name="intInitialTradeID" Type="Int32" />
+          <Property Name="strInitialTradeMarketCode" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="strInitialTradeExecID" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="dtmInitialTradeTradingDate" Type="DateTime" Precision="3" />
+          <Property Name="strInitialTradeType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="strExecutionDate" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="strExecutionTime" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="strOrderNumber" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="numGrossTradeAmt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="strUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dtmActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="bitCazada" Type="Boolean" Nullable="false" />
+          <Property Name="strReferencia" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="OrigTradeReference1" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="OrigTradeReference2" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="UTI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NotTransferredQty" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NextTradeID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Yield" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="DER_OperacionesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCRCC_CTRADES" EntityType="Self.tblCRCC_CTRADES" />
+          <FunctionImport Name="usp_Procesos_Utilitarios_CargarCombos" ReturnType="Collection(DER_OperacionesModel.CPX_tblCombos)">
+            <Parameter Name="pstrOpcion" Mode="In" Type="String" />
+            <Parameter Name="pstrTopico" Mode="In" Type="String" />
+            <Parameter Name="pstrParametroAdicional1" Mode="In" Type="String" />
+            <Parameter Name="pstrParametroAdicional2" Mode="In" Type="String" />
+            <Parameter Name="pstrParametroAdicional3" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_CruceOperaciones_CruceAutomatico" ReturnType="Collection(DER_OperacionesModel.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_CruceOperaciones_DescalzarLiquidaciones" ReturnType="Collection(DER_OperacionesModel.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintIdImportacion" Mode="In" Type="Int32" />
+            <Parameter Name="pbitCalcularCantidadPendiente" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_CruceOperaciones_Consultar" ReturnType="Collection(DER_OperacionesModel.CPX_tblCRCC_CTRADES)">
+            <Parameter Name="pstrNemotecnico" Mode="In" Type="String" />
+            <Parameter Name="pintFolioBVC" Mode="In" Type="Int64" />
+            <Parameter Name="pintFolioCamara" Mode="In" Type="Int32" />
+            <Parameter Name="bitCruzada" Mode="In" Type="Boolean" />
+            <Parameter Name="pdtmFechaImportacion" Mode="In" Type="String" />
+            <Parameter Name="pstrGestionOperaciones" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_CruceOperaciones_Retirar" ReturnType="Collection(DER_OperacionesModel.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_CruceOperaciones_CruceManual" ReturnType="Collection(DER_OperacionesModel.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pintTime" Mode="In" Type="Int32" />
+            <Parameter Name="pstrTradeReference" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_ValidarOrdenes_Liquidacion_InicialTimeSpread" ReturnType="Collection(DER_OperacionesModel.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pstrIntIdImportacionesLiq" Mode="In" Type="Int32" />
+            <Parameter Name="pstrTradeReference" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_CruceOperaciones_TimeSpread_Consultar" ReturnType="Collection(DER_OperacionesModel.CPX_tblCRCC_CTRADES_TimeSpread)">
+            <Parameter Name="pintOrden" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblCRCC_CTRADETYP" EntityType="DER_OperacionesModel.tblCRCC_CTRADETYP" />
+          <FunctionImport Name="usp_Procesos_CruceOperaciones_TipoOperacion_TimeSpread">
+            <Parameter Name="pstrTradeType" Mode="InOut" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="CPX_tblCombos" >
+          <Property Type="Int32" Name="intID" Nullable="false" />
+          <Property Type="Int32" Name="intIDDependencia1" Nullable="true" />
+          <Property Type="Int32" Name="intIDDependencia2" Nullable="true" />
+          <Property Type="String" Name="strDependencia1" Nullable="false" />
+          <Property Type="String" Name="strDependencia2" Nullable="false" />
+          <Property Type="String" Name="strDescripcion" Nullable="false" />
+          <Property Type="String" Name="strRetorno" Nullable="false" />
+          <Property Type="String" Name="strTopico" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblCRCC_CTRADES" >
+          <Property Type="Int32" Name="intID" Nullable="false" />
+          <Property Type="String" Name="strTradeReference" Nullable="true" />
+          <Property Type="DateTime" Name="dtmSessionDate" Nullable="false" />
+          <Property Type="Int64" Name="intTradeID" Nullable="false" />
+          <Property Type="String" Name="strSide" Nullable="false" />
+          <Property Type="String" Name="strUserID" Nullable="false" />
+          <Property Type="String" Name="strAccount" Nullable="false" />
+          <Property Type="String" Name="strContractCode" Nullable="false" />
+          <Property Type="Decimal" Name="numPrice" Nullable="false" />
+          <Property Type="Decimal" Name="numQuantity" Nullable="false" />
+          <Property Type="DateTime" Name="dtmSettleDate" Nullable="false" />
+          <Property Type="String" Name="strRegDate" Nullable="false" />
+          <Property Type="String" Name="strInitialTradeExecID" Nullable="false" />
+          <Property Type="DateTime" Name="dtmActualizacion" Nullable="false" />
+          <Property Type="Boolean" Name="bitSel" Nullable="false" />
+          <Property Type="Boolean" Name="bitCazada" Nullable="false" />
+          <Property Type="String" Name="strTradeType" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblValidacionesGenerales" >
+          <Property Type="Int32" Name="intIdValidacion" Nullable="false" />
+          <Property Type="Int32" Name="intIDRegistro" Nullable="true" />
+          <Property Type="Int16" Name="intOrden" Nullable="true" />
+          <Property Type="Boolean" Name="logInconsitencia" Nullable="true" />
+          <Property Type="String" Name="strCodMensaje" Nullable="false" />
+          <Property Type="String" Name="strMensaje" Nullable="false" />
+          <Property Type="String" Name="strTipoMensaje" Nullable="false" />
+          <Property Type="String" Name="strCampo" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblCRCC_CTRADES_TimeSpread" >
+          <Property Type="Int32" Name="IDLiq" Nullable="false" />
+          <Property Type="String" Name="Tipo_Operacion" Nullable="false" />
+          <Property Type="Decimal" Name="Cantidad" Nullable="false" />
+          <Property Type="Decimal" Name="Precio" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha_Vencimiento" Nullable="false" />
+          <Property Type="Int32" Name="IntNroFolio" Nullable="false" />
+          <Property Type="Boolean" Name="bitSel" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="tblCRCC_CTRADETYP">
+          <Key>
+            <PropertyRef Name="SessionDate" />
+            <PropertyRef Name="ClearingHouseCode" />
+            <PropertyRef Name="TradeType" />
+            <PropertyRef Name="dtmFechaActualizacion" />
+            <PropertyRef Name="strUsuario" />
+          </Key>
+          <Property Name="SessionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClearingHouseCode" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="TradeType" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TradeTypeDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="dtmFechaActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DER_OperacionesModelStoreContainer" CdmEntityContainer="DER_OperacionesEntities">
+          <EntitySetMapping Name="tblCRCC_CTRADES">
+            <EntityTypeMapping TypeName="DER_OperacionesModel.tblCRCC_CTRADES">
+              <MappingFragment StoreEntitySet="tblCRCC_CTRADES">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="dtmSessionDate" ColumnName="dtmSessionDate" />
+                <ScalarProperty Name="strClearingHouseCode" ColumnName="strClearingHouseCode" />
+                <ScalarProperty Name="intTradeID" ColumnName="intTradeID" />
+                <ScalarProperty Name="strSide" ColumnName="strSide" />
+                <ScalarProperty Name="strMember" ColumnName="strMember" />
+                <ScalarProperty Name="strUserID" ColumnName="strUserID" />
+                <ScalarProperty Name="strAccount" ColumnName="strAccount" />
+                <ScalarProperty Name="strContractCode" ColumnName="strContractCode" />
+                <ScalarProperty Name="strTradeType" ColumnName="strTradeType" />
+                <ScalarProperty Name="numPrice" ColumnName="numPrice" />
+                <ScalarProperty Name="numQuantity" ColumnName="numQuantity" />
+                <ScalarProperty Name="strTradeReference" ColumnName="strTradeReference" />
+                <ScalarProperty Name="strOpenCloseIndicator" ColumnName="strOpenCloseIndicator" />
+                <ScalarProperty Name="numTradingFee" ColumnName="numTradingFee" />
+                <ScalarProperty Name="numClearingFee" ColumnName="numClearingFee" />
+                <ScalarProperty Name="strCurrency" ColumnName="strCurrency" />
+                <ScalarProperty Name="dtmSettleDate" ColumnName="dtmSettleDate" />
+                <ScalarProperty Name="strRegDate" ColumnName="strRegDate" />
+                <ScalarProperty Name="strRegTime" ColumnName="strRegTime" />
+                <ScalarProperty Name="intPreviousTradeID" ColumnName="intPreviousTradeID" />
+                <ScalarProperty Name="intInitialTradeID" ColumnName="intInitialTradeID" />
+                <ScalarProperty Name="strInitialTradeMarketCode" ColumnName="strInitialTradeMarketCode" />
+                <ScalarProperty Name="strInitialTradeExecID" ColumnName="strInitialTradeExecID" />
+                <ScalarProperty Name="dtmInitialTradeTradingDate" ColumnName="dtmInitialTradeTradingDate" />
+                <ScalarProperty Name="strInitialTradeType" ColumnName="strInitialTradeType" />
+                <ScalarProperty Name="strExecutionDate" ColumnName="strExecutionDate" />
+                <ScalarProperty Name="strExecutionTime" ColumnName="strExecutionTime" />
+                <ScalarProperty Name="strOrderNumber" ColumnName="strOrderNumber" />
+                <ScalarProperty Name="numGrossTradeAmt" ColumnName="numGrossTradeAmt" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="bitCazada" ColumnName="bitCazada" />
+                <ScalarProperty Name="strReferencia" ColumnName="strReferencia" />
+                <ScalarProperty Name="OrigTradeReference1" ColumnName="OrigTradeReference1" />
+                <ScalarProperty Name="OrigTradeReference2" ColumnName="OrigTradeReference2" />
+                <ScalarProperty Name="UTI" ColumnName="UTI" />
+                <ScalarProperty Name="NotTransferredQty" ColumnName="NotTransferredQty" />
+                <ScalarProperty Name="NextTradeID" ColumnName="NextTradeID" />
+                <ScalarProperty Name="Yield" ColumnName="Yield" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_Utilitarios_CargarCombos" FunctionName="DER_OperacionesModel.Store.usp_Procesos_Utilitarios_CargarCombos" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblCombos">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="intIDDependencia1" ColumnName="intIDDependencia1" />
+                <ScalarProperty Name="intIDDependencia2" ColumnName="intIDDependencia2" />
+                <ScalarProperty Name="strDependencia1" ColumnName="strDependencia1" />
+                <ScalarProperty Name="strDependencia2" ColumnName="strDependencia2" />
+                <ScalarProperty Name="strDescripcion" ColumnName="strDescripcion" />
+                <ScalarProperty Name="strRetorno" ColumnName="strRetorno" />
+                <ScalarProperty Name="strTopico" ColumnName="strTopico" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_CruceOperaciones_CruceAutomatico" FunctionName="DER_OperacionesModel.Store.usp_Procesos_CruceOperaciones_CruceAutomatico" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_CruceOperaciones_DescalzarLiquidaciones" FunctionName="DER_OperacionesModel.Store.usp_Procesos_CruceOperaciones_DescalzarLiquidaciones" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_CruceOperaciones_Consultar" FunctionName="DER_OperacionesModel.Store.usp_Procesos_CruceOperaciones_Consultar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblCRCC_CTRADES">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strTradeReference" ColumnName="strTradeReference" />
+                <ScalarProperty Name="dtmSessionDate" ColumnName="dtmSessionDate" />
+                <ScalarProperty Name="intTradeID" ColumnName="intTradeID" />
+                <ScalarProperty Name="strSide" ColumnName="strSide" />
+                <ScalarProperty Name="strUserID" ColumnName="strUserID" />
+                <ScalarProperty Name="strAccount" ColumnName="strAccount" />
+                <ScalarProperty Name="strContractCode" ColumnName="strContractCode" />
+                <ScalarProperty Name="numPrice" ColumnName="numPrice" />
+                <ScalarProperty Name="numQuantity" ColumnName="numQuantity" />
+                <ScalarProperty Name="dtmSettleDate" ColumnName="dtmSettleDate" />
+                <ScalarProperty Name="strRegDate" ColumnName="strRegDate" />
+                <ScalarProperty Name="strInitialTradeExecID" ColumnName="strInitialTradeExecID" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="bitSel" ColumnName="bitSel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_CruceOperaciones_Retirar" FunctionName="DER_OperacionesModel.Store.usp_Procesos_CruceOperaciones_Retirar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_CruceOperaciones_CruceManual" FunctionName="DER_OperacionesModel.Store.usp_Procesos_CruceOperaciones_CruceManual" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_ValidarOrdenes_Liquidacion_InicialTimeSpread" FunctionName="DER_OperacionesModel.Store.usp_Procesos_ValidarOrdenes_Liquidacion_InicialTimeSpread" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_CruceOperaciones_TimeSpread_Consultar" FunctionName="DER_OperacionesModel.Store.usp_Procesos_CruceOperaciones_TimeSpread_Consultar">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="DER_OperacionesModel.CPX_tblCRCC_CTRADES_TimeSpread">
+                <ScalarProperty Name="IDLiq" ColumnName="IDLiq" />
+                <ScalarProperty Name="Tipo_Operacion" ColumnName="Tipo_Operacion" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Fecha_Vencimiento" ColumnName="Fecha_Vencimiento" />
+                <ScalarProperty Name="IntNroFolio" ColumnName="IntNroFolio" />
+                <ScalarProperty Name="bitSel" ColumnName="bitSel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblCRCC_CTRADETYP">
+            <EntityTypeMapping TypeName="DER_OperacionesModel.tblCRCC_CTRADETYP">
+              <MappingFragment StoreEntitySet="tblCRCC_CTRADETYP">
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="dtmFechaActualizacion" ColumnName="dtmFechaActualizacion" />
+                <ScalarProperty Name="TradeTypeDescription" ColumnName="TradeTypeDescription" />
+                <ScalarProperty Name="TradeType" ColumnName="TradeType" />
+                <ScalarProperty Name="ClearingHouseCode" ColumnName="ClearingHouseCode" />
+                <ScalarProperty Name="SessionDate" ColumnName="SessionDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_CruceOperaciones_TipoOperacion_TimeSpread" FunctionName="DER_OperacionesModel.Store.usp_Procesos_CruceOperaciones_TipoOperacion_TimeSpread" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

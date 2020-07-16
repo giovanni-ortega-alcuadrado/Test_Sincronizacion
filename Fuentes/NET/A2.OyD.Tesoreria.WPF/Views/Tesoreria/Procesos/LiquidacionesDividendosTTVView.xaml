@@ -1,0 +1,259 @@
+﻿
+<!--
+    Codigo Desarrollado por: Santiago Alexander Vergara Orrego
+    'Archivo:  LiquidacionesDividendosTTVView
+    'Junio 07/2013
+    'Propiedad de Alcuadrado S.A. 2013
+-->
+<UserControl
+    x:Class="LiquidacionesDividendosTTVView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    d:DesignHeight="460"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+    </UserControl.Resources>
+
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            Width="1000"
+            Height="460"
+            Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="23" />
+                <RowDefinition Height="0" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="340" />
+
+
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Name="StackPanel1"
+                Grid.Row="0"
+                Width="1000"
+                HorizontalAlignment="Left"
+                Style="{StaticResource stpHead}">
+                <TextBlock
+                    Width="496"
+                    Style="{StaticResource Title1}"
+                    Text="Liquidaciones Dividendos TTV" />
+            </StackPanel>
+
+            <Border
+                Grid.Row="1"
+                Grid.RowSpan="6"
+                Width="1000"
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="1" />
+
+            <Border
+                Grid.Row="1"
+                Width="1000"
+                VerticalAlignment="Center"
+                Background="Black"
+                CornerRadius="0">
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btnConsultar"
+                        Width="100"
+                        Height="20"
+                        Margin="0,0,5,0"
+                        Click="btnConsultar_Click"
+                        Content="Consultar" />
+                    <Button
+                        x:Name="btnAceptar"
+                        Width="100"
+                        Height="20"
+                        Margin="0,0,5,0"
+                        Click="btnAceptar_Click"
+                        Content="Procesar" />
+                </StackPanel>
+            </Border>
+
+
+            <Border
+                Grid.Row="3"
+                Width="980"
+                Height="35"
+                BorderThickness="1"
+                CornerRadius="5"
+                Style="{StaticResource BordeAgrupar}">
+                <StackPanel
+                    Name="Buscando"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Label Width="50" Content="Fecha" />
+                    <A2UTILGEN:A2DatePicker
+                        Name="dpFecha"
+                        Width="160"
+                        Margin="5,0,0,0"
+                        IsTodayHighlighted="True"
+                        SelectedDate="{Binding dtmFecha, Mode=TwoWay}" />
+                </StackPanel>
+            </Border>
+
+            <Border
+                Name="Busqueda"
+                Grid.Row="4"
+                Width="980"
+                Height="25"
+                BorderThickness="1"
+                CornerRadius="0"
+                Style="{StaticResource BordeAgrupar}">
+                <StackPanel
+                    Name="Seleccionando"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <CheckBox
+                        Name="SeleccionarTodos"
+                        Content="Seleccionar Todos"
+                        IsChecked="{Binding logSelectTodos, Mode=TwoWay}" />
+                </StackPanel>
+            </Border>
+
+            <StackPanel
+                x:Name="Buscar"
+                Grid.Row="5"
+                Width="977"
+                Height="Auto"
+                VerticalAlignment="Top">
+                <Border Style="{StaticResource Contenedor_Paginador}">
+                    <A2UTILGEN:A2DataPager
+                        x:Name="datapagerdetalle"
+                        PageSize="10"
+                        Source="{Binding Items, ElementName=dgListaLiquidaciones}" />
+                </Border>
+                <A2UTILGEN:A2GridView
+                    x:Name="dgListaLiquidaciones"
+                    Width="977"
+                    Height="300"
+                    HorizontalAlignment="Left"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding ListaLiquidacionesDividendosPaged}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ValidatesOnDataErrors="None">
+
+                    <A2UTILGEN:A2GridView.Columns>
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding NroLineaM}"
+                            Header="Línea"
+                            IsReadOnly="True" />
+
+                        <Telerik:GridViewDataColumn Header="Seleccionar" SortMemberPath="Seleccionar">
+                            <Telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        IsChecked="{Binding Marcar, Mode=TwoWay}"
+                                        IsEnabled="True" />
+                                </DataTemplate>
+                            </Telerik:GridViewDataColumn.CellTemplate>
+                        </Telerik:GridViewDataColumn>
+
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding CodigoCompradorM}"
+                            Header="Cod. cliente comprador"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding NombreCompradorM}"
+                            Header="Nombre cliente comprador"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding NroDocumentoCompradorM}"
+                            Header="Doc. cliente comprador"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding CodigoVendedorM}"
+                            Header="Cod. cliente vendedor"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding NombreVendedorM}"
+                            Header="Nombre cliente vendedor"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding CodigoFirmaContraparteM}"
+                            Header="Cod. firma contraparte"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataFormatString="n2"
+                            DataMemberBinding="{Binding CantidadAccionesM}"
+                            Header="Cantidad acciones"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataFormatString="n2"
+                            DataMemberBinding="{Binding ValorDividendosM}"
+                            Header="Valor dividendos"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataFormatString="n2"
+                            DataMemberBinding="{Binding valorRetencionM}"
+                            Header="Valor retencióm"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding OperacionCompraM}"
+                            Header="Operación compra"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding OperacionVentaM}"
+                            Header="Operación venta"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding EspecieCompraM}"
+                            Header="Especie compra"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding OrdenSalidaM}"
+                            Header="Orden salida"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding OrdenRegresoM}"
+                            Header="Orden regreso"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding OrdeSalidaVentaM}"
+                            Header="Orden salida venta"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding OrderSalidaRegresoM}"
+                            Header="Orden regreso venta"
+                            IsReadOnly="True" />
+
+                    </A2UTILGEN:A2GridView.Columns>
+                </A2UTILGEN:A2GridView>
+
+            </StackPanel>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

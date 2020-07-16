@@ -1,0 +1,290 @@
+﻿<Window x:Class="cwOperacionesOtrosNegociosView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+        xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+        xmlns:src="clr-namespace:A2CFOperaciones"
+        xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+        Title="Aplazamiento de operaciones"
+        Width="320"
+        MaxHeight="400"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </Window.Resources>
+    
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <!--<StackPanel Orientation="Vertical"
+                    VerticalAlignment="Top">-->
+        <Grid   x:Name="LayoutRoot"
+                Width="320"
+                MaxHeight="400"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="180" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="0"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Fecha cumplimiento"
+                                        LabelPosition="Above"
+                                        TabIndex="1">
+                <A2UTILGEN:A2DatePicker Width="120"
+                                        HorizontalAlignment="Left"
+                                        SelectedDate="{Binding dtmFechaCumplimiento, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                                        ToolTipService.ToolTip="Fecha cumplimiento" />
+            </Telerik:DataFormDataField>
+            
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Cantidad"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSRENTAVARIABLE], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Cantidad"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Nominal"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSRENTAFIJA], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Nominal"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Cantidad acciones"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSREPOACCIONES], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Cantidad acciones"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Nominal"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSREPOCERRADO], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Nominal"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Nominal"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSREPOABIERTO], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Nominal"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Nominal"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSSIMULTANEA], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Nominal"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Nominal"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSTTV], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Nominal"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Inversión"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSDEPOSITOREMUNERADO], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Inversión"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Inversión"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSDIVISAS], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Inversión"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField  Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding HabilitarEncabezado}"
+                                        Label="Cantidad acciones"
+                                        LabelPosition="Above" 
+                                        TabIndex="2"                                        
+                                        Visibility="{Binding DiccionarioHabilitarCampos[MOSTRARCAMPOSTTVACCIONES], Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2NumericBox Width="160"
+                                        AllowNull="False"
+                                        HorizontalAlignment="Left"
+                                        Maximum="999999999999999"
+                                        Minimum="0"
+                                        NumberDecimalDigits="{Binding FormatoCamposDecimales}"
+                                        ShowButtons="False"
+                                        ToolTipService.ToolTip="Cantidad acciones"
+                                        ValueFormat="Numeric"
+                                        Value="{Binding dblNominal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+
+            <StackPanel Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="0, 10, 5, 5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
+                
+                <Button x:Name="btnAceptar"
+                        Width="75"
+                        Height="28"
+                        Margin="0, 0, 3, 0"
+                        HorizontalAlignment="Center"
+                        Click="btnAceptar_Click"
+                        Content="Aceptar"
+                        IsEnabled="{Binding HabilitarEncabezado}" />
+                
+                <Button x:Name="btnCerrar"
+                        Width="75"
+                        Height="28"
+                        HorizontalAlignment="Center"
+                        Click="btnCerrar_Click"
+                        Content="Cerrar"
+                        IsEnabled="{Binding HabilitarEncabezado}" />
+
+            </StackPanel>
+
+        </Grid>
+        <!--</StackPanel>-->
+    </Telerik:RadBusyIndicator>
+</Window>

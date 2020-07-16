@@ -1,0 +1,289 @@
+﻿<UserControl x:Class="ConceptoRetencionView"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           
+           xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+           xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+           xmlns:src="clr-namespace:A2CFTitulosNet"
+           xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+           
+           
+           >
+
+    <UserControl.Resources>
+<src:DisplayNameConverter x:Key="DisplayConverter"/>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio"/>
+    </UserControl.Resources>
+
+    <!--Descripción:    Diseño para la pantalla ConceptoRetencion (Cálculos Financieros)
+        Responsable:    Jorge Peña (Alcuadrado (S.A.)
+        Fecha:          19 de Enero/2018-->
+
+    <Telerik:RadBusyIndicator IsBusy="{Binding IsBusy}"  DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicator">
+        <Grid x:Name="LayoutRoot"  ShowGridLines="False" Background="{StaticResource BackgroundColorBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Fila del menu-->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--Fila de la forma/grid-->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition  Width="700"></ColumnDefinition>
+                <ColumnDefinition  Width="1"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <TextBlock Text="Concepto de retención" Style="{StaticResource Title1}" />
+                <TextBlock Text="*" Style="{StaticResource ControlLabelStyle}" Visibility="{Binding EncabezadoSeleccionado.HasChanges, Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Text="  (" Style="{StaticResource ControlLabelStyle}" />
+                <TextBlock Text="{Binding ListaEncabezado.Count, StringFormat=n0}" Style="{StaticResource ControlLabelStyle}" />
+                <TextBlock Text=" registros)" Style="{StaticResource ControlLabelStyle}" />
+            </StackPanel>
+
+            <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" Margin="0,0,0,10">
+                <StackPanel>
+                    <A2Utils:ControlMenuA2 x:Name="cm"                                                						
+                                                Mensaje="{Binding MensajeMVVM, Mode= TwoWay}"
+ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                                                EstadoMenu="{Binding EstadoMenuVM, Mode= TwoWay}"
+                                                Filtro="{Binding FiltroVM, Mode= TwoWay}"
+                                                Modo="{Binding ModoMVVM, Mode= TwoWay}"                                                
+                                                IsItemValid="True"
+                                                HayDataForm="False"
+                                                MensajeError="{Binding ErrorForma}"
+                                                DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"							
+                                                DicBotonesMenu="{Binding DicBotonesMenuVM, Mode= TwoWay}"
+                                                
+                                                ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                                                TextoFiltroTooltip="Código interno, descripción"
+                                                PreguntarConfirmacion="False"
+                                                >
+                    </A2Utils:ControlMenuA2>
+
+                    <TextBlock Text="{Binding ErrorForma}" Height="Auto" Foreground="Red"  Margin="3"  Visibility="{Binding VisibilidadErrores}" />
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="2" x:Name="grdGridForma"  Grid.Column="1" >
+                <Border  Width="700" HorizontalAlignment="Center">
+                    <!-- =========================== -->
+                    <!-- Grid de navegación paginada -->
+                    <!-- =========================== -->
+                    <StackPanel VerticalAlignment="Top" Grid.Column="0" x:Name="Buscar" Width="Auto"  Height="Auto" >
+                        <Telerik:RadDataPager x:Name="datapager1" Source="{Binding Items, ElementName=dg}" PageSize="15" />
+                        <Telerik:RadGridView x:Name="dg" ItemsSource="{Binding ListaEncabezadoPaginada}" IsReadOnly="True" SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                                       ScrollViewer.VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" VerticalAlignment="Top" Height="Auto" FrozenColumnCount="1">
+                            <Telerik:RadGridView.Columns>
+
+                                <Telerik:GridViewDataColumn  SortMemberPath="Zona" Header="Código interno">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource HyperlinkLikeButton}" VerticalAlignment="Center" Content="{Binding strCodigo, Mode=TwoWay}" Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=Telerik:RadGridView}}" CommandParameter="{Binding}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcion}" Header="Descripción" />
+
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblPorcentajeRetencion}" Header="% retención" />
+
+                                <Telerik:GridViewDataColumn Header="Gravado" IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox   x:Name="chkGravado"
+                                                        VerticalAlignment="Center" 
+                                                        HorizontalAlignment="Center"   
+                                                        IsEnabled="False"
+                                                        IsChecked="{Binding logGravado, Mode=TwoWay}"
+                                                        Margin="0, 0, -65, 0"/>
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmActualizacion, StringFormat='dd MMM, yyyy hh:mm:ss tt'}" IsReadOnly="True" Header="Fecha actualización" />
+
+                            </Telerik:RadGridView.Columns>
+                        </Telerik:RadGridView>
+                    </StackPanel>
+                </Border>
+
+                <Border  Width="700" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Grid>
+                        <!-- ==================== -->
+                        <!-- Dataform de búsqueda -->
+                        <!-- ==================== -->
+                        <Telerik:RadDataForm x:Name="dfBuscar" AutoGenerateFields="False" AutoEdit="True" CommandButtonsVisibility="None"
+	                        VerticalAlignment="Top" Visibility="{Binding visBuscando}" CurrentItem="{Binding cb}"
+							BorderThickness="0" Background="{StaticResource BackgroundColorBrush}">
+                            <Telerik:RadDataForm.EditTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="White" BorderThickness="2">
+                                        <Grid 
+                                              VerticalAlignment="Top"
+                                              Background="{StaticResource BackgroundColorBrush}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Orientation="Horizontal"  
+                                                         
+                                                        Grid.Row="0" Grid.Column="0"
+                                                        Margin="10, 5, 0, 10">
+
+                                                <Telerik:DataFormDataField Label="Código interno" 
+                                                                           LabelPosition="Above" 
+                                                                           TabIndex="1"
+                                                                            
+                                                                           >
+                                                    <TextBox    x:Name="txtCodigo"
+                                                                TextAlignment="Right" 
+                                                                MaxLength="20"      
+                                                                Width="80" 
+                                                                Text="{Binding strCodigo, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"
+                                                                ToolTipService.ToolTip="Código interno"
+                                                                GotFocus="seleccionarFocoControl"/>
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField Label="Descripción" 
+                                                                           LabelPosition="Above" 
+                                                                           TabIndex="2"
+                                                                            
+                                                                           >
+                                                    <TextBox    x:Name="txtDescripcion"
+                                                                TextAlignment="Left" 
+                                                                MaxLength="100"      
+                                                                Width="480" 
+                                                                Text="{Binding strDescripcion, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"
+                                                                ToolTipService.ToolTip="Descripción"
+                                                                GotFocus="seleccionarFocoControl"/>
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField  Label="Gravado"
+                                                                            LabelPosition="Above" 
+                                                                            TabIndex="4"
+                                                                            Margin="0, -11, 0, 0"
+                                                                             
+                                                                            >
+                                                    <CheckBox   x:Name="chkGravado" 
+                                                                IsChecked="{Binding logGravado, Mode=TwoWay}"
+                                                                VerticalAlignment="Center">
+                                                    </CheckBox>
+                                                </Telerik:DataFormDataField>
+
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </Telerik:RadDataForm.EditTemplate>
+                        </Telerik:RadDataForm>
+
+                        <StackPanel Grid.Column="1" Grid.Row="1" x:Name="Editar"  Height="Auto" Visibility="{Binding visNavegando}"
+                                    HorizontalAlignment="Stretch">
+                            <!-- ============================ -->
+                            <!-- Dataform edición de registro -->
+                            <!-- ============================ -->
+                            <Border BorderBrush="White" BorderThickness="2">
+                                <Grid 
+                                      VerticalAlignment="Top"
+                                      Background="{StaticResource BackgroundColorBrush}"
+                                      DataContext="{Binding EncabezadoSeleccionado}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+
+                                    <StackPanel Orientation="Horizontal"  
+                                                 
+                                                Grid.Row="0" Grid.Column="0"
+                                                Margin="10, 5, 0, 10">
+
+                                        <Telerik:DataFormDataField Label="Código interno" 
+                                                                   LabelPosition="Above" 
+                                                                   TabIndex="1"
+                                                                    
+                                                                   >
+                                            <TextBox    x:Name="txtCodigo"
+                                                        TextAlignment="Right" 
+                                                        MaxLength="20"      
+                                                        Width="80" 
+                                                        Text="{Binding strCodigo, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"   
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ToolTipService.ToolTip="Código interno"
+                                                        GotFocus="seleccionarFocoControl"/>
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField Label="Descripción" 
+                                                                   LabelPosition="Above" 
+                                                                   TabIndex="2"
+                                                                    
+                                                                   >
+                                            <TextBox    x:Name="txtDescripcion"
+                                                        TextAlignment="Left" 
+                                                        MaxLength="100"  
+                                                        Width="400" 
+                                                        Text="{Binding strDescripcion, Mode=TwoWay, NotifyOnValidationError = True,  ValidatesOnExceptions=True }"   
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ToolTipService.ToolTip="Descripción"
+                                                        GotFocus="seleccionarFocoControl"/>
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField Label="% retención" 
+                                                                   LabelPosition="Above"
+                                                                   TabIndex="3"
+                                                                    
+                                                                   >
+                                            <Telerik:RadNumericUpDown  HorizontalContentAlignment="Right" 
+                                                          HorizontalAlignment="Left"
+                                                          Width="80" 
+                                                          ValueFormat="Numeric" NumberDecimalDigits="6"
+                                                          Minimum="0" 
+                                                          Maximum="100" 
+                                                          ShowButtons="False" 
+                                                           
+                                                          Value="{Binding dblPorcentajeRetencion, Mode=TwoWay,  ValidatesOnExceptions=True }"  
+                                                          IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                          ToolTipService.ToolTip="% retención"  />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField  Label="Gravado"
+                                                                    LabelPosition="Above" 
+                                                                    TabIndex="4"
+                                                                     
+                                                                    
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <CheckBox   x:Name="chkGravado" 
+                                                        IsChecked="{Binding logGravado, Mode=TwoWay}"
+                                                        VerticalAlignment="Center">
+                                            </CheckBox>
+                                        </Telerik:DataFormDataField>
+
+                                    </StackPanel>
+
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+    </UserControl>

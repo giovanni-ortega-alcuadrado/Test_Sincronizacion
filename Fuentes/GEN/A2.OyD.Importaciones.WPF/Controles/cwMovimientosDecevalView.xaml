@@ -1,0 +1,246 @@
+﻿<Window
+    x:Class="cwMovimientosDecevalView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Movimientos archivo Deceval"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </Window.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <!--<StackPanel Orientation="Vertical"
+                    VerticalAlignment="Top">-->
+        <Grid
+            x:Name="LayoutRoot"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1300" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource Contenedor_TabControl}">
+                <TabControl>
+                    <TabItem Header="Detalle" Visibility="Collapsed">
+                        <StackPanel>
+                            <A2Utils:ControlMenuDetalleA2
+                                x:Name="cmMovimientosDeceval"
+                                IsEnabled="{Binding DataContext.Editando, Mode=OneWay, RelativeSource={RelativeSource AncestorType=Window}}"
+                                Mensaje="{Binding DataContext.MensajeMVVM, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}"
+                                NombreDetalle="{Binding DataContext.NombreColeccionDetalle, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}"
+                                ObjetoSeleccionado="{Binding DataContext.DetalleSeleccionado, RelativeSource={RelativeSource AncestorType=Window}}"
+                                PreguntarConfirmacion="True"
+                                Visibility="Collapsed" />
+
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager2"
+                                    PageSize="13"
+                                    Source="{Binding ItemsSource, ElementName=dgDetalle}" />
+                            </Border>
+
+                            <A2UTILGEN:A2GridView
+                                x:Name="dgDetalle"
+                                Height="350"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding TitulosMovimientosPaginada}"
+                                SelectedItem="{Binding DetalleSeleccionado, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn CellStyle="{StaticResource StyleDataGridCellAlignRight}">
+
+                                        <Telerik:GridViewDataColumn.Header>
+                                            <CheckBox
+                                                x:Name="chkSeleccionarTodos"
+                                                Margin="0,0,0,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Click="chkSeleccionar_Click"
+                                                IsChecked="False">
+                                                <CheckBox.ContentTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Todos" />
+                                                    </DataTemplate>
+                                                </CheckBox.ContentTemplate>
+
+                                            </CheckBox>
+                                        </Telerik:GridViewDataColumn.Header>
+
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    x:Name="chkBoxSeleccionar"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    IsChecked="{Binding logLineaSeleccionada, Mode=TwoWay}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="Linea" SortMemberPath="Linea">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Click="ActualizarDetalle_Click"
+                                                    Content="{Binding intLineaArchivo}"
+                                                    FontSize="11"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="Especie" SortMemberPath="Especie">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Click="ActualizarDetalle_Click"
+                                                    Content="{Binding strIDEspecie}"
+                                                    FontSize="11"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="ISIN" SortMemberPath="ISIN">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Click="ActualizarDetalle_Click"
+                                                    Content="{Binding strISIN}"
+                                                    FontSize="11"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding lngIDFungible}"
+                                        Header="Fungible"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding dblNroCuenta}"
+                                        Header="NroCuenta"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn Header="Comitente" SortMemberPath="Comitente">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Click="ActualizarDetalle_Click"
+                                                    Content="{Binding lngIDComitente}"
+                                                    FontSize="11"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding strNroDocumento}"
+                                        Header="Documento"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding strNombre}"
+                                        Header="Nombre"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding dtmMovimiento, StringFormat=dd/MM/yyyy}"
+                                        Header="Fecha movimiento"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding dblCantidad, StringFormat='n4'}"
+                                        Header="Cantidad"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding dblVlrValorizado, StringFormat='n4'}"
+                                        Header="Valor valorizado"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        CellStyle="{StaticResource StyleDataGridCellAlignRight}"
+                                        DataMemberBinding="{Binding strDescripcionMovimiento}"
+                                        Header="Movimiento"
+                                        IsReadOnly="True" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+            </Border>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="1145,15,5,5"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+
+                <Button
+                    x:Name="btnAceptar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnAceptar_Click"
+                    Content="Aceptar"
+                    RenderTransformOrigin="0.533,-0.87" />
+
+                <Button
+                    x:Name="btnCerrar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnCerrar_Click"
+                    Content="Cerrar"
+                    RenderTransformOrigin="0.533,-0.87" />
+
+            </StackPanel>
+
+        </Grid>
+        <!--</StackPanel>-->
+    </Telerik:RadBusyIndicator>
+</Window>

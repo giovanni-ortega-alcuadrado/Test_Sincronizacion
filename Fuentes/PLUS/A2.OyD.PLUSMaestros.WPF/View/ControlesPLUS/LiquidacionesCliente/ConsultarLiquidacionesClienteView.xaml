@@ -1,0 +1,160 @@
+﻿<Window xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"     
+             x:Class="ConsultarLiquidacionesClienteView"   
+             
+             
+             xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.Input"  
+             xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+             
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:scr="clr-namespace:A2OYDPLUSUtilidades"
+             xmlns:oydcontroles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+             Title="Liquidaciones cliente"
+             
+             
+             
+             
+             MaxWidth="800">
+    
+    <Window.Resources>
+        <scr:ConsultarLiquidacionesClienteViewModel x:Key="vmLiquidacionesCliente" />
+        <scr:clsVisibilityConverter x:Key="VisibilityConverter" />
+        <scr:clsInVisibilityConverter x:Key="InVisibilityConverter" />
+    </Window.Resources>
+
+    <Telerik:RadBusyIndicator IsBusy="{Binding IsBusy}" DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicator"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid x:Name="LayoutRoot" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Telerik:DataFormDataField Label="Cliente"
+                               Grid.Column="0" Grid.Row="0"
+                               LabelPosition="Above">
+                <StackPanel>
+                    <Label Content="{Binding Cliente}" Visibility="{Binding HabilitarBuscadorCliente, Converter={StaticResource InVisibilityConverter}}" />
+                    <oydcontroles:BuscadorCliente x:Name="ctrlCliente"
+                                                  TipoVinculacion="C"
+                                         BuscarAlIniciar="False"
+                                         EstadoComitente="A"
+                                         comitenteAsignado="ctrlCliente_comitenteAsignado"
+                                         Visibility="{Binding HabilitarBuscadorCliente, Converter={StaticResource VisibilityConverter}}" />
+                </StackPanel>
+            </Telerik:DataFormDataField>
+            
+            <Telerik:DataFormDataField Label="Tipo Operación"
+                               Grid.Column="1" Grid.Row="0"
+                               LabelPosition="Above"
+                               IsEnabled="{Binding HabilitarTipoOperacion}">
+                <ComboBox ItemsSource="{Binding ListaTipoOperacion}"
+                          SelectedValue="{Binding TipoOperacion, Mode=TwoWay}"
+                          SelectedValuePath="ID"
+                          DisplayMemberPath="Descripcion"
+                          />
+            </Telerik:DataFormDataField>
+
+            <!--<Telerik:DataFormDataField Label="Fecha inicial"
+                               Grid.Column="2" Grid.Row="0"
+                               LabelPosition="Above">
+                <DatePicker SelectedDate="{Binding FechaInicial, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField Label="Fecha final"
+                               Grid.Column="3" Grid.Row="0"
+                               LabelPosition="Above">
+                <DatePicker SelectedDate="{Binding FechaFinal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>-->
+
+            <Button Content="Consultar"
+                    Grid.Column="4" Grid.Row="0" 
+                    x:Name="btnConsultar"
+                    Click="btnConsultar_Click"/>
+
+            <CheckBox IsChecked="{Binding SeleccionarTodos, Mode=TwoWay}" 
+                      Grid.Column="0" Grid.Row="1"
+                      Content="Seleccionar todos"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"/>
+            
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <Telerik:RadDataPager x:Name="datapager"
+                           Source="{Binding Items, ElementName=GridLiquidacionesCliente}"
+                           PageSize="10"
+                           Grid.Row="0"
+                           Visibility="Visible"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" />
+                <Telerik:RadGridView x:Name="GridLiquidacionesCliente"
+                               Grid.Row="1"
+                               ItemsSource="{Binding ListaLiquidacionesClientePaged}"
+                               SelectedItem="{Binding LiquidacionSeleccionada, Mode=TwoWay}"
+                               MinHeight="150"
+                               AutoGenerateColumns="False"
+                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                               IsReadOnly="True">
+                    <Telerik:RadGridView.Columns>
+                        <Telerik:GridViewDataColumn Header="Seleccione">
+                            <Telerik:GridViewDataColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Seleccione, Mode=TwoWay}" 
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </Telerik:GridViewDataColumn.CellTemplate>
+                        </Telerik:GridViewDataColumn>
+                        <Telerik:GridViewDataColumn Header="Nro liquidación"
+                                            DataMemberBinding="{Binding NroLiquidacion, Mode=TwoWay}" />
+                        <Telerik:GridViewDataColumn Header="Parcial"
+                                            DataMemberBinding="{Binding Parcial, Mode=TwoWay}" />
+                        <Telerik:GridViewDataColumn Header="Fecha liquidación"
+                                            DataMemberBinding="{Binding FechaLiquidacion, Mode=TwoWay, StringFormat='dd/MM/yyyy', ConverterCulture=es-CO}" />
+                        <Telerik:GridViewDataColumn Header="Fecha cumplimiento"
+                                            DataMemberBinding="{Binding FechaCumplimiento, Mode=TwoWay, StringFormat='dd/MM/yyyy', ConverterCulture=es-CO}" />
+                        <Telerik:GridViewDataColumn Header="Clase orden"
+                                            DataMemberBinding="{Binding NombreClaseOrden, Mode=TwoWay}" />
+                        <Telerik:GridViewDataColumn Header="Total liquidación"
+                                            DataMemberBinding="{Binding TotalLiquidacion, Mode=TwoWay, StringFormat='\{0:C2\}'}" />
+
+                    </Telerik:RadGridView.Columns>
+                </Telerik:RadGridView>
+            </Grid>
+
+
+            
+            
+            <Telerik:DataFormDataField Label="Total liquidaciones"
+                               Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
+                               LabelPosition="Above"> 
+                <Label Content="{Binding TotalLiquidacion, StringFormat='\{0:C2\}'}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField Label="Total liquidaciones seleccionadas"
+                               LabelPosition="Above"
+                               Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2">
+                <Label Content="{Binding TotalLiquidacionSeleccionada, StringFormat='\{0:C2\}'}" />
+            </Telerik:DataFormDataField>
+
+            <Button Content="Cerrar"
+                    Grid.Column="4" Grid.Row="3" 
+                    x:Name="btnCerrar"
+                    Click="btnCerrar_Click"/>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

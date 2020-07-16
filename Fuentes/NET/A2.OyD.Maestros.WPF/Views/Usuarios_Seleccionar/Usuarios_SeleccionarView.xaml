@@ -1,0 +1,226 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: Usuarios_SeleccionarView.xaml
+    Generado el : 03/05/2012 10:50:44
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="Usuarios_SeleccionarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+
+
+
+
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="30" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="650" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <!--  2011/12/20 Cambio de estilos  -->
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Usuarios Seleccionar" />
+                <TextBlock
+                    Style="{StaticResource txbNumRegistros}"
+                    Text="*"
+                    Visibility="{Binding Usuarios_SeleccionaSelected.HasChanges, Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text="  (" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text="{Binding ListaUsuarios_Seleccionar.Count, StringFormat=n0}" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text=" registros)" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource stpFiltro}">
+
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding Usuarios_SeleccionaSelected}"
+                    TextoFiltroTooltip="Filtra por los campos Id y Login" />
+                <!--<TextBlock Text="(*) Campos por los cuales se realiza el filtro." Margin="5,0,0,0" Style="{StaticResource txbNumRegistros}"/>-->
+                <TextBlock
+                    Height="Auto"
+                    Margin="3"
+                    Foreground="Red"
+                    Text="{Binding ErrorForma}"
+                    Visibility="{Binding VisibilidadErrores}" />
+            </StackPanel>
+
+            <Grid
+                x:Name="grdGridForma"
+                Grid.Row="2"
+                Grid.Column="1">
+                <Grid.Effect>
+                    <DropShadowEffect
+                        Direction="-45"
+                        Opacity="0.5"
+                        ShadowDepth="5"
+                        Color="Gray" />
+                </Grid.Effect>
+
+                <Border
+                    Width="650"
+                    HorizontalAlignment="Center"
+                    CornerRadius="5">
+                    <StackPanel
+                        x:Name="Buscar"
+                        Grid.Column="0"
+                        Width="650"
+                        Height="Auto"
+                        VerticalAlignment="Top">
+                        <Border Style="{StaticResource Contenedor_Paginador}">
+                            <A2UTILGEN:A2DataPager
+                                x:Name="datapager1"
+                                PageSize="10"
+                                Source="{Binding Items, ElementName=dg}" />
+                        </Border>
+                        <A2UTILGEN:A2GridView
+                            x:Name="dg"
+                            Height="300"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ListaUsuarios_SeleccionarPaged}"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            SelectedItem="{Binding Usuarios_SeleccionaSelected, Mode=TwoWay}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding Id}" Header="Id" />
+
+                                <Telerik:GridViewDataColumn Header="Login" SortMemberPath="Login">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button
+                                                VerticalAlignment="Center"
+                                                Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                CommandParameter="{Binding}"
+                                                Content="{Binding Login}"
+                                                Style="{StaticResource HyperlinkLikeButton}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Width="650"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    CornerRadius="5">
+                    <Grid>
+                        <!--  Dataform de búsqueda  -->
+                        <A2UTILGEN:A2DataForm
+                            x:Name="dfBuscar"
+                            VerticalAlignment="Top"
+                            AutoGenerateFields="False"
+                            CommandButtonsVisibility="None"
+                            CurrentItem="{Binding cb}"
+                            Visibility="{Binding visBuscando}">
+                            <A2UTILGEN:A2DataForm.EditTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Id}">
+                                            <A2UTILGEN:A2NumericBox
+                                                Maximum="2147483647"
+                                                Minimum="0"
+                                                NumberDecimalDigits="0"
+                                                ShowButtons="False"
+                                                ValueFormat="NoSeparator"
+                                                Value="{Binding Id, Mode=TwoWay}" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Login}">
+                                            <TextBox MaxLength="60" Text="{Binding Login, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </A2UTILGEN:A2DataForm.EditTemplate>
+                        </A2UTILGEN:A2DataForm>
+
+                        <!--  Dataform edición de registro  -->
+                        <StackPanel
+                            x:Name="Editar"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="650"
+                            Height="Auto"
+                            Visibility="{Binding visNavegando}">
+                            <A2UTILGEN:A2DataForm
+                                x:Name="df"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding Usuarios_SeleccionaSelected}"
+                                IsEnabled="{Binding Editando}">
+                                <!--<A2UTILGEN:A2DataForm.Resources>
+                			<A2Utils:DataContextProxy  x:Key="A2DataContextProxy"></A2Utils:DataContextProxy>
+						</A2UTILGEN:A2DataForm.Resources>-->
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Login}">
+                                                <TextBox
+                                                    MaxLength="60"
+                                                    Text="{Binding Login, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    ToolTipService.ToolTip="Login" />
+                                            </Telerik:DataFormDataField>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

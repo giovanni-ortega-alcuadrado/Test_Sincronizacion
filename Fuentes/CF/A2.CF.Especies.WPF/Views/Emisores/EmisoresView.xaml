@@ -1,0 +1,547 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: EmisoresView.xaml
+    Generado el : 04/19/2011 10:28:35
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="EmisoresView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFEspecies"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="350"
+    MaxWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            MinWidth="350"
+            MaxWidth="800"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding EmisoreSelected}"
+                    TextoFiltroTooltip="Filtra por los campos Nombre y Código"
+                    TituloVista="Emisores"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding EmisoreSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaEmisores.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="800">
+                    <!--
+                        Modificado por   : Juan Carlos Soto Cruz (JCS).
+                        Fecha            : Mayo 27/2013
+                        Descripción      : Se adiciona el DataGridTextColumn con el nombre de la Calificadora.
+                        
+                        Modificado por   : Juan Carlos Soto Cruz (JCS).
+                        Fecha            : Junio 27/2013
+                        Descripción      : Se retira todo lo referente a Tipos Emisores de este maestro, lo anterior por que se detecta que la funcionalidad que proporcionaria este campo ya existia en el maestro de emisores.
+                    -->
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                VerticalAlignment="Top"
+                                d:IsHidden="True"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="1"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEmisoresPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding EmisoreSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Código" SortMemberPath="Código">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType={x:Type A2UTILGEN:A2GridView}}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding ID}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="Nombre" SortMemberPath="Nombre">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType={x:Type A2UTILGEN:A2GridView}}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Nombre}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NIT}" Header="NIT" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Telefono1}" Header="Teléfono 1" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Fax1}" Header="Fax 1" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Direccion}" Header="Dirección" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Internet}" Header="Internet" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding EMail}" Header="E-Mail" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Grupo}" Header="Grupo" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding SubGrupo}" Header="SubGrupo" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Cuidad}" Header="Cuidad" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Pais}" Header="País" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Departamento}" Header="Departamento" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionTipoEntidad}" Header="Tipo entidad" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionCodigoCiiu}" Header="Código Ciiu" />
+                                    <!--  JCS Mayo 27/2013  -->
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strNomCalificadora}" Header="Calificadora" />
+                                    <!--  FIN JCS  -->
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            MaxWidth="800">
+
+                            <!--  Dataform edición de registro  -->
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                d:IsHidden="True"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="800">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Telerik:DataFormDataField Grid.Column="0" Label="{Binding ConverterParameter=ID, Converter={StaticResource ResourceKey=DisplayConverter}, Mode=OneWay}">
+                                                <A2UTILGEN:A2NumericBox
+                                                    Maximum="2147483647"
+                                                    Minimum="0"
+                                                    NumberDecimalDigits="0"
+                                                    ShowButtons="False"
+                                                    ValueFormat="NoSeparator"
+                                                    Value="{Binding ID, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Column="1" Label="{Binding ConverterParameter=Nombre, Converter={StaticResource ResourceKey=DisplayConverter}, Mode=OneWay}">
+                                                <TextBox MaxLength="50" Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--
+                                Modificado por   : Juan Carlos Soto Cruz (JCS).
+                                Fecha            : Mayo 27/2013
+                                Descripción      : Se adiciona el combo de Calificadoras.
+                            -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding EmisoreSelected}"
+                                    IsEnabled="{Binding Editando}">
+
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid MaxWidth="800" ShowGridLines="False">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                </Grid.RowDefinitions>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Label="ID">
+                                                    <TextBlock Text="{Binding ID}" ToolTipService.ToolTip="ID" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="NIT">
+                                                    <A2UTILGEN:A2NumericBox
+                                                        Maximum="999999999999999"
+                                                        Minimum="0"
+                                                        ShowButtons="False"
+                                                        ValueFormat="NoSeparator"
+                                                        Value="{Binding NIT, Mode=TwoWay}" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Label="Nombre">
+                                                    <TextBox
+                                                        MaxLength="50"
+                                                        Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Nombre" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="Dirección">
+                                                    <TextBox
+                                                        MaxLength="50"
+                                                        Text="{Binding Direccion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Direccion" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Label="Telefono 1">
+                                                    <TextBox
+                                                        MaxLength="25"
+                                                        Text="{Binding Telefono1, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Telefono1" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="Telefono 2">
+                                                    <TextBox
+                                                        MaxLength="25"
+                                                        Text="{Binding Telefono2, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Telefono2" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Label="Fax 1">
+                                                    <TextBox
+                                                        MaxLength="25"
+                                                        Text="{Binding Fax1, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Fax1" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="Fax 2">
+                                                    <TextBox
+                                                        MaxLength="25"
+                                                        Text="{Binding Fax2, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Fax2" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="3"
+                                                    Label="Contacto">
+                                                    <TextBox
+                                                        MaxLength="50"
+                                                        Text="{Binding Contacto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Contacto" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    Label="Internet">
+                                                    <TextBox
+                                                        MaxLength="50"
+                                                        Text="{Binding Internet, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Internet" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="E-Mail">
+                                                    <TextBox
+                                                        MaxLength="50"
+                                                        Text="{Binding EMail, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="E-Mail" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="6"
+                                                    Grid.Column="0"
+                                                    Label="Código Emisor">
+                                                    <TextBox MaxLength="5" Text="{Binding CodigoEmisor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="6"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="Vigilado por la superintendencia"
+                                                    LabelPosition="Beside">
+                                                    <CheckBox IsChecked="{Binding VigiladoSuper, Mode=TwoWay}" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Grid
+                                                    Grid.Row="7"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="3"
+                                                    MaxWidth="800"
+                                                    DataContext="{Binding DataContext.CiudadesClaseSelected, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Telerik:DataFormDataField IsEnabled="False" Label="Ciudad">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBox
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Center"
+                                                                Text="{Binding Ciudad}" />
+                                                            <my1:BuscadorGenericoListaButon
+                                                                Grid.Column="1"
+                                                                Margin="2,0,0,0"
+                                                                Agrupamiento=""
+                                                                CampoBusqueda="ciudades"
+                                                                EstadoItem="A"
+                                                                Etiqueta="Ciudad"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                                TipoItem="ciudades"
+                                                                finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                                        </Grid>
+                                                    </Telerik:DataFormDataField>
+
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Column="1"
+                                                        IsEnabled="False"
+                                                        Label="Departamento">
+                                                        <TextBox VerticalAlignment="Center" Text="{Binding Departamento}" />
+                                                    </Telerik:DataFormDataField>
+
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Column="2"
+                                                        IsEnabled="False"
+                                                        Label="Pais">
+                                                        <TextBox VerticalAlignment="Center" Text="{Binding Pais}" />
+                                                    </Telerik:DataFormDataField>
+                                                </Grid>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="8"
+                                                    Grid.Column="0"
+                                                    Label="Grupo">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="False"
+                                                        ItemsSource="{Binding DiccionarioCombos[grupos], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding IDGrupo, Mode=TwoWay, StringFormat=#}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Grupo" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="8"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="SubGrupo">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Nombre"
+                                                        IsEnabled="False"
+                                                        ItemsSource="{Binding DataContext.ListaClasificaciones, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        SelectedValue="{Binding IDSubGrupo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="Código"
+                                                        ToolTipService.ToolTip="Subgrupo" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="9"
+                                                    Grid.Column="0"
+                                                    Label="Tipo entidad">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Nombre"
+                                                        IsEnabled="False"
+                                                        ItemsSource="{Binding DataContext.ListaTiposEntidad, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        SelectedValue="{Binding DataContext.intIDTipoEntidad, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Mode=TwoWay}"
+                                                        SelectedValuePath="IDTipoEntidad"
+                                                        ToolTipService.ToolTip="Subgrupo" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="9"
+                                                    Grid.Column="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="Código ciiu">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBox
+                                                            Grid.Column="0"
+                                                            IsEnabled="False"
+                                                            Text="{Binding strDescripcionCodigoCiiu, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            ToolTipService.ToolTip="Código ciiu" />
+                                                        <my1:BuscadorGenericoListaButon
+                                                            Grid.Column="1"
+                                                            Margin="2,0,0,0"
+                                                            CampoBusqueda="codigoCiiu"
+                                                            Etiqueta="Lista Actividad Economica"
+                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                            TipoItem="Codigos_Ciiu"
+                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                                    </Grid>
+
+                                                </Telerik:DataFormDataField>
+
+                                                <!--  JCS Mayo 27/2013  -->
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="10"
+                                                    Grid.Column="0"
+                                                    Label="Calificadora">
+                                                    <ComboBox
+                                                        DisplayMemberPath="strNomCalificadora"
+                                                        IsEnabled="False"
+                                                        ItemsSource="{Binding DataContext.ListaCalificadoras, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        SelectedValue="{Binding intIdCalificadora, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="intIdCalificadora"
+                                                        ToolTipService.ToolTip="Calificadoras" />
+                                                </Telerik:DataFormDataField>
+                                                <!--  FIN JCS  -->
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="11"
+                                                    Grid.Column="0"
+                                                    Label="Es patrimonio autónomo"
+                                                    LabelPosition="Beside">
+                                                    <CheckBox IsChecked="{Binding logEsPatrimonioAutonomo, Mode=TwoWay}" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="11"
+                                                    Grid.Column="1"
+                                                    Label="Activo"
+                                                    LabelPosition="Beside">
+                                                    <CheckBox IsChecked="{Binding logActivo, Mode=TwoWay}" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="11"
+                                                    Grid.Column="2"
+                                                    Label="Fuente extranjero"
+                                                    LabelPosition="Beside">
+                                                    <CheckBox IsChecked="{Binding FuenteExtranjero, Mode=TwoWay}" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                                <Border Style="{StaticResource Contenedor_TabControl}">
+                                    <TabControl>
+                                        <TabItem x:Name="TabEspecie" Header="Especie">
+                                            <StackPanel>
+                                                <A2UTILGEN:A2GridView
+                                                    x:Name="dgEspecie"
+                                                    VerticalAlignment="Top"
+                                                    AutoGenerateColumns="False"
+                                                    IsReadOnly="True"
+                                                    ItemsSource="{Binding ListaEspecies}"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                    SelectedItem="{Binding EspecieSelected, Mode=TwoWay}"
+                                                    ValidatesOnDataErrors="None">
+                                                    <A2UTILGEN:A2GridView.Columns>
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                    </A2UTILGEN:A2GridView.Columns>
+                                                </A2UTILGEN:A2GridView>
+                                            </StackPanel>
+                                        </TabItem>
+                                    </TabControl>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

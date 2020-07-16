@@ -1,0 +1,44 @@
+﻿<Window x:Class="wppProg_GeneracionFechas"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+                      xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+                      xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+                      
+                      xmlns:c1Data="clr-namespace:C1.Silverlight.DataGrid;assembly=C1.Silverlight.DataGrid.5"
+                      Width="400"
+                      Height="350"
+                      Title="Simulador fechas">
+
+    <Telerik:RadBusyIndicator IsBusy="{Binding IsBusy}" DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicator"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid x:Name="LayoutRoot"
+          Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Telerik:RadDataPager x:Name="datapager1" Source="{Binding Items, ElementName=dgResultado}" PageSize="10" />
+            <Telerik:RadGridView x:Name="dgResultado"
+                       ItemsSource="{Binding ListaFechasGeneradasPaginada}"
+                       Grid.Row="1"
+                       AutoGenerateColumns="False"
+                       Height="250">
+                <Telerik:RadGridView.Columns>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Fecha, StringFormat=\{0:d\}, Mode=TwoWay}" Header="Fecha" Width="100" IsReadOnly="True"/>
+                </Telerik:RadGridView.Columns>
+            </Telerik:RadGridView>
+
+            <Button x:Name="OKButton"
+                Content="Aceptar"
+                Click="OKButton_Click"
+                Width="75"
+                Height="23"
+                HorizontalAlignment="Right"
+                Grid.Row="2" />
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

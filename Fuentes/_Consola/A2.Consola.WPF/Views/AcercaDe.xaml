@@ -1,0 +1,244 @@
+﻿<Window
+    x:Class="AcercaDe"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:a2controles="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        x:Name="scrollPrincipal"
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Auto">
+        <Grid
+            x:Name="LayoutRoot"
+            Margin="15"
+            Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Source="/A2.Consola.WPF;component/Imagenes/LogoA2.png"
+                    Stretch="None" />
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Orientation="Vertical">
+                    <TextBlock
+                        x:Name="txtAplicacion"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource AcercaDeTitulo}"
+                        Text="A2.Consola" />
+                    <TextBlock
+                        x:Name="txtVersionAplicacion"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource AcercaDeSubtitulo}"
+                        Text="1.0.0.0" />
+                </StackPanel>
+
+            </Grid>
+
+            <Border
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource Contenedor_TabControl}">
+                <TabControl Height="250">
+
+                    <TabItem x:Name="tabModulos" Header="Modulos">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:RadDataPager PageSize="10" Source="{Binding Items, ElementName=dtgModulos}" />
+                            <Telerik:RadGridView
+                                x:Name="dtgModulos"
+                                Grid.Row="1"
+                                MaxHeight="200"
+                                Margin="0,5,0,0"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ShowGroupPanel="False"
+                                ValidatesOnDataErrors="None">
+                                <Telerik:RadGridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Nombre}"
+                                        Header="Nombre"
+                                        SortMemberPath="Nombre" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Version}"
+                                        Header="Versión instalación"
+                                        SortMemberPath="Version" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Origen}"
+                                        Header="Origen"
+                                        SortMemberPath="Origen" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Valida}"
+                                        Header="Versión valida"
+                                        SortMemberPath="Valida" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding VersionCliente}"
+                                        Header="Versión cliente"
+                                        SortMemberPath="VersionCliente" />
+                                </Telerik:RadGridView.Columns>
+                            </Telerik:RadGridView>
+                        </Grid>
+                    </TabItem>
+                    <TabItem
+                        x:Name="tabServicios"
+                        Header="Servicios"
+                        Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:RadDataPager PageSize="10" Source="{Binding Items, ElementName=dtgServicios}" />
+                            <Telerik:RadGridView
+                                x:Name="dtgServicios"
+                                Grid.Row="1"
+                                MaxHeight="200"
+                                Margin="0,5,0,0"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ShowGroupPanel="False"
+                                ValidatesOnDataErrors="None">
+                                <Telerik:RadGridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Nombre}"
+                                        Header="Nombre"
+                                        SortMemberPath="Nombre" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Valor}"
+                                        Header="Valor"
+                                        SortMemberPath="Valor" />
+                                </Telerik:RadGridView.Columns>
+                            </Telerik:RadGridView>
+                        </Grid>
+                    </TabItem>
+                    <TabItem
+                        x:Name="tabParametros"
+                        Header="Otros párametros"
+                        Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:RadDataPager PageSize="10" Source="{Binding Items, ElementName=dtgOtrosParametros}" />
+                            <Telerik:RadGridView
+                                x:Name="dtgOtrosParametros"
+                                Grid.Row="1"
+                                MaxHeight="200"
+                                Margin="0,5,0,0"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ShowGroupPanel="False"
+                                ValidatesOnDataErrors="None">
+                                <Telerik:RadGridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Nombre}"
+                                        Header="Nombre"
+                                        SortMemberPath="Nombre" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Valor}"
+                                        Header="Valor"
+                                        SortMemberPath="Valor" />
+                                </Telerik:RadGridView.Columns>
+                            </Telerik:RadGridView>
+                        </Grid>
+                    </TabItem>
+                    <TabItem
+                        x:Name="tabProductos"
+                        Header="Productos"
+                        Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:RadDataPager PageSize="10" Source="{Binding Items, ElementName=dtgProductos}" />
+                            <Telerik:RadGridView
+                                x:Name="dtgProductos"
+                                Grid.Row="1"
+                                MaxHeight="200"
+                                Margin="0,5,0,0"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ShowGroupPanel="False"
+                                ValidatesOnDataErrors="None">
+                                <Telerik:RadGridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Nombre}"
+                                        Header="Nombre"
+                                        SortMemberPath="Nombre" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Valor}"
+                                        Header="Valor"
+                                        SortMemberPath="Valor" />
+                                </Telerik:RadGridView.Columns>
+                            </Telerik:RadGridView>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Border>
+
+            <Grid
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    x:Name="spnDerechosAutor"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Orientation="Vertical">
+                    <TextBlock x:Name="txtDAAplicacion" Text="" />
+                    <TextBlock x:Name="txtDAVersion" Text="" />
+                    <TextBlock x:Name="txtDATexto" Text="Copyright © Alcuadrado SA. 2013" />
+                </StackPanel>
+
+                <Button
+                    x:Name="cmdAceptar"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="cmdAceptar_Click"
+                    Content="Aceptar" />
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+
+</Window>

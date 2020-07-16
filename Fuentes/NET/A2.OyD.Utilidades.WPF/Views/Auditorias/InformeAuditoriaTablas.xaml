@@ -1,0 +1,181 @@
+﻿<UserControl
+    x:Class="InformeAuditoriaTablas"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c1="clr-namespace:C1.Silverlight;assembly=C1.Silverlight"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDUtilidades"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="650"
+    MaxWidth="700">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.Resources />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+                <RowDefinition Height="Auto" MinHeight="43" />
+                <RowDefinition Height="*" MinHeight="43" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Informe de auditoría tablas" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Style="{StaticResource stpFiltro}">
+                <Border VerticalAlignment="Center" Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Name="btnAceptar"
+                            Width="85"
+                            Click="btnAceptar_Click"
+                            Content="Aceptar" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Descripción" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Width="700"
+                            HorizontalAlignment="Left"
+                            Text="Genera en Excel un informe con el registro de auditoria de una o varias tablas de OyD, solicita el rango de fechas, todas las tablas o una específica, un filtro por valor de la clave primaria del registro y filtro por un valor dentro del registro de datos"
+                            TextWrapping="Wrap" />
+                    </Grid>
+
+                    <Grid
+                        x:Name="CamposExportar"
+                        Grid.Row="1"
+                        Margin="0,10,0,0"
+                        DataContext="{Binding DataContext.cb, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        ShowGridLines="False">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FechaDesde}">
+                            <A2UTILGEN:A2DatePicker SelectedDate="{Binding FechaDesde, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FechaHasta}">
+                            <A2UTILGEN:A2DatePicker SelectedDate="{Binding FechaHasta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Tabla}">
+                            <ComboBox
+                                x:Name="cmbTablas"
+                                DisplayMemberPath="Descripcion"
+                                ItemsSource="{Binding DiccionarioCombosA2[TABLASAUDITORIA], Source={StaticResource A2VM}}"
+                                SelectedValue="{Binding Tabla, Mode=TwoWay}"
+                                SelectedValuePath="Descripcion" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FiltroConsulta}">
+                            <TextBox Text="{Binding FiltroConsulta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FiltroDatos}">
+                            <TextBox Text="{Binding FiltroDatos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                        </Telerik:DataFormDataField>
+
+                        <Grid
+                            x:Name="CamposExportar2"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            DataContext="{Binding DataContext.cb, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            ShowGridLines="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:DataFormDataField HorizontalAlignment="Center" Label="Destino">
+                                <CheckBox
+                                    Content="Excel"
+                                    IsChecked="True"
+                                    IsEnabled="False" />
+                            </Telerik:DataFormDataField>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+
+</UserControl>

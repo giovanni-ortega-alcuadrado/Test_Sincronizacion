@@ -1,0 +1,276 @@
+﻿<UserControl
+    x:Class="BuscadorEspecie"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2ComunesControl"
+    MinWidth="120"
+    MinHeight="20"
+    Margin="0"
+    d:DesignHeight="86"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0"
+        VerticalAlignment="Top">
+
+        <Grid.Resources>
+            <src:BuscadorEspecieViewModel x:Key="VM" />
+            <src:clsEspecieConverter x:Key="cvEspecie" />
+            <src:clsNemotecnicoConverter x:Key="cvEspecieNemo" />
+            <src:clsVisibilityConverter x:Key="cvVisibilityConverter" />
+            <src:clsInVisibilityConverter x:Key="cvInVisibilityConverter" />
+            <src:clsFiltroBuscadorEspecies x:Key="clsFiltroBuscadorEspecies" />
+
+            <!--  DataTemplate para el autocomplete para buscar nemotécnicos  -->
+            <DataTemplate x:Key="ListaDataTemplate">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Path=ItemBusqueda.Nemotecnico, StringFormat='Nemotécnico \{0\}'}" />
+                    <TextBlock Text="{Binding Path=ItemBusqueda.Especie, StringFormat='    \{0\}'}" />
+                    <TextBlock Text="{Binding Path=ItemBusqueda.Emisor, StringFormat='    \{0\}'}" />
+                    <Line
+                        Height="1"
+                        Margin="0,0,0,0"
+                        Stretch="Fill"
+                        Stroke="Silver"
+                        X1="0"
+                        X2="200"
+                        Y1="20"
+                        Y2="20" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="22" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Foreground="Gray"
+            Text="Consultando Especie....."
+            Visibility="{Binding MostrarConsultando, Source={StaticResource VM}}" />
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Telerik:RadAutoCompleteBox
+                x:Name="acbEspecies"
+                Height="22"
+                MinWidth="150"
+                AutoCompleteMode="Suggest"
+                DisplayMemberPath="DescripcionBuscador"
+                DropDownItemTemplate="{StaticResource ListaDataTemplate}"
+                DropDownWidth="300"
+                FilteringBehavior="{StaticResource clsFiltroBuscadorEspecies}"
+                IsEnabled="{Binding Path=Activar}"
+                ItemsSource="{Binding ListaBusquedaControl, Source={StaticResource VM}}"
+                KeyDown="acbEspecies_KeyDown"
+                KeyUp="acbEspecies_KeyUp"
+                SelectedItem="{Binding ItemSeleccionadoBuscador, Mode=TwoWay, Source={StaticResource VM}}"
+                SelectionChanged="acbEspecies_SelectionChanged"
+                SelectionMode="Single"
+                TextSearchMode="Contains" />
+
+            <Button
+                x:Name="cmdBuscar"
+                Grid.Column="1"
+                Margin="2,0,0,0"
+                Click="cmdBuscar_Click"
+                Content="..."
+                IsEnabled="{Binding Path=Activar}"
+                Style="{StaticResource btnBuscar}"
+                ToolTipService.ToolTip="Buscar especies" />
+
+            <Label
+                Grid.Column="2"
+                Margin="5,0,5,0"
+                Content="ISIN"
+                Style="{StaticResource EstiloLabel}"
+                Visibility="{Binding HabilitarConsultaISINES, Source={StaticResource VM}, Converter={StaticResource cvVisibilityConverter}}" />
+
+            <Telerik:RadDropDownButton
+                x:Name="cboIsines"
+                Grid.Column="3"
+                Width="20"
+                FlowDirection="LeftToRight"
+                Visibility="{Binding HabilitarConsultaISINES, Source={StaticResource VM}, Converter={StaticResource cvVisibilityConverter}}">
+                <ToolTipService.ToolTip>
+                    <ToolTip>
+                        <StackPanel DataContext="{Binding EspecieSeleccionada, Source={StaticResource VM}}" Orientation="Vertical">
+                            <TextBlock Text="{Binding Path=Emision, StringFormat='    Emisión \{0:M/d/yyyy\}'}" />
+                            <TextBlock Text="{Binding Path=Vencimiento, StringFormat='    Vencimiento \{0:M/d/yyyy\}'}" />
+                            <TextBlock Text="{Binding Path=Modalidad, StringFormat='    Modalidad \{0\}'}" />
+                            <TextBlock Text="{Binding Path=IdIndicador, StringFormat='    Indicador \{0\}'}" />
+                            <TextBlock Text="{Binding Path=TasaFacial, StringFormat='    Tasa facial \{0:n4\}'}" />
+                            <TextBlock Text="{Binding Path=PuntosIndicador, StringFormat='    PuntosIndicador \{0\}'}" />
+                            <TextBlock Text="{Binding Path=ISIN, StringFormat='ISIN \{0\}'}" />
+                        </StackPanel>
+                    </ToolTip>
+                </ToolTipService.ToolTip>
+                <Telerik:RadDropDownButton.DropDownContent>
+                    <Border
+                        Padding="2"
+                        Background="White"
+                        BorderBrush="Black"
+                        BorderThickness="2">
+                        <Grid Margin="10" Background="#e8e8e8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBox
+                                    x:Name="txtFiltroISIN"
+                                    Width="100"
+                                    Margin="1"
+                                    BorderBrush="Black"
+                                    KeyDown="txtFiltroISIN_KeyDown"
+                                    KeyUp="txtFiltroISIN_KeyUp"
+                                    MaxLength="30" />
+                                <Button
+                                    x:Name="btnFiltroISIN"
+                                    Grid.Column="2"
+                                    Margin="2,0,0,0"
+                                    Click="btnFiltroISIN_Click"
+                                    Content="..."
+                                    Style="{StaticResource btnBuscar}"
+                                    ToolTipService.ToolTip="Aplicar filtro" />
+                            </StackPanel>
+
+                            <A2UTILGEN:A2GridView
+                                x:Name="dtgIsines"
+                                Grid.Row="1"
+                                MaxWidth="500"
+                                MaxHeight="200"
+                                AutoGenerateColumns="False"
+                                CanUserResizeColumns="False"
+                                CanUserSortColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding Isines, Source={StaticResource VM}}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding EspecieSeleccionada, Mode=TwoWay, Source={StaticResource VM}}"
+                                ShowGroupPanel="False"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Emision" SortMemberPath="Emision">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Text="{Binding Path=Emision, StringFormat='\{0:dd/MM/yyyy\}'}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Vencimiento" SortMemberPath="Vencimiento">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Text="{Binding Path=Vencimiento, StringFormat='\{0:dd/MM/yyyy\}'}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Modalidad" SortMemberPath="CodModalidad">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Text="{Binding Path=CodModalidad}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Indicador" SortMemberPath="IdIndicador">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Text="{Binding Path=Indicador}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Tasa" SortMemberPath="TasaFacial">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Text="{Binding Path=TasaFacial, StringFormat='\{0:n4\}'}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Puntos" SortMemberPath="PuntosIndicador">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Text="{Binding Path=PuntosIndicador, StringFormat='\{0\}'}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Isin" SortMemberPath="ISIN">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Text="{Binding Path=ISIN}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </Grid>
+                    </Border>
+                </Telerik:RadDropDownButton.DropDownContent>
+            </Telerik:RadDropDownButton>
+
+            <Button
+                x:Name="cmbLimpiar"
+                Grid.Column="4"
+                Margin="2,0,0,0"
+                Click="CmbLimpiar_Click"
+                Content="..."
+                IsEnabled="{Binding Path=Activar}"
+                Style="{StaticResource btnLimpiar}"
+                ToolTipService.ToolTip="Limpiar"
+                Visibility="Collapsed" />
+
+        </Grid>
+
+        <Grid
+            x:Name="grDatosEsp"
+            Grid.Row="2"
+            Grid.Column="0"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="1"
+                DataContext="{Binding NemotecnicoSeleccionado, Source={StaticResource VM}}"
+                Orientation="Vertical">
+                <Label HorizontalAlignment="Left" Content="{Binding Nemotecnico, StringFormat='Nemotécnico \{0\}'}" />
+                <TextBlock Text="{Binding Especie, StringFormat='    \{0\}'}" />
+                <TextBlock Text="{Binding Emisor, StringFormat='    \{0\}'}" />
+                <TextBlock Text="{Binding Mercado, StringFormat='    \{0\}'}" />
+            </StackPanel>
+
+            <StackPanel
+                x:Name="stackFaciales"
+                Grid.Row="2"
+                DataContext="{Binding EspecieSeleccionada, Source={StaticResource VM}}"
+                Orientation="Vertical">
+                <TextBlock Text="{Binding Path=Emision, StringFormat='        Emisión \{0:M/d/yyyy\}'}" />
+                <TextBlock Text="{Binding Path=Vencimiento, StringFormat='        Vencimiento \{0:M/d/yyyy\}'}" />
+                <TextBlock Text="{Binding Path=Modalidad, StringFormat='        Modalidad \{0\}'}" />
+                <TextBlock Text="{Binding Path=IdIndicador, StringFormat='        Indicador \{0\}'}" />
+                <TextBlock Text="{Binding Path=TasaFacial, StringFormat='        Tasa facial \{0:n4\}'}" />
+                <TextBlock Text="{Binding Path=PuntosIndicador, StringFormat='        Puntos \{0\}'}" />
+                <TextBlock Text="{Binding Path=ISIN, StringFormat='    ISIN \{0\}'}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

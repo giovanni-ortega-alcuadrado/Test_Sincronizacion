@@ -1,0 +1,367 @@
+﻿<Window
+    x:Class="wppFrmCheque_RC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:ControlesPLUS="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:documentos="clr-namespace:A2DocumentosWPF;assembly=A2.Documentos.WPF"
+    xmlns:myCrtl="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSTesoreria"
+    Title="Cheque"
+    Height="Auto"
+    MaxWidth="900"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Window.Resources>
+        <src:clsVisibilityConverter x:Key="clsVisibilityConverter" />
+        <src:TextoVacioVisibilityConverter x:Key="TextoVacioVisibilityConverter" />
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="AUTO" />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Stretch"
+            Label="Banco"
+            LabelPosition="Above">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Background="{Binding FondoTextoBuscadoresHabilitado}">
+                    <TextBox
+                        Name="intCodigoBanco"
+                        MinWidth="170"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        IsEnabled="False"
+                        MouseLeftButtonDown="TextBlockBanco_MouseLeftButtonDown"
+                        Text="{Binding BancoChequewpp, Mode=TwoWay, StringFormat=N0}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+                <myCrtl:BuscadorGenericoListaButon
+                    x:Name="ctlBancosNacionales"
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Left"
+                    EstadoItem="A"
+                    Etiqueta="Bancos nacionales"
+                    TipoItem="bancosnacionales"
+                    finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                <Button
+                    x:Name="btnLimpiarBanco"
+                    Grid.Column="2"
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Top"
+                    Click="btnLimpiarBanco_Click"
+                    Style="{StaticResource btnLimpiar}"
+                    ToolTipService.ToolTip="Limpiar" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label="Nro. cheque"
+            LabelPosition="Above">
+            <A2UTILGEN:A2NumericBox
+                x:Name="NumCheque"
+                Width="Auto"
+                Height="23"
+                VerticalAlignment="Center"
+                GotFocus="SeleccionarFocoControl"
+                Maximum="999999999999999"
+                Minimum="0"
+                NumberDecimalDigits="0"
+                ShowButtons="False"
+                ValueFormat="NoSeparator"
+                Value="{Binding lngNroCheque, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label="Valor"
+            LabelPosition="Above">
+            <A2UTILGEN:A2NumericBox
+                x:Name="NumValorGenerar"
+                Width="Auto"
+                Height="23"
+                VerticalAlignment="Center"
+                GotFocus="SeleccionarFocoControl"
+                LostFocus="NumValorGenerar_LostFocus"
+                Maximum="99999999999999"
+                Minimum="0"
+                NumberDecimalDigits="2"
+                ShowButtons="False"
+                ValueFormat="Numeric"
+                Value="{Binding ValorGenerar, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label=""
+            LabelPosition="Above">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <RadioButton
+                    Grid.Row="0"
+                    Content="Recoger cheque dirección cliente"
+                    IsChecked="{Binding CheckDireccionCliente, Mode=TwoWay}" />
+                <ComboBox
+                    Name="cboDireccionesRegistradas"
+                    Grid.Row="1"
+                    Width="auto"
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding HabilitarDireccionesRegistradas, Mode=TwoWay}"
+                    ItemsSource="{Binding ListaDireccionesClientes, Mode=TwoWay}"
+                    SelectedValue="{Binding DireccionRegistrada, Mode=TwoWay}"
+                    SelectedValuePath="ID"
+                    Visibility="{Binding VerDireccionesRegistradas, Mode=TwoWay}">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel
+                                Height="Auto"
+                                Orientation="Vertical"
+                                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Left">
+
+                                <TextBlock Text="{Binding Path=strDireccion, StringFormat='Dirección: \{0}'}" Visibility="{Binding Path=strDireccion, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                                <TextBlock Text="{Binding Path=strTelefono, StringFormat='Teléfono: \{0}'}" Visibility="{Binding Path=strTelefono, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                                <TextBlock Text="{Binding Path=strCiudad, StringFormat='Ciudad: \{0}'}" Visibility="{Binding Path=strCiudad, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                                <Line
+                                    Height="1"
+                                    Stretch="Fill"
+                                    Stroke="Silver"
+                                    X1="0"
+                                    X2="100"
+                                    Y1="20"
+                                    Y2="20" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+
+                </ComboBox>
+            </Grid>
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label=""
+            LabelPosition="Above">
+
+            <RadioButton Content="Recoger Cheque otra dirección" IsChecked="{Binding CheckOtraDireccion, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+        <Grid
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Margin="0,40,0,0"
+            Visibility="{Binding VerOtraDireccion}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Label="Dirección"
+                LabelPosition="Above">
+                <TextBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    GotFocus="SeleccionarFocoControl"
+                    Text="{Binding strDireccionCheque, Mode=TwoWay}"
+                    TextChanged="TextBox_TextChanged_1" />
+            </Telerik:DataFormDataField>
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Label="Telefono"
+                LabelPosition="Above">
+                <TextBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    GotFocus="SeleccionarFocoControl"
+                    Text="{Binding strTelefono, Mode=TwoWay}"
+                    TextChanged="TextBox_TextChanged_2" />
+            </Telerik:DataFormDataField>
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Label="Ciudad"
+                LabelPosition="Above">
+                <TextBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    GotFocus="SeleccionarFocoControl"
+                    Text="{Binding strCiudad, Mode=TwoWay}"
+                    TextChanged="TextBox_TextChanged_3" />
+            </Telerik:DataFormDataField>
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="3"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Label="Sector"
+                LabelPosition="Above">
+                <TextBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    GotFocus="SeleccionarFocoControl"
+                    Text="{Binding strSector, Mode=TwoWay}"
+                    TextChanged="TextBox_TextChanged_4" />
+            </Telerik:DataFormDataField>
+        </Grid>
+
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Label=""
+            LabelPosition="Above">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <RadioButton
+                    Grid.Row="0"
+                    Content="Cliente trae cheque"
+                    IsChecked="{Binding CheckClientetraeCheque, Mode=TwoWay}" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+
+
+
+
+        <Telerik:DataFormDataField
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Label="Documentos escaneados">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Grid.Row="4"
+                    IsReadOnly="True"
+                    Text="{Binding TextoArchivoSeleccionadoDetalle, Mode=TwoWay}" />
+                <documentos:A2SubirDocumento
+                    x:Name="ctlSubirArchivo"
+                    Grid.Column="2"
+                    MostrarNombreArchivo="False" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+
+        <!--<StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal" />
+        <StackPanel Grid.Row="3" Margin="6,10,0,0">
+            <Telerik:DataFormDataField Label="Documentos escaneados" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    MinWidth="300"
+                    IsReadOnly="True"
+                    Text="{Binding TextoArchivoSeleccionadoDetalle, Mode=TwoWay}" />
+                <documentos:A2SubirDocumento
+                    x:Name="ctlSubirArchivo"
+                    Margin="3,1,0,0"
+                    MostrarNombreArchivo="False" />
+            </StackPanel>
+        </StackPanel>-->
+
+
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Margin="2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
+            <Button
+                Width="100"
+                Command="{Binding GuardarCheque, Mode=TwoWay}"
+                Content="Grabar y salir" />
+            <Button
+                Width="100"
+                Command="{Binding GuardarContinuar, Mode=TwoWay}"
+                Content="Grabar y continuar" />
+            <Button
+                Width="80"
+                Command="{Binding CancelarGrabacion, Mode=TwoWay}"
+                Content="Cancelar" />
+        </StackPanel>
+    </Grid>
+
+</Window>

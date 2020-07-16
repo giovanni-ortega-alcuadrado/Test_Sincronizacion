@@ -1,0 +1,623 @@
+﻿<UserControl
+    x:Class="FormaLibranzasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OYDPLUSControles="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCalculosFinancieros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    mc:Ignorable="d">
+
+
+    <Grid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        DataContext="{Binding EncabezadoSeleccionado, Source={StaticResource VMLibranzas}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            x:Name="GridControlesIniciales"
+            Grid.Row="0"
+            Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Top"
+                Label="ID Libranza"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtIDLibranza"
+                    IsEnabled="False"
+                    Text="{Binding intID, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="1"
+                VerticalAlignment="Top"
+                Label="Fecha registro"
+                LabelPosition="Above">
+                <A2UTILGEN:A2DatePicker
+                    x:Name="dtmFechaRegistro"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARENCABEZADO], Source={StaticResource VMLibranzas}}"
+                    SelectedDate="{Binding dtmFechaRegistro, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="2"
+                VerticalAlignment="Top"
+                Label="Identif.cliente"
+                LabelPosition="Above">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        x:Name="txtComitente"
+                        Grid.Column="0"
+                        Background="{Binding FondoTextoBuscadores, Source={StaticResource VMLibranzas}}"
+                        MouseLeftButtonDown="txtComitente_MouseLeftButtonDown"
+                        Text="{Binding lngIDComitente, Mode=TwoWay}" />
+                    <Controles:BuscadorClienteListaButon
+                        x:Name="ctlBuscadorClientes"
+                        Grid.Column="1"
+                        Margin="2,0,0,0"
+                        Agrupamiento=""
+                        CampoBusqueda="IdComitenteBuscar"
+                        EstadoComitente="T"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                        TipoVinculacion="C"
+                        finalizoBusqueda="BuscadorClienteListaButon_finalizoBusqueda" />
+                    <Button
+                        x:Name="btnLimpiarCliente"
+                        Grid.Column="2"
+                        Margin="2,0,0,0"
+                        VerticalAlignment="Center"
+                        Click="btnLimpiarCliente_Click"
+                        Style="{StaticResource btnLimpiar}"
+                        ToolTipService.ToolTip="Limpiar cliente" />
+                </Grid>
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Top"
+                Label="Nombre cliente"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtDescripcioncliente"
+                    IsEnabled="False"
+                    Text="{Binding strNombreCliente, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="5"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Label="Compañía"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtCompania"
+                    IsEnabled="False"
+                    Text="{Binding strNombreCompania, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Top"
+                Label="Nro. crédito"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtNroCredito"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARENCABEZADO], Source={StaticResource VMLibranzas}}"
+                    MaxLength="30"
+                    Text="{Binding strNroCredito, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Top"
+                Label="Valor crédito (Original)"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtValorCreditoOriginal"
+                    FuncionalidadAutocomplete="True"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    KeyDown="txtCalculo_KeyDown"
+                    LostFocus="txtCalculo_LostFocus"
+                    Maximum="999999999999999"
+                    Minimum="0"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ValueChanged="txtCalculo_ValueChanged"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValorCreditoOriginal, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="2"
+                VerticalAlignment="Top"
+                Label="Fecha inicio crédito"
+                LabelPosition="Above">
+                <A2UTILGEN:A2DatePicker
+                    x:Name="dtmFechaInicioCredito"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    SelectedDate="{Binding dtmFechaInicioCredito, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="3"
+                VerticalAlignment="Top"
+                Label="Nro cuotas"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtNrocuotas"
+                    FuncionalidadAutocomplete="True"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    KeyDown="txtCalculo_KeyDown"
+                    LostFocus="txtCalculo_LostFocus"
+                    Maximum="9999"
+                    Minimum="0"
+                    ShowButtons="False"
+                    ValueChanged="txtCalculo_ValueChanged"
+                    Value="{Binding intNroCuotas, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="4"
+                VerticalAlignment="Top"
+                Label="Periodo pago/Cuota"
+                LabelPosition="Above">
+                <ComboBox
+                    x:Name="cboPeriodoCuota"
+                    DisplayMemberPath="Descripcion"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    ItemsSource="{Binding DiccionarioCombos[LIBRANZA_PERIODOPAGO], Source={StaticResource VMLibranzas}}"
+                    SelectedValue="{Binding strPeriodoPago, Mode=TwoWay}"
+                    SelectedValuePath="Codigo" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="5"
+                VerticalAlignment="Top"
+                Label="Fecha fin crédito"
+                LabelPosition="Above">
+                <A2UTILGEN:A2DatePicker
+                    x:Name="dtmFechaFinCredito"
+                    IsEnabled="False"
+                    SelectedDate="{Binding dtmFechaFinCredito, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="6"
+                VerticalAlignment="Top"
+                Label="Tipo pago/Cuota"
+                LabelPosition="Above">
+                <ComboBox
+                    x:Name="cboTipopagocuota"
+                    DisplayMemberPath="Descripcion"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    ItemsSource="{Binding DiccionarioCombos[TIPOTASARF], Source={StaticResource VMLibranzas}}"
+                    SelectedValue="{Binding strTipoPago, Mode=TwoWay}"
+                    SelectedValuePath="Codigo" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="7"
+                VerticalAlignment="Top"
+                Label="Tasa interés crédito (E.A)"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtTasaInteres"
+                    FuncionalidadAutocomplete="True"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    KeyDown="txtCalculo_KeyDown"
+                    LostFocus="txtCalculo_LostFocus"
+                    Maximum="99999"
+                    Minimum="0"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ValueChanged="txtCalculo_ValueChanged"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblTasaInteresCredito, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Top"
+                Label="Tasa descuento (E.A)"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtTasaDescuento"
+                    FuncionalidadAutocomplete="True"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    KeyDown="txtCalculo_KeyDown"
+                    LostFocus="txtCalculo_LostFocus"
+                    Maximum="99999"
+                    Minimum="0"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ValueChanged="txtCalculo_ValueChanged"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblTasaDescuento, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="1"
+                VerticalAlignment="Top"
+                Label="Valor operación"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtValorOperacion"
+                    FuncionalidadAutocomplete="True"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="False"
+                    Maximum="999999999999999"
+                    Minimum="0"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValorOperacion, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Top"
+                Label="Valor crédito (Actual)"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtValorCreditoActual"
+                    FuncionalidadAutocomplete="True"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="False"
+                    Maximum="999999999999999"
+                    Minimum="0"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValorCreditoActual, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="4"
+                VerticalAlignment="Top"
+                Label="Valor cuota"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    x:Name="txtValorCuotas"
+                    FuncionalidadAutocomplete="True"
+                    GotFocus="SeleccionarFocoControl"
+                    IsEnabled="False"
+                    Maximum="999999999999999"
+                    Minimum="0"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValorCuotas, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="5"
+                VerticalAlignment="Top"
+                Label="Emisor"
+                LabelPosition="Above">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        x:Name="txtEmisor"
+                        Grid.Column="0"
+                        Background="{Binding FondoTextoBuscadores, Source={StaticResource VMLibranzas}}"
+                        MouseLeftButtonDown="txtEmisor_MouseLeftButtonDown"
+                        Text="{Binding strNumeroDocumentoEmisor, Mode=TwoWay}" />
+                    <Controles:BuscadorGenericoListaButon
+                        x:Name="ctlBuscadorEmisor"
+                        Grid.Column="1"
+                        Margin="2,0,0,0"
+                        Agrupamiento=""
+                        CampoBusqueda="Emisor"
+                        EstadoItem="A"
+                        Etiqueta="Emisor"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                        TipoItem="Entidades"
+                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                    <Button
+                        x:Name="btnLimpiarEmisor"
+                        Grid.Column="2"
+                        Margin="2,0,0,0"
+                        VerticalAlignment="Center"
+                        Click="btnLimpiarEmisor_Click"
+                        Style="{StaticResource btnLimpiar}"
+                        ToolTipService.ToolTip="Limpiar emisor" />
+                </Grid>
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="6"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Top"
+                Label="Nombre emisor"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtEmisor1"
+                    IsEnabled="False"
+                    Text="{Binding strNombreEmisor, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="4"
+                VerticalAlignment="Top"
+                LabelPosition="Above">
+                <Telerik:RadBusyIndicator
+                    x:Name="myBusyCalculando"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    BusyContent="Calculando..."
+                    DisplayAfter="0"
+                    IsBusy="{Binding IsBusyCalculos, Source={StaticResource VMLibranzas}}" />
+            </Telerik:DataFormDataField>
+
+
+
+
+            <Telerik:DataFormDataField
+                Grid.Row="3"
+                Grid.Column="0"
+                VerticalAlignment="Top"
+                Label="Pagador"
+                LabelPosition="Above">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        x:Name="txtPagador"
+                        Grid.Column="0"
+                        Background="{Binding FondoTextoBuscadores, Source={StaticResource VMLibranzas}}"
+                        MouseLeftButtonDown="txtPagador_MouseLeftButtonDown"
+                        Text="{Binding strNumeroDocumentoPagador, Mode=TwoWay}" />
+                    <Controles:BuscadorGenericoListaButon
+                        x:Name="ctlBuscadorPagador"
+                        Grid.Column="1"
+                        Margin="2,0,0,0"
+                        Agrupamiento=""
+                        CampoBusqueda="Pagador"
+                        EstadoItem="A"
+                        Etiqueta="Pagador"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                        TipoItem="Entidades"
+                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                    <Button
+                        x:Name="btnLimpiarPagador"
+                        Grid.Column="2"
+                        Margin="2,0,0,0"
+                        VerticalAlignment="Center"
+                        Click="btnLimpiarPagador_Click"
+                        Style="{StaticResource btnLimpiar}"
+                        ToolTipService.ToolTip="Limpiar pagador" />
+                </Grid>
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Top"
+                Label="Nombre pagador"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtPagador1"
+                    IsEnabled="False"
+                    Text="{Binding strNombrePagador, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="3"
+                Grid.Column="3"
+                VerticalAlignment="Top"
+                Label="Custodio"
+                LabelPosition="Above">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        x:Name="txtCustodio"
+                        Grid.Column="0"
+                        Background="{Binding FondoTextoBuscadores, Source={StaticResource VMLibranzas}}"
+                        MouseLeftButtonDown="txtCustodio_MouseLeftButtonDown"
+                        Text="{Binding strNumeroDocumentoCustodio, Mode=TwoWay}" />
+                    <Controles:BuscadorGenericoListaButon
+                        x:Name="ctlBuscadorCustodio"
+                        Grid.Column="1"
+                        Margin="2,0,0,0"
+                        Agrupamiento=""
+                        CampoBusqueda="Custodio"
+                        EstadoItem="A"
+                        Etiqueta="Custodio"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                        TipoItem="Entidades"
+                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                    <Button
+                        x:Name="btnLimpiarCustodio"
+                        Grid.Column="2"
+                        Margin="2,0,0,0"
+                        VerticalAlignment="Center"
+                        Click="btnLimpiarCustodio_Click"
+                        Style="{StaticResource btnLimpiar}"
+                        ToolTipService.ToolTip="Limpiar custodio" />
+                </Grid>
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="3"
+                Grid.Column="4"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Top"
+                Label="Descripción custodio"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtCustodio1"
+                    IsEnabled="False"
+                    Text="{Binding strNombreCustodio, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="3"
+                Grid.Column="6"
+                VerticalAlignment="Top"
+                Label="Ident. benerific"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtNroDocumentoBeneficiario"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    MaxLength="15"
+                    Text="{Binding strNroDocumentoBeneficiario, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="3"
+                Grid.Column="7"
+                VerticalAlignment="Top"
+                Label="Nombre beneficiario"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtNombreBeneficiario"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    MaxLength="25"
+                    Text="{Binding strNombreBeneficiario, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                VerticalAlignment="Top"
+                Label="Observaciones"
+                LabelPosition="Above">
+                <TextBox
+                    x:Name="txtObservaciones"
+                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMLibranzas}}"
+                    Text="{Binding strObservaciones, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource Contenedor_TabControl}">
+            <TabControl>
+                <TabItem Header="Flujos">
+                    <StackPanel Orientation="Vertical">
+                        <Border
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            Style="{StaticResource Contenedor_Paginador}">
+                            <A2UTILGEN:A2DataPager PageSize="10" Source="{Binding Items, ElementName=dgFlujos}" />
+                        </Border>
+                        <A2UTILGEN:A2GridView
+                            x:Name="dgFlujos"
+                            VerticalAlignment="Stretch"
+                            AutoGenerateColumns="False"
+                            ItemsSource="{Binding ListaFlujosPaged, Source={StaticResource VMLibranzas}}"
+                            SelectedItem="{Binding FlujoSeleccionado, Source={StaticResource VMLibranzas}, Mode=TwoWay}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn Header="Fecha">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <A2UTILGEN:A2DatePicker IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARFLUJOS], Source={StaticResource VMLibranzas}}" SelectedDate="{Binding dtmFechaFlujo, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblValor, Mode=TwoWay, StringFormat='\{0:n4\}'}" Header="Valor" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblCuotaInteres, Mode=TwoWay, StringFormat='\{0:n4\}'}" Header="Cuota interes" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblValorCuotaCapital, Mode=TwoWay, StringFormat='\{0:n4\}'}" Header="Valor cuota capital" />
+                                <Telerik:GridViewDataColumn Header="Pagado">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                Margin="10,2,0,0"
+                                                IsChecked="{Binding logPagado, Mode=TwoWay}"
+                                                IsEnabled="False" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+    </Grid>
+
+</UserControl>

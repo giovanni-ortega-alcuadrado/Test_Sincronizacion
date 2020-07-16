@@ -1,0 +1,497 @@
+﻿
+<UserControl
+    x:Class="PreEspeciesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFEspecies"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+    </UserControl.Resources>
+
+    <!--
+        Descripción:    Diseño para la pantalla PreEspecies (Cálculos Financieros)
+        Responsable:    Jorge Peña (Alcuadrado (S.A.)
+        Fecha:          9 de Junio 2014
+    -->
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <TextBlock Style="{StaticResource txbNumRegistros}" Visibility="{Binding EncabezadoSeleccionado.HasChanges, Converter={StaticResource VisibilityConverter}}" />
+            </StackPanel>
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                BorderBrush="Black">
+                <StackPanel>
+                    <A2Utils:ControlMenuA2
+                        x:Name="cm"
+                        DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                        DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                        EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                        Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                        HayDataForm="False"
+                        IsItemValid="True"
+                        ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                        Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                        MensajeError="{Binding ErrorForma}"
+                        Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                        ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                        PreguntarConfirmacion="False"
+                        TextoFiltroTooltip="Especie"
+                        TituloVista="PreEspecies"
+                        TituloVistaAdicional="registros"
+                        TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}" />
+
+                    <TextBlock
+                        Height="Auto"
+                        Margin="3"
+                        Foreground="Red"
+                        Text="{Binding ErrorForma}"
+                        Visibility="{Binding VisibilidadErrores}" />
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid
+                    x:Name="grdGridForma"
+                    Grid.Row="2"
+                    Grid.Column="1">
+                    <Border Width="800" HorizontalAlignment="Center">
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Width="Auto"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding DataContext.visLista, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="15"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="1"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="Especie" SortMemberPath="Especie">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding strIDEspecie, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionEsAccion}" Header="Clase" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionEmisor}" Header="Emisor" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionClase}" Header="Clase especie" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding dtmActualizacion, StringFormat='dd MMM, yyyy hh:mm:ss tt'}"
+                                        Header="Fecha actualización"
+                                        IsReadOnly="True" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+
+                    <Grid>
+                        <!--  ====================  -->
+                        <!--  Dataform de búsqueda  -->
+                        <!--  ====================  -->
+                        <A2UTILGEN:A2DataForm
+                            x:Name="dfBuscar"
+                            VerticalAlignment="Top"
+                            AutoGenerateFields="False"
+                            BorderThickness="0"
+                            CommandButtonsVisibility="None"
+                            CurrentItem="{Binding cb}"
+                            Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <A2UTILGEN:A2DataForm.EditTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Width="800"
+                                        BorderBrush="White"
+                                        BorderThickness="2">
+                                        <Grid VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="auto" />
+                                            </Grid.RowDefinitions>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Top"
+                                                Label="Nemotécnico"
+                                                LabelPosition="Above">
+                                                <TextBox
+                                                    GotFocus="seleccionarFocoControl"
+                                                    MaxLength="15"
+                                                    Text="{Binding strIDEspecie, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    TextAlignment="Left"
+                                                    ToolTipService.ToolTip="Nemotécnico" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Label="Clase"
+                                                LabelPosition="Above">
+                                                <ListBox
+                                                    BorderThickness="0"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombos[claseEspecies], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding logEsAccion, Converter={StaticResource BooleanoConverterRadio}, Mode=TwoWay}"
+                                                    SelectedValuePath="ID">
+                                                    <ListBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Vertical" />
+                                                        </ItemsPanelTemplate>
+                                                    </ListBox.ItemsPanel>
+                                                    <ListBox.ItemContainerStyle>
+                                                        <Style TargetType="ListBoxItem">
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                                        <Grid Background="Transparent">
+                                                                            <RadioButton IsChecked="{TemplateBinding IsSelected}" IsHitTestVisible="False">
+                                                                                <ContentPresenter />
+                                                                            </RadioButton>
+                                                                        </Grid>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </ListBox.ItemContainerStyle>
+                                                </ListBox>
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Label="Emisor"
+                                                LabelPosition="Above">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <A2UTILGEN:A2NumericBox
+                                                        Grid.Column="0"
+                                                        Margin="2"
+                                                        IsEnabled="False"
+                                                        Maximum="2147483647"
+                                                        Minimum="0"
+                                                        ShowButtons="False"
+                                                        ToolTipService.ToolTip="Emisor"
+                                                        ValueFormat="Numeric"
+                                                        Value="{Binding lngIdEmisor, Mode=TwoWay}" />
+                                                    <my1:BuscadorGenericoListaButon
+                                                        Grid.Column="1"
+                                                        Agrupamiento=""
+                                                        CampoBusqueda="IdEmisorBuscar"
+                                                        EstadoItem="A"
+                                                        Etiqueta="Emisor"
+                                                        TipoItem="Emisor"
+                                                        finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                                </Grid>
+                                            </Telerik:DataFormDataField>
+
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Top"
+                                                IsEnabled="False"
+                                                Label=""
+                                                LabelPosition="Above">
+                                                <TextBox Text="{Binding strDescripcionEmisor, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Top"
+                                                Label="Clase especie"
+                                                LabelPosition="Above">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <A2UTILGEN:A2NumericBox
+                                                        Grid.Column="0"
+                                                        Margin="2"
+                                                        IsEnabled="False"
+                                                        Maximum="2147483647"
+                                                        Minimum="0"
+                                                        ShowButtons="False"
+                                                        ToolTipService.ToolTip="Clase especie"
+                                                        ValueFormat="Numeric"
+                                                        Value="{Binding lngIDClase, Mode=TwoWay}" />
+                                                    <my1:BuscadorGenericoListaButon
+                                                        x:Name="Buscadorclaseespecie"
+                                                        Grid.Column="1"
+                                                        Agrupamiento=""
+                                                        CampoBusqueda="IDClaseBuscar"
+                                                        EstadoItem="A"
+                                                        Etiqueta="Clase"
+                                                        TipoItem="ClaseCF"
+                                                        finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                                </Grid>
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Top"
+                                                IsEnabled="False"
+                                                Label=""
+                                                LabelPosition="Above">
+                                                <TextBox Text="{Binding strDescripcionClase, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </A2UTILGEN:A2DataForm.EditTemplate>
+                        </A2UTILGEN:A2DataForm>
+
+                        <StackPanel
+                            x:Name="Editar"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <!--  ============================  -->
+                            <!--  Dataform edición de registro  -->
+                            <!--  ============================  -->
+                            <Border    Width="800" BorderBrush="White" BorderThickness="2">
+                                <Grid
+                                    x:Name="gridEd"
+                                    VerticalAlignment="Top"
+                                    DataContext="{Binding EncabezadoSeleccionado}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        VerticalAlignment="Top"
+                                        Label="Nemotécnico"
+                                        LabelPosition="Above">
+                                        <TextBox
+                                            GotFocus="seleccionarFocoControl"
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            MaxLength="15"
+                                            Text="{Binding strIDEspecie, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            TextAlignment="Left"
+                                            ToolTipService.ToolTip="Nemotécnico" />
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Top"
+                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Label="Clase"
+                                        LabelPosition="Above">
+                                        <ListBox
+                                            BorderThickness="0"
+                                            DisplayMemberPath="Descripcion"
+                                            ItemsSource="{Binding DiccionarioCombos[claseEspecies], Source={StaticResource A2VM}}"
+                                            SelectedValue="{Binding logEsAccion, Converter={StaticResource BooleanoConverterRadio}, Mode=TwoWay}"
+                                            SelectedValuePath="ID">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical" />
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="ListBoxItem">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ListBoxItem">
+                                                                <Grid Background="Transparent">
+                                                                    <RadioButton IsChecked="{TemplateBinding IsSelected}" IsHitTestVisible="False">
+                                                                        <ContentPresenter />
+                                                                    </RadioButton>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
+                                        </ListBox>
+                                    </Telerik:DataFormDataField>
+
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        VerticalAlignment="Top"
+                                        Label="Emisor"
+                                        LabelPosition="Above">
+                                        <Grid x:Name="Buscador_Emisor">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <A2UTILGEN:A2NumericBox
+                                                x:Name="txtEmisor"
+                                                Grid.Column="0"
+                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                KeyDown="txtEmisor_KeyDown"
+                                                LostFocus="txtEmisor_LostFocus"
+                                                Maximum="2147483647"
+                                                Minimum="0"
+                                                ShowButtons="False"
+                                                ToolTipService.ToolTip="Emisor"
+                                                ValueFormat="Numeric"
+                                                Value="{Binding lngIdEmisor, Mode=TwoWay}" />
+                                            <my1:BuscadorGenericoListaButon
+                                                x:Name="ctlBuscadorEmisor"
+                                                Grid.Column="1"
+                                                Margin="2"
+                                                Agrupamiento=""
+                                                CampoBusqueda="IdEmisor"
+                                                EstadoItem="A"
+                                                Etiqueta="Emisor"
+                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                TipoItem="Emisor"
+                                                finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                        </Grid>
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Top"
+                                        IsEnabled="False"
+                                        Label="">
+                                        <TextBox Text="{Binding strDescripcionEmisor, Mode=TwoWay}" />
+                                    </Telerik:DataFormDataField>
+
+                                    <!--  Grid.Row="2"  -->
+
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        VerticalAlignment="Top"
+                                        Label="Clase especie"
+                                        LabelPosition="Above">
+                                        <Grid x:Name="Buscador_Clase">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <A2UTILGEN:A2NumericBox
+                                                x:Name="txtClase"
+                                                Grid.Column="0"
+                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                KeyDown="txtClase_KeyDown"
+                                                LostFocus="txtClase_LostFocus"
+                                                Maximum="2147483647"
+                                                Minimum="0"
+                                                ShowButtons="False"
+                                                ToolTipService.ToolTip="Clase especie"
+                                                ValueFormat="Numeric"
+                                                Value="{Binding lngIDClase, Mode=TwoWay}" />
+                                            <my1:BuscadorGenericoListaButon
+                                                x:Name="Buscadorclaseespecie"
+                                                Grid.Column="1"
+                                                Margin="2"
+                                                Agrupamiento=""
+                                                CampoBusqueda="IDClase"
+                                                EstadoItem="A"
+                                                Etiqueta="Clase"
+                                                GotFocus="Buscadorclaseespecie_GotFocus"
+                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                TipoItem="ClaseCF"
+                                                finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                        </Grid>
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        IsEnabled="False"
+                                        Label="">
+                                        <TextBox Text="{Binding strDescripcionClase, Mode=TwoWay}" />
+                                    </Telerik:DataFormDataField>
+
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+
+

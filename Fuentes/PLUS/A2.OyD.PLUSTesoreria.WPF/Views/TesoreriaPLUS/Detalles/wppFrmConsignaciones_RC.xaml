@@ -1,0 +1,368 @@
+﻿<Window
+    x:Class="wppFrmConsignaciones_RC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:ControlesPLUS="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:documentos="clr-namespace:A2DocumentosWPF;assembly=A2.Documentos.WPF"
+    xmlns:myCrtl="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSTesoreria"
+    Title="Consignaciones"
+    Height="auto"
+    MaxWidth="700"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Window.Resources>
+        <src:clsVisibilityConverter x:Key="clsVisibilityConverter" />
+    </Window.Resources>
+    <Grid x:Name="LayoutRoot" Margin="2">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="0"
+            IsEnabled="{Binding HabilitarEncabezadoConsignacionReferencia}"
+            Label="Nro. referencia"
+            LabelPosition="Above">
+            <A2UTILGEN:A2NumericBox
+                x:Name="NumReferencia"
+                Height="23"
+                VerticalAlignment="Center"
+                GotFocus="SeleccionarFocoControl"
+                Maximum="999999999999999"
+                Minimum="0"
+                NumberDecimalDigits="0"
+                ShowButtons="False"
+                ValueFormat="NoSeparator"
+                Value="{Binding lngNroReferencia, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Stretch"
+            IsEnabled="{Binding HabilitarEncabezadoConsignacion}"
+            Label="Cuentas Consignación"
+            LabelPosition="Above">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Name="cuentaConsignacion"
+                    Grid.Column="0"
+                    MinWidth="170"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="{Binding FondoTextoBuscadoresHabilitado}"
+                    IsEnabled="False"
+                    MouseLeftButtonDown="TextBlockBanco_MouseLeftButtonDown"
+                    Text="{Binding strDescripcionCuentaConsignacion, Mode=TwoWay, StringFormat=N0}"
+                    TextWrapping="Wrap" />
+
+                <myCrtl:BuscadorGenericoListaButon
+                    x:Name="ctlBuscadorCuentasBancariasDestino"
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Left"
+                    Agrupamiento="{Binding CarteraColectivaFondos}"
+                    EstadoItem="A"
+                    Etiqueta=""
+                    GotFocus="BuscadorGenericoListaButon_GotFocus"
+                    finalizoBusqueda="BuscadorGenericoDestino_finalizoBusqueda" />
+                <Button
+                    x:Name="btnLimpiarBanco"
+                    Grid.Column="2"
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Top"
+                    Click="btnLimpiarBanco_Click"
+                    Style="{StaticResource btnLimpiar}"
+                    ToolTipService.ToolTip="Limpiar" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="2"
+            VerticalAlignment="Top"
+            Label="Forma de consignación"
+            LabelPosition="Above">
+            <ComboBox
+                x:Name="cboTipoCuenta"
+                DisplayMemberPath="Descripcion"
+                ItemsSource="{Binding ListaFormaPagoConsignacion[FORMACONSIGNACION]}"
+                SelectedValue="{Binding strTipoPagoConsignacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                SelectedValuePath="Retorno" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Label="Nro. cheque"
+            LabelPosition="Above"
+            Visibility="{Binding VerFormaChequeConsignacion}">
+
+            <A2UTILGEN:A2NumericBox
+                x:Name="NumCheque"
+                Height="23"
+                VerticalAlignment="Center"
+                GotFocus="SeleccionarFocoControl"
+                Maximum="999999999999999"
+                Minimum="0"
+                NumberDecimalDigits="0"
+                ShowButtons="False"
+                ValueFormat="NoSeparator"
+                Value="{Binding lngNroChequeConsignacion, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Stretch"
+            Label="Banco"
+            LabelPosition="Above"
+            Visibility="{Binding VerFormaChequeConsignacion}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Name="intCodigoBanco"
+                    Grid.Column="0"
+                    MinWidth="170"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="{Binding FondoTextoBuscadoresHabilitado}"
+                    IsEnabled="False"
+                    MouseLeftButtonDown="TextBlockBanco1_MouseLeftButtonDown"
+                    Text="{Binding strDescripcionBancoConsignacion, Mode=TwoWay, StringFormat=N0}"
+                    TextWrapping="Wrap" />
+
+                <myCrtl:BuscadorGenericoListaButon
+                    x:Name="ctlBuscadorBancoNacional"
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    EstadoItem="A"
+                    Etiqueta="Bancos nacionales"
+                    TipoItem="bancosnacionales"
+                    finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                <Button
+                    x:Name="btnLimpiarBanco1"
+                    Grid.Column="2"
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Top"
+                    Click="btnLimpiarBanco1_Click"
+                    Style="{StaticResource btnLimpiar}"
+                    ToolTipService.ToolTip="Limpiar" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="1"
+            Grid.Column="2"
+            VerticalAlignment="Top"
+            Label="Valor"
+            LabelPosition="Above">
+            <A2UTILGEN:A2NumericBox
+                x:Name="NumValorGenerar"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="Auto"
+                Height="23"
+                Margin="2"
+                GotFocus="SeleccionarFocoControl"
+                LostFocus="NumValorGenerar_LostFocus_1"
+                Maximum="99999999999999"
+                Minimum="0"
+                NumberDecimalDigits="2"
+                ShowButtons="False"
+                ValueFormat="Numeric"
+                Value="{Binding ValorGenerarConsignacion, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="2"
+            Grid.Column="2"
+            VerticalAlignment="Top"
+            Label="Valor efectivo"
+            LabelPosition="Above"
+            Visibility="{Binding VerFormaChequeEfectivoConsignacion}">
+            <A2UTILGEN:A2NumericBox
+                x:Name="NumValorGenerarEfectivo"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="Auto"
+                Height="23"
+                Margin="2"
+                GotFocus="SeleccionarFocoControl"
+                LostFocus="NumValorGenerar_LostFocus_1"
+                Maximum="99999999999999"
+                Minimum="0"
+                NumberDecimalDigits="2"
+                ShowButtons="False"
+                ValueFormat="Numeric"
+                Value="{Binding ValorGenerarEfectivoConsignacion, Mode=TwoWay}" />
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="3"
+            Grid.ColumnSpan="5"
+            VerticalAlignment="Top"
+            Label=""
+            LabelPosition="Above"
+            Visibility="{Binding VerFormaChequeConsignacionGrid}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Button
+                    Grid.Row="0"
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Right"
+                    Command="{Binding GrabarChequeConsignacion}"
+                    Content="Grabar cheque" />
+                <Border
+                    Grid.Row="1"
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource Contenedor_Paginador}">
+                    <A2UTILGEN:A2DataPager
+                        x:Name="datapager"
+                        PageSize="5"
+                        Source="{Binding Items, ElementName=dgcheque}"
+                        Visibility="Visible" />
+                </Border>
+                <A2UTILGEN:A2GridView
+                    x:Name="dgcheque"
+                    Grid.Row="2"
+                    Height="auto"
+                    HorizontalAlignment="Stretch"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ListatesoreriaordenesplusRC_Detalle_ChequesConsignaciones_paged}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    SelectedItem="{Binding TesoreriaordenesplusRC_Detalle_ChequesConsignaciones_selected, Mode=TwoWay}"
+                    ValidatesOnDataErrors="None">
+
+                    <A2UTILGEN:A2GridView.Columns>
+
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding lngNroCheque}"
+                            Header="Nro. cheque"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding strDescripcionBanco}"
+                            Header="Banco"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            DataMemberBinding="{Binding Valor, StringFormat=C2}"
+                            Header="Valor"
+                            IsReadOnly="True">
+                            <Telerik:GridViewDataColumn.CellStyle>
+                                <Style TargetType="Telerik:GridViewCell">
+                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                </Style>
+                            </Telerik:GridViewDataColumn.CellStyle>
+                        </Telerik:GridViewDataColumn>
+
+
+                    </A2UTILGEN:A2GridView.Columns>
+                </A2UTILGEN:A2GridView>
+            </Grid>
+
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="6"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Label="Documentos escaneados">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Row="4"
+                    MinHeight="26"
+                    IsReadOnly="True"
+                    Text="{Binding TextoArchivoSeleccionadoDetalle, Mode=TwoWay}" />
+                <documentos:A2SubirDocumento
+                    x:Name="ctlSubirArchivo"
+                    Grid.Column="2"
+                    MostrarNombreArchivo="False" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+
+
+
+        <StackPanel
+            Grid.Row="7"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal" />
+
+        <StackPanel
+            Grid.Row="7"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="0,15,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+
+            <Button
+                Width="100"
+                Margin="0,0,2,0"
+                Command="{Binding GuardarSalirConsignacion, Mode=TwoWay}"
+                Content="Grabar y salir" />
+            <Button
+                Width="120"
+                Margin="0,0,2,0"
+                Command="{Binding GuardarContinuarConsignacion, Mode=TwoWay}"
+                Content="Grabar y continuar" />
+            <Button
+                Width="80"
+                Command="{Binding CancelarConsignacion, Mode=TwoWay}"
+                Content="Cancelar" />
+        </StackPanel>
+    </Grid>
+</Window>

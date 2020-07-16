@@ -1,0 +1,152 @@
+﻿<Window x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FormulariosDiv"
+		xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+		WindowState="Maximized"
+        Title="Formularios Divisas" 
+        Height="350" Width="525" 
+        d:DesignWidth="1366" d:DesignHeight="768">
+	<Telerik:RadBusyIndicator IsBusy="{Binding IsBusy}"  DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicator">
+
+        <Grid Background="#a0a0a0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- header -->
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Column="0" 
+                        Grid.Row="0" 
+                        Width="Auto"                         
+                        Background="#2c3e50"
+                        VerticalAlignment="Center">     
+                <!-- logo-app -->
+                <Border Margin="5" 
+                        VerticalAlignment="Center" 
+                        Padding="0,0,5,3" 
+                        Background="White">
+                    <TextBlock Text="DV" 
+                               Foreground="#2c3e50" 
+                               FontSize="16"                            
+                               Margin="5,0,0,0"></TextBlock>
+                </Border>
+                <!-- /logo-app -->
+                <!-- nombre-app -->
+                <TextBlock Text="Divisas" 
+                               Foreground="White" 
+                               FontSize="16"               
+                           VerticalAlignment="Center"
+                               Margin="5,0,0,0">                    
+                </TextBlock>
+                <!-- /nombre-app -->
+                
+            </StackPanel>
+            <!-- /header -->
+            
+            <!-- body -->
+            <Border Grid.Column="0" 
+                    Grid.Row="1"
+                    Margin="5" 
+                    Background="#eeeeee"
+                    BorderThickness="0">
+                <Grid >
+			        <Grid.RowDefinitions>
+				        <RowDefinition Height="Auto" />
+				        <RowDefinition Height="*" />
+			        </Grid.RowDefinitions>
+			        <Grid.ColumnDefinitions>
+				        <ColumnDefinition Width="*" />
+			        </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Vertical">
+			            <Menu Name="menu1" 
+                              Foreground="White" 
+                              FontSize="14"                           
+				              VerticalContentAlignment="Center"
+				              Background="#476f98" 
+                              BorderBrush="#476f98" 
+                              BorderThickness="1" >
+				            <MenuItem Header="Formulario 1" Tag="Formulario1"  Click="Button_Click"/>
+				            <MenuItem Header="Formulario 2" Tag="Formulario2"  Click="Button_Click" />
+				            <MenuItem Header="Formulario 3" Tag="Formulario3"  Click="Button_Click" />
+				            <MenuItem Header="Formulario 6" Tag="Formulario6"  Click="Button_Click" />
+				            <MenuItem Header="Formulario 7" Tag="Formulario7"  Click="Button_Click" />
+			            </Menu>
+                        <Border BorderThickness="2" BorderBrush="#2c3e50"></Border>
+                    </StackPanel>
+
+                    <!--<StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
+				        <Button Content="Formulario1" Tag="Formulario1" Click="Button_Click" Style="{StaticResource HyperlinkLikeButton}" />
+				        <Button Content="Formulario2" Tag="Formulario2" Click="Button_Click" Style="{StaticResource HyperlinkLikeButton}" />
+			        </StackPanel>-->
+
+                    <Border BorderBrush="#2c3e50" 
+                            BorderThickness="1" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch"
+                            Grid.Column="1" 
+                            Grid.Row="1">
+				        <Grid x:Name="GridPrincipal" 
+                              HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Top" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                              ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+				        </Grid>
+			        </Border>
+		        </Grid>
+                
+            </Border>
+            <!-- /body -->
+            
+            <!-- footer -->
+
+            <Grid  Grid.Column="0" 
+                   Grid.Row="2"  
+                   Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <!-- footer-text -->
+                <TextBlock Grid.Column="0" 
+                           Grid.Row="0" 
+                           Text="Divisas 1.0.0 - Derechos reservados Alcuadrado S.A. - 2018 - ALCUADRADO\usuario" 
+                        Foreground="Gray" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Left"
+                        Margin="5,0,0,0">
+                </TextBlock>
+                <!-- /footer-text -->
+
+                <!-- logo-company -->
+                <Border HorizontalAlignment="Right" 
+                        Grid.Column="1" 
+                        Grid.Row="0">
+                    <Image Source="img/LogoA2.png"                            
+                        Margin="5"></Image>
+                </Border>
+                <!-- /logo-company -->
+
+
+            </Grid> 
+            <!-- /footer -->
+            
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

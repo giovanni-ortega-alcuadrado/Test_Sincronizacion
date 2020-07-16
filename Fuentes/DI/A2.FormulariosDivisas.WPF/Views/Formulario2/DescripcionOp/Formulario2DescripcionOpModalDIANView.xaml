@@ -1,0 +1,239 @@
+﻿<Window
+    x:Class="Formulario2DescripcionOpModalDIANView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:local="clr-namespace:A2FormulariosDivisasWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:A2FormulariosDivisasWPF"
+    Width="800"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+    </Window.Resources>
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource Title1}"
+                Text="{Binding DataContext.DiccionarioEtiquetasPantalla[TITULO].Titulo, RelativeSource={RelativeSource AncestorType=Window}}" />
+
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <A2Utils:ControlNavegacionA2
+                    x:Name="cm"
+                    Margin="0,0,5,0"
+                    VerticalAlignment="Center"
+                    ObjetoSeleccionado="{Binding EncabezadoEdicionSeleccionado}"
+                    Visibility="{Binding Editando, Converter={StaticResource InVisibilityConverter}}" />
+                <Button
+                    x:Name="btnNuevoRegistro"
+                    Click="btnNuevoRegistro_Click"
+                    Content="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_NUEVO].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    IsEnabled="{Binding HabilitarBotonesAcciones}"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_NUEVO].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Visibility="{Binding Editando, Converter={StaticResource InVisibilityConverter}}" />
+                <Button
+                    x:Name="btnBorrarRegistro"
+                    Click="btnBorrarRegistro_Click"
+                    Content="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_BORRAR].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    IsEnabled="{Binding HabilitarBotonesAcciones}"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_BORRAR].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Visibility="{Binding Editando, Converter={StaticResource InVisibilityConverter}}" />
+
+                <Button
+                    x:Name="btnGuardarSalir"
+                    Click="btnGuardar_Click"
+                    Content="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_GUARDARYCERRAR].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_GUARDARYCERRAR].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Visibility="{Binding Editando, Converter={StaticResource VisibilityConverter}}" />
+                <!--<Button x:Name="btnGuardarContinuar"
+                            Content="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_GUARDARYCOPIARANTERIOR].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                            ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_GUARDARYCOPIARANTERIOR].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}"
+                            Click="btnGuardarContinuar_Click"
+                            Visibility="{Binding HabilitarBoton_GuardarYCopiarAnterior, Converter={StaticResource VisibilityConverter}}"/>-->
+                <Button
+                    x:Name="btnGuardarContinuarNuevo"
+                    Click="btnGuardarContinuarNuevo_Click"
+                    Content="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_GUARDARYCREARNUEVO].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[GENERICO_BOTON_GUARDARYCREARNUEVO].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Visibility="{Binding HabilitarBoton_GuardarYCrearNuevo, Converter={StaticResource VisibilityConverter}}" />
+
+                <A2Utils:ControlNotificacionInconsistencias
+                    EventoVisualizacionErrores="ControlNotificacionInconsistencias_EventoVisualizacionErrores"
+                    TooltipBotonAdvertencia="{Binding DataContext.TituloInconsistencias, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Visibility="{Binding Editando, Converter={StaticResource VisibilityConverter}}" />
+
+
+
+            </StackPanel>
+            <Grid
+                Grid.Row="1"
+                Background="{StaticResource BackgroundColorBrush}"
+                DataContext="{Binding EncabezadoEdicionSeleccionado}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Telerik:DataFormDataField
+                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].ColorLetra, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    LabelPosition="Above"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <TextBox
+                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+                        Text="{Binding lngNumero, Mode=TwoWay}"
+                        TextAlignment="Left" />
+                </Telerik:DataFormDataField>
+
+                <!--<Telerik:DataFormDataField Label="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                               LabelPosition="Above"
+                                                               ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                               Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].ColorLetra, RelativeSource={RelativeSource AncestorType=Window}}"
+										   >-->
+                <!--<Telerik:RadNumericUpDown
+                              Text="{Binding strNumero, Mode=TwoWay}"
+                              IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+                              BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERAL].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+                              />-->
+                <!--<Telerik:RadNumericUpDown ValueFormat="Numeric" IsInteger="True"
+											  Value="{Binding lngNumero, Mode=TwoWay}"
+											  Minimum="0"
+											  Maximum="9999999999999999"
+											  ShowButtons="False"
+											  IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+											  BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[17NUMERO].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+																 >
+						<Telerik:RadNumericUpDown.NumberFormatInfo>
+							<global:NumberFormatInfo NumberGroupSeparator="" />
+						</Telerik:RadNumericUpDown.NumberFormatInfo>
+					</Telerik:RadNumericUpDown>
+				</Telerik:DataFormDataField>-->
+
+                <Telerik:DataFormDataField
+                    Grid.Column="1"
+                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[18FECHA].ColorLetra, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[18FECHA].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    LabelPosition="Above"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[18FECHA].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Telerik:RadDatePicker
+                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[18FECHA].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+                        Culture="en-CA"
+                        DateTimeWatermarkContent="{Binding DataContext.DiccionarioEtiquetasPantalla[INGRESEFECHA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+                        SelectedDate="{Binding dtmFecha, Mode=TwoWay}"
+                        TextAlignment="Left" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[19CIUDAD].ColorLetra, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[19CIUDAD].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    LabelPosition="Above"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[19CIUDAD].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <ComboBox
+                        Name="cmbCiudadAduana"
+                        MaxWidth="500"
+                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[19CIUDAD].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+                        DisplayMemberPath="Descripcion"
+                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+                        ItemsSource="{Binding DataContext.DiccionarioCombosPantalla[CIUDADESADUANA], RelativeSource={RelativeSource AncestorType=Window}}"
+                        SelectedValue="{Binding intCiudad, Mode=TwoWay}"
+                        SelectedValuePath="ID"
+                        ToolTip="{Binding ElementName=cmbCiudadAduana, Path=SelectedItem.Descripcion}" />
+                </Telerik:DataFormDataField>
+
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAPRESENTACION].ColorLetra, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAPRESENTACION].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    LabelPosition="Above"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAPRESENTACION].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Telerik:RadDatePicker
+                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[FECHAPRESENTACION].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+                        Culture="en-CA"
+                        DateTimeWatermarkContent="{Binding DataContext.DiccionarioEtiquetasPantalla[INGRESEFECHA].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+                        SelectedDate="{Binding dtmFechaPresentacion, Mode=TwoWay}"
+                        TextAlignment="Left" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERALDIAN].ColorLetra, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERALDIAN].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    LabelPosition="Above"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERALDIAN].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <ComboBox
+                        Name="cmbNemerales"
+                        MaxWidth="500"
+                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[NUMERALDIAN].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+                        DisplayMemberPath="strConcatenacion"
+                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+                        ItemsSource="{Binding DataContext.ListaNumerales, RelativeSource={RelativeSource AncestorType=Window}}"
+                        SelectedValue="{Binding intNumeral, Mode=TwoWay}"
+                        SelectedValuePath="lngID"
+                        ToolTip="{Binding ElementName=cmbNemerales, Path=SelectedItem.strConcatenacion}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Foreground="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORDIAN].ColorLetra, RelativeSource={RelativeSource AncestorType=Window}}"
+                    Label="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORDIAN].Titulo, RelativeSource={RelativeSource AncestorType=Window}}"
+                    LabelPosition="Above"
+                    ToolTipService.ToolTip="{Binding DataContext.DiccionarioEtiquetasPantalla[VALORDIAN].Tooltip, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Telerik:RadNumericUpDown
+                        BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[VALOR].Color, RelativeSource={RelativeSource AncestorType=Window}}"
+                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=Window}}"
+                        Maximum="99999999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="4"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding dblValor, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

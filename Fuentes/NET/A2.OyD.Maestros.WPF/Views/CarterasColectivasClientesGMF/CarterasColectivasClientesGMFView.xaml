@@ -1,0 +1,264 @@
+﻿<!--
+-->
+<UserControl
+    x:Class="CarterasColectivasClientesGMFView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Width="auto">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="30" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Carteras Colectivas Clientes GMF" />
+                <TextBlock
+                    Style="{StaticResource txbNumRegistros}"
+                    Text="*"
+                    Visibility="{Binding CarterasColectivasClientesGMFSelected.HasChanges, Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text="  (" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text="{Binding ListaCarterasColectivasClientesGMF.Count, StringFormat=n0}" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text=" registros)" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource stpFiltro}">
+                <A2utils:ControlMenuA2
+                    x:Name="cm"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding CarterasColectivasClientesGMFSelected}"
+                    TextoFiltroTooltip="Filtra por los campos número documento y nombre" />
+
+                <TextBlock
+                    Height="Auto"
+                    Margin="3"
+                    Foreground="Red"
+                    Text="{Binding ErrorForma}"
+                    Visibility="{Binding VisibilidadErrores}" />
+            </StackPanel>
+
+            <Grid
+                x:Name="grdGridForma"
+                Grid.Row="2"
+                Grid.Column="1">
+                <Grid.Effect>
+                    <DropShadowEffect
+                        Direction="-45"
+                        Opacity="0.5"
+                        ShadowDepth="5"
+                        Color="Gray" />
+                </Grid.Effect>
+
+                <!--
+                -->
+                <Border
+                    Width="auto"
+                    HorizontalAlignment="Center"
+                    CornerRadius="5">
+                    <StackPanel
+                        x:Name="Buscar"
+                        Grid.Column="0"
+                        Width="650"
+                        Height="Auto"
+                        VerticalAlignment="Top"
+                        Orientation="Vertical">
+                        <Border Style="{StaticResource Contenedor_Paginador}">
+                            <A2UTILGEN:A2DataPager
+                                x:Name="datapager1"
+                                PageSize="10"
+                                Source="{Binding Items, ElementName=dg}" />
+                        </Border>
+                        <A2UTILGEN:A2GridView
+                            x:Name="dg"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="false"
+                            FrozenColumnCount="1"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ListaCarterasColectivasClientesGMFPaged}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectedItem="{Binding CarterasColectivasClientesGMFSelected, Mode=TwoWay}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn Header="Código" SortMemberPath="Código">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button
+                                                VerticalAlignment="Center"
+                                                Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                CommandParameter="{Binding}"
+                                                Content="{Binding IDCarterasColectivasClientesGMF}"
+                                                Style="{StaticResource HyperlinkLikeButton}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding IDComitente}" Header="Comitente" />
+
+                                <Telerik:GridViewDataColumn Header="Tipo identificación" SortMemberPath="Tipo Clasificacion">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="False"
+                                                ItemsSource="{Binding DiccionarioCombosA2[TIPOID], Source={StaticResource A2VM}}"
+                                                SelectedValue="{Binding TipoIdentificacion, Mode=TwoWay}"
+                                                SelectedValuePath="ID" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding NroDocumento}" Header="Número documento" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding Nombre}" Header="Nombre" />
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Width="650"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    CornerRadius="5">
+                    <Grid>
+                        <!--  Dataform de búsqueda  -->
+                        <A2UTILGEN:A2DataForm
+                            x:Name="dfBuscar"
+                            VerticalAlignment="Top"
+                            AutoGenerateFields="False"
+                            CommandButtonsVisibility="None"
+                            CurrentItem="{Binding cb}"
+                            Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+
+
+                            <A2UTILGEN:A2DataForm.EditTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nrodocumento}">
+                                            <TextBox MaxLength="15" Text="{Binding Nrodocumento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+                                        <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=tipoidentificacion}">
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="False"
+                                                ItemsSource="{Binding DiccionarioCombosA2[TIPOID], Source={StaticResource A2VM}}"
+                                                SelectedValue="{Binding tipoidentificacion, Mode=TwoWay}"
+                                                SelectedValuePath="ID" />
+                                        </Telerik:DataFormDataField>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </A2UTILGEN:A2DataForm.EditTemplate>
+                        </A2UTILGEN:A2DataForm>
+
+                        <!--  Dataform edición de registro Detalle con controles  -->
+                        <StackPanel
+                            x:Name="Editar"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="auto"
+                            Height="Auto"
+                            Background="White"
+                            DataContext="{Binding CarterasColectivasClientesGMFSelected}"
+                            Orientation="Vertical"
+                            Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDCarterasColectivasClientesGMF}">
+                                <A2UTILGEN:A2NumericBox
+                                    Width="200"
+                                    HorizontalAlignment="Left"
+                                    IsEnabled="False"
+                                    Maximum="2147483648"
+                                    Minimum="0"
+                                    NumberDecimalDigits="0"
+                                    ShowButtons="False"
+                                    ValueFormat="NoSeparator"
+                                    Value="{Binding IDCarterasColectivasClientesGMF, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <Telerik:DataFormDataField Margin="53,0,0,0" Label="Comitente">
+                                    <TextBox
+                                        Width="100"
+                                        IsEnabled="False"
+                                        Text="{Binding IDComitente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        ToolTipService.ToolTip="IDComitente" />
+                                </Telerik:DataFormDataField>
+                                <my1:BuscadorClienteListaButon
+                                    x:Name="Buscador_Cliente"
+                                    Margin="2,0,0,0"
+                                    CampoBusqueda="IDComitente"
+                                    EstadoComitente="A"
+                                    Etiqueta="Lista de Clientes"
+                                    IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    TipoVinculacion="T"
+                                    finalizoBusqueda="Buscador_finalizoBusquedaClientes" />
+                            </StackPanel>
+
+                            <Telerik:DataFormDataField IsEnabled="{Binding DataContext.EditarDocumento, RelativeSource={RelativeSource AncestorType=UserControl}}" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoIdentificacion}">
+                                <ComboBox
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosA2[TIPOID], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding TipoIdentificacion, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField IsEnabled="{Binding DataContext.EditarDocumento, RelativeSource={RelativeSource AncestorType=UserControl}}" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NroDocumento}">
+                                <TextBox MaxLength="15" Text="{Binding NroDocumento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nombre}">
+                                <TextBox MaxLength="100" Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                            </Telerik:DataFormDataField>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

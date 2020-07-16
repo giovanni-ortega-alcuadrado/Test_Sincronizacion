@@ -1,0 +1,263 @@
+﻿<UserControl
+    x:Class="PortafolioClienteView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:controlsToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSUtilidades"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="650"
+    mc:Ignorable="d">
+
+    <!--  Estilos de la aplicación  -->
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:PortafolioClienteViewModel x:Key="VMPortafolio" />
+        <src:clsVisibilityConverter x:Key="VisibilityConverter" />
+        <src:clsInVisibilityConverter x:Key="InVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Label
+                Margin="10,0,5,0"
+                VerticalAlignment="Center"
+                Content="Totalizar x especie"
+                Style="{StaticResource LabelForm}" />
+            <CheckBox
+                x:Name="chkTotalizar"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding TotalizarPortafolio, Mode=TwoWay}" />
+            <!--<Label Content="Total portafolio: " Margin="10,0,10,0" Style="{StaticResource EstiloLabel}"/>
+            <TextBlock Text="{Binding ValorTotalPortafolio, StringFormat='\{0:C2\}'}"/>-->
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <Label
+                    Margin="5,0,5,0"
+                    HorizontalAlignment="Center"
+                    Content="Portafolio cliente"
+                    Style="{StaticResource LabelForm}" />
+                <Button
+                    x:Name="btnRefrescar"
+                    Width="15"
+                    Height="15"
+                    Padding="0"
+                    HorizontalAlignment="Center"
+                    Click="btnRefrescar_Click"
+                    Style="{StaticResource btnRefrescar}"
+                    ToolTipService.ToolTip="Refrescar portafolio" />
+
+                <TextBlock
+                    Margin="10,0,0,0"
+                    Foreground="Gray"
+                    Text="Consultando portafolio"
+                    Visibility="{Binding MostrarConsultandoPortafolio}" />
+            </StackPanel>
+
+            <A2UTILGEN:A2GridView
+                x:Name="dgPortafolioAcciones"
+                Height="150"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding ListaPortafolioClientePaged}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SelectedItem="{Binding PortafolioClienteSelected, Mode=TwoWay}"
+                ValidatesOnDataErrors="None"
+                Visibility="{Binding MostrarCamposRentaFija, Converter={StaticResource InVisibilityConverter}}">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn Header="Seleccione">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    Margin="20,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding Seleccionada, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Especie}"
+                        Header="Especie"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Cantidad, StringFormat='\{0:N2\}'}"
+                        Header="Cantidad"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Custodia}"
+                        Header="Custodia"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding CustodiaSecuencia}"
+                        Header="Secuencia"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding NombreCentralDeposito}"
+                        Header="Deposito"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding CuentaDeposito}"
+                        Header="Cuenta depósito"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding PrecioCompra, StringFormat='\{0:C2\}'}"
+                        Header="Precio compra"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding NombreTipoOperacion}"
+                        Header="Tipo operación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding IDLiquidacion}"
+                        Header="Nro operación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Parcial}"
+                        Header="Parcial"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding FechaLiquidacion, StringFormat='dd/MM/yyyy', ConverterCulture=es-CO}"
+                        Header="Fecha liquidación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding TipoLiquidacion}"
+                        Header="Tipo liquidación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding ClaseLiquidacion}"
+                        Header="Clase liquidación"
+                        IsReadOnly="True" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+
+            <A2UTILGEN:A2GridView
+                x:Name="dgPortafolioRentaFija"
+                Height="150"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding ListaPortafolioClientePaged}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SelectedItem="{Binding PortafolioClienteSelected, Mode=TwoWay}"
+                ValidatesOnDataErrors="None"
+                Visibility="{Binding MostrarCamposRentaFija, Converter={StaticResource VisibilityConverter}}">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn Header="Seleccione">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    Margin="20,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding Seleccionada, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Especie}"
+                        Header="Especie"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Cantidad, StringFormat='\{0:C2\}'}"
+                        Header="Cantidad"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Custodia}"
+                        Header="Custodia"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding CustodiaSecuencia}"
+                        Header="Secuencia"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding NombreCentralDeposito}"
+                        Header="Depósito"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding CuentaDeposito}"
+                        Header="Cuenta depósito"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding PrecioCompra, StringFormat='\{0:C2\}'}"
+                        Header="Precio compra"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding NombreTipoOperacion}"
+                        Header="Tipo operación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding IDLiquidacion}"
+                        Header="Nro operación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding Parcial}"
+                        Header="Parcial"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding FechaLiquidacion, StringFormat='dd/MM/yyyy', ConverterCulture=es-CO}"
+                        Header="Fecha liquidación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding TipoLiquidacion}"
+                        Header="Tipo liquidación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding ClaseLiquidacion}"
+                        Header="Clase liquidación"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding FechaEmision, StringFormat='dd/MM/yyyy', ConverterCulture=es-CO}"
+                        Header="Fecha emisión"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding FechaVencimiento, StringFormat='dd/MM/yyyy', ConverterCulture=es-CO}"
+                        Header="Fecha vencimiento"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding DescripcionModalidad}"
+                        Header="Modalidad"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding TasaFacial, StringFormat='\{0:n4\}'}"
+                        Header="Tasa facial"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding DescripcionIndicador}"
+                        Header="Indicador"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding PuntosIndicador, StringFormat='\{0:n4\}'}"
+                        Header="Puntos indicador"
+                        IsReadOnly="True" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+        </StackPanel>
+    </Grid>
+</UserControl>

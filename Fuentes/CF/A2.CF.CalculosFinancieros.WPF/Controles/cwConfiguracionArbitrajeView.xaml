@@ -1,0 +1,233 @@
+﻿<Window
+    x:Class="cwConfiguracionArbitrajeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Detalle"
+    MaxHeight="450"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Window.Resources />
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <!--<StackPanel Orientation="Vertical"
+                    VerticalAlignment="Top">-->
+        <Grid
+            x:Name="LayoutRoot"
+            Width="Auto"
+            MaxHeight="420"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Orientation="Horizontal">
+
+                <Telerik:DataFormDataField
+                    IsEnabled="{Binding HabilitarTipo}"
+                    Label="Tipo"
+                    LabelPosition="Above"
+                    TabIndex="1">
+                    <ComboBox
+                        x:Name="cmbTipo"
+                        Width="150"
+                        HorizontalAlignment="Left"
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombos[TIPOARBITRAJEDETALLE], Source={StaticResource A2VM}}"
+                        SelectedIndex="{Binding cmbTipo_SelectedIndex, Mode=TwoWay}"
+                        SelectedValue="{Binding strDescripcionTipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        SelectedValuePath="Descripcion"
+                        ToolTipService.ToolTip="Tipo" />
+                </Telerik:DataFormDataField>
+
+                <!--  BuscadorEspecie  -->
+                <Telerik:DataFormDataField
+                    IsEnabled="{Binding HabilitarNemo}"
+                    Label="Nemo"
+                    LabelPosition="Above"
+                    TabIndex="2">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBox
+                            Width="180"
+                            GotFocus="seleccionarFocoControl"
+                            IsEnabled="False"
+                            MaxLength="15"
+                            Text="{Binding strIDEspecie, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left"
+                            ToolTipService.ToolTip="Digite la especie a buscar" />
+
+                        <OyD:BuscadorEspecieListaButon
+                            x:Name="ctrlBuscadorEspecies"
+                            Margin="2,0,0,0"
+                            Agrupamiento=""
+                            CampoBusqueda="Nemotecnico"
+                            ClaseOrden="T"
+                            EstadoEspecie="A"
+                            Etiqueta="Nemotécnico"
+                            HabilitarConsultaISIN="False"
+                            finalizoBusqueda="ctrlBuscadorEspecies_finalizoBusqueda" />
+
+                        <Button
+                            x:Name="btnLimpiarEspecie"
+                            Margin="2,0,0,0"
+                            Click="btnLimpiarEspecie_Click"
+                            Style="{StaticResource btnLimpiar}"
+                            ToolTipService.ToolTip="Limpiar especie" />
+
+                    </StackPanel>
+
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    IsEnabled="{Binding HabilitarNemo}"
+                    Label="ISIN"
+                    LabelPosition="Above"
+                    TabIndex="2">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBox
+                            Width="170"
+                            GotFocus="seleccionarFocoControl"
+                            IsEnabled="False"
+                            MaxLength="20"
+                            Text="{Binding strISIN, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left"
+                            ToolTipService.ToolTip="Digite el ISIN a buscar" />
+
+                        <OyD:BuscadorGenericoListaButon
+                            x:Name="ctrlBuscadorISIN"
+                            Margin="2,0,0,0"
+                            Agrupamiento="{Binding strIDEspecie, Mode=OneWay, ValidatesOnExceptions=True}"
+                            CampoBusqueda="ISIN"
+                            Etiqueta="ISIN"
+                            TipoItem="ARBITRAJE_ISIN"
+                            finalizoBusqueda="ctrlBuscadorISIN_finalizoBusqueda" />
+
+                        <Button
+                            x:Name="btnLimpiarISIN"
+                            Margin="2,0,0,0"
+                            Click="btnLimpiarISIN_Click"
+                            Style="{StaticResource btnLimpiar}"
+                            ToolTipService.ToolTip="Limpiar ISIN" />
+
+                    </StackPanel>
+
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    IsEnabled="{Binding HabilitarValor}"
+                    Label="Valor"
+                    LabelPosition="Above"
+                    TabIndex="3">
+                    <A2UTILGEN:A2NumericBox
+                        Width="170"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Right"
+                        Maximum="999999999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="4"
+                        ShowButtons="False"
+                        ToolTipService.ToolTip="Valor"
+                        ValueFormat="Numeric"
+                        Value="{Binding dblValor, StringFormat='4', Mode=TwoWay, ValidatesOnExceptions=True}" />
+                </Telerik:DataFormDataField>
+
+                <!--  BuscadorMoneda  -->
+                <Telerik:DataFormDataField
+                    IsEnabled="{Binding HabilitarMoneda}"
+                    Label="Moneda"
+                    LabelPosition="Above"
+                    TabIndex="4">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBox
+                            Width="170"
+                            GotFocus="seleccionarFocoControl"
+                            IsEnabled="False"
+                            MaxLength="15"
+                            Text="{Binding strDescripcionMoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                            TextAlignment="Left"
+                            ToolTipService.ToolTip="Digite la especie a buscar" />
+
+                        <OyD:BuscadorGenericoListaButon
+                            x:Name="ctrlBuscadorMonedas"
+                            Margin="2,0,0,0"
+                            Agrupamiento=""
+                            CampoBusqueda="Monedas"
+                            Etiqueta="Lista de monedas"
+                            TipoItem="monedas"
+                            finalizoBusqueda="ctrlBuscadorMonedas_finalizoBusqueda" />
+
+                        <Button
+                            x:Name="btnLimpiarMonedas"
+                            Margin="2,0,0,0"
+                            Click="btnLimpiarMoneda_Click"
+                            Style="{StaticResource btnLimpiar}"
+                            ToolTipService.ToolTip="Limpiar moneda" />
+
+                    </StackPanel>
+
+                </Telerik:DataFormDataField>
+
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="900,15,5,5"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+
+                <Button
+                    x:Name="btnAceptar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnAceptar_Click"
+                    Content="Aceptar"
+                    IsEnabled="{Binding HabilitarEncabezado}"
+                    RenderTransformOrigin="0.533,-0.87"
+                    TabIndex="5" />
+
+                <Button
+                    x:Name="btnCerrar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnCerrar_Click"
+                    Content="Cerrar"
+                    RenderTransformOrigin="0.533,-0.87"
+                    TabIndex="6" />
+
+            </StackPanel>
+
+        </Grid>
+        <!--</StackPanel>-->
+    </Telerik:RadBusyIndicator>
+</Window>
+

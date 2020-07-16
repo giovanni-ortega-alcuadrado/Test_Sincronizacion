@@ -1,0 +1,497 @@
+﻿<UserControl
+    x:Class="ParesDeDivisasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCalculosFinancieros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="350"
+    MaxWidth="1300">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <!--
+        Descripción:    Diseño para la pantalla ParesDeDivisas (Cálculos Financieros)
+        Responsable:    Jorge Peña (Alcuadrado (S.A.)
+        Fecha:          16 de julio/2019
+    -->
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0">
+                <StackPanel>
+                    <A2Utils:ControlMenuA2
+                        x:Name="cm"
+                        DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                        DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                        EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                        Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                        HayDataForm="False"
+                        IsItemValid="True"
+                        ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                        Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                        MensajeError="{Binding ErrorForma}"
+                        Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                        ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                        PreguntarConfirmacion="False"
+                        TextoFiltroTooltip="Moneda origen, moneda destino, moneda cambio cruzado"
+                        TituloVista="Pares de divisas"
+                        TituloVistaAdicional="registros"
+                        TituloVista_CambioSelected="{Binding EncabezadoSeleccionado.HasChanges}"
+                        TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}" />
+
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+
+                <Grid x:Name="grdGridForma" Grid.Row="1">
+                    <Border>
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Width="Auto"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="1"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="Moneda origen" SortMemberPath="strDescripcionMonedaOrigen">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding strDescripcionMonedaOrigen, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionMonedaDestino}" Header="Moneda destino" />
+
+                                    <Telerik:GridViewDataColumn Header="Cambio cruzado" SortMemberPath="logCambioCruzado">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox   HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            IsChecked="{Binding logCambioCruzado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionMonedaCambioCruzado}" Header="Moneda cambio cruzado" />
+
+                                    <Telerik:GridViewDataColumn Header="Valor fijo o % de comisión moneda origen" SortMemberPath="logComisionMonedaOrigen">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox   HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            IsChecked="{Binding logComisionMonedaOrigen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding numComisionMonedaOrigen, StringFormat=n4}" 
+                                                                Header="Comisión moneda origen" 
+                                                                CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+
+                                    <Telerik:GridViewDataColumn Header="Valor fijo o % de comisión moneda destino" SortMemberPath="logComisionMonedaDestino">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox   HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            IsChecked="{Binding logComisionMonedaDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding numComisionMonedaDestino, StringFormat=n4}" 
+                                                                Header="Comisión moneda destino" 
+                                                                CellStyle="{StaticResource StyleDataGridCellAlignRight}"/>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmActualizacion, StringFormat='dd MMM, yyyy hh:mm:ss tt'}"
+                                                                Header="Fecha actualización"
+                                                                IsReadOnly="True" />
+                                    
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  ====================  -->
+                            <!--  Dataform de búsqueda  -->
+                            <!--  ====================  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Border>
+                                            <Grid MaxWidth="1300" VerticalAlignment="Top">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Telerik:DataFormDataField  Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Label="Moneda origen"
+                                                                            LabelPosition="Above">
+                                                    <ComboBox   Width="300"
+                                                                Margin="0, 0, 0, 5"
+                                                                HorizontalAlignment="Left"
+                                                                DisplayMemberPath="Descripcion"
+                                                                ItemsSource="{Binding DiccionarioCombos[monedas], Source={StaticResource A2VM}}"
+                                                                SelectedValue="{Binding intIDMonedaOrigen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                SelectedValuePath="ID"
+                                                                ToolTipService.ToolTip="Moneda origen" />
+                                                </Telerik:DataFormDataField>
+
+
+                                                <Telerik:DataFormDataField  Grid.Row="0"
+                                                                            Grid.Column="1"
+                                                                            Label="Moneda destino"
+                                                                            LabelPosition="Above">
+                                                    <ComboBox   Width="300"
+                                                                Margin="0, 0, 0, 5"
+                                                                HorizontalAlignment="Left"
+                                                                DisplayMemberPath="Descripcion"
+                                                                ItemsSource="{Binding DiccionarioCombos[monedas], Source={StaticResource A2VM}}"
+                                                                SelectedValue="{Binding intIDMonedaDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                SelectedValuePath="ID"
+                                                                ToolTipService.ToolTip="Moneda destino" />
+                                                </Telerik:DataFormDataField>
+
+
+                                                <Telerik:DataFormDataField  Grid.Row="0"
+                                                                            Grid.Column="2"
+                                                                            Label="Cambio cruzado"
+                                                                            LabelPosition="Above">
+                                                    <CheckBox   x:Name="chkCambioCruzado"
+                                                                Margin="0, 0, 0, 10"
+                                                                VerticalAlignment="Center"
+                                                                IsChecked="{Binding logCambioCruzado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                </Telerik:DataFormDataField>
+
+
+                                                <Telerik:DataFormDataField  Grid.Row="0"
+                                                                            Grid.Column="3"
+                                                                            Label="Moneda cambio cruzado"
+                                                                            LabelPosition="Above">
+                                                    <ComboBox   Width="300"
+                                                                Margin="0, 0, 0, 5"
+                                                                HorizontalAlignment="Left"
+                                                                DisplayMemberPath="Descripcion"
+                                                                ItemsSource="{Binding DiccionarioCombos[monedas], Source={StaticResource A2VM}}"
+                                                                SelectedValue="{Binding intIDMonedaCambioCruzado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                SelectedValuePath="ID"
+                                                                ToolTipService.ToolTip="Moneda cambio cruzado" />
+                                                </Telerik:DataFormDataField>
+                                                
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <StackPanel x:Name="Editar" Visibility="{Binding visNavegando}">
+                                <!--  ============================  -->
+                                <!--  Dataform edición de registro  -->
+                                <!--  ============================  -->
+                                <Border BorderBrush="White" BorderThickness="2">
+                                    <Grid
+                                        MaxWidth="1300"
+                                        VerticalAlignment="Top"
+                                        DataContext="{Binding EncabezadoSeleccionado}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+
+                                            <Telerik:DataFormDataField  Grid.Row="0"
+                                                                        Grid.Column="0"
+                                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        Label="Moneda origen"
+                                                                        LabelPosition="Above">
+                                                <ComboBox   x:Name="cboMonedaOrigen"
+                                                            SelectionChanged="cboMonedaOrigen_SelectionChanged"
+                                                            Width="300"
+                                                            HorizontalAlignment="Left"
+                                                            DisplayMemberPath="Descripcion"
+                                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            ItemsSource="{Binding DiccionarioCombos[monedas], Source={StaticResource A2VM}}"
+                                                            SelectedValue="{Binding intIDMonedaOrigen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            SelectedValuePath="ID"
+                                                            ToolTipService.ToolTip="Moneda origen" />
+                                            </Telerik:DataFormDataField>
+
+                                        
+                                        <Telerik:DataFormDataField  Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Label="Moneda destino"
+                                                                    LabelPosition="Above">
+                                            <ComboBox   x:Name="cboMonedaDestino"
+                                                        SelectionChanged="cboMonedaDestino_SelectionChanged"
+                                                        Width="300"
+                                                        HorizontalAlignment="Left"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DiccionarioCombos[monedas], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding intIDMonedaDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Moneda destino" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="0"
+                                                                    Grid.Column="2"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="Par de monedas"
+                                                                    LabelPosition="Above">
+                                            <TextBox    x:Name="txtParDeDivisas"
+                                                        Width="618"
+                                                        HorizontalAlignment="Left"
+                                                        GotFocus="seleccionarFocoControl"
+                                                        IsEnabled="False"
+                                                        Text="{Binding strMoneda_Origen_Destino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        TextAlignment="Left"
+                                                        ToolTipService.ToolTip="Par de monedas" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="Cambio cruzado"
+                                                                    LabelPosition="Above"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <CheckBox   x:Name="chkCambioCruzado"
+                                                        VerticalAlignment="Center"
+                                                        IsChecked="{Binding logCambioCruzado,  NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Label="Moneda cambio cruzado"
+                                                                    LabelPosition="Above">
+                                            <ComboBox   Width="300"
+                                                        HorizontalAlignment="Left"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DiccionarioCombos[monedas], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding intIDMonedaCambioCruzado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Moneda cambio cruzado" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="1"
+                                                                    Grid.Column="2"
+                                                                    Label="Valor fijo o % de comisión moneda origen"
+                                                                    LabelPosition="Above"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <CheckBox   x:Name="chkComisionMonedaOrigen"
+                                                        VerticalAlignment="Center"
+                                                        IsChecked="{Binding logComisionMonedaOrigen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="1"
+                                                                    Grid.Column="3"
+                                                                    Label="Comisión moneda origen"
+                                                                    LabelPosition="Above">
+                                            <A2UTILGEN:A2NumericBox Width="300"
+                                                                    HorizontalAlignment="Left"
+                                                                    HorizontalContentAlignment="Right"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Maximum="999999999999999"
+                                                                    Minimum="-999999999999999"
+                                                                    NumberDecimalDigits="4"
+                                                                    ShowButtons="False"
+                                                                    ToolTipService.ToolTip="Comisión moneda origen"
+                                                                    ValueFormat="Numeric"
+                                                                    Value="{Binding numComisionMonedaOrigen, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="Valor fijo o % de comisión moneda destino"
+                                                                    LabelPosition="Above"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <CheckBox   x:Name="chkComisionMonedaDestino"
+                                                        VerticalAlignment="Center"
+                                                        IsChecked="{Binding logComisionMonedaDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    Label="Comisión moneda destino"
+                                                                    LabelPosition="Above">
+                                            <A2UTILGEN:A2NumericBox Width="300"
+                                                                    HorizontalAlignment="Left"
+                                                                    HorizontalContentAlignment="Right"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Maximum="999999999999999"
+                                                                    Minimum="-999999999999999"
+                                                                    NumberDecimalDigits="4"
+                                                                    ShowButtons="False"
+                                                                    ToolTipService.ToolTip="Comisión moneda destino"
+                                                                    ValueFormat="Numeric"
+                                                                    Value="{Binding numComisionMonedaDestino, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="2"
+                                                                    Grid.Column="2"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Label="Curva moneda origen Fwd no novado"
+                                                                    LabelPosition="Above">
+                                            <ComboBox   Width="300"
+                                                        HorizontalAlignment="Left"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DiccionarioCombos[CURVACC], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding strCurvaMonedaOrigenNoNovado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Curva moneda origen Fwd no novado" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="2"
+                                                                    Grid.Column="3"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Label="Curva moneda origen Fwd novado"
+                                                                    LabelPosition="Above">
+                                            <ComboBox   Width="300"
+                                                        HorizontalAlignment="Left"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DiccionarioCombos[CURVACC], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding strCurvaMonedaOrigenNovado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Curva moneda origen Fwd novado" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Label="Curva moneda destino Fwd no novado"
+                                                                    LabelPosition="Above">
+                                            <ComboBox   Width="300"
+                                                        HorizontalAlignment="Left"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DiccionarioCombos[CURVACC], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding strCurvaMonedaDestinoNoNovado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Curva moneda destino Fwd no novado" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField  Grid.Row="3"
+                                                                    Grid.Column="1"
+                                                                    IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Label="Curva moneda destino Fwd novado"
+                                                                    LabelPosition="Above">
+                                            <ComboBox   Width="300"
+                                                        HorizontalAlignment="Left"
+                                                        DisplayMemberPath="Descripcion"
+                                                        IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DiccionarioCombos[CURVACC], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding strCurvaMonedaDestinoNovado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID"
+                                                        ToolTipService.ToolTip="Curva moneda destino Fwd novado" />
+                                        </Telerik:DataFormDataField>                                        
+                                        
+                                        
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
