@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Cómo aplica la regla “DISTRIBUCIONPORTAFOLIOCLIENTE”</title><link rel="stylesheet" type="text/css" href="../LinksExt/OrdenesOYDPlus.css" />
+<meta name="topicId" content="c5362aa2-7add-4208-8c1b-d6edd40ae42b" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<script src="../js/nethelp.redirector.js" type="text/javascript"></script>
+<link rel="prev" href="cmoaplicalareglamaqu1.htm" /><link rel="next" href="cmoaplicalaregladist1.htm" />
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2012.2.0.731" />
+<meta name="D2HTheme" content="Tabs" />
+</head>
+<body>
+<h3 style="LINE-HEIGHT: 150%"><span style="FONT-FAMILY: 'Arial','sans-serif'">Cómo aplica la regla 
+“DISTRIBUCIONPORTAFOLIOCLIENTE”</span></h3>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Esta regla permite validar la 
+distribución del portafolio y cupo x tipo de negocio para el cliente. La 
+configuración de la regla en este caso está activa porque la acción regla es 
+igual a “<b>Generar advertencia</b>”.</span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"><img border="0" src="../ImagesExt/image9_286.jpg" alt="" /></span><span style="FONT-FAMILY: 'Arial','sans-serif'"></span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Pasos para verificar los datos para la 
+regla</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">1.   
+Informe general de custodias ampliado al día anterior valorizado para el cliente 
+especifico.</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">2.   
+Elimino registros bloqueados en Repo activo y repo pasivo</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">3.   
+Lo queda es  lo que tiene el cliente en portafolio para <a class="topic-link" href="gloss_acciones.htm" target="popup">acciones</a>, RF tanto en nominales como 
+en valorización.</span></p>
+<p style="LINE-HEIGHT: 150%; MARGIN-LEFT: 18pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Estos puntos pueden ser empaquetados o 
+calculados en la mañana al día anterior</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">4.   
+Consulto las liquidaciones por cumplir con corte en el día; es decir F 
+liquidación &lt;= hoy y F cumplimiento &gt;= hoy. Esto se obtiene con el informe 
+de liquidaciones por cumplir</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">5.   
+Separar acciones, renta fija, simultanea, <a class="topic-link" href="gloss_repos.htm" target="popup">repos</a>, ttv. Estos contiene 
+Cantidad/nominal &gt; total liquidación (valoración)</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">6.   
+Se agrega las ordenes pendientes de acciones, renta fija, simultanea, repos, ttv 
+(cantidad y valor total)</span></p>
+<table style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-COLLAPSE: collapse; MARGIN-LEFT: 36pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none" class="MsoTableLightListAccent1" border="1" cellspacing="0" cellpadding="0">
+  <tbody>
+  <tr>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #4f81bd; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'; COLOR: white">Tipo 
+      Negocio</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #4f81bd; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'; COLOR: white">Reporte</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #4f81bd; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'; COLOR: white">Cantidad</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BACKGROUND: #4f81bd; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'; COLOR: white">Total</span></b></p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">Acciones </span></b></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Portafolio</span></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">RF</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Portafolio</span></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">Acciones</span></b></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Liq x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">RF</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Liq x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">SIm</span></b></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Liq x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">Repos</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Liq x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">TTV</span></b></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Liq x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">Acciones</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Ordenes x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">RF</span></b></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Ordenes x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">Sim</span></b></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Ordenes x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">Repos</span></b></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Ordenes x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: #4f81bd 1pt solid; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr>
+  <tr>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: #4f81bd 1pt solid; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">TTV</span></b></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Ordenes x cumplir</span></p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td>
+    <td style="BORDER-BOTTOM: #4f81bd 1pt solid; BORDER-LEFT: medium none; PADDING-BOTTOM: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; BORDER-RIGHT: #4f81bd 1pt solid; PADDING-TOP: 0pt" valign="top">
+      <p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p></td></tr></tbody></table>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">7.   
+Sumo el total de las acciones portafolio + compras – ventas de liq x cumplir y 
+ordenes pendientes.</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">8.   
+Sumo el total de RF portafolio + compras – ventas de liq x cumplir y ordenes 
+pendientes.</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">9.   
+Sumo el total de Repos + compras – ventas de liq x cumplir y ordenes 
+pendientes</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">10.  Sumo 
+el total de SIM + compras – ventas de liq x cumplir y ordenes 
+pendientes</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">11.  Sumo 
+el total de TTV + compras – ventas de liq x cumplir y ordenes 
+pendientes</span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><u><span style="FONT-FAMILY: 'Arial','sans-serif'">Ejemplo</span></u><span style="FONT-FAMILY: 'Arial','sans-serif'">: Se configura para todos los tipos de 
+producto “todos”, perfil de riesgo”2. Moderado”, con clientes 
+“todos”:</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: Verdana">•</span><span style="FONT-FAMILY: Symbol; VISIBILITY: hidden">      
+</span><span style="FONT-FAMILY: 'Arial','sans-serif'">Acciones           
+50%</span></p>
+<p style="LINE-HEIGHT: 150%; TEXT-INDENT: -18.75pt; MARGIN-LEFT: 36pt; tab-stops: 36.0pt" class="MsoNormal"><span style="FONT-FAMILY: Verdana">•</span><span style="FONT-FAMILY: Symbol; VISIBILITY: hidden">      
+</span><span style="FONT-FAMILY: 'Arial','sans-serif'">Renta 
+fija           50%</span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"><img border="0" src="../ImagesExt/image9_287.jpg" alt="" /></span><span style="FONT-FAMILY: 'Arial','sans-serif'"></span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Y se tiene un cliente “<b>51957</b>” 
+con perfil de riesgo “<b>2- Moderado</b>”.</span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"><img border="0" src="../ImagesExt/image9_288.jpg" alt="" /></span><span style="FONT-FAMILY: 'Arial','sans-serif'"></span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Al momento de ingresar una orden para 
+el cliente “<b>51957</b>” como el cliente tiene perfil de riesgo 
+“<b>2-Moderado</b>” y es una orden de tipo operación “<b>venta</b>”</span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'">Si el cliente no tiene portafolio 
+(custodias) no permite ingresar la orden. Para permitir ingresar la orden se 
+tendría que desactivar la regla; es decir colocar el campo acción regla igual a 
+“<b>No validar</b>”</span></p>
+<p style="LINE-HEIGHT: 150%" class="MsoNormal"><span style="FONT-FAMILY: 'Arial','sans-serif'"></span> </p><span id="related-topics"></span></body></html>
