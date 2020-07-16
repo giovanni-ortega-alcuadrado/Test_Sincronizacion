@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace A2OYD_Servicios_API.Controllers
 {
-    [Route("A2/v1/ProbarServicio")]
+    [Route("A2/ProbarServicio")]
     [ApiController]
     public class TestController:ControllerBase
     {

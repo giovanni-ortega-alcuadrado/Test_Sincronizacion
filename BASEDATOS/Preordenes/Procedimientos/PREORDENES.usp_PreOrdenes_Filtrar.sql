@@ -75,7 +75,9 @@ BEGIN TRY
 		,ENTIDAD.strNroDocumento AS strNroDocumentoEntidad
 		,ENTIDAD.strNombre AS strNombreEntidad
 		,CASE WHEN PRE.strTipoPreOrden='C' THEN 'Compra' ELSE 'Venta' END AS strDescripcionTipoPreOrden
-		,CASE WHEN PRE.strTipoInversion='A' THEN 'Acciones' ELSE 'Renta fija' END AS strDescripcionTipoInversion
+		,CASE WHEN PRE.strTipoInversion='A' THEN 'Acciones'
+				  WHEN PRE.strTipoInversion='C' THEN 'Renta fija' 
+				  ELSE '' END AS strDescripcionTipoInversion
 		,CASE WHEN PRE.strIntencion='E' THEN 'Valor económico' ELSE 'Valor nominal' END AS strDescripcionIntencion
 		,PRE.dblValor
 		,PRE.strUsuario
@@ -83,6 +85,7 @@ BEGIN TRY
 		,PRE.dtmActualizacion
 		,PRE.strUsuarioInsercion
 		,PRE.logActivo
+		,ISNULL(PRE.dblValorPendiente,0) AS dblValorPendiente
 	FROM [PREORDENES].[tblPreOrdenes] PRE
 	INNER JOIN [Personas].tblCodigos COMITENTE ON COMITENTE.intID=PRE.intIDCodigoPersona
 	INNER JOIN [Personas].tblPersonas PERSONA ON PERSONA.intID=COMITENTE.intIDPersona

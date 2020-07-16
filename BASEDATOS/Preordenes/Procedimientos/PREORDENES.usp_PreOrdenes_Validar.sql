@@ -208,6 +208,13 @@ BEGIN TRY
 		END
 	END
 
+	IF ISNULL(@pstrTipoInversion,'')=''
+	BEGIN
+		INSERT INTO #tmpA2ValInconsAct_PreOrdenes (strTipoMensaje, strCodMensaje, strMensaje, logInconsitencia, strCampo)
+		SELECT strTipoMensaje, strCodMensaje, strMensaje, logInconsistencia, 'TIPOINVERSION'
+			FROM PLATAFORMA.ufnA2_Mensajes_obtenerInfoMsgProceso('PREORDENES_PREORDENES_REQUERIDO_TIPOINVERSION','','PREORDENES','PREORDENES')
+	END
+
 	IF ISNULL(@pstrInstrumento,'')<>''
 	BEGIN
 		IF NOT EXISTS(SELECT 1 FROM dbo.tblEspecies WHERE strId=@pstrInstrumento AND logActivo=1)

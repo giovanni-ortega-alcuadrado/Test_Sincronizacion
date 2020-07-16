@@ -16,9 +16,6 @@ namespace A2OYD_Servicios_API.Parametros.Personas
         public int? intcodigobanco { get; set; }
         [Required]
         public string intnumerocuenta { get; set; }
-        public string strnombretitular { get; set; }
-        public string strapellidotitular { get; set; }
-        public string strnrodocumentotitular { get; set; }
-        public string strtipodocumentotitular { get; set; }
+
     }
 }

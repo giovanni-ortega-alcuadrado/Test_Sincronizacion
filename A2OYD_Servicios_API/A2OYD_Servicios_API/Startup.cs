@@ -23,8 +23,6 @@ using A2Utilidades.Web.API.Generico.Utilidades;
 using A2OYD_Servicios_API.Utilidades;
 using System.Reflection;
 using System.IO;
-using Newtonsoft.Json;
-using System.Buffers;
 
 namespace A2OYD_Servicios_API
 {
@@ -40,8 +38,6 @@ namespace A2OYD_Servicios_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore(options => options.OutputFormatters.Add(new Codificador (new JsonSerializerSettings(), ArrayPool<char>.Shared, Configuration["ConfiguracionParametros:Codificacion"])))
-            .AddJsonFormatters();
             services.AddAutoMapper();
             services.AddIdentity<A2OYD_Servicios_API.Models.Seguridad.ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ContextoDbUtil>()
@@ -69,7 +65,7 @@ namespace A2OYD_Servicios_API
                  ClockSkew = TimeSpan.Zero
              });
             services.AddDbContext<ContextoDbOyd>(opciones => opciones.UseSqlServer(@A2Utilidades.Cifrar.descifrar(Configuration.GetConnectionString("dbOYDConnectionString"))));
-            services.Configure<string>(opciones => opciones.ToString());
+
             //services.AddDbContext<ContextoDbOyd>(opciones => opciones.UseSqlServer(Configuration.GetConnectionString("dbOYDConnectionString"))); //.GetConnectionString("conexion")));
         }
 
@@ -92,14 +88,7 @@ namespace A2OYD_Servicios_API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                if (!String.IsNullOrEmpty(Configuration["ConfiguracionParametros:DirectorioVirtual"]))
-                {
-                    c.SwaggerEndpoint("/" + Configuration["ConfiguracionParametros:DirectorioVirtual"] + "/swagger/v1/swagger.json", "A2 OYD ServicioAPI");
-                }
-                else
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "A2 OYD ServicioAPI");
-                }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "A2 OYD ServicioAPI");
             });
 
             app.UseHttpsRedirection();

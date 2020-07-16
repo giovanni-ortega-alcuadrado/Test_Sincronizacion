@@ -45,12 +45,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/V1/Financiero/cliente/ConsultarTenencia", parametros.ToString(), "Inicio ejecución.");
-                var clientestenencia1 = await contextobdoyd.clientestenencia.FromSql("[APIADCAP].[usp_FinancieroController_Get_ClientesTenencia] @pstrJsonEnvio=@pstrJsonEnvio ,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/Financiero/cliente/ConsultarTenencia", parametros.ToString(), "Inicio ejecución.");
+                var clientestenencia1 = await contextobdoyd.clientestenencia.FromSql("[APIADCAP].[usp_FinancieroController_Get_ClientesTenencia] @strJsonEnvio ,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/V1/Financiero/cliente/ConsultarTenencia", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/Financiero/cliente/ConsultarTenencia", parametros.ToString(), "Finaliza ejecución.");
                 var dto = mapper.Map<List<Models.DTO.Entidades.Financiero.ClienteTenenciaDTO>>(clientestenencia1);
                 return dto;
             }
@@ -74,12 +74,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/V1/Financiero/Cliente/ConsultarSaldo", parametros.ToString(), "Inicio ejecución.");
-                var clientessaldo = await contextobdoyd.clientessaldo.FromSql("[APIADCAP].[usp_FinancieroController_Get_ClientesSaldo] @pstrJsonEnvio = @pstrJsonEnvio ,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/Financiero/Cliente/ConsultarSaldo", parametros.ToString(), "Inicio ejecución.");
+                var clientessaldo = await contextobdoyd.clientessaldo.FromSql("[APIADCAP].[usp_FinancieroController_Get_ClientesSaldo] @strJsonEnvio ,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/V1/Financiero/Cliente/ConsultarSaldo", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/Financiero/Cliente/ConsultarSaldo", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Financiero.ClienteSaldoDTO>>(clientessaldo);
             }
             catch (Exception errror)
@@ -102,12 +102,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/V1/Financiero/Cliente/ConsultarMovimientosCuenta", parametros.ToString(), "Inicio ejecución.");
-                var clientesmovimientoscuenta = await contextobdoyd.clientesmovimientoscuenta.FromSql("[APIADCAP].[usp_FinancieroController_Get_ClientesMovimientosCuenta] @pstrJsonEnvio=@pstrJsonEnvio,@pstrusuario=@pstrusuario,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/Financiero/Cliente/ConsultarMovimientosCuenta", parametros.ToString(), "Inicio ejecución.");
+                var clientesmovimientoscuenta = await contextobdoyd.clientesmovimientoscuenta.FromSql("[APIADCAP].[usp_FinancieroController_Get_ClientesMovimientosCuenta] @strJsonEnvio,@pstrusuario,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/V1/Financiero/Cliente/ConsultarMovimientosCuenta", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("FinancieroController", "A2/Financiero/Cliente/ConsultarMovimientosCuenta", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Financiero.ClienteMovimientoCuentaDTO>>(clientesmovimientoscuenta);
             }
             catch (Exception errror)

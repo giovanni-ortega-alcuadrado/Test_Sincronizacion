@@ -62,26 +62,30 @@ BEGIN TRY
 	SET @pintIDPreOrden=ISNULL(@pintIDPreOrden,0)
 
 	SELECT CRUCES.intID,
+		PRECOMPRA.intID AS intIDPreOrdenCompraUnico,
 		PRECOMPRA.intIDPreOrden AS intIDPreOrdenCompra,
 		PRECOMPRA.strTipoInversion AS strTipoInversionCompra,
 		CASE WHEN PRECOMPRA.strTipoInversion='C' THEN 'Renta fija' ELSE 'Acciones' END AS strDescripcionTipoInversionCompra,
 		PRECOMPRA.strInstrumento AS strInstrumentoCompra,
 		CONVERT(BIT, CASE WHEN ORDENCOMPRA.intID IS NULL THEN 0 ELSE 1 END) AS logTieneAsociacionCompra,
-		CASE WHEN ORDENCOMPRA.strOrigenOrden='OYD' THEN 'Orden bolsa'
-			 WHEN ORDENCOMPRA.strOrigenOrden='ON' THEN 'Otros Negocios'
-			 WHEN ORDENCOMPRA.strOrigenOrden='OYDPLUS' THEN 'Ordenes OYDPLUS'
-			 ELSE '' END AS strTipoOrigenOrdenCompra,
-		ORDENCOMPRA.intNroRegistro AS intNroRegistroOrdenCompra,
+		--CASE WHEN ORDENCOMPRA.strOrigenOrden='OYD' THEN 'Orden bolsa'
+		--	 WHEN ORDENCOMPRA.strOrigenOrden='ON' THEN 'Otros Negocios'
+		--	 WHEN ORDENCOMPRA.strOrigenOrden='OYDPLUS' THEN 'Ordenes OYDPLUS'
+		--	 ELSE '' END AS strTipoOrigenOrdenCompra,
+		'Ordenes OYDPLUS' AS strTipoOrigenOrdenCompra,
+		ORDENESCOMPRA.lngID AS intNroRegistroOrdenCompra,
+		PREVENTA.intID AS intIDPreOrdenVentaUnico,
 		PREVENTA.intIDPreOrden AS intIDPreOrdenVenta,
 		PREVENTA.strTipoInversion AS strTipoInversionVenta,
 		CASE WHEN PREVENTA.strTipoInversion='C' THEN 'Renta fija' ELSE 'Acciones' END AS strDescripcionTipoInversionVenta,
 		PREVENTA.strInstrumento AS strInstrumentoVenta,
 		CONVERT(BIT, CASE WHEN ORDENVENTA.intID IS NULL THEN 0 ELSE 1 END) AS logTieneAsociacionVenta,
-		CASE WHEN ORDENVENTA.strOrigenOrden='OYD' THEN 'Orden bolsa'
-			 WHEN ORDENVENTA.strOrigenOrden='ON' THEN 'Otros Negocios'
-			 WHEN ORDENVENTA.strOrigenOrden='OYDPLUS' THEN 'Ordenes OYDPLUS'
-			 ELSE '' END AS strTipoOrigenOrdenVenta,
-		ORDENVENTA.intNroRegistro AS intNroRegistroOrdenVenta,
+		--CASE WHEN ORDENVENTA.strOrigenOrden='OYD' THEN 'Orden bolsa'
+		--	 WHEN ORDENVENTA.strOrigenOrden='ON' THEN 'Otros Negocios'
+		--	 WHEN ORDENVENTA.strOrigenOrden='OYDPLUS' THEN 'Ordenes OYDPLUS'
+		--	 ELSE '' END AS strTipoOrigenOrdenVenta,
+		'Ordenes OYDPLUS' AS strTipoOrigenOrdenVenta,
+		ORDENESVENTA.lngID AS intNroRegistroOrdenVenta,
 		CRUCES.dtmFechaCruce,
 		CRUCES.dblValorCruzado,
 		CRUCES.strUsuario
@@ -90,6 +94,8 @@ BEGIN TRY
 	INNER JOIN PREORDENES.tblPreOrdenes_Cruzadas AS PREVENTA ON PREVENTA.guidCruce=CRUCES.guidCruce AND PREVENTA.intIDPreOrden=CRUCES.intIDPreOrdenVenta
 	LEFT JOIN PREORDENES.tblPreOrdenes_Cruzadas_Orden AS ORDENCOMPRA ON ORDENCOMPRA.intIDPreOrden_Cruzada=PRECOMPRA.intID
 	LEFT JOIN PREORDENES.tblPreOrdenes_Cruzadas_Orden AS ORDENVENTA ON ORDENVENTA.intIDPreOrden_Cruzada=PREVENTA.intID
+	LEFT JOIN dbo.tblOrdenes AS ORDENESCOMPRA ON ORDENESCOMPRA.intIDOrdenes=ORDENCOMPRA.intNroRegistro
+	LEFT JOIN dbo.tblOrdenes AS ORDENESVENTA ON ORDENESVENTA.intIDOrdenes=ORDENVENTA.intNroRegistro
 	WHERE CRUCES.strUsuario=CASE WHEN @plogSoloUsuario=1 THEN @pstrUsuario ELSE CRUCES.strUsuario END
 		AND CRUCES.dtmFechaCruce BETWEEN @pdtmFechaInicial AND @pdtmFechaFinal
 		AND (CRUCES.intIDPreOrdenCompra=@pintIDPreOrden OR CRUCES.intIDPreOrdenVenta=@pintIDPreOrden OR @pintIDPreOrden=0)

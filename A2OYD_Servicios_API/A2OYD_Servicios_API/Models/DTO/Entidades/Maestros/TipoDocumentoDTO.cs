@@ -7,7 +7,5 @@ namespace A2OYD_Servicios_API.Models.DTO.Entidades.Maestros
 {
     public class TipoDocumentoDTO
     {
-        public string codigo { get; set; }
-        public string descripcion { get; set; }
     }
 }

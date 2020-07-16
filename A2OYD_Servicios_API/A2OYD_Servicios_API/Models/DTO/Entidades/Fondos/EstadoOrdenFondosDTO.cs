@@ -9,8 +9,8 @@ namespace A2OYD_Servicios_API.Models.DTO.Entidades.Fondos
     {
         public Int64 codigooyd { get; set; }
         public string estado { get; set; }
-        public DateTime? fechaejecucion { get; set; }
-        public decimal? cantidad { get; set; }
+        public DateTime fechaejecucion { get; set; }
+        public decimal cantidad { get; set; }
         public string moneda { get; set; }
         public string tipomovimiento { get; set; }
     }

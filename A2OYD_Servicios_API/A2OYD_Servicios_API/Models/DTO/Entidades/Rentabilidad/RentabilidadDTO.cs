@@ -7,6 +7,7 @@ namespace A2OYD_Servicios_API.Models.DTO.Entidades.Rentabilidad
 {
     public class RentabilidadDTO
     {
-        public decimal? rentabilidad { get; set; }
+        public decimal? tirperiodo { get; set; }
+        public decimal? tiractualizada { get; set; }
     }
 }
