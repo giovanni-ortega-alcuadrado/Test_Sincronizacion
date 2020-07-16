@@ -416,3 +416,23 @@ BEGIN
 		'Alcuadrado',
 		GETDATE())
 END
+
+IF NOT EXISTS(SELECT 1 FROM PLATAFORMA.tblA2_MensajesSistema WHERE strCodMensaje='PREORDENES_PREORDENES_REQUERIDO_TIPOINVERSION')
+BEGIN
+	INSERT INTO PLATAFORMA.tblA2_MensajesSistema(
+		intIdTipoMensajeSistema,
+		strCodMensaje,
+		strMensajePorDefecto,
+		intIdProducto,
+		strGrupo,
+		strUsuario,
+		dtmActualizacion
+	)
+	VALUES(@intIDTipoSistema,
+		'PREORDENES_PREORDENES_REQUERIDO_TIPOINVERSION',
+		'El Tipo inversión es un campo requerido.',
+		NULL,
+		'',
+		'Alcuadrado',
+		GETDATE())
+END

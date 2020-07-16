@@ -21,38 +21,25 @@ namespace A2OYD_Servicios_API.Utilidades
         public UtilidadesController(ContextoDbOyd contextobdoyd, IMapper mapper)
         {
             this.mapper = mapper;
-            this.contextobdoyd = contextobdoyd;
         }
         public UtilidadesController()
         {
         }
-        public string Obtener_Valores_por_Defecto_json(string strControlador = "", string strProceso = "", string strtabla = "")
+        public async Task<string> Obtener_Valores_por_Defecto_json(string strControlador = "", string strProceso = "", string strtabla = "")
         {
             try
             {
-                
-                var valores = contextobdoyd.valorespordefecto.FromSql("[dbo].[usp_Obtener_Valores_por_Defecto] @pstrControlador=@pstrControlador, @pstrProceso=@pstrProceso, @plogretornarstring=@plogretornarstring ",
+                string json = "[{";
+                var valores = await contextobdoyd.valorespordefecto.FromSql("[APIADCAP].[usp_Obtener_Valores_por_Defecto] @pstrControlador, @pstrProceso,@pstrtabla ",
                     new SqlParameter("@pstrControlador", strControlador),
                     new SqlParameter("@pstrProceso", strProceso),
-                    //new SqlParameter("@pstrtabla", strtabla),
-                    new SqlParameter("@plogretornarstring", true)
-                    ).ToList();
-                //La logica que esta comentada es para cuando el sp devuelve los campos de la tabala, pero si se envía el parametro @plogretornarstring en 1 el sp ya retorna el string en formato json
-                //string json = "[{";
-                //foreach (Entidades.Genericas.ValorporDefecto registro in valores)
-                //{
-                //    json = json + "\"" + registro.nombrevalor + "\":\"" + registro.valor + "\",";
-                //}
-                //json = json + "}]";
-                //return json;
-                if  (valores.Count > 0) 
+                    new SqlParameter("@pstrtabla", strtabla)).ToListAsync();
+                foreach (Entidades.Genericas.ValorporDefecto registro in valores)
                 {
-                    return valores[0].valor;
+                    json = json + "\"" + registro.nombrevalor + "\":\"" + registro.valor + "\",";
                 }
-                else
-                {
-                    return "";
-                }
+                json = json + "}]";
+                return json;
             }
             catch (Exception errror)
             {

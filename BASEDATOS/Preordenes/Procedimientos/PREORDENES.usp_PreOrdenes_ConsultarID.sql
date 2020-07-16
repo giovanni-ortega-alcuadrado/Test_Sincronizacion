@@ -25,7 +25,8 @@ Ejemplo: [PREORDENES].[usp_PreOrdenes_ConsultarID] @pintID=1, @pstrUsuario = 'na
 ALTER PROCEDURE [PREORDENES].[usp_PreOrdenes_ConsultarID]
 @pintID			INT, -- Clave primaria de la tabla. De acuerdo con el estándar toda tabla debe tener un Identity que es la clave primaria.
 @pstrUsuario	VARCHAR(60), -- Usuario que ejecuta la acción
-@pstrInfosesion	VARCHAR(1000) = Null -- XML con inofrmación que se utiliza para auditoria (usuario, ip máquina usuario, nombre máquina usuario, servidor web, etc.)
+@pstrInfosesion	VARCHAR(1000) = Null, -- XML con inofrmación que se utiliza para auditoria (usuario, ip máquina usuario, nombre máquina usuario, servidor web, etc.)
+@plogConsultarCruzada	BIT=0
 --WITH ENCRYPTION
 AS 
 
@@ -43,7 +44,8 @@ BEGIN TRY
 	-- Concatenar todos los parámetros para guardarlos en el log de uso
 	SET @strParametros ='@pintID=' + ISNULL('''' + isnull(convert(varchar(50), @pintID), 'null') + '''', 'null') + 
 						',@pstrUsuario=' + ISNULL('''' + @pstrUsuario + '''', 'null') + 
-						',@pstrInfosesion=' + ISNULL('''' + @pstrInfosesion + '''', 'null')
+						',@pstrInfosesion=' + ISNULL('''' + @pstrInfosesion + '''', 'null') +
+						',@plogConsultarCruzada=' + ISNULL('''' + isnull(convert(varchar(50), @plogConsultarCruzada), 'null') + '''', 'null')
 	-----------------------------------------------------------------------------------------------------------------
 	-- Inicializar auditoria de uso
 	SELECT @strOpcion = 'PreOrdenes', @strProceso= 'ConsultarID', @strProcedimiento = OBJECT_NAME(@@PROCID), @strObjeto = '', @pstrUsuario=ISNULL(@pstrUsuario,'') 	-- Asignar valor a los parámetros para identificar la opción ejecutada
@@ -78,6 +80,36 @@ BEGIN TRY
 			,CONVERT(FLOAT, 0) AS dblValorPendiente
 			,NULL AS intNroParcial
 			,NULL AS strOrigenAnulacion
+	END
+	ELSE IF @plogConsultarCruzada=1
+	BEGIN
+		SELECT intID
+			,dtmFechaInversion
+			,dtmFechaVigencia
+			,intIDCodigoPersona
+			,strTipoPreOrden
+			,strTipoInversion
+			,intIDEntidad
+			,strInstrumento
+			,strIntencion
+			,dblValor
+			,dblPrecio
+			,dblRentabilidadMinima
+			,dblRentabilidadMaxima
+			,strInstrucciones
+			,logActivo
+			,strObservaciones
+			,strUsuario
+			,dtmFechaCreacion
+			,dtmActualizacion
+			,strUsuarioInsercion
+			,ISNULL(logEsParcial,0) AS logEsParcial
+			,intIDPreOrden AS intIDPreOrdenOrigen
+			,ISNULL(dblValorAnterior,0) AS dblValorPendiente
+			,intNroParcial
+			,'' AS strOrigenAnulacion
+		FROM [PREORDENES].[tblPreOrdenes_Cruzadas]
+		WHERE intID=@pintID
 	END
 	ELSE
 	BEGIN

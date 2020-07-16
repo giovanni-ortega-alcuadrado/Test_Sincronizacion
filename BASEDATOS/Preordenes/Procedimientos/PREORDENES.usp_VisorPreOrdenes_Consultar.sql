@@ -79,7 +79,9 @@ BEGIN TRY
 		PRE.strTipoPreOrden AS strTipoPreOrden,
 		CASE WHEN PRE.strTipoPreOrden='C' THEN 'Compra' ELSE 'Venta' END AS strDescripcionTipoPreOrden,
 		PRE.strTipoInversion AS strTipoInversion,
-		CASE WHEN PRE.strTipoInversion='C' THEN 'Renta fija' ELSE 'Acciones' END AS strDescripcionTipoInversion,
+		CASE WHEN PRE.strTipoInversion='A' THEN 'Acciones'
+				  WHEN PRE.strTipoInversion='C' THEN 'Renta fija' 
+				  ELSE '' END AS strDescripcionTipoInversion,
 		PRE.strInstrumento AS strInstrumento,
 		PRE.dblValor AS dblValor,
 		ISNULL(PRE.dblValorPendiente,PRE.dblValor) AS dblValorPendiente
@@ -104,7 +106,9 @@ BEGIN TRY
 		PRE.strTipoPreOrden AS strTipoPreOrden,
 		CASE WHEN PRE.strTipoPreOrden='C' THEN 'Compra' ELSE 'Venta' END AS strDescripcionTipoPreOrden,
 		PRE.strTipoInversion AS strTipoInversion,
-		CASE WHEN PRE.strTipoInversion='C' THEN 'Renta fija' ELSE 'Acciones' END AS strDescripcionTipoInversion,
+		CASE WHEN PRE.strTipoInversion='A' THEN 'Acciones'
+				  WHEN PRE.strTipoInversion='C' THEN 'Renta fija' 
+				  ELSE '' END AS strDescripcionTipoInversion,
 		PRE.strInstrumento AS strInstrumento,
 		PRE.dblValor AS dblValor,
 		ISNULL(PRE.dblValorPendiente,PRE.dblValor) AS dblValorPendiente

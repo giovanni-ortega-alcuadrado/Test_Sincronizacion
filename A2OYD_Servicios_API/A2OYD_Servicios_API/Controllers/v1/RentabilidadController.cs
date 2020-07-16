@@ -34,28 +34,17 @@ namespace A2OYD_Servicios_API.Controllers.v1
             utilidadcontroller = new UtilidadesController(contextobdoyd, mapper);
         }
 
-
-        /// <summary>
-        /// Consulta la rentabilidad agupado por cliente
-        /// </summary>
-        /// <param name="parametros">
-        /// "intcodigooyd" Codigo oyd del cliente
-        /// "dtmfechadesde" Fecha inicial desde la cual calcular la rentabilidad
-        /// "dtmfechahasta" Fecha hasta la cual se realizarà el calculo
-        /// "intidrecibo" (opcional) numero de recibo e la custodia a la cual se le calcularà el saldo
-        /// </param>
-        /// <returns></returns>
         [HttpGet("Cliente")]
         public async Task<ActionResult<IEnumerable<Models.DTO.Entidades.Rentabilidad.RentabilidadDTO>>> Get_Cliente([FromBody] Parametros.Rentabilidad.GetRentabilidad parametros)
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/V1/Rentabilidad/Cliente", parametros.ToString(), "Inicio ejecución.");
-                var retorno = await contextobdoyd.rentabilidad.FromSql("[APIADCAP].[usp_RentabilidadController_Get_Cliente] @pstrJsonEnvio=@pstrJsonEnvio, @pstrUsuario=@pstrUsuario, @pstrAplicacion=@pstrAplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/Rentabilidad/Cliente", parametros.ToString(), "Inicio ejecución.");
+                var retorno = await contextobdoyd.rentabilidad.FromSql("[APIADCAP].[usp_RentabilidadController_Get_ClienteInstrumento] @strJsonEnvio, @pstrUsuario, @pstrAplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrUsuario", ""),
                         new SqlParameter("@pstrAplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/V1/Rentabilidad/Cliente", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/Rentabilidad/Cliente", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Rentabilidad.RentabilidadDTO>>(retorno);
             }
             catch (Exception errror)
@@ -64,28 +53,17 @@ namespace A2OYD_Servicios_API.Controllers.v1
             }
         }
 
-        /// <summary>
-        /// Consulta la rentabilidad agupado por cliente e instrumento (especie)
-        /// </summary>
-        /// <param name="parametros">
-        /// "intcodigooyd" Codigo oyd del cliente
-        /// "dtmfechadesde" Fecha inicial desde la cual calcular la rentabilidad
-        /// "dtmfechahasta" Fecha hasta la cual se realizarà el calculo
-        /// "stridespecie" Instrumento (especie) al cual se le calcularà la rentabilidad
-        /// "intidrecibo" (opcional) numero de recibo e la custodia a la cual se le calcularà el saldo
-        /// </param>
-        /// <returns></returns>
         [HttpGet("ClienteInstrumento")]
         public async Task<ActionResult<IEnumerable<Models.DTO.Entidades.Rentabilidad.RentabilidadDTO>>> Get_ClienteInstrumento([FromBody] Parametros.Rentabilidad.GetClientesRentabilidadInstrumento parametros)
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/V1/Rentabilidad/ClienteInstrumento", parametros.ToString(), "Inicio ejecución.");
-                var retorno = await contextobdoyd.rentabilidad.FromSql("[APIADCAP].[usp_RentabilidadController_Get_Cliente] @pstrJsonEnvio=@pstrJsonEnvio, @pstrUsuario=@pstrUsuario, @pstrAplicacion=@pstrAplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/Rentabilidad/ClienteInstrumento", parametros.ToString(), "Inicio ejecución.");
+                var retorno = await contextobdoyd.rentabilidad.FromSql("[APIADCAP].[usp_RentabilidadController_Get_ClienteInstrumento] @strJsonEnvio, @pstrUsuario, @pstrAplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrUsuario", ""),
                         new SqlParameter("@pstrAplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/V1/Rentabilidad/ClienteInstrumento", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("RentabilidadController", "A2/Rentabilidad/ClienteInstrumento", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Rentabilidad.RentabilidadDTO>>(retorno);
             }
             catch (Exception errror)

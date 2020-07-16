@@ -32,10 +32,10 @@ namespace A2OYD_Servicios_API.Controllers.v1
         /// <summary>
         /// Ingresar un movimiento credito a la cuenta
         /// </summary>
-        /// <param name="parametros">
+        /// <param name="parametros"></param>
         /// "intidcodigooyd" Codigo oyd del cliente
         /// "dblvalor" Valor del movimiento
-        /// "intidcuenta" Id unico del banco matriculado en el sistema 
+        /// "intidcuenta" Id unico de la cuenta banco asignada por el sistema 
         /// </param>
         /// <returns></returns>
         [HttpPost("PostMovimientoCredito")]
@@ -43,14 +43,14 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/V1/Tesoreria/PostMovimientoCredito", parametros.ToString(), "Inicio ejecución.");
-                string valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("TesoreriaController", "Post_MovimientoCredito");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_TesoreriaController_Post_MovimientoCreditoDebito] @pstrJsonEnvio=@pstrJsonEnvio, @pstrUsuario=@pstrUsuario, @pstrAplicacion=@pstrAplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/Tesoreria/PostMovimientoCredito", parametros.ToString(), "Inicio ejecución.");
+                Task<string> valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("TesoreriaController", "Post_MovimientoCredito");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_TesoreriaController_Post_MovimientoCreditoDebito] @strJsonEnvio, @pstrUsuario, @pstrAplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
                         new SqlParameter("@pstrUsuario", ""),
                         new SqlParameter("@pstrAplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/V1/Tesoreria/PostMovimientoCredito", mensajes.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/Tesoreria/PostMovimientoCredito", mensajes.ToString(), "Finaliza ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
@@ -64,10 +64,10 @@ namespace A2OYD_Servicios_API.Controllers.v1
         /// <summary>
         /// Ingresar un movimiento debito a la cuenta
         /// </summary>
-        /// <param name="parametros">
+        /// <param name="parametros"></param>
         /// "intidcodigooyd" Codigo oyd del cliente
         /// "dblvalor" Valor del movimiento
-        /// "intidcuenta" Id unico del banco matriculado en el sistema 
+        /// "intidcuenta" Id unico de la cuenta banco asignada por el sistema 
         /// </param>
         /// <returns></returns>
         [HttpPost("PostMovimientoDebito")]
@@ -75,14 +75,14 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/V1/Tesoreria/PostMovimientoDebito", parametros.ToString(), "Inicio ejecución.");
-                string valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("TesoreriaController", "Post_MovimientoDebito");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_TesoreriaController_Post_MovimientoCreditoDebito] @pstrJsonEnvio=@pstrJsonEnvio, @pstrUsuario=@pstrUsuario, @pstrAplicacion=@pstrAplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/Tesoreria/PostMovimientoDebito", parametros.ToString(), "Inicio ejecución.");
+                Task<string> valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("TesoreriaController", "Post_MovimientoDebito");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_TesoreriaController_Post_MovimientoCreditoDebito] @strJsonEnvio, @pstrUsuario, @pstrAplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
                         new SqlParameter("@pstrUsuario", ""),
                         new SqlParameter("@pstrAplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/V1/Tesoreria/PostMovimientoDebito", mensajes.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("TesoreriaController", "A2/Tesoreria/PostMovimientoDebito", mensajes.ToString(), "Finaliza ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using A2OYD_Servicios_API.Entidades.Fondos;
 
 
 namespace A2OYD_Servicios_API.ContextosDB
@@ -26,11 +25,10 @@ namespace A2OYD_Servicios_API.ContextosDB
         public DbQuery<Entidades.Maestros.Pais> paises { get; set; }
             public DbQuery<Entidades.Maestros.Ciudad> ciudades { get; set; }
             public DbQuery<Entidades.Maestros.Departamento> departamentos { get; set; }
-        public DbQuery<Entidades.Maestros.Especie> especies { get; set; }
         #endregion
 
         #region PERSONAS
-        public DbQuery<Entidades.Personas.ClienteCuentaBanco> clientecuentasbancarias { get; set; }
+            public DbQuery<Entidades.Personas.ClienteCuentaBanco> clientecuentasbancarias { get; set; }
             public DbQuery<Entidades.Personas.ClienteCodigoOyD> clientecodigosoyd { get; set; }
             public DbQuery<Entidades.Personas.ClienteDatosCuenta> clientesdatoscuentas { get; set; }
             public DbQuery<Entidades.Personas.ClienteEncargo> clienteencargos { get; set; }
@@ -49,7 +47,6 @@ namespace A2OYD_Servicios_API.ContextosDB
 
         #region FONDOS
             public DbQuery<Entidades.Fondos.EstadoOrdenFondos> estadoordenesfondos { get; set; }
-            public DbQuery<FondosFirma> fondosfirma { get; set; }
         #endregion
 
         #region RENTABILIDAD

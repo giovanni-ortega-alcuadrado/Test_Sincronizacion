@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using A2Utilidades.Web.API.Generico.Utilidades;
-using A2OYD_Servicios_API.Parametros.Fondos;
-using A2OYD_Servicios_API.Entidades.Fondos;
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
@@ -57,14 +55,14 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/V1/Fondos/Ordenes/Ingresar", parametros.ToString(), "Inicio ejecución.");
-                string valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("FondosController", "Post_IngresarOrden");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_FondosController_Post_IngresarOrden] @pstrJsonEnvio=@pstrJsonEnvio,@pstrJsonValoresDefecto=@pstrJsonValoresDefecto ,@pstrusuario=@pstrusuario,@pstraplicacion=@pstraplicacion ",
-                    new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/Fondos/Ordenes/Ingresar", parametros.ToString(), "Inicio ejecución.");
+                Task<string> valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("FondosController", "Post_IngresarOrden");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_FondosController_Post_IngresarOrden] @strJsonEnvio, @pstrusuario,@pstraplicacion ",
+                    new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                     new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
                     new SqlParameter("@pstrusuario", ""),
                     new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/V1/Fondos/Ordenes/Ingresar", mensajes.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/Fondos/Ordenes/Ingresar", mensajes.ToString(), "Finaliza ejecución.");
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
                 
             }
@@ -80,16 +78,16 @@ namespace A2OYD_Servicios_API.Controllers.v1
         /// <param name="parametros"> "intid" identificador unico de la orden en el sistema</param>
         /// <returns></returns>
         [HttpGet("ConsultarEstado")]
-        public async Task<ActionResult<IEnumerable<Models.DTO.Entidades.Fondos.EstadoOrdenFondosDTO>>> Get_EstadoOrden([FromBody] GetConsultarEstadoOrdenFondos parametros)
+        public async Task<ActionResult<IEnumerable<Models.DTO.Entidades.Fondos.EstadoOrdenFondosDTO>>> Get_EstadoOrden([FromBody] Parametros.Genericos.Id parametros)
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/V1/Fondos/Ordenes/ConsultarEstado", parametros.ToString(), "Inicio ejecución.");
-                var ordenes = await contextobdoyd.estadoordenesfondos.FromSql("[APIADCAP].[usp_FondosController_Get_EstadoOrden] @pstrJsonEnvio=@pstrJsonEnvio, @pstrusuario=@pstrusuario,@pstraplicacion=@pstraplicacion ",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/Fondos/Ordenes/ConsultarEstado", parametros.ToString(), "Inicio ejecución.");
+                var ordenes = await contextobdoyd.estadoordenesfondos.FromSql("[APIADCAP].[usp_FondosController_Get_EstadoOrden] @strJsonEnvio, @pstrusuario,@pstraplicacion ",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/V1/Fondos/Ordenes/ConsultarEstado", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("FondosController", "A2/Fondos/Ordenes/ConsultarEstado", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Fondos.EstadoOrdenFondosDTO>>(ordenes);
             }
             catch (Exception errror)
@@ -99,7 +97,7 @@ namespace A2OYD_Servicios_API.Controllers.v1
         }
 
         /// <summary>
-        /// Consultar los fondos de la firma
+        /// Consultar los fondos 
         /// </summary>
         /// <returns></returns>
         [HttpGet("ConsultarFondosFirma")]
@@ -107,18 +105,11 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("MaestrosController", "A2/V1/Maestros/ConsultarFormasdePago", "", "Inicio ejecución.");
-                var fondosfirma = await contextobdoyd.fondosfirma.FromSql("[APIADCAP].[usp_OrdenesController_Get_FondosFirma] @pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
+                utilidadesgenericas.CrearLogSeguimiento("MaestrosController", "A2/Maestros/ConsultarFormasdePago", "", "Inicio ejecución.");
+                var fondosfirma = await contextobdoyd.intodigodescripcion.FromSql("[APIADCAP].[usp_OrdenesController_Get_FondosFirma] @pstrusuario ,@pstraplicacion",
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-
-                foreach (FondosFirma fondo in fondosfirma)
-                {
-                    fondo.Asociar_Lista_Composicion();
-
-                }
-
-                utilidadesgenericas.CrearLogSeguimiento("MaestrosController", "A2/V1/Maestros/ConsultarFormasdePago", "", "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("MaestrosController", "A2/Maestros/ConsultarFormasdePago", "", "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Fondos.FondosFirmaDTO>>(fondosfirma);
             }
             catch (Exception errror)
