@@ -1,0 +1,240 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: AliasEspecieView.xaml
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="AliasEspeciesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            
+            ShowGridLines="False">
+            <!--    -->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <!--
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Style="{StaticResource stpFiltro}"
+                -->
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding AliasEspecieSelected}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Nemotécnico - Nombre - Alias"
+                    TituloVista="Especies alias"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding AliasEspecieSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaAliasEspecies.Count}"
+                    VisibilidadRefrescarCombos="True" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="650">
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaAliasEspeciesPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding AliasEspecieSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="ID" SortMemberPath="ID">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IDEspecies, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Nemotecnico, Mode=TwoWay}" Header="Nemotécnico" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Nombre, Mode=TwoWay}" Header="Nombre" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding AliasEspecie, Mode=TwoWay}" Header="Alias" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="650">
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="650">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Telerik:DataFormDataField Grid.Row="0" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDEspecies}">
+                                                <A2UTILGEN:A2NumericBox
+                                                    GotFocus="SeleccionarFocoControl"
+                                                    Maximum="9999999999"
+                                                    Minimum="0"
+                                                    ShowButtons="False"
+                                                    Value="{Binding IDEspecies, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField Grid.Row="1" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nemotecnico}">
+                                                <TextBox GotFocus="SeleccionarFocoControl" Text="{Binding Nemotecnico, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField Grid.Row="2" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nombre}">
+                                                <TextBox GotFocus="SeleccionarFocoControl" Text="{Binding Nombre, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField Grid.Row="3" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=AliasEspecie}">
+                                                <TextBox GotFocus="SeleccionarFocoControl" Text="{Binding AliasEspecie, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    BorderThickness="0"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding AliasEspecieSelected}"
+                                    IsEnabled="{Binding Editando}">
+
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid MaxWidth="650">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    IsEnabled="False"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDEspecies}">
+                                                    <A2UTILGEN:A2NumericBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        Maximum="9999999999"
+                                                        Minimum="0"
+                                                        ShowButtons="False"
+                                                        Value="{Binding IDEspecies, Mode=TwoWay}" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    IsEnabled="False"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nemotecnico}">
+                                                    <TextBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        Text="{Binding Nemotecnico, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="Nemotécnico" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="2"
+                                                    IsEnabled="False"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Nombre}">
+                                                    <TextBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        Text="{Binding Nombre, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="Nombre de la especie" />
+                                                </Telerik:DataFormDataField>
+
+
+                                                <Telerik:DataFormDataField Grid.Row="3" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=AliasEspecie}">
+                                                    <TextBox
+                                                        GotFocus="SeleccionarFocoControl"
+                                                        Text="{Binding AliasEspecie, Mode=TwoWay}"
+                                                        ToolTipService.ToolTip="Alias de la especie" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

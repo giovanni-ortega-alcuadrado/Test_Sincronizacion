@@ -1,0 +1,140 @@
+﻿<Window
+    x:Class="cwCondicionesTesoreriaCompañiaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Condiciones Operativas compañía (Detalle)"
+    Height="180"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <Telerik:RadBusyIndicator
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            BusyContent="Consultando..."
+            DisplayAfter="0"
+            IsBusy="{Binding IsBusyTipoOperacion, Mode=TwoWay}">
+            <!--  Maneja Tipo de Operacion  -->
+            <Telerik:DataFormDataField
+                x:Name="dfTipoDeOperacion"
+                Label="Tipo de movimiento"
+                LabelPosition="Above">
+                <ComboBox
+                    x:Name="cbTipoDeOperacion"
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCombos[MOVTESCONDICION], Source={StaticResource A2VM}}"
+                    SelectedItem="{Binding itemComboOperacion, Mode=TwoWay}"
+                    SelectedValue="{Binding strTipoOperacionCT, StringFormat='#', Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    SelectedValuePath="ID"
+                    TabIndex="-1"
+                    ToolTipService.ToolTip="Tipo de Movimiento" />
+            </Telerik:DataFormDataField>
+        </Telerik:RadBusyIndicator>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            Label="Concepto Contable">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    IsEnabled="True"
+                    IsReadOnly="True"
+                    MaxLength="15"
+                    Text="{Binding lngIDConceptoCT, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    TextAlignment="Right" />
+
+                <my1:BuscadorGenericoListaButon
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    CampoBusqueda="ConceptosXCompaniaTes"
+                    Etiqueta="Conceptos Contables"
+                    IsEnabled="True"
+                    TipoItem="TesoreriaCondicionesCia"
+                    finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+            </Grid>
+        </Telerik:DataFormDataField>
+
+        <Telerik:DataFormDataField
+            Grid.Row="0"
+            Grid.Column="2"
+            HorizontalAlignment="Stretch"
+            Label="Detalle">
+            <TextBox
+                x:Name="TxtDetalleConcepto"
+                IsEnabled="True"
+                IsReadOnly="True"
+                MaxLength="50"
+                TabIndex="-1"
+                Text="{Binding strDetalleConceptoCT, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                TextAlignment="Left"
+                ToolTipService.ToolTip="Nombre" />
+        </Telerik:DataFormDataField>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="0,30,0,20"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnAceptar"
+                Width="117"
+                HorizontalAlignment="Right"
+                Click="btnAceptar_Click"
+                Content="Aceptar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotonesEditar, Mode=TwoWay}" />
+            <Button
+                x:Name="btnGuardarySalir"
+                Width="117"
+                HorizontalAlignment="Right"
+                Click="btnGuardarySalir_Click"
+                Content="Guardar y Salir"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotones, Mode=TwoWay}" />
+            <Button
+                x:Name="btnGuardaryContinuar"
+                Width="117"
+                HorizontalAlignment="Right"
+                Click="btnGuardaryContinuar_Click"
+                Content="Guardar y Continuar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotones, Mode=TwoWay}" />
+            <Button
+                x:Name="btnCerrar"
+                Width="117"
+                HorizontalAlignment="Right"
+                Click="btnCerrar_Click"
+                Content="Cerrar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="Visible" />
+
+
+        </StackPanel>
+    </Grid>
+</Window>

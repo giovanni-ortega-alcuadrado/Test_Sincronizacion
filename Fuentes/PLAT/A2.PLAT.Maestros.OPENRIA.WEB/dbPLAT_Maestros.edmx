@@ -1,0 +1,805 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbPLAT_Maestros.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblPais">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strNombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="strCodigoISOAlfa2" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="strCodigoISOAlfa3" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="strCodigoISONumerico" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="logActivo" Type="bit" Nullable="false" />
+          <Property Name="strUsuario" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="dtmActualizacion" Type="datetime" Nullable="false" />
+          <Property Name="strUsuarioInsercion" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPais_Estado">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strNombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="strCodigo" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="intIDPais" Type="int" Nullable="false" />
+          <Property Name="strUsuario" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="dtmActualizacion" Type="datetime" Nullable="false" />
+          <Property Name="strUsuarioInsercion" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPais_Moneda">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strCodigoMoneda" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="intIDPais" Type="int" Nullable="false" />
+          <Property Name="strUsuario" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="dtmActualizacion" Type="datetime" Nullable="false" />
+          <Property Name="strUsuarioInsercion" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblParametrizacionTributaria">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strNombre" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="dblTasaImpositiva" Type="float" Nullable="false" />
+          <Property Name="strModulo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="strFuncionalidad" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="intIDPais" Type="int" Nullable="false" />
+          <Property Name="intIDCiudad" Type="int" Nullable="false" />
+          <Property Name="logActivo" Type="bit" Nullable="false" />
+          <Property Name="strUsuario" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="dtmActualizacion" Type="datetime" Nullable="false" />
+          <Property Name="strUsuarioInsercion" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tblPais_Estado_tblPais">
+          <End Role="tblPais" Type="Self.tblPais" Multiplicity="1" />
+          <End Role="tblPais_Estado" Type="Self.tblPais_Estado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPais">
+              <PropertyRef Name="intID" />
+            </Principal>
+            <Dependent Role="tblPais_Estado">
+              <PropertyRef Name="intIDPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPais_Moneda_tblPais">
+          <End Role="tblPais" Type="Self.tblPais" Multiplicity="1" />
+          <End Role="tblPais_Moneda" Type="Self.tblPais_Moneda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPais">
+              <PropertyRef Name="intID" />
+            </Principal>
+            <Dependent Role="tblPais_Moneda">
+              <PropertyRef Name="intIDPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblParametrizacionTributaria_tblPais">
+          <End Role="tblPais" Type="Self.tblPais" Multiplicity="1" />
+          <End Role="tblParametrizacionTributaria" Type="Self.tblParametrizacionTributaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPais">
+              <PropertyRef Name="intID" />
+            </Principal>
+            <Dependent Role="tblParametrizacionTributaria">
+              <PropertyRef Name="intIDPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_Pais_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCodigoISOAlfa2" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCodigoISOAlfa3" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCodigoISONumerico" Type="varchar" Mode="In" />
+          <Parameter Name="plogActivo" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_ConsultarID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Estado_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintIDPais" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Estado_ConsultarID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Estado_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Estado_Validar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrCodigo" Type="varchar" Mode="In" />
+          <Parameter Name="pstrNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pintIDPais" Type="int" Mode="In" />
+          <Parameter Name="plogSoloValidar" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Filtrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pstrFiltro" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Moneda_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintIDPais" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Moneda_ConsultarID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Moneda_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Moneda_Validar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrCodigoMoneda" Type="varchar" Mode="In" />
+          <Parameter Name="pintIDPais" Type="int" Mode="In" />
+          <Parameter Name="plogSoloValidar" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Pais_Validar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCodigoISOAlfa2" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCodigoISOAlfa3" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCodigoISONumerico" Type="varchar" Mode="In" />
+          <Parameter Name="plogActivo" Type="bit" Mode="In" />
+          <Parameter Name="plogSoloValidar" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_ParametrizacionTributaria_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pstrModulo" Type="varchar" Mode="In" />
+          <Parameter Name="pstrFuncionalidad" Type="varchar" Mode="In" />
+          <Parameter Name="pintIDPais" Type="int" Mode="In" />
+          <Parameter Name="pintIDCiudad" Type="int" Mode="In" />
+          <Parameter Name="plogActivo" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_ParametrizacionTributaria_ConsultarID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_ParametrizacionTributaria_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_ParametrizacionTributaria_Filtrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pstrFiltro" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_ParametrizacionTributaria_Validar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pdblTasaImpositiva" Type="float" Mode="In" />
+          <Parameter Name="pstrModulo" Type="varchar" Mode="In" />
+          <Parameter Name="pstrFuncionalidad" Type="varchar" Mode="In" />
+          <Parameter Name="pintIDPais" Type="int" Mode="In" />
+          <Parameter Name="pintIDCiudad" Type="int" Mode="In" />
+          <Parameter Name="plogActivo" Type="bit" Mode="In" />
+          <Parameter Name="plogSoloValidar" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_Procesos_Utilitarios_CargarCombos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MAESTROS_GEN">
+          <Parameter Name="pstrProducto" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCondicionTexto1" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCondicionTexto2" Type="varchar" Mode="In" />
+          <Parameter Name="pstrCondicionEntero1" Type="int" Mode="In" />
+          <Parameter Name="pstrCondicionEntero2" Type="int" Mode="In" />
+          <Parameter Name="plogCrearTablaTemporal" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="dbPLAT_MaestrosStoreContainer">
+          <EntitySet Name="tblPais" EntityType="Self.tblPais" Schema="MAESTROS_GEN" store:Type="Tables" />
+          <EntitySet Name="tblPais_Estado" EntityType="Self.tblPais_Estado" Schema="MAESTROS_GEN" store:Type="Tables" />
+          <EntitySet Name="tblPais_Moneda" EntityType="Self.tblPais_Moneda" Schema="MAESTROS_GEN" store:Type="Tables" />
+          <EntitySet Name="tblParametrizacionTributaria" EntityType="Self.tblParametrizacionTributaria" Schema="MAESTROS_GEN" store:Type="Tables" />
+          <AssociationSet Name="FK_tblPais_Estado_tblPais" Association="Self.FK_tblPais_Estado_tblPais">
+            <End Role="tblPais" EntitySet="tblPais" />
+            <End Role="tblPais_Estado" EntitySet="tblPais_Estado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPais_Moneda_tblPais" Association="Self.FK_tblPais_Moneda_tblPais">
+            <End Role="tblPais" EntitySet="tblPais" />
+            <End Role="tblPais_Moneda" EntitySet="tblPais_Moneda" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblParametrizacionTributaria_tblPais" Association="Self.FK_tblParametrizacionTributaria_tblPais">
+            <End Role="tblPais" EntitySet="tblPais" />
+            <End Role="tblParametrizacionTributaria" EntitySet="tblParametrizacionTributaria" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbPLAT_Maestros" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbPLAT_MaestrosEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="usp_ParametrizacionTributaria_Consultar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblParametrizacionTributaria)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrNombre" Mode="In" Type="String" />
+            <Parameter Name="pstrModulo" Mode="In" Type="String" />
+            <Parameter Name="pstrFuncionalidad" Mode="In" Type="String" />
+            <Parameter Name="pintIDPais" Mode="In" Type="Int32" />
+            <Parameter Name="pintIDCiudad" Mode="In" Type="Int32" />
+            <Parameter Name="plogActivo" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ParametrizacionTributaria_ConsultarID" EntitySet="tblParametrizacionTributaria" ReturnType="Collection(dbPLAT_Maestros.tblParametrizacionTributaria)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ParametrizacionTributaria_Eliminar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ParametrizacionTributaria_Filtrar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblParametrizacionTributaria)">
+            <Parameter Name="pstrFiltro" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ParametrizacionTributaria_Validar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrNombre" Mode="In" Type="String" />
+            <Parameter Name="pdblTasaImpositiva" Mode="In" Type="Double" />
+            <Parameter Name="pstrModulo" Mode="In" Type="String" />
+            <Parameter Name="pstrFuncionalidad" Mode="In" Type="String" />
+            <Parameter Name="pintIDPais" Mode="In" Type="Int32" />
+            <Parameter Name="pintIDCiudad" Mode="In" Type="Int32" />
+            <Parameter Name="plogActivo" Mode="In" Type="Boolean" />
+            <Parameter Name="plogSoloValidar" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Procesos_Utilitarios_CargarCombos">
+            <Parameter Name="pstrProducto" Mode="In" Type="String" />
+            <Parameter Name="pstrCondicionTexto1" Mode="In" Type="String" />
+            <Parameter Name="pstrCondicionTexto2" Mode="In" Type="String" />
+            <Parameter Name="pstrCondicionEntero1" Mode="In" Type="Int32" />
+            <Parameter Name="pstrCondicionEntero2" Mode="In" Type="Int32" />
+            <Parameter Name="plogCrearTablaTemporal" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Consultar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblPais)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrNombre" Mode="In" Type="String" />
+            <Parameter Name="pstrCodigoISOAlfa2" Mode="In" Type="String" />
+            <Parameter Name="pstrCodigoISOAlfa3" Mode="In" Type="String" />
+            <Parameter Name="pstrCodigoISONumerico" Mode="In" Type="String" />
+            <Parameter Name="plogActivo" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_ConsultarID" EntitySet="tblPais" ReturnType="Collection(dbPLAT_Maestros.tblPais)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Eliminar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Estado_Consultar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblPais_Estado)">
+            <Parameter Name="pintIDPais" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Estado_ConsultarID" EntitySet="tblPais_Estado" ReturnType="Collection(dbPLAT_Maestros.tblPais_Estado)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Estado_Eliminar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Estado_Validar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrCodigo" Mode="In" Type="String" />
+            <Parameter Name="pstrNombre" Mode="In" Type="String" />
+            <Parameter Name="pintIDPais" Mode="In" Type="Int32" />
+            <Parameter Name="plogSoloValidar" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Filtrar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblPais)">
+            <Parameter Name="pstrFiltro" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Moneda_Consultar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblPais_Moneda)">
+            <Parameter Name="pintIDPais" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Moneda_ConsultarID" EntitySet="tblPais_Moneda" ReturnType="Collection(dbPLAT_Maestros.tblPais_Moneda)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Moneda_Eliminar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Moneda_Validar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrCodigoMoneda" Mode="In" Type="String" />
+            <Parameter Name="pintIDPais" Mode="In" Type="Int32" />
+            <Parameter Name="plogSoloValidar" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Pais_Validar" ReturnType="Collection(dbPLAT_Maestros.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrNombre" Mode="In" Type="String" />
+            <Parameter Name="pstrCodigoISOAlfa2" Mode="In" Type="String" />
+            <Parameter Name="pstrCodigoISOAlfa3" Mode="In" Type="String" />
+            <Parameter Name="pstrCodigoISONumerico" Mode="In" Type="String" />
+            <Parameter Name="plogActivo" Mode="In" Type="Boolean" />
+            <Parameter Name="plogSoloValidar" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblPais" EntityType="dbPLAT_Maestros.tblPais" />
+          <EntitySet Name="tblPais_Estado" EntityType="dbPLAT_Maestros.tblPais_Estado" />
+          <EntitySet Name="tblPais_Moneda" EntityType="dbPLAT_Maestros.tblPais_Moneda" />
+          <EntitySet Name="tblParametrizacionTributaria" EntityType="dbPLAT_Maestros.tblParametrizacionTributaria" />
+          <AssociationSet Name="FK_tblPais_Estado_tblPais" Association="dbPLAT_Maestros.FK_tblPais_Estado_tblPais">
+            <End Role="tblPais" EntitySet="tblPais" />
+            <End Role="tblPais_Estado" EntitySet="tblPais_Estado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPais_Moneda_tblPais" Association="dbPLAT_Maestros.FK_tblPais_Moneda_tblPais">
+            <End Role="tblPais" EntitySet="tblPais" />
+            <End Role="tblPais_Moneda" EntitySet="tblPais_Moneda" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblParametrizacionTributaria_tblPais" Association="dbPLAT_Maestros.FK_tblParametrizacionTributaria_tblPais">
+            <End Role="tblPais" EntitySet="tblPais" />
+            <End Role="tblParametrizacionTributaria" EntitySet="tblParametrizacionTributaria" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="CPX_tblParametrizacionTributaria" >
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="String" Name="strNombre" Nullable="true" />
+          <Property Type="String" Name="strDescripcionModulo" Nullable="true" />
+          <Property Type="String" Name="strDescripcionFuncionalidad" Nullable="true" />
+          <Property Type="String" Name="strNombrePais" Nullable="true" />
+          <Property Type="String" Name="strNombreCiudad" Nullable="true" />
+          <Property Type="String" Name="strEstado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblValidacionesGenerales" >
+          <Property Type="Int32" Name="intIDRegistro" Nullable="true" />
+          <Property Type="Int32" Name="intIdValidacion" Nullable="true" />
+          <Property Type="Int32" Name="intOrden" Nullable="true" />
+          <Property Type="Boolean" Name="logInconsitencia" Nullable="true" />
+          <Property Type="String" Name="strCampo" Nullable="true" />
+          <Property Type="String" Name="strCodMensaje" Nullable="true" />
+          <Property Type="String" Name="strMensaje" Nullable="true" />
+          <Property Type="String" Name="strTipoMensaje" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblPais" >
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="String" Name="strNombre" Nullable="true" />
+          <Property Type="String" Name="strCodigoISOAlfa2" Nullable="true" />
+          <Property Type="String" Name="strCodigoISOAlfa3" Nullable="true" />
+          <Property Type="String" Name="strCodigoISONumerico" Nullable="true" />
+          <Property Type="String" Name="strEstado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblPais_Estado" >
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="String" Name="strCodigo" Nullable="true" />
+          <Property Type="String" Name="strNombre" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblPais_Moneda" >
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="String" Name="strCodigoMoneda" Nullable="true" />
+          <Property Type="String" Name="strNombreMoneda" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblPais">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strNombre" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="strCodigoISOAlfa2" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="strCodigoISOAlfa3" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="strCodigoISONumerico" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="logActivo" Type="Boolean" Nullable="false" />
+          <Property Name="strUsuario" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="dtmActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuarioInsercion" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblPais_Estado" Relationship="dbPLAT_Maestros.FK_tblPais_Estado_tblPais" FromRole="tblPais" ToRole="tblPais_Estado" />
+          <NavigationProperty Name="tblPais_Moneda" Relationship="dbPLAT_Maestros.FK_tblPais_Moneda_tblPais" FromRole="tblPais" ToRole="tblPais_Moneda" />
+          <NavigationProperty Name="tblParametrizacionTributaria" Relationship="dbPLAT_Maestros.FK_tblParametrizacionTributaria_tblPais" FromRole="tblPais" ToRole="tblParametrizacionTributaria" />
+        </EntityType>
+        <EntityType Name="tblPais_Estado">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strNombre" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="strCodigo" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="intIDPais" Type="Int32" Nullable="false" />
+          <Property Name="strUsuario" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="dtmActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuarioInsercion" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblPais" Relationship="dbPLAT_Maestros.FK_tblPais_Estado_tblPais" FromRole="tblPais_Estado" ToRole="tblPais" />
+        </EntityType>
+        <EntityType Name="tblPais_Moneda">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intIDPais" Type="Int32" Nullable="false" />
+          <Property Name="strUsuario" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="dtmActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuarioInsercion" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblPais" Relationship="dbPLAT_Maestros.FK_tblPais_Moneda_tblPais" FromRole="tblPais_Moneda" ToRole="tblPais" />
+          <Property Name="strCodigoMoneda" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblParametrizacionTributaria">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strNombre" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="dblTasaImpositiva" Type="Double" Nullable="false" />
+          <Property Name="strModulo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="strFuncionalidad" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="intIDPais" Type="Int32" Nullable="false" />
+          <Property Name="intIDCiudad" Type="Int32" Nullable="false" />
+          <Property Name="logActivo" Type="Boolean" Nullable="false" />
+          <Property Name="strUsuario" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="dtmActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuarioInsercion" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblPais" Relationship="dbPLAT_Maestros.FK_tblParametrizacionTributaria_tblPais" FromRole="tblParametrizacionTributaria" ToRole="tblPais" />
+        </EntityType>
+        <Association Name="FK_tblPais_Estado_tblPais">
+          <End Type="dbPLAT_Maestros.tblPais" Role="tblPais" Multiplicity="1" />
+          <End Type="dbPLAT_Maestros.tblPais_Estado" Role="tblPais_Estado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPais">
+              <PropertyRef Name="intID" />
+            </Principal>
+            <Dependent Role="tblPais_Estado">
+              <PropertyRef Name="intIDPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPais_Moneda_tblPais">
+          <End Type="dbPLAT_Maestros.tblPais" Role="tblPais" Multiplicity="1" />
+          <End Type="dbPLAT_Maestros.tblPais_Moneda" Role="tblPais_Moneda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPais">
+              <PropertyRef Name="intID" />
+            </Principal>
+            <Dependent Role="tblPais_Moneda">
+              <PropertyRef Name="intIDPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblParametrizacionTributaria_tblPais">
+          <End Type="dbPLAT_Maestros.tblPais" Role="tblPais" Multiplicity="1" />
+          <End Type="dbPLAT_Maestros.tblParametrizacionTributaria" Role="tblParametrizacionTributaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPais">
+              <PropertyRef Name="intID" />
+            </Principal>
+            <Dependent Role="tblParametrizacionTributaria">
+              <PropertyRef Name="intIDPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbPLAT_MaestrosStoreContainer" CdmEntityContainer="dbPLAT_MaestrosEntities">
+          <FunctionImportMapping FunctionImportName="usp_ParametrizacionTributaria_Consultar" FunctionName="dbPLAT_Maestros.Store.usp_ParametrizacionTributaria_Consultar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblParametrizacionTributaria">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="strDescripcionModulo" ColumnName="strDescripcionModulo" />
+                <ScalarProperty Name="strDescripcionFuncionalidad" ColumnName="strDescripcionFuncionalidad" />
+                <ScalarProperty Name="strNombrePais" ColumnName="strNombrePais" />
+                <ScalarProperty Name="strNombreCiudad" ColumnName="strNombreCiudad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ParametrizacionTributaria_ConsultarID" FunctionName="dbPLAT_Maestros.Store.usp_ParametrizacionTributaria_ConsultarID">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ParametrizacionTributaria_Eliminar" FunctionName="dbPLAT_Maestros.Store.usp_ParametrizacionTributaria_Eliminar" >
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ParametrizacionTributaria_Filtrar" FunctionName="dbPLAT_Maestros.Store.usp_ParametrizacionTributaria_Filtrar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblParametrizacionTributaria">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="strDescripcionModulo" ColumnName="strDescripcionModulo" />
+                <ScalarProperty Name="strDescripcionFuncionalidad" ColumnName="strDescripcionFuncionalidad" />
+                <ScalarProperty Name="strNombrePais" ColumnName="strNombrePais" />
+                <ScalarProperty Name="strNombreCiudad" ColumnName="strNombreCiudad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ParametrizacionTributaria_Validar" FunctionName="dbPLAT_Maestros.Store.usp_ParametrizacionTributaria_Validar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Procesos_Utilitarios_CargarCombos" FunctionName="dbPLAT_Maestros.Store.usp_Procesos_Utilitarios_CargarCombos" >
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Consultar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Consultar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblPais">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="strCodigoISOAlfa2" ColumnName="strCodigoISOAlfa2" />
+                <ScalarProperty Name="strCodigoISOAlfa3" ColumnName="strCodigoISOAlfa3" />
+                <ScalarProperty Name="strCodigoISONumerico" ColumnName="strCodigoISONumerico" />
+                <ScalarProperty Name="strEstado" ColumnName="strEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_ConsultarID" FunctionName="dbPLAT_Maestros.Store.usp_Pais_ConsultarID">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Eliminar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Eliminar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Estado_Consultar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Estado_Consultar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblPais_Estado">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strCodigo" ColumnName="strCodigo" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Estado_ConsultarID" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Estado_ConsultarID">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Estado_Eliminar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Estado_Eliminar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Estado_Validar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Estado_Validar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Filtrar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Filtrar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblPais">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="strCodigoISOAlfa2" ColumnName="strCodigoISOAlfa2" />
+                <ScalarProperty Name="strCodigoISOAlfa3" ColumnName="strCodigoISOAlfa3" />
+                <ScalarProperty Name="strCodigoISONumerico" ColumnName="strCodigoISONumerico" />
+                <ScalarProperty Name="strEstado" ColumnName="strEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Moneda_Consultar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Moneda_Consultar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblPais_Moneda">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Moneda_ConsultarID" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Moneda_ConsultarID">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Moneda_Eliminar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Moneda_Eliminar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Moneda_Validar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Moneda_Validar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_Pais_Validar" FunctionName="dbPLAT_Maestros.Store.usp_Pais_Validar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Maestros.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblPais">
+            <EntityTypeMapping TypeName="dbPLAT_Maestros.tblPais">
+              <MappingFragment StoreEntitySet="tblPais">
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="logActivo" ColumnName="logActivo" />
+                <ScalarProperty Name="strCodigoISONumerico" ColumnName="strCodigoISONumerico" />
+                <ScalarProperty Name="strCodigoISOAlfa3" ColumnName="strCodigoISOAlfa3" />
+                <ScalarProperty Name="strCodigoISOAlfa2" ColumnName="strCodigoISOAlfa2" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="intID" ColumnName="intID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPais_Estado">
+            <EntityTypeMapping TypeName="dbPLAT_Maestros.tblPais_Estado">
+              <MappingFragment StoreEntitySet="tblPais_Estado">
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="intIDPais" ColumnName="intIDPais" />
+                <ScalarProperty Name="strCodigo" ColumnName="strCodigo" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="intID" ColumnName="intID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPais_Moneda">
+            <EntityTypeMapping TypeName="dbPLAT_Maestros.tblPais_Moneda">
+              <MappingFragment StoreEntitySet="tblPais_Moneda">
+                <ScalarProperty Name="strCodigoMoneda" ColumnName="strCodigoMoneda" />
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="intIDPais" ColumnName="intIDPais" />
+                <ScalarProperty Name="intID" ColumnName="intID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblParametrizacionTributaria">
+            <EntityTypeMapping TypeName="dbPLAT_Maestros.tblParametrizacionTributaria">
+              <MappingFragment StoreEntitySet="tblParametrizacionTributaria">
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="logActivo" ColumnName="logActivo" />
+                <ScalarProperty Name="intIDCiudad" ColumnName="intIDCiudad" />
+                <ScalarProperty Name="intIDPais" ColumnName="intIDPais" />
+                <ScalarProperty Name="strFuncionalidad" ColumnName="strFuncionalidad" />
+                <ScalarProperty Name="strModulo" ColumnName="strModulo" />
+                <ScalarProperty Name="dblTasaImpositiva" ColumnName="dblTasaImpositiva" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="intID" ColumnName="intID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

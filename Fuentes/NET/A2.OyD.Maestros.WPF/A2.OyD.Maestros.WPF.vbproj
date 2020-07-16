@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <RootNamespace>A2OYDMaestros</RootNamespace>
+    <AssemblyName>A2.OyD.Maestros.WPF</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <ProjectGuid>{38061E4F-3F38-4F5E-9DC7-088C199ABBAF}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <IncrementalBuild>true</IncrementalBuild>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>A2.OyD.Maestros.WPF.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <IncrementalBuild>false</IncrementalBuild>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>A2.OyD.Maestros.WPF.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="A2.Controles.Utilidades.WPF">
+      <HintPath>..\..\_Referencias\A2.Controles.Utilidades.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="A2.MC.CORE.WPF">
+      <HintPath>..\..\_Referencias\A2.MC.CORE.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="A2.Notificaciones.Cliente, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Referencias\A2.Notificaciones.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="A2.Utilidades.Toolkit">
+      <HintPath>..\..\_Referencias\A2.Utilidades.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="A2ControlMenu.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Referencias\A2ControlMenu.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="A2DataContextProxy">
+      <HintPath>..\..\_Referencias\A2DataContextProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.WPF.4, Version=4.0.20182.595, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Referencias\C1.WPF.4.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.WPF.RichTextBox.4">
+      <HintPath>..\..\_Referencias\C1.WPF.RichTextBox.4.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.WPF.RichTextBox.Toolbar.4">
+      <HintPath>..\..\_Referencias\C1.WPF.RichTextBox.Toolbar.4.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.WPF.SpellChecker.4">
+      <HintPath>..\..\_Referencias\C1.WPF.SpellChecker.4.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.WPF.Toolbar.4">
+      <HintPath>..\..\_Referencias\C1.WPF.Toolbar.4.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.WPF.Zip.4">
+      <HintPath>..\..\_Referencias\C1.WPF.Zip.4.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\CommonServiceLocator.2.0.2\lib\net45\CommonServiceLocator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\MvvmLightLibs.5.4.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\MvvmLightLibs.5.4.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\MvvmLightLibs.5.4.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Client, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\OpenRiaServices.Client.Core.4.5.1\lib\net45\OpenRiaServices.DomainServices.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenRiaServices.DomainServices.Client.Web, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\OpenRiaServices.Client.Core.4.5.1\lib\net45\OpenRiaServices.DomainServices.Client.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SpreadsheetGear2017">
+      <HintPath>..\..\_Referencias\SpreadsheetGear2017.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\_Soluciones\packages\MvvmLightLibs.5.4.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.Diagrams.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ScheduleView">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Controls.ScheduleView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Diagrams.Core">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Diagrams.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Documents.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Documents.Flow.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip">
+      <HintPath>..\..\_Referencias\Telerik.Windows.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\_Consola\A2.Consola.WPF\Clases\clsRecursos.vb">
+      <Link>Clases\clsRecursos.vb</Link>
+    </Compile>
+    <Compile Include="Clases\CambiarEstilosAplicacion.vb" />
+    <Compile Include="Clases\CamposComboParametros.vb" />
+    <Compile Include="Clases\clsExpresiones.vb" />
+    <Compile Include="Clases\clsExtensionDS.vb" />
+    <Compile Include="Clases\Converters.vb" />
+    <Compile Include="Clases\DisplayNameConverter.vb" />
+    <Compile Include="Clases\Menu.vb" />
+    <Compile Include="Clases\Program.vb" />
+    <Compile Include="Clases\RelayCommand.vb" />
+    <Compile Include="Controles\cwConfiguracionRendimientos.xaml.vb">
+      <DependentUpon>cwConfiguracionRendimientos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modulos\General.vb" />
+    <Compile Include="ViewModels\A2UtilsViewModel.vb" />
+    <Compile Include="ViewModels\ActualizarLEOViewModel.vb" />
+    <Compile Include="ViewModels\BancosNacionalesViewModel.vb" />
+    <Compile Include="ViewModels\BancosViewModel.vb" />
+    <Compile Include="ViewModels\Bancos_BancosNacionalesRelacionadosViewModel.vb" />
+    <Compile Include="ViewModels\BloqueoSaldoClientesViewModel.vb" />
+    <Compile Include="ViewModels\BolsaCostosViewModel.vb" />
+    <Compile Include="ViewModels\BolsasViewModel.vb" />
+    <Compile Include="ViewModels\BrokerComisionesViewModel.vb" />
+    <Compile Include="ViewModels\CarterasColectivasClientesGMFViewModel.vb" />
+    <Compile Include="ViewModels\ClasificacionesCiiuViewModel.vb" />
+    <Compile Include="ViewModels\ClasificacionesViewModel.vb" />
+    <Compile Include="ViewModels\ClasificacionRiesgoTipoClienteViewModel.vb" />
+    <Compile Include="ViewModels\ClasificacionRiesgoViewModel.vb" />
+    <Compile Include="ViewModels\ClienteAgrupadorViewModel.vb" />
+    <Compile Include="ViewModels\ClienteRelacionadosViewModel.vb" />
+    <Compile Include="ViewModels\ClienteResponsableViewModel.vb" />
+    <Compile Include="ViewModels\ClientesExternosViewModel.vb" />
+    <Compile Include="ViewModels\ClientesFondosPensionesViewModel.vb" />
+    <Compile Include="ViewModels\CodigosAjustesViewModel.vb" />
+    <Compile Include="ViewModels\CodigosOtrosSistemasViewModel.vb" />
+    <Compile Include="ViewModels\CodigosTransaccionViewModel.vb" />
+    <Compile Include="ViewModels\Codigos_CIIUViewModel.vb" />
+    <Compile Include="ViewModels\ComisionEspeciesViewModel.vb" />
+    <Compile Include="ViewModels\ComisionistasViewModel.vb" />
+    <Compile Include="ViewModels\ConceptosConsecutivosViewModel.vb" />
+    <Compile Include="ViewModels\ConceptosInactividadViewModel.vb" />
+    <Compile Include="ViewModels\ConceptosTesoreriaViewModel.vb" />
+    <Compile Include="ViewModels\ConceptosVSConsecutivosViewModel.vb" />
+    <Compile Include="ViewModels\ConfigLEOViewModel.vb" />
+    <Compile Include="ViewModels\ConfiguracionReceptoresViewModel.vb" />
+    <Compile Include="ViewModels\ConsecutivoEquivalenciasViewModel.vb" />
+    <Compile Include="ViewModels\ConsecutivosConceptosViewModel.vb" />
+    <Compile Include="ViewModels\ConsecutivosDocumentosViewModel.vb" />
+    <Compile Include="ViewModels\ConsecutivosUsuariosViewModel.vb" />
+    <Compile Include="ViewModels\ConsecutivosViewModel.vb" />
+    <Compile Include="ViewModels\ConsecutivosVsUsuariosViewModel.vb" />
+    <Compile Include="ViewModels\CuentasBancariasPorConceptoViewModel.vb" />
+    <Compile Include="ViewModels\CuentasContablesOyDViewModel.vb" />
+    <Compile Include="ViewModels\CuentasCRCCViewModel.vb" />
+    <Compile Include="ViewModels\CuentasDecevalPorAgrupadorViewModel.vb" />
+    <Compile Include="ViewModels\CustodioViewModel.vb" />
+    <Compile Include="ViewModels\DepositosExtranjerosViewModel.vb" />
+    <Compile Include="ViewModels\DestinoInversionViewModel.vb" />
+    <Compile Include="ViewModels\DiasNoHabilesViewModel.vb" />
+    <Compile Include="ViewModels\DoctosRequeridosViewModel.vb" />
+    <Compile Include="ViewModels\EmpleadosViewModel.vb" />
+    <Compile Include="ViewModels\GruposEconomicosViewModel.vb" />
+    <Compile Include="ViewModels\InhabilitadosViewModel.vb" />
+    <Compile Include="ViewModels\InstalacionViewModel.vb" />
+    <Compile Include="ViewModels\MesasViewModel.vb" />
+    <Compile Include="ViewModels\MonedasViewModel.vb" />
+    <Compile Include="ViewModels\OficinasViewModel.vb" />
+    <Compile Include="ViewModels\OrdenesViewModel.vb" />
+    <Compile Include="ViewModels\OYDPLUS\PlantillaProcesoViewModel.vb" />
+    <Compile Include="ViewModels\OYDPLUS\PlantillasViewModel.vb" />
+    <Compile Include="ViewModels\PerfilesRiesgoViewModel.vb" />
+    <Compile Include="ViewModels\PermisosExportacionFormatosViewModel.vb" />
+    <Compile Include="ViewModels\PrefijosFacturasViewModel.vb" />
+    <Compile Include="ViewModels\ProductosValoresViewModel.vb" />
+    <Compile Include="ViewModels\ProfesionesViewModel.vb" />
+    <Compile Include="ViewModels\ReceptoresSistemasViewModel.vb" />
+    <Compile Include="ViewModels\ReceptoresViewModel.vb" />
+    <Compile Include="ViewModels\ResolucionesFacturasViewModel.vb" />
+    <Compile Include="ViewModels\SucursalesViewModel.vb" />
+    <Compile Include="ViewModels\TarifasViewModel.vb" />
+    <Compile Include="ViewModels\TipoPersonaPorDctoViewModel.vb" />
+    <Compile Include="ViewModels\TipoReferenciasViewModel.vb" />
+    <Compile Include="ViewModels\TiposCuentasRecaudadorasViewModel.vb" />
+    <Compile Include="ViewModels\TiposEntidadViewModel.vb" />
+    <Compile Include="ViewModels\UnificarCuentaViewModel.vb" />
+    <Compile Include="ViewModels\UsuariosConsecutivosViewModel.vb" />
+    <Compile Include="ViewModels\UsuariosFechaCierreViewModel.vb" />
+    <Compile Include="ViewModels\UsuariosSucursalesViewModel.vb" />
+    <Compile Include="ViewModels\Usuarios_SeleccionarViewModel.vb" />
+    <Compile Include="Views\Actualizar estado LEO\ActualizarLEOView.vb" />
+    <Compile Include="Views\Actualizar estado LEO\EstadosColasLEO.vb" />
+    <Compile Include="Views\BancosNacionalesRelacionados\Bancos_BancosNacionalesRelacionadosView.vb" />
+    <Compile Include="Views\BancosNacionales\BancosNacionalesView.vb" />
+    <Compile Include="Views\BloqueoSaldoClientes\BloqueoSaldoClientesView.vb" />
+    <Compile Include="Views\BolsaCostos\BolsaCostosView.vb" />
+    <Compile Include="Views\Bolsas\BolsasView.vb" />
+    <Compile Include="Views\CarterasColectivasClientesGMF\CarterasColectivasClientesGMFView.xaml.vb">
+      <DependentUpon>CarterasColectivasClientesGMFView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClasificacionesCiiu\ClasificacionesCiiuView.vb" />
+    <Compile Include="Views\Clasificaciones\ClasificacionesView.vb" />
+    <Compile Include="Views\ClasificacionRiesgoTipoCliente\ClasificacionRiesgoTipoClienteView.xaml.vb">
+      <DependentUpon>ClasificacionRiesgoTipoClienteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClasificacionRiesgo\ClasificacionRiesgoView.vb" />
+    <Compile Include="Views\ClasificacionTiposDocumento\TipoPersonaPorDctoView.vb" />
+    <Compile Include="Views\ClienteAgrupador\ClienteAgrupadorView.vb" />
+    <Compile Include="Views\ClientesExentos\ClientesFondosExentos.xaml.vb">
+      <DependentUpon>ClientesFondosExentos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientesExentos\ClientesFondosPensionesView.vb" />
+    <Compile Include="Views\ClientesExternos\ClientesExternosView.vb" />
+    <Compile Include="Views\ClientesRelacionados\ClienteRelacionadosView.vb" />
+    <Compile Include="Views\ClientesResponsables\ClienteResponsableView.vb" />
+    <Compile Include="Views\CodigosAjustes\CodigosAjustesView.xaml.vb">
+      <DependentUpon>CodigosAjustesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CodigosOtrosSistemas\CodigosOtrosSistemasView.vb" />
+    <Compile Include="Views\CodigosTransaccion\CodigosTransaccionView.xaml.vb">
+      <DependentUpon>CodigosTransaccionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Codigos_CIIU\Codigos_CIIUView.vb" />
+    <Compile Include="Views\ComisionEspecies\ComisionEspeciesView.vb" />
+    <Compile Include="Views\Comisionistas\ComisionistasView.vb" />
+    <Compile Include="Views\ConceptosConsecutivos\ConceptosConsecutivosView.vb" />
+    <Compile Include="Views\ConceptosInactividad\ConceptosInactividadView.vb" />
+    <Compile Include="Views\ConceptosTesoreria\ConceptosTesoreriaView.vb" />
+    <Compile Include="Views\ConceptosVSConsecutivos\ConceptosVSConsecutivosView.xaml.vb">
+      <DependentUpon>ConceptosVSConsecutivosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfiguracionLEO\ConfigLEOView.xaml.vb">
+      <DependentUpon>ConfigLEOView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConsecutivoEquivalencia\ConsecutivoEquivalenciasView.vb" />
+    <Compile Include="Views\ConsecutivosConceptos\ConsecutivosConceptosView.vb" />
+    <Compile Include="Views\ConsecutivosDocumentos\ConsecutivosDocumentosView.vb" />
+    <Compile Include="Views\ConsecutivosUsuarios\ConsecutivosUsuariosView.vb" />
+    <Compile Include="Views\ConsecutivosVsUsuarios\ConsecutivosVsUsuariosView.xaml.vb">
+      <DependentUpon>ConsecutivosVsUsuariosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Consecutivos\ConsecutivosView.vb" />
+    <Compile Include="Views\CuentasBancariasPorConcepto\CuentasBancariasPorConceptoView.xaml.vb">
+      <DependentUpon>CuentasBancariasPorConceptoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CuentasBancarias\BancosView.xaml.vb">
+      <DependentUpon>BancosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CuentasContablesOyD\CuentasContablesOyDView.vb" />
+    <Compile Include="Views\CuentasCRCC\CuentasCRCCView.vb" />
+    <Compile Include="Views\CuentasFondos\CuentasDecevalPorAgrupadorView.vb" />
+    <Compile Include="Views\CuentasFondos\UnificarCuenta.xaml.vb">
+      <DependentUpon>UnificarCuenta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CuentasRecaudadoras\CuentasRecaudadorasView.xaml.vb">
+      <DependentUpon>CuentasRecaudadorasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Custodio\CustodioView.vb" />
+    <Compile Include="Views\DepositosExtranjeros\DepositosExtranjerosView.vb" />
+    <Compile Include="Views\DestinoInversion\DestinoInversionView.vb" />
+    <Compile Include="Views\DiasNoHabiles\DiasNoHabilesView.vb" />
+    <Compile Include="Views\DoctosRequeridos\DoctosRequeridosView.vb" />
+    <Compile Include="Views\Empleados\EmpleadosView.vb" />
+    <Compile Include="Views\GruposEconomicos\GruposEconomicosView.vb" />
+    <Compile Include="Views\Inhabilitados\InhabilitadosView.vb" />
+    <Compile Include="Views\Instalacion\InstalacionView.vb" />
+    <Compile Include="Views\Mesas\MesasView.vb" />
+    <Compile Include="Views\Monedas\MonedasView.vb" />
+    <Compile Include="Views\Oficinas\OficinasView.xaml.vb">
+      <DependentUpon>OficinasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ordenes\BrokerComisionesView.xaml.vb">
+      <DependentUpon>BrokerComisionesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OYDPLUS\PlantillaProceso\PlantillaProcesoView.xaml.vb">
+      <DependentUpon>PlantillaProcesoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OYDPLUS\Plantillas\PlantillasView.xaml.vb">
+      <DependentUpon>PlantillasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PerfilesRiesgo\PerfilesRiesgoView.vb" />
+    <Compile Include="Views\PermisosExportacionFormatos\PermisosExportacionFormatosView.xaml.vb">
+      <DependentUpon>PermisosExportacionFormatosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrefijosFacturas\PrefijosFacturasView.vb" />
+    <Compile Include="Views\ProductosValores\ProductosValoresView.vb" />
+    <Compile Include="Views\Profesiones\ProfesionesView.vb" />
+    <Compile Include="Views\ReceptoresSistemas\ReceptoresSistemasView.vb" />
+    <Compile Include="Views\Receptores\ConfiguracionReceptoresView.xaml.vb">
+      <DependentUpon>ConfiguracionReceptoresView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Receptores\ReceptoresView.vb" />
+    <Compile Include="Views\ResolucionesFacturas\ResolucionesFacturasView.vb" />
+    <Compile Include="Views\Sucursales\SucursalesView.vb" />
+    <Compile Include="Views\Tarifas\TarifasView.vb" />
+    <Compile Include="Views\TipoReferencias\TipoReferenciasView.vb" />
+    <Compile Include="Views\TiposEntidad\TiposEntidadView.vb" />
+    <Compile Include="Views\UsuariosConsecutivos\UsuariosConsecutivosView.vb" />
+    <Compile Include="Views\UsuariosFechaCierre\UsuariosFechaCierreView.vb" />
+    <Compile Include="Views\UsuariosReceptorSucursales\UsuariosSucursalesView.vb" />
+    <Compile Include="Views\Usuarios_Seleccionar\Usuarios_SeleccionarView.vb" />
+    <Page Include="Controles\cwConfiguracionRendimientos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Actualizar estado LEO\ActualizarLEOView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Actualizar estado LEO\EstadosColasLEO.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BancosNacionalesRelacionados\Bancos_BancosNacionalesRelacionadosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BancosNacionales\BancosNacionalesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BloqueoSaldoClientes\BloqueoSaldoClientesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BolsaCostos\BolsaCostosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Bolsas\BolsasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CarterasColectivasClientesGMF\CarterasColectivasClientesGMFView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClasificacionesCiiu\ClasificacionesCiiuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Clasificaciones\ClasificacionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClasificacionRiesgoTipoCliente\ClasificacionRiesgoTipoClienteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClasificacionRiesgo\ClasificacionRiesgoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClasificacionTiposDocumento\TipoPersonaPorDctoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClienteAgrupador\ClienteAgrupadorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClientesExentos\ClientesFondosExentos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClientesExentos\ClientesFondosPensionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClientesExternos\ClientesExternosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClientesRelacionados\ClienteRelacionadosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ClientesResponsables\ClienteResponsableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CodigosAjustes\CodigosAjustesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CodigosOtrosSistemas\CodigosOtrosSistemasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CodigosTransaccion\CodigosTransaccionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Codigos_CIIU\Codigos_CIIUView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ComisionEspecies\ComisionEspeciesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Comisionistas\ComisionistasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConceptosConsecutivos\ConceptosConsecutivosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConceptosInactividad\ConceptosInactividadView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConceptosTesoreria\ConceptosTesoreriaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConceptosVSConsecutivos\ConceptosVSConsecutivosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConfiguracionLEO\ConfigLEOView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConsecutivoEquivalencia\ConsecutivoEquivalenciasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConsecutivosConceptos\ConsecutivosConceptosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConsecutivosDocumentos\ConsecutivosDocumentosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConsecutivosUsuarios\ConsecutivosUsuariosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConsecutivosVsUsuarios\ConsecutivosVsUsuariosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Consecutivos\ConsecutivosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CuentasBancariasPorConcepto\CuentasBancariasPorConceptoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CuentasBancarias\BancosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CuentasContablesOyD\CuentasContablesOyDView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CuentasCRCC\CuentasCRCCView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CuentasFondos\CuentasDecevalPorAgrupadorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CuentasFondos\UnificarCuenta.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CuentasRecaudadoras\CuentasRecaudadorasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Custodio\CustodioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DepositosExtranjeros\DepositosExtranjerosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DestinoInversion\DestinoInversionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DiasNoHabiles\DiasNoHabilesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DoctosRequeridos\DoctosRequeridosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Empleados\EmpleadosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GruposEconomicos\GruposEconomicosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Inhabilitados\InhabilitadosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Instalacion\InstalacionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Mesas\MesasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Monedas\MonedasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Oficinas\OficinasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ordenes\BrokerComisionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OYDPLUS\PlantillaProceso\PlantillaProcesoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OYDPLUS\Plantillas\PlantillasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PerfilesRiesgo\PerfilesRiesgoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PermisosExportacionFormatos\PermisosExportacionFormatosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PrefijosFacturas\PrefijosFacturasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProductosValores\ProductosValoresView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Profesiones\ProfesionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ReceptoresSistemas\ReceptoresSistemasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Receptores\ConfiguracionReceptoresView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Receptores\ReceptoresView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResolucionesFacturas\ResolucionesFacturasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Sucursales\SucursalesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tarifas\TarifasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TipoReferencias\TipoReferenciasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TiposEntidad\TiposEntidadView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UsuariosConsecutivos\UsuariosConsecutivosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UsuariosFechaCierre\UsuariosFechaCierreView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UsuariosReceptorSucursales\UsuariosSucursalesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Usuarios_Seleccionar\Usuarios_SeleccionarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System.Threading.Tasks" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows" />
+    <Import Include="System.Windows.Controls" />
+    <Import Include="System.Windows.Data" />
+    <Import Include="System.Windows.Documents" />
+    <Import Include="System.Windows.Input" />
+    <Import Include="System.Windows.Shapes" />
+    <Import Include="System.Windows.Media" />
+    <Import Include="System.Windows.Media.Imaging" />
+    <Import Include="System.Windows.Navigation" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <AppDesigner Include="My Project\" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\btnLimpiar.png" />
+    <Content Include="ViewModel\MainViewModel.cs" />
+    <Content Include="ViewModel\ViewModelLocator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GEN\A2.OYD.Control.WPF\A2.OYD.Control.WPF.vbproj">
+      <Project>{a0203e7f-1b02-4902-9275-b8cea1553d93}</Project>
+      <Name>A2.OYD.Control.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GEN\A2.OyD.Infraestructura.WPF\A2.OyD.Infraestructura.WPF.vbproj">
+      <Project>{09ba7c8c-5268-4721-84db-ae19684136a4}</Project>
+      <Name>A2.OyD.Infraestructura.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GEN\A2.OyD.OYDServer.OpenRIA.Utilidades\A2.OyD.OYDServer.OpenRIA.Utilidades.vbproj">
+      <Project>{7afac1f9-daff-4fd6-a91c-48136677b64f}</Project>
+      <Name>A2.OyD.OYDServer.OpenRIA.Utilidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\A2.OyD.OYDServer.OPENRIA.Bolsa\A2.OyD.OYDServer.OPENRIA.Bolsa.vbproj">
+      <Project>{e928a897-6da5-425e-b41b-e8efadf1f3e0}</Project>
+      <Name>A2.OyD.OYDServer.OPENRIA.Bolsa</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\A2.OyD.OYDServer.OPENRIA.Maestros\A2.OyD.OYDServer.OPENRIA.Maestros.vbproj">
+      <Project>{970b2db1-b5d3-4eed-8bab-5283cb663bf6}</Project>
+      <Name>A2.OyD.OYDServer.OPENRIA.Maestros</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

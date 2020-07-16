@@ -1,0 +1,107 @@
+﻿<Window
+    x:Class="BloqueoDesbloqueoClientesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    x:Name="Bloqueod"
+    Title="Bloquear y desbloquear clientes"
+    Width="Auto"
+    Height="130"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Width="431"
+        Style="{StaticResource grdContent}">
+        <Border
+            Width="431"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="Black"
+            CornerRadius="0">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button
+                    Name="btnAceptar"
+                    Width="100"
+                    Height="25"
+                    Margin="0"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Center"
+                    Content="Aceptar" />
+                <Button
+                    Name="btnCancelar"
+                    Width="100"
+                    Height="25"
+                    Margin="0"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Center"
+                    Content="Cancelar" />
+            </StackPanel>
+        </Border>
+        <TextBlock
+            Name="TextBlock1"
+            Width="100"
+            Height="22"
+            Margin="7, 70,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="Motivo"
+            TextAlignment="Right"
+            TextWrapping="NoWrap" />
+        <ComboBox
+            Name="Motivo"
+            Width="185"
+            Height="23"
+            Margin="113, 68,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            DisplayMemberPath="Descripcion"
+            ItemsSource="{Binding objTipoId}"
+            SelectedValue="{Binding IDMotivo, Mode=TwoWay}"
+            SelectedValuePath="ID">
+            <!--
+                <ComboBoxItem Content="COLOMBIA"
+                IsSelected="True"
+            -->
+        </ComboBox>
+        <TextBlock
+            Width="100"
+            Height="22"
+            Margin="176, 38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="Activar"
+            TextAlignment="Right"
+            TextWrapping="NoWrap" />
+        <TextBlock
+            Width="100"
+            Height="22"
+            Margin="7, 38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="Bloquear"
+            TextAlignment="Right"
+            TextWrapping="NoWrap" />
+        <RadioButton
+            Width="158"
+            Height="23"
+            Margin="113, 38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            IsChecked="{Binding logBloqueo, Mode=TwoWay}" />
+        <RadioButton
+            Width="150"
+            Height="23"
+            Margin="282, 38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            IsChecked="{Binding logdesBloqueo, Mode=TwoWay}" />
+
+
+    </Grid>
+</Window>

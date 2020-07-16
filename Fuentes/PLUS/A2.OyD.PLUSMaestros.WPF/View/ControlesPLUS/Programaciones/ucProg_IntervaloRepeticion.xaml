@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="ucProg_IntervaloRepeticion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:A2OYDPLUSUtilidades"
+             
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="600"
+             Height="{Binding}"
+             Width="{Binding}">
+
+    <Grid x:Name="LayoutRoot"
+          Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="188" />
+            <ColumnDefinition Width="262*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+        </Grid.RowDefinitions>
+        <TextBlock
+                Name="TextBlock1"
+                   Text="Intervalo de repetición"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Margin="10,4,0,4" />
+        <TextBlock
+                Name="TextBlock2"
+                   Text="Comienzo:"
+                   Grid.Row="1"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Margin="10,4,0,4" />
+        <DatePicker x:Name="dtFechaInicio"
+                             Grid.Row="2"
+                             Width="150"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Left"
+                             SelectedDate="{Binding ProgramacionSeleccionado.FechaInicio, Mode=TwoWay}"
+                             Margin="10,0,0,0" />
+        <RadioButton Content="Sin fecha de finalización"
+                     Grid.Column="1"
+                     Grid.Row="2"
+                     Name="RadioButton1"
+                     VerticalAlignment="Center"
+                     Margin="20,0,0,0"
+                     IsChecked="{Binding FinalizacionSinFinalizacion, Mode=TwoWay}"  />
+        <RadioButton Content="Finalizar después de:"
+                     Margin="20,0,0,0"
+                     Name="RadioButton2"
+                     VerticalAlignment="Center"
+                     IsChecked="{Binding FinalizacionFinalizaDespues, Mode=TwoWay}"
+                     Grid.Column="1"
+                     Grid.Row="3" />
+        <RadioButton Content="Finalizar el:"
+                     Margin="20,0,0,0"
+                     Name="RadioButton3"
+                     VerticalAlignment="Center"
+                     Grid.Column="1"
+                     Grid.Row="4"
+                     IsChecked="{Binding FinalizaEl, Mode=TwoWay}" />
+        <TextBox Grid.Column="2"
+                 Grid.Row="3"
+                 Name="txtTotalRepeticiones"
+                 Text="{Binding ProgramacionSeleccionado.Repeticiones, Mode=TwoWay}"
+                 Width="50"
+                 HorizontalAlignment="Left" 
+                 IsEnabled="{Binding FinalizacionFinalizaDespues}"/>
+        <DatePicker Name="dtpFechaFinalizacion"
+                             Grid.Column="2"
+                             Grid.Row="4"
+                             Width="150"
+                             SelectedDate="{Binding ProgramacionSeleccionado.FechaFinalizacion, Mode=TwoWay}"
+                             HorizontalAlignment="Left" 
+                             IsEnabled="{Binding FinalizaEl}"/>
+        <TextBlock HorizontalAlignment="Left"
+                   Margin="56,3,0,4"
+                   Name="TextBlock3"
+                   Text="repeticiones"
+                   VerticalAlignment="Center"
+                   Grid.Column="2"
+                   Grid.Row="3" />
+    </Grid>
+</UserControl>

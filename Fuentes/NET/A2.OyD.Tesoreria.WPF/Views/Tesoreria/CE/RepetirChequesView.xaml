@@ -1,0 +1,191 @@
+﻿<!--
+    Codigo Desarrollado por: Santiago Alexander Vergara Orrego
+    Archivo: Public Class RepetirChequesView
+    Propiedad de Alcuadrado S.A.
+    Junio 28/2013
+-->
+<UserControl
+    x:Class="RepetirChequesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="200"
+    MaxWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Titulo de la forma  -->
+            <StackPanel
+                Name="StackPanelTitulo"
+                Grid.Row="0"
+                Width="800"
+                HorizontalAlignment="Left"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Repetir cheques" />
+            </StackPanel>
+
+            <!--  Botones de comandos  -->
+            <StackPanel
+                x:Name="StackPanelBotones"
+                Grid.Row="1"
+                Width="800"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Style="{StaticResource stpFiltro}">
+                <Border
+                    Width="800"
+                    Margin="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btnConsultarEgreso"
+                            Width="120"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnConsultarEgreso_Click"
+                            Content="Consultar Egreso" />
+                        <Button
+                            x:Name="btnImprimir"
+                            Width="120"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnImprimir_Click"
+                            Content="Imprimir" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!--  Parámetros de consulta de los cheques  -->
+            <Border
+                Grid.Row="2"
+                Width="800"
+                Style="{StaticResource Contenedor_Estilo}">
+                <StackPanel x:Name="StackPanelparametrosConsulta" Width="800">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Telerik:DataFormDataField Grid.Column="0" Label="Cia">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*" />
+                                    <ColumnDefinition Width="70*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <A2UTILGEN:A2NumericBox
+                                    LostFocus="C1NumericBox_LostFocus"
+                                    Maximum="2147483647"
+                                    Minimum="0"
+                                    NumberDecimalDigits="0"
+                                    ShowButtons="False"
+                                    ValueFormat="NoSeparator"
+                                    Value="{Binding IDCompania, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <TextBox
+                                    Grid.Column="1"
+                                    Margin="2,0,0,0"
+                                    IsEnabled="False"
+                                    MaxLength="50"
+                                    Text="{Binding NombreCompania, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                    ToolTipService.ToolTip="" />
+                                <my1:BuscadorGenericoListaButon
+                                    Grid.Column="2"
+                                    Margin="2,0,0,0"
+                                    Agrupamiento="incluircompaniasclasestodasconfirma"
+                                    CampoBusqueda="compania"
+                                    EstadoItem="A"
+                                    Etiqueta="Compania"
+                                    TipoItem="compania"
+                                    ToolTipService.ToolTip="Buscador Compañías"
+                                    finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                            </Grid>
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField Grid.Column="1" Label="Tipo">
+                            <ComboBox
+                                x:Name="cboConsecutivos"
+                                DisplayMemberPath="ID"
+                                ItemsSource="{Binding listConsecutivos}"
+                                SelectedValue="{Binding strConsecutivo, Mode=TwoWay}"
+                                SelectedValuePath="ID"
+                                ToolTipService.ToolTip="Consecutivos" />
+                        </Telerik:DataFormDataField>
+
+                        <Telerik:DataFormDataField Grid.Column="2" Label="Número documento">
+
+                            <A2UTILGEN:A2NumericBox
+                                KeyDown="A2NumericBox_KeyDown"
+                                Maximum="2147483647"
+                                Minimum="0"
+                                NumberDecimalDigits="0"
+                                ShowButtons="False"
+                                ValueFormat="NoSeparator"
+                                Value="{Binding intNumero, Mode=TwoWay}" />
+                        </Telerik:DataFormDataField>
+
+                    </Grid>
+
+                    <!--  Grid de visualización de los detalles  -->
+                    <A2UTILGEN:A2GridView
+                        x:Name="dtgCheques"
+                        Grid.Row="3"
+                        Width="800"
+                        Height="350"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ListaChequesxImprimir}"
+                        SelectedItem="{Binding ChequesxImprimirSelected, Mode=TwoWay}"
+                        ValidatesOnDataErrors="None">
+                        <A2UTILGEN:A2GridView.Columns>
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding IdBanco}" Header="Código" />
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreBanco}" Header="Nombre banco" />
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding ChequeXImprimir}" Header="Cheques por Imprimir" />
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding lngActual}" Header="Próximo cheque" />
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivo}" Header="Consecutivo" />
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding FormatoBanco}" Header="Reporte Cheque" />
+                        </A2UTILGEN:A2GridView.Columns>
+                    </A2UTILGEN:A2GridView>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

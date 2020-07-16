@@ -1,0 +1,52 @@
+﻿<Window
+    x:Class="cwCodificacionContableCCostos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Centro de costos"
+    Width="200"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <Grid x:Name="LayoutRoot" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Telerik:DataFormDataField Label="Centro de costos" LabelPosition="Above">
+                <TextBox
+                    MaxLength="20"
+                    Text="{Binding strCentroCostoFijo, Mode=TwoWay}"
+                    TextAlignment="Left"
+                    ToolTipService.ToolTip="Centro de costos" />
+            </Telerik:DataFormDataField>
+
+            <!--  GotFocus="seleccionarFocoControl"  -->
+            <Button
+                x:Name="CancelButton"
+                Grid.Row="1"
+                Width="75"
+                Margin="0,12,0,0"
+                HorizontalAlignment="Right"
+                Content="Cancel" />
+            <Button
+                x:Name="OKButton"
+                Grid.Row="1"
+                Width="75"
+                Margin="0,12,79,0"
+                HorizontalAlignment="Right"
+                Content="OK" />
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

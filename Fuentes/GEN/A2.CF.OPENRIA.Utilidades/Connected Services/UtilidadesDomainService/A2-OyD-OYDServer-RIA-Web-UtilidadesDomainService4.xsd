@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="DomainServices" elementFormDefault="qualified" targetNamespace="DomainServices" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:2080/DLLO_OPENRIA/Services/A2-OyD-OYDServer-RIA-Web-UtilidadesDomainService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:2080/DLLO_OPENRIA/Services/A2-OyD-OYDServer-RIA-Web-UtilidadesDomainService.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+  <xs:complexType name="DomainServiceFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ErrorCode" type="xs:int">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="ErrorMessage" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsDomainException" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OperationErrors" nillable="true" type="tns:ArrayOfValidationResultInfo">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="StackTrace" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DomainServiceFault" nillable="true" type="tns:DomainServiceFault" />
+  <xs:complexType name="ArrayOfValidationResultInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ValidationResultInfo" nillable="true" type="tns:ValidationResultInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfValidationResultInfo" nillable="true" type="tns:ArrayOfValidationResultInfo" />
+  <xs:complexType name="ValidationResultInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ErrorCode" type="xs:int">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SourceMemberNames" nillable="true" type="q1:ArrayOfstring">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="StackTrace" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ValidationResultInfo" nillable="true" type="tns:ValidationResultInfo" />
+  <xs:complexType name="QueryResultOfItemCombo">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ItemCombo" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q2:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q3:ArrayOfItemCombo">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfItemCombo" nillable="true" type="tns:QueryResultOfItemCombo" />
+  <xs:complexType name="QueryResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TotalCount" type="xs:int">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QueryResult" nillable="true" type="tns:QueryResult" />
+  <xs:complexType name="QueryResultOfvaloresparametro">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="valoresparametro" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q4:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q5:ArrayOfvaloresparametro">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfvaloresparametro" nillable="true" type="tns:QueryResultOfvaloresparametro" />
+  <xs:complexType name="QueryResultOfCamposObligatorios">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="CamposObligatorios" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q6:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q7:ArrayOfCamposObligatorios">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfCamposObligatorios" nillable="true" type="tns:QueryResultOfCamposObligatorios" />
+  <xs:complexType name="QueryResultOfClienteInhabilitado">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ClienteInhabilitado" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q8:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q9:ArrayOfClienteInhabilitado">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfClienteInhabilitado" nillable="true" type="tns:QueryResultOfClienteInhabilitado" />
+  <xs:complexType name="QueryResultOfBuscadorClientes">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="BuscadorClientes" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q10:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q11:ArrayOfBuscadorClientes">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfBuscadorClientes" nillable="true" type="tns:QueryResultOfBuscadorClientes" />
+  <xs:complexType name="QueryResultOfBuscadorEspecies">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="BuscadorEspecies" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q12:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q13:ArrayOfBuscadorEspecies">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfBuscadorEspecies" nillable="true" type="tns:QueryResultOfBuscadorEspecies" />
+  <xs:complexType name="QueryResultOfBuscadorGenerico">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="BuscadorGenerico" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q14:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q15:ArrayOfBuscadorGenerico">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfBuscadorGenerico" nillable="true" type="tns:QueryResultOfBuscadorGenerico" />
+  <xs:complexType name="QueryResultOfBuscadorOrdenantes">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="BuscadorOrdenantes" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q16:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q17:ArrayOfBuscadorOrdenantes">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfBuscadorOrdenantes" nillable="true" type="tns:QueryResultOfBuscadorOrdenantes" />
+  <xs:complexType name="QueryResultOfBuscadorCuentasDeposito">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="BuscadorCuentasDeposito" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q18="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q18:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q19:ArrayOfBuscadorCuentasDeposito">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfBuscadorCuentasDeposito" nillable="true" type="tns:QueryResultOfBuscadorCuentasDeposito" />
+  <xs:complexType name="QueryResultOfDT">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="DT" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q20="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q20:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q21:ArrayOfDT">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfDT" nillable="true" type="tns:QueryResultOfDT" />
+  <xs:complexType name="QueryResultOfAuditoriaTabla">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="AuditoriaTabla" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q22="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q22:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q23:ArrayOfAuditoriaTabla">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfAuditoriaTabla" nillable="true" type="tns:QueryResultOfAuditoriaTabla" />
+  <xs:complexType name="QueryResultOfNIIFInicial">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="NIIFInicial" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q24:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q25:ArrayOfNIIFInicial">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfNIIFInicial" nillable="true" type="tns:QueryResultOfNIIFInicial" />
+  <xs:complexType name="QueryResultOfGenerarArchivosPlanos">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="GenerarArchivosPlanos" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q26="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q26:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q27:ArrayOfGenerarArchivosPlanos">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfGenerarArchivosPlanos" nillable="true" type="tns:QueryResultOfGenerarArchivosPlanos" />
+  <xs:complexType name="QueryResultOfProcesoTipos">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ProcesoTipos" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q28="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q28:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q29:ArrayOfProcesoTipos">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfProcesoTipos" nillable="true" type="tns:QueryResultOfProcesoTipos" />
+  <xs:complexType name="QueryResultOfProceso">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Proceso" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q30="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q30:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q31:ArrayOfProceso">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfProceso" nillable="true" type="tns:QueryResultOfProceso" />
+  <xs:complexType name="QueryResultOfProcesoDetalle">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ProcesoDetalle" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q32="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q32:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q33:ArrayOfProcesoDetalle">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfProcesoDetalle" nillable="true" type="tns:QueryResultOfProcesoDetalle" />
+  <xs:complexType name="QueryResultOfResultadoProceso">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ResultadoProceso" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q34="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q34:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q35:ArrayOfResultadoProceso">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfResultadoProceso" nillable="true" type="tns:QueryResultOfResultadoProceso" />
+  <xs:complexType name="QueryResultOfArchivosDirectorio">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArchivosDirectorio" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q36="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q36:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q37:ArrayOfArchivosDirectorio">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfArchivosDirectorio" nillable="true" type="tns:QueryResultOfArchivosDirectorio" />
+  <xs:complexType name="QueryResultOfTempRetornoCalculo">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="TempRetornoCalculo" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q38="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q38:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q39:ArrayOfTempRetornoCalculo">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOfTempRetornoCalculo" nillable="true" type="tns:QueryResultOfTempRetornoCalculo" />
+  <xs:complexType name="QueryResultOftblvalidarFechaCierre">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="QueryResultOf{0}" Namespace="DomainServices" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="tblvalidarFechaCierre" Namespace="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:QueryResult">
+        <xs:sequence>
+          <xs:element xmlns:q40="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IncludedResults" nillable="true" type="q40:ArrayOfanyType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/A2.OyD.OYDServer.RIA.Web.OYDUtilidades" minOccurs="0" name="RootResults" nillable="true" type="q41:ArrayOftblvalidarFechaCierre">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResultOftblvalidarFechaCierre" nillable="true" type="tns:QueryResultOftblvalidarFechaCierre" />
+  <xs:complexType name="ArrayOfChangeSetEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ChangeSetEntry" nillable="true" type="tns:ChangeSetEntry" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfChangeSetEntry" nillable="true" type="tns:ArrayOfChangeSetEntry" />
+  <xs:complexType name="ChangeSetEntry">
+    <xs:sequence>
+      <xs:element xmlns:q42="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Associations" nillable="true" type="q42:ArrayOfKeyValueOfstringArrayOfintty7Ep6D1">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element xmlns:q43="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ConflictMembers" nillable="true" type="q43:ArrayOfstring">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="Entity" nillable="true" type="xs:anyType" />
+      <xs:element xmlns:q44="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EntityActions" nillable="true" type="q44:ArrayOfKeyValueOfstringArrayOfanyTypety7Ep6D1" />
+      <xs:element minOccurs="0" name="HasMemberChanges" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsDeleteConflict" type="xs:boolean">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="Operation" type="tns:DomainOperation" />
+      <xs:element xmlns:q45="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="OriginalAssociations" nillable="true" type="q45:ArrayOfKeyValueOfstringArrayOfintty7Ep6D1">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="OriginalEntity" nillable="true" type="xs:anyType">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="StoreEntity" nillable="true" type="xs:anyType">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="ValidationErrors" nillable="true" type="tns:ArrayOfValidationResultInfo">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ChangeSetEntry" nillable="true" type="tns:ChangeSetEntry" />
+  <xs:simpleType name="DomainOperation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Query" />
+      <xs:enumeration value="Insert" />
+      <xs:enumeration value="Update" />
+      <xs:enumeration value="Delete" />
+      <xs:enumeration value="Custom" />
+      <xs:enumeration value="Invoke" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="DomainOperation" nillable="true" type="tns:DomainOperation" />
+</xs:schema>

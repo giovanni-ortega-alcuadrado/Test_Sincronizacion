@@ -1,0 +1,243 @@
+﻿<Window
+    x:Class="cwMovimientosParticipacionesFondosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCalculosFinancieros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Movimientos participaciones fondos (Detalle)"
+    Width="1155"
+    MaxHeight="450"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <!--<StackPanel Orientation="Vertical"
+                    VerticalAlignment="Top">-->
+        <Grid
+            x:Name="LayoutRoot"
+            Width="1155"
+            MaxHeight="420"
+            Margin="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="0"
+                IsEnabled="{Binding HabilitarEncabezado}"
+                Label="Tipo"
+                LabelPosition="Above"
+                TabIndex="10">
+                <ComboBox
+                    x:Name="cmbTipo"
+                    HorizontalAlignment="Stretch"
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCombos[TIPOMOVIMIENTOFONDO], Source={StaticResource A2VM}}"
+                    SelectedValue="{Binding strTipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    SelectedValuePath="Descripcion"
+                    SelectionChanged="cmbTipo_SelectionChanged"
+                    ToolTipService.ToolTip="Tipo" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="1"
+                IsEnabled="{Binding HabilitarEncabezado}"
+                Label="Fecha registro"
+                LabelPosition="Above"
+                TabIndex="11">
+                <A2UTILGEN:A2DatePicker
+                    Width="180"
+                    HorizontalAlignment="Left"
+                    SelectedDate="{Binding dtmFechaRegistro, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                    ToolTipService.ToolTip="Fecha registro" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="2"
+                IsEnabled="{Binding HabilitarEncabezado}"
+                Label="Fecha cumplimiento"
+                LabelPosition="Above"
+                TabIndex="12">
+                <A2UTILGEN:A2DatePicker
+                    Width="180"
+                    HorizontalAlignment="Left"
+                    SelectedDate="{Binding dtmMovimiento, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                    ToolTipService.ToolTip="Fecha" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="3"
+                IsEnabled="{Binding HabilitarMonedaOrigen}"
+                Label="Valor moneda origen"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    HorizontalAlignment="Stretch"
+                    Maximum="999999999999999"
+                    Minimum="-999999999999999"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ToolTipService.ToolTip="Valor"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValorMonedaOrigen, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="4"
+                IsEnabled="{Binding HabilitarConversionMoneda}"
+                Label="Tasa conversión moneda"
+                LabelPosition="Above"
+                TabIndex="14">
+                <A2UTILGEN:A2NumericBox
+                    HorizontalAlignment="Stretch"
+                    Maximum="999999999999999"
+                    Minimum="-999999999999999"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ToolTipService.ToolTip="Tasa conversión moneda"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblTasaConvMoneda, Mode=TwoWay, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="0"
+                IsEnabled="{Binding HabilitarEncabezado}"
+                Label="Valor pesos"
+                LabelPosition="Above"
+                TabIndex="15">
+                <A2UTILGEN:A2NumericBox
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="False"
+                    Maximum="999999999999999"
+                    Minimum="-999999999999999"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ToolTipService.ToolTip="Valor"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblValor, Mode=TwoWay, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="1"
+                IsEnabled="False"
+                Label="Unidades"
+                LabelPosition="Above"
+                TabIndex="16">
+                <A2UTILGEN:A2NumericBox
+                    HorizontalAlignment="Stretch"
+                    Maximum="999999999999999"
+                    Minimum="-999999999999999"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ToolTipService.ToolTip="Unidades"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblUnidades, Mode=TwoWay, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="2"
+                IsEnabled="False"
+                Label="Valor unidad"
+                LabelPosition="Above"
+                TabIndex="17">
+                <A2UTILGEN:A2NumericBox
+                    HorizontalAlignment="Stretch"
+                    Maximum="999999999999999"
+                    Minimum="-999999999999999"
+                    NumberDecimalDigits="4"
+                    ShowButtons="False"
+                    ToolTipService.ToolTip="Valor unidad"
+                    ValueFormat="Numeric"
+                    Value="{Binding dblVlrUnidad, Mode=TwoWay, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="3"
+                IsEnabled="{Binding HabilitarEncabezado}"
+                Label="Banco"
+                LabelPosition="Above"
+                TabIndex="18">
+                <ComboBox
+                    x:Name="cmbBanco"
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCombos[CuentaBancaria], Source={StaticResource A2VM}}"
+                    SelectedValue="{Binding intIDBanco, StringFormat='#', Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    SelectedValuePath="ID"
+                    ToolTipService.ToolTip="Banco" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="4"
+                Margin="2,1,0,0"
+                IsEnabled="False"
+                Label="Aplicado"
+                LabelPosition="Above"
+                TabIndex="19">
+                <CheckBox
+                    x:Name="chkPagado"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding logAplicado, Mode=TwoWay, ValidatesOnExceptions=True}" />
+            </Telerik:DataFormDataField>
+
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.ColumnSpan="5"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnAceptar"
+                    Width="75"
+                    Height="28"
+                    Margin="0,0,3,0"
+                    HorizontalAlignment="Center"
+                    Click="btnAceptar_Click"
+                    Content="Aceptar"
+                    IsEnabled="{Binding HabilitarEncabezado}" />
+
+                <Button
+                    x:Name="btnCerrar"
+                    Width="75"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    Click="btnCerrar_Click"
+                    Content="Cerrar" />
+
+            </StackPanel>
+
+        </Grid>
+        <!--</StackPanel>-->
+    </Telerik:RadBusyIndicator>
+</Window>

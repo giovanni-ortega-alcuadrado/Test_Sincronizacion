@@ -1,0 +1,387 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: FacturasBancaInvView.xaml
+    Generado el : 02/24/2012 07:45:25
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="FacturasValorCustodiasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDBolsa"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="700"
+    MaxWidth="900">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  2011/12/20 Cambio de estilos  -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Style="{StaticResource Title1}" Text="Facturas por valor en custodias de clientes" />
+            </StackPanel>
+
+            <Border
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button
+                        Name="btnConsultar"
+                        Width="100"
+                        Margin="2,1,2,1"
+                        Click="btnConsultar_Click"
+                        Content="Consultar" />
+                    <Button
+                        Name="btnLimpiar"
+                        Width="100"
+                        Margin="2,1,2,1"
+                        Click="btnLimpiar_Click"
+                        Content="Limpiar" />
+                    <Button
+                        Name="btnGenerar"
+                        Width="100"
+                        Margin="2,1,2,1"
+                        Click="btnGenerar_Click"
+                        Content="Generar"
+                        IsEnabled="{Binding logPuedeEnviar}" />
+                </StackPanel>
+            </Border>
+
+
+            <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                    <Border
+                        Margin="5"
+                        Padding="5"
+                        VerticalAlignment="Top"
+                        BorderBrush="Silver"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Label="De la Especie">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Name="txlEspecieInicial"
+                                        Grid.Column="0"
+                                        Text="{Binding EspecieInicial, Mode=TwoWay}" />
+                                    <my1:BuscadorEspecieListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="EspecieInicial"
+                                        ClaseOrden="T"
+                                        Etiqueta="Lista de Especies"
+                                        finalizoBusqueda="BuscadorInicial_finalizoBusquedaespecies" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Label="A la Especie">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Name="txlEspecieFinal"
+                                        Grid.Column="0"
+                                        Text="{Binding EspecieFinal, Mode=TwoWay}" />
+                                    <my1:BuscadorEspecieListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="EspecieFinal"
+                                        ClaseOrden="T"
+                                        Etiqueta="Lista de Especies"
+                                        finalizoBusqueda="BuscadorFinal_finalizoBusquedaespecies" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Label="A la Fecha">
+                                <A2UTILGEN:A2DatePicker
+                                    Name="dpFecha"
+                                    IsTodayHighlighted="True"
+                                    SelectedDate="{Binding Fecha, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Label="Del Código">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <A2UTILGEN:A2TextBox
+                                        Name="txlCodigoInicial"
+                                        MaxLength="17"
+                                        Text="{Binding CodigoOyDInicial, Mode=TwoWay}"
+                                        TipoExpresion="SoloNumeros" />
+                                    <my1:BuscadorClienteListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="CodigoOyDInicial"
+                                        EstadoComitente="A"
+                                        TipoVinculacion="C"
+                                        finalizoBusqueda="BuscarInicial_finalizoBusquedaClientes" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Label="Al Código">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <A2UTILGEN:A2TextBox
+                                        Name="txlCodigoFinal"
+                                        MaxLength="17"
+                                        Text="{Binding CodigoOyDFinal, Mode=TwoWay}"
+                                        TipoExpresion="SoloNumeros" />
+                                    <my1:BuscadorClienteListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="CodigoOyDFinal"
+                                        EstadoComitente="A"
+                                        TipoVinculacion="C"
+                                        finalizoBusqueda="BuscarFinal_finalizoBusquedaClientes" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Label="Fondo">
+                                <ComboBox
+                                    Name="cbFondo"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosA2[FondosAdmin], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding Fondo, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox
+                            Name="chkMarcarTodos"
+                            Margin="3,3,3,3"
+                            Content="Marcar Todos"
+                            IsChecked="{Binding marcarTodos, Mode=TwoWay}" />
+                        <A2UTILGEN:A2GridView
+                            x:Name="dgr"
+                            Height="350"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            ItemsSource="{Binding ListaFacturasValorCustodias}"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            SelectedItem="{Binding FacturasValorCustodiasSelected, Mode=TwoWay}"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+
+                                <Telerik:GridViewDataColumn Header="Marcar" SortMemberPath="Marcar">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Click="Click_Marcar"
+                                                IsChecked="{Binding Marcar, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding CodigoOyD}"
+                                    Header="Código OyD"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding Nombre}"
+                                    Header="Nombre"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding Especie}"
+                                    Header="Especie"
+                                    IsReadOnly="True" />
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding Cantidad, StringFormat=\{0:n2\}}"
+                                    Header="Cantidad"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding ValorNominal, StringFormat=\{0:n2\}}"
+                                    Header="Valor Nominal"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding ValorFijoComision, StringFormat=\{0:n4\}}"
+                                    Header="Valor Fijo Comisión"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding PorcentajeVariable, StringFormat=\{0:n2\}}"
+                                    Header="Porcentaje Variable"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding ValorComision, StringFormat=\{0:n4\}}"
+                                    Header="Valor Comisión"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn Header="Autoretenedor" IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding AutoRetenedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" IsEnabled="False" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding Retension, StringFormat=\{0:n\}}"
+                                    Header="Retención"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding ValorRetension, StringFormat=\{0:n4\}}"
+                                    Header="Valor Retención"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding IVA, StringFormat=\{0:n\}}"
+                                    Header="Iva"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding ValorIVA, StringFormat=\{0:n4\}}"
+                                    Header="Valor Iva"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding ValorNeto, StringFormat=\{0:n4\}}"
+                                    Header="Valor Neto"
+                                    IsReadOnly="True">
+                                    <Telerik:GridViewDataColumn.CellStyle>
+                                        <Style TargetType="Telerik:GridViewCell">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </Telerik:GridViewDataColumn.CellStyle>
+                                </Telerik:GridViewDataColumn>
+
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

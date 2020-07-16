@@ -1,0 +1,223 @@
+﻿<!--
+    'Descripción:       Pantalla de asignación de DTS a usuarios
+    'Desarrollado por:  Santiago Alexander Vergara Orrego
+    'Fecha:             Octubre 30/2013
+-->
+<UserControl
+    x:Class="AutorizarUsuariosDTSView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDUtilidades"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="200"
+    MaxWidth="900">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <!--<src:A2UtilsViewModel x:Key="A2VM"/>-->
+        <src:StringConverter x:Key="StringConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            MaxWidth="900"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="720" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Encabezado titulos de la forma  -->
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Asignar DTS' a Usuarios" />
+            </StackPanel>
+
+            <!--  Botones del encabezado  -->
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Top"
+                Style="{StaticResource stpFiltro}">
+                <Border VerticalAlignment="Center" Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button
+                            Name="btnGrabar"
+                            Width="100"
+                            Click="btnGrabar_Click"
+                            Content="Grabar" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <Border
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="720"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Style="{StaticResource Contenedor_Estilo}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                    <Grid
+                        x:Name="gridListas"
+                        MaxWidth="900"
+                        ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="300" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                            <Border
+                                Width="696"
+                                Margin="10,5,10,5"
+                                Padding="5"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                BorderBrush="Silver"
+                                BorderThickness="1"
+                                CornerRadius="10">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                                    <Label
+                                        Width="100"
+                                        Content="DTS' Disponibles"
+                                        FlowDirection="RightToLeft" />
+                                    <ComboBox
+                                        Name="cbFondo"
+                                        Width="350"
+                                        Margin="10,0,0,0"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding lstDTS}"
+                                        SelectedValue="{Binding intIdDTS, Converter={StaticResource StringConverter}, Mode=TwoWay}"
+                                        SelectedValuePath="ID" />
+
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                            <A2UTILGEN:A2GridView
+                                x:Name="dgUsuarios"
+                                Width="290"
+                                Height="300"
+                                Margin="0,5,0,5"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding lstUsuarios}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding objUsuario, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        Width="271"
+                                        DataMemberBinding="{Binding Descripcion}"
+                                        Header="Usuarios"
+                                        IsReadOnly="True" />
+                                </A2UTILGEN:A2GridView.Columns>
+
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="120"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <Button
+                                Name="btnAgregarUno"
+                                Width="100"
+                                Margin="5"
+                                Click="btnAgregarUno_Click"
+                                Content="Adicionar" />
+                            <Button
+                                Name="btnQuitarUno"
+                                Width="100"
+                                Margin="5"
+                                Click="btnQuitarUno_Click"
+                                Content="Quitar" />
+                            <Button
+                                Name="btnAgregarTodos"
+                                Width="100"
+                                Margin="5"
+                                Click="btnAgregarTodos_Click"
+                                Content="Adicionar todos" />
+                            <Button
+                                Name="btnQuitarTodos"
+                                Width="100"
+                                Margin="5"
+                                Click="btnQuitarTodos_Click"
+                                Content="Quitar todos" />
+                        </StackPanel>
+
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                            <A2UTILGEN:A2GridView
+                                x:Name="dgUsuariosAutorizados"
+                                Width="290"
+                                Height="300"
+                                Margin="0,5,0,5"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding lstUsuariosAutorizados}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding objUsuarioAutorizado, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        Width="271"
+                                        DataMemberBinding="{Binding Descripcion}"
+                                        Header="Usuarios Autorizados"
+                                        IsReadOnly="True" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+
+                    </Grid>
+
+                </StackPanel>
+            </Border>
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

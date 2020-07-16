@@ -1,0 +1,313 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: CostosView.xaml
+    Generado el : 11/15/2012 07:29:08
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="ControlHorarioView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <!--<src:A2UtilsViewModel x:Key="A2VM" />-->
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:HorarioTipoNegocioConverter x:Key="HorarioTipoNegocioConverter" />
+        <src:HorarioIntegerConverter x:Key="HorarioIntegerConverter" />
+
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--    -->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding ControlHorarioSelected}"
+                    TextoFiltroTooltip="Módulo - Tipo negocio - Tipo orden - Tipo producto - Tipo instrucción"
+                    TituloVista="Control horarios"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding ControlHorarioSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaControlHorario.Count}"
+                    VisibilidadRefrescarCombos="True" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="650">
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaControlHorarioPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding ControlHorarioSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="ID" SortMemberPath="ID">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding ID}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreModulo, Mode=TwoWay}" Header="Módulo" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreTipoNegocio, Mode=TwoWay}" Header="Tipo negocio" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreTipoOrden, Mode=TwoWay}" Header="Tipo orden" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreTipoProducto, Mode=TwoWay}" Header="Tipo producto" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreInstruccion, Mode=TwoWay}" Header="Tipo instrucción" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding HoraInicio, Mode=TwoWay}" Header="Hora inicio" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding HoraFin, Mode=TwoWay}" Header="Hora fin" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="650">
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <!--    -->
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid MaxWidth="650">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Telerik:DataFormDataField Grid.Row="0" Label="Módulo">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_MODULOSHORARIOS], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding Modulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                IsEnabled="{Binding DataContext.HabilitarOrdenes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoNegocio}">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPONEGOCIO], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding TipoNegocio, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                IsEnabled="{Binding DataContext.HabilitarOrdenes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoOrden}">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPOSORDEN], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding TipoOrden, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="3" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoProducto}">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPOPRODUCTO], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding TipoProducto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="4"
+                                                IsEnabled="{Binding DataContext.HabilitarTesoreria, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Instruccion}">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPOPAGOPLUS], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding Instruccion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    BorderThickness="0"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding ControlHorarioSelected}"
+                                    IsEnabled="{Binding Editando}">
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid MaxWidth="650">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="Módulo">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_MODULOSHORARIOS], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding Modulo, Mode=TwoWay, Converter={StaticResource HorarioTipoNegocioConverter}, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    IsEnabled="{Binding DataContext.HabilitarOrdenes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoNegocio}">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPONEGOCIO], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding TipoNegocio, Mode=TwoWay, Converter={StaticResource HorarioTipoNegocioConverter}, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    IsEnabled="{Binding DataContext.HabilitarOrdenes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoOrden}">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPOSORDEN], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding TipoOrden, Mode=TwoWay, Converter={StaticResource HorarioTipoNegocioConverter}, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoProducto}">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPOPRODUCTO], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding TipoProducto, Mode=TwoWay, Converter={StaticResource HorarioTipoNegocioConverter}, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    IsEnabled="{Binding DataContext.HabilitarTesoreria, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Instruccion}">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DiccionarioCombosEspecificos[CONTROLHORARIOS_TIPOPAGOPLUS], Source={StaticResource A2VM}}"
+                                                        SelectedValue="{Binding Instruccion, Mode=TwoWay, Converter={StaticResource HorarioTipoNegocioConverter}, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=HoraInicio}">
+                                                    <A2UTILGEN:A2TimePicker
+                                                        Name="HoraInicio"
+                                                        DisplayFormat="Short"
+                                                        EndTime="{Binding DataContext.HoraInicioPermitida, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        HoraMilitar="True"
+                                                        SelectedTime="{Binding HoraInicio, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        StartTime="{Binding DataContext.HoraFinPermitida, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=HoraFin}">
+                                                    <A2UTILGEN:A2TimePicker
+                                                        Name="HoraFin"
+                                                        DisplayFormat="Short"
+                                                        EndTime="{Binding DataContext.HoraInicioPermitida, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        HoraMilitar="True"
+                                                        SelectedTime="{Binding HoraFin, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        StartTime="{Binding DataContext.HoraFinPermitida, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

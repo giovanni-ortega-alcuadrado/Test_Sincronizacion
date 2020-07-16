@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="dbOYDPlus" EntityNamespace="OyDPLUSDeceval" Class="OyDPLUSDecevalDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+
+
+  <!--Tablas Para SAEDECEVAL-->
+  <Table Name="DECEVAL.tblInversionistas" Member="Inversionistas">
+    <Type Name="Inversionistas" Id="ID1">
+      <Column Name="intID" Member="ID" IsDbGenerated="true" IsPrimaryKey="true" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="lngIDComitente" Member="IDComitente" Type="System.String" DbType="Char(17) NOT NULL" CanBeNull="true" />
+      <Column Name="strEstado" Member="Estado" Type="System.String" DbType="varchar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="strNIF" Member="NIF" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="dtmFecha" Member="Fecha" Type="System.datetime" DbType="datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NULL" CanBeNull="true" />
+      <Column Name="strDetalle" Member="Detalle" Type="System.String" DbType="Varchar(500) NULL" CanBeNull="true" />
+      <Column Name="LogGenerar" Member="Generar" Type="System.Nullable(of Boolean)" DbType="bit NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(1000)" CanBeNull="true" />
+      <Column Name="logAprobadoUsuario" Member="logAprobadoUsuario" Type="System.Nullable(of Boolean)" DbType="bit NULL" CanBeNull="true" />
+      <Column Name="intNumeroSolicitud" Member="NumeroSolicitud" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+      <Column Name="intNumeroCuenta" Member="NumeroCuenta" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="DECEVAL.tblDetalleInversionistas" Member="DetalleInversionistas">
+    <Type Name="DetalleInversionistas" Id="ID02">
+      <Column Name="intID" Member="ID" IsDbGenerated="true" IsPrimaryKey="true" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="intIDInversionista" Member="IDInversionista" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="strDetalle" Member="Detalle" Type="System.String" DbType="varchar(max) NOT NULL" CanBeNull="false" />
+      <Column Name="dtmFecha" Member="Fecha" Type="System.datetime" DbType="datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(1000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="tblResultadoEnvio">
+    <Type Name="tblResultadoEnvio" Id="ID03">
+      <Column Name="intID" Member="ID" IsDbGenerated="true" IsPrimaryKey="true" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="logExitoso" Member="logExitoso" Type="System.Boolean" DbType="bit null" CanBeNull="true" />
+      <Column Name="strMensaje" Member="Mensaje" Type="System.string" DbType="varchar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="DECEVAL.tblConfiguracionArchivo" Member="ConfiguracionArchivo">
+    <Type Name="ConfiguracionArchivo" Id="ID04">
+      <Column Name="intID" Member="ID" IsDbGenerated="true" IsPrimaryKey="true" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="strArchivo" Member="Archivo" Type="System.String" DbType="varchar (80) NOT NULL" CanBeNull="false" />
+      <Column Name="intTipoArchivo" Member="TipoArchivo" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" />
+      <Column Name="logActivo" Member="logActivo" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="dtmActualizacion" Member="Actualizacion" Type="System.datetime" DbType="datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strProcedimientoProceso" Member="ProcedimientoProceso" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="strCodigo" Member="Codigo" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="logHabilitarSeleccionCliente" Member="HabilitarSeleccionCliente" Type="System.Boolean" DbType="bit  NULL" CanBeNull="true" />
+      <Column Name="logHabilitarSeleccionEspecie" Member="HabilitarSeleccionEspecie" Type="System.Boolean" DbType="bit  NULL" CanBeNull="true" />      
+    </Type>
+  </Table>
+  <Table Name="" Member="tblResultadoEnvioArchivo">
+    <Type Name="tblResultadoEnvioArchivo" Id="ID05">
+      <Column Name="intID" Member="ID" IsDbGenerated="true" IsPrimaryKey="true" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="logExitoso" Member="logExitoso" Type="System.Boolean" DbType="bit null" CanBeNull="true" />
+      <Column Name="strMensaje" Member="Mensaje" Type="System.string" DbType="varchar(500)" CanBeNull="true" />
+      <Column Name="intIDArchivoInsertado" Member="IDArchivoInsertado" Type="System.Nullable(Of System.Int32)" DbType="int" CanBeNull="true" />
+      <Column Name="strNombreArchivo" Member="NombreArchivo" Type="System.string" DbType="varchar(500)" CanBeNull="true" />
+      <Column Name="logEjecucionAutomatica" Member="EjecucionAutomatica" Type="System.Boolean" DbType="bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="DECEVAL.tblArchivos" Member="Archivos">
+    <Type Name="Archivos" Id="ID6">
+      <Column Name="intID" Member="ID" IsDbGenerated="true" IsPrimaryKey="true" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="strArchivo" Member="Archivo" Type="System.String" DbType="varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="intTipoArchivo" Member="TipoArchivo" Type="System.Nullable(Of System.Int32)" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="intIDSistemaDestino" Member="IDSistemaDestino" Type="System.Nullable(Of System.Int32)" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="logEjecucionAutomatica" Member="EjecucionAutomatica" Type="System.Boolean" DbType="Bit NULL" CanBeNull="true" />
+      <Column Name="strEstado" Member="Estado" Type="System.String" DbType="varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strNombreEstado" Member="NombreEstado" Type="System.String" DbType="varchar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="strDetalle" Member="Detalle" Type="System.String" DbType="varchar(500) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmFecha" Member="Fecha" Type="System.Nullable(Of System.Datetime)" DbType="Datetime NULL" CanBeNull="true" />
+      <Column Name="logPendienteProceso" Member="PendienteProceso" Type="System.Boolean" DbType="Bit NULL" CanBeNull="true" />
+      <Column Name="strRutaArchivo" Member="RutaArchivo" Type="System.String" DbType="varchar(500) NOT NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="Actualizacion" Type="System.Nullable(Of System.Datetime)" DbType="Datetime NULL" CanBeNull="true" />
+      <Column Name="strNombreArchivo" Member="NombreArchivo" Type="System.String" DbType="varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strNombreArchivoGeneracion" Member="NombreArchivoGeneracion" Type="System.String" DbType="varchar(80) NOT NULL" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="DECEVAL.tblDetalleArchivos" Member="DetalleArchivos">
+    <Type Name="DetalleArchivos" Id="ID07">
+      <Column Name="intID" Member="ID" IsDbGenerated="true" IsPrimaryKey="true" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="intIDArchivo" Member="IDArchivo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="strDetalle" Member="Detalle" Type="System.String" DbType="varchar(max) NOT NULL" CanBeNull="false" />
+      <Column Name="dtmFecha" Member="Fecha" Type="System.datetime" DbType="datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(1000)" CanBeNull="true" />
+    </Type>
+  </Table>
+
+  <!--Functions SAEDECEVAL-->
+  <Function Name="DECEVAL.uspOyDNet_DecevalInversionistas_Consultar" Method="uspOyDNet_DecevalInversionistas_Consultar">
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Char(17) NOT NULL"/>
+    <Parameter Name="pstrEstado" Type="System.String" DbType="varchar(100) NOT NULL"/>
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NULL"/>
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="DECEVAL.uspOyDNet_DecevalDetalleInversionistas_Consultar" Method="uspOyDNet_DecevalDetalleInversionistas_Consultar">
+    <Parameter Name="pintIDInversionista" Type="System.Int32" DbType="int"/>
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NULL"/>
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID02" />
+  </Function>
+  <Function Name="DECEVAL.uspOyDNet_DecevalInversionistas_Actualizar" Method="uspOyDNet_DecevalInversionistas_Actualizar">
+    <Parameter Name="pstrAccion" Type="System.String" DbType="varchar(20)"/>
+    <Parameter Name="pstrRegistros" Type="System.String" DbType="varchar(max)"/>
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NULL"/>
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID03" />
+  </Function>
+  <Function Name="DECEVAL.uspOyDNet_ConfiguracionArchivo_Consultar" Method="uspOyDNet_ConfiguracionArchivo_Consultar">
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NULL"/>
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID04" />
+  </Function>
+  <Function Name="DECEVAL.uspOyDNet_DecevalArchivos_Solicitar" Method="uspOyDNet_DecevalArchivos_Solicitar">
+    <Parameter Name="pstrArchivo" Type="System.String" DbType="varchar (80) NOT NULL"/>
+    <Parameter Name="pintTipoArchivo" Type="System.Int32" DbType="INT NOT NULL"/>
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NULL"/>
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrCodigoISIN" Type="System.String" DbType="Varchar(80) NOT NULL"/>
+    <Parameter Name="pintCuentaInversionista" Type="System.Int32" DbType="INT NOT NULL"/>
+    <Parameter Name="pstrCodigoDeposito" Type="System.String" DbType="Varchar (20) NOT NULL"/>
+    <ElementType IdRef="ID05" />
+  </Function>
+  <Function Name="DECEVAL.uspOyDNet_DecevalArchivos_Consultar" Method="uspOyDNet_DecevalArchivos_Consultar">
+    <Parameter Name="pdtmFecha" Type="System.Nullable(Of System.Datetime)" DbType="Datetime NULL"/>
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NULL"/>
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID6" />
+  </Function>
+  <Function Name="DECEVAL.uspOyDNet_DecevalDetalleArchivos_Consultar" Method="uspOyDNet_DecevalDetalleArchivos_Consultar">
+    <Parameter Name="pintIDArchivo" Type="System.Int32" DbType="int"/>
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NULL"/>
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID07" />
+  </Function>
+</Database>

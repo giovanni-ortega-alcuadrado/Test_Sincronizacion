@@ -1,0 +1,209 @@
+﻿<UserControl x:Class="ObtenerOrdenSAEView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+             
+             xmlns:src="clr-namespace:A2OYDPLUSUtilidades"
+             
+             
+             
+             mc:Ignorable="d">
+    <UserControl.Resources>
+<src:DisplayNameConverter x:Key="DisplayConverter"/>
+        <src:ObtenerOrdenSAEViewModel x:Key="vmObtenerOrdenSAE" />
+        <src:clsVisibilityConverter x:Key="VisibilityConverter" />
+        <src:clsInVisibilityConverter x:Key="InVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Grid.Column="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Ordenes en bolsa"
+                           HorizontalAlignment="Center"
+                           Margin="5,0,5,0" />
+                <Button x:Name="btnRefrescar"
+                        ToolTipService.ToolTip="Refrescar ordenes"
+                        Padding="0"
+                        Cursor="Hand"
+                        Height="15"
+                        Width="15"
+                        Click="btnRefrescar_Click"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource btnRefrescar}" />
+
+                <TextBlock Text="Consultando ordenes..."
+                           Margin="10,0,0,0"
+                           Foreground="Gray"
+                           Visibility="{Binding MostrarConsultandoOrden}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Margin="10,0,0,0" Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding SeleccionarTodosFolios,Mode=TwoWay}"
+                          IsEnabled="{Binding HabilitarSeleccionarTodosFolios}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="Seleccionar Todos" >
+                </CheckBox>
+                <Telerik:RadDataPager x:Name="datapagerAcciones"
+                            Source="{Binding Items, ElementName=dgAcciones}"
+                            PageSize="5"
+                            HorizontalAlignment="Left"
+                            Visibility="{Binding MostrarCamposRentafija, Converter={StaticResource InVisibilityConverter}}"/>
+                <Telerik:RadDataPager x:Name="datapagerRentaFija"
+                            Source="{Binding Items, ElementName=dgRentaFija}"
+                            PageSize="5"
+                            HorizontalAlignment="Left"
+                            Visibility="{Binding MostrarCamposRentafija, Converter={StaticResource VisibilityConverter}}"/>
+            </StackPanel>
+
+            <Telerik:RadGridView x:Name="dgAcciones"
+                           ItemsSource="{Binding ListaOrdenesSAEAccionesPaged}"
+                           SelectedItem="{Binding OrdenesSAEAccionesSelected, Mode=TwoWay}"
+                           ScrollViewer.VerticalScrollBarVisibility="Auto"
+                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                           AutoGenerateColumns="False"
+                           Height="150"
+                           Visibility="{Binding MostrarCamposRentafija, Converter={StaticResource InVisibilityConverter}}"
+                           HorizontalAlignment="Left"
+                           CanUserInsertRows="False">
+                <Telerik:RadGridView.Columns>
+                    <!--<Telerik:GridViewDataColumn Header="Seleccione" >
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Seleccionada, Mode=TwoWay}" 
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"
+                                          Checked="AccionesCheckBox_Checked"
+                                          Unchecked="AccionesCheckBox_Unchecked"
+                                          Margin="20,5,0,0"
+                                          Tag="{Binding ID}"/>
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>-->
+                    <Telerik:GridViewCheckBoxColumn DataMemberBinding="{Binding Seleccionada, Mode=TwoWay}" 
+                                                       Header=""
+                                                       Width="30"
+                                                       />
+                                                       Header="Seleccionar"
+                                                       Width="30"
+                                                       />
+                    <!--<Telerik:GridViewCheckBoxColumn DataMemberBinding="{Binding Seleccionada, Mode=TwoWay}" 
+                                                       Header=""
+                                                       Width="30"
+                                                       />/>-->
+                    <Telerik:GridViewDataColumn Header="Referencia bolsa"
+                                             DataMemberBinding="{Binding NroLiquidacion}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Fecha"
+                                             DataMemberBinding="{Binding FechaReferencia, StringFormat='\{0:dd/MM/yyyy\}', ConverterCulture=es-CO}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Especie"
+                                             DataMemberBinding="{Binding Especie}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Cantidad"
+                                             DataMemberBinding="{Binding Cantidad, StringFormat='\{0:C2\}'}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Precio"
+                                             DataMemberBinding="{Binding Precio, StringFormat='\{0:C2\}'}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Ejecución"
+                                             DataMemberBinding="{Binding NombreEjecucion}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Duración"
+                                             DataMemberBinding="{Binding NombreDuracion}"
+                                             IsReadOnly="True" />
+                </Telerik:RadGridView.Columns>
+            </Telerik:RadGridView>
+
+            <Telerik:RadGridView x:Name="dgRentaFija"
+                           ItemsSource="{Binding ListaOrdenesSAERentaFijaPaged}"
+                           SelectedItem="{Binding OrdenesSAERentaFijaSelected, Mode=TwoWay}"
+                           ScrollViewer.VerticalScrollBarVisibility="Auto"
+                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                           AutoGenerateColumns="False"
+                           Height="150"
+                           Visibility="{Binding MostrarCamposRentafija, Converter={StaticResource VisibilityConverter}}"
+                           HorizontalAlignment="Left"
+                           CanUserInsertRows="False">
+                <Telerik:RadGridView.Columns>
+                    <!--<Telerik:GridViewDataColumn Header="Seleccione" >
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Seleccionada, Mode=TwoWay}" 
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="20,5,0,0"/>
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>-->
+                    <Telerik:GridViewCheckBoxColumn DataMemberBinding="{Binding Seleccionada, Mode=TwoWay}" 
+                                                       Header=""
+                                                       Width="30"
+                                                       />
+                                                       Header=""
+                                                       HorizontalAlignment="Left"
+                                                       Width="30"
+                                                       />
+                    <Telerik:GridViewDataColumn Header="Referencia bolsa"
+                                             DataMemberBinding="{Binding NroLiquidacion}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Fecha"
+                                             DataMemberBinding="{Binding FechaReferencia, StringFormat='\{0:dd/MM/yyyy\}', ConverterCulture=es-CO}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Especie"
+                                             DataMemberBinding="{Binding Especie}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Cantidad"
+                                             DataMemberBinding="{Binding Cantidad, StringFormat='\{0:C2\}'}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Precio"
+                                             DataMemberBinding="{Binding PrecioSucio}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Fecha cumplimiento"
+                                             DataMemberBinding="{Binding FechaCumplimiento, StringFormat='\{0:dd/MM/yyyy\}', ConverterCulture=es-CO}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Fecha emisión"
+                                             DataMemberBinding="{Binding FechaEmision, StringFormat='\{0:dd/MM/yyyy\}', ConverterCulture=es-CO}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Fecha vencimiento"
+                                             DataMemberBinding="{Binding FechaVencimiento, StringFormat='\{0:dd/MM/yyyy\}', ConverterCulture=es-CO}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Días"
+                                             DataMemberBinding="{Binding DiasCumplimiento}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Tasa"
+                                             DataMemberBinding="{Binding Precio, StringFormat='\{0:C2\}'}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Cond. negociación"
+                                             DataMemberBinding="{Binding NombreCondicionesNegociacion}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Indicador"
+                                             DataMemberBinding="{Binding NombreIndicador}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="Modalidad"
+                                             DataMemberBinding="{Binding Modalidad}"
+                                             IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn Header="ISIN"
+                                             DataMemberBinding="{Binding ISIN}"
+                                             IsReadOnly="True" />
+                </Telerik:RadGridView.Columns>
+            </Telerik:RadGridView>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

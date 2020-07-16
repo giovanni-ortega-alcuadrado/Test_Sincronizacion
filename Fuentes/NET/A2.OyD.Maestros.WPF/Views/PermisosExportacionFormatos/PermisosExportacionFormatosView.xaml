@@ -1,0 +1,281 @@
+﻿<UserControl
+    x:Class="PermisosExportacionFormatosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="650"
+    MaxWidth="1100">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+    </UserControl.Resources>
+    <!--
+        Descripción:    Diseño para la pantalla Permisos a exportación de formatos
+        Responsable:    Jhonatan Arley Acevedo Alcuadrado (S.A.)
+        Fecha:          9 de Arbil 2015
+    -->
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBlock Style="{StaticResource Title1}" Text="Asignar permisos" />
+                <TextBlock Style="{StaticResource ControlLabelStyle}" Text="  (" />
+                <TextBlock Style="{StaticResource ControlLabelStyle}" Text="{Binding ListaFormatos.Count, StringFormat=n0}" />
+                <TextBlock Style="{StaticResource ControlLabelStyle}" Text=" registros)" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid MaxWidth="1100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*" />
+                        <ColumnDefinition Width="20*" />
+                        <ColumnDefinition Width="20*" />
+                        <ColumnDefinition Width="40*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--<Telerik:DataFormDataField  Label="Modulo"    >-->
+                    <Telerik:DataFormDataField Grid.Column="0" Label="Tipo">
+                        <ComboBox
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DataContext.DiccionarioCombosPermisos[ORIGEN_TIPOPERMISO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedValue="{Binding SistemaOrigen, Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="Tipo permiso" />
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField Grid.Column="1" Label="Campo Búsqueda">
+                        <ComboBox
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DataContext.DiccionarioCombosPermisos[TIPOBUSQUEDA], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedValue="{Binding strTIPOBUSQUEDA, Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            ToolTipService.ToolTip="Tipo busqueda" />
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Column="2"
+                        Label="Usuario"
+                        LabelPosition="Above"
+                        Visibility="{Binding MostrarBuscadorUsuario}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="Black" BorderThickness="0.5">
+                                <TextBlock
+                                    Width="128"
+                                    Height="25"
+                                    Margin="2,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    MouseLeftButtonDown="TextBoxLogin_MouseLeftButtonDown"
+                                    Text="{Binding DataContext.strLoginUsuario, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            </Border>
+                            <my1:BuscadorGenericoListaButon
+                                x:Name="ctlLoginUsuario"
+                                Grid.Column="1"
+                                Margin="2,0,0,0"
+                                Agrupamiento="EXCLUIRTODOS"
+                                CampoBusqueda="LOGIN_USUARIOS"
+                                TipoItem="LOGIN_USUARIOS"
+                                finalizoBusqueda="cltBuscadorUsuarios_itemAsignado" />
+                        </Grid>
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField
+                        Grid.Column="2"
+                        Label="Tipo"
+                        Visibility="{Binding MostrarBuscadorTipo}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="Black" BorderThickness="0.5">
+                                <TextBlock
+                                    Width="128"
+                                    Height="25"
+                                    HorizontalAlignment="Left"
+                                    Background="White"
+                                    MouseLeftButtonDown="TextBoxTipo_MouseLeftButtonDown"
+                                    Text="{Binding DataContext.strBuscadorTipo, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            </Border>
+                            <my1:BuscadorGenericoListaButon
+                                x:Name="ctlTipo"
+                                Grid.Column="1"
+                                Margin="2,0,0,0"
+                                Agrupamiento="{Binding SistemaOrigen}"
+                                CampoBusqueda="ASIGNARPERMISOS_OBJETOS"
+                                TipoItem="ASIGNARPERMISOS_OBJETOS"
+                                finalizoBusqueda="cltBuscadorTipo_itemAsignado" />
+                        </Grid>
+                    </Telerik:DataFormDataField>
+
+                    <Telerik:DataFormDataField Grid.Column="3" Label="">
+                        <ListBox
+                            Background="Transparent"
+                            BorderThickness="0"
+                            DisplayMemberPath="Descripcion"
+                            ItemsSource="{Binding DataContext.DiccionarioCombosPermisos[PermisosFormatosExportar], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedValue="{Binding strActivo, Mode=TwoWay}"
+                            SelectedValuePath="ID">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Grid Background="Transparent">
+                                                    <RadioButton
+                                                        Margin="15,0,0,0"
+                                                        IsChecked="{TemplateBinding IsSelected}"
+                                                        IsHitTestVisible="False">
+                                                        <ContentPresenter />
+                                                    </RadioButton>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Telerik:DataFormDataField>
+
+                    <Button
+                        x:Name="btnGrabar"
+                        Grid.Column="4"
+                        VerticalAlignment="Bottom"
+                        Click="btnGrabar_Click"
+                        Content="Grabar" />
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdAsignar">
+                    <!--  ==============================  -->
+                    <!--  Grid de asignación de permisos  -->
+                    <!--  ==============================  -->
+                    <StackPanel Height="Auto" VerticalAlignment="Top">
+                        <Grid MaxWidth="1100">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBox
+                                    x:Name="txtFiltro"
+                                    Width="200"
+                                    Height="25"
+                                    Margin="1"
+                                    BorderBrush="Black"
+                                    KeyDown="txtFiltro_KeyDown"
+                                    KeyUp="txtFiltro_KeyUp"
+                                    MaxLength="100" />
+                                <Button
+                                    x:Name="btnFiltro"
+                                    Margin="2,0,0,0"
+                                    Click="btnFiltro_Click"
+                                    Style="{StaticResource btnBuscar}"
+                                    ToolTipService.ToolTip="Aplicar filtro" />
+                                <Button
+                                    x:Name="btnLimpiarFiltro"
+                                    Margin="2,0,0,0"
+                                    Click="btnLimpiarFiltro_Click"
+                                    Style="{StaticResource btnLimpiar}"
+                                    ToolTipService.ToolTip="Limpiar filtro" />
+                            </StackPanel>
+                            <Border
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="15"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                        </Grid>
+
+                        <A2UTILGEN:A2GridView
+                            x:Name="dg"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ListaRegistrosPaged}"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn.Header>
+                                        <CheckBox
+                                            x:Name="chkSeleccionarTodo"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Click="chkSeleccionarTodo_Click"
+                                            IsChecked="{Binding chkSeleccionarTodo, Mode=TwoWay, Source={StaticResource ViewModelPrincipal}}">
+                                            <CheckBox.ContentTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Seleccionar todo" />
+                                                </DataTemplate>
+                                            </CheckBox.ContentTemplate>
+
+                                        </CheckBox>
+                                    </Telerik:GridViewDataColumn.Header>
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                x:Name="chkSeleccionar"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding Seleccionado, Mode=TwoWay}" />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>
+                                <Telerik:GridViewDataColumn
+                                    MinWidth="130"
+                                    DataMemberBinding="{Binding DescripcionSistema}"
+                                    Header="Tipo" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding Descripcion}" Header="Descripción" />
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

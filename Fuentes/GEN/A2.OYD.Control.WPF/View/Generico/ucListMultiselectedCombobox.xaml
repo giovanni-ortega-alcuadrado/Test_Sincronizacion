@@ -1,0 +1,99 @@
+﻿<UserControl
+    x:Class="ucListMultiselectedCombobox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:A2ComunesControl"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:clsStringToBoleanConverter x:Key="clsStringToBoleanConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        Width="230"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="White"
+        ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <c1:C1DropDown
+            x:Name="cboItems"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AutoClose="True"
+            FlowDirection="LeftToRight"
+            MouseLeftButtonDown="cboItems_MouseLeftButtonDown"
+            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+            ToolTipService.ToolTip="{Binding ElementName=txtHeader, Path=Text}">
+            <c1:C1DropDown.Header>
+                <Grid VerticalAlignment="Center">
+                    <TextBlock x:Name="txtHeader" />
+                </Grid>
+            </c1:C1DropDown.Header>
+            <Border
+                x:Name="BorderAncho"
+                Padding="2"
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="2"
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <Grid
+                    Margin="10"
+                    Background="#e8e8e8"
+                    ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ListBox
+                        x:Name="lstItems"
+                        Grid.Row="0"
+                        ItemsSource="{Binding DataContext.ItemsListaControl, RelativeSource={RelativeSource AncestorType=c1:C1DropDown}}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        SelectionMode="Single">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="2,0,0,0" Orientation="Horizontal">
+                                    <CheckBox
+                                        x:Name="chkSelected"
+                                        Checked="chkSelected_Checked"
+                                        Content="{Binding Descripcion}"
+                                        IsChecked="{Binding Retorno, Mode=TwoWay, Converter={StaticResource clsStringToBoleanConverter}}"
+                                        ToolTipService.ToolTip="{Binding Descripcion}"
+                                        Unchecked="chkSelected_Unchecked" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,5,0,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btnMarcarTodos"
+                            Width="105"
+                            Click="btnMarcarTodos_Click"
+                            Style="{StaticResource btnGenerico}"
+                            ToolTipService.ToolTip="{Binding TextoBotonMarcarTodos, Mode=TwoWay}" />
+                        <Button
+                            x:Name="btnDesmarcarTodos"
+                            Width="105"
+                            Click="btnDesmarcarTodos_Click"
+                            Style="{StaticResource btnGenerico}"
+                            ToolTipService.ToolTip="{Binding TextoBotonDesmarcarTodos, Mode=TwoWay}" />
+                    </StackPanel>
+
+
+                </Grid>
+            </Border>
+        </c1:C1DropDown>
+    </Grid>
+</UserControl>

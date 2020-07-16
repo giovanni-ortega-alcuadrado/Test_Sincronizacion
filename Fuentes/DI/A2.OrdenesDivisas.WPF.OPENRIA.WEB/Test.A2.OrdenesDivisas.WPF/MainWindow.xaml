@@ -1,0 +1,35 @@
+﻿<Window x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Test.A2.OrdenesDivisas.WPF"
+        mc:Ignorable="d"
+        Title="Test Ejemplo practico" Height="350" Width="525"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Telerik:RadBusyIndicator IsBusy="{Binding IsBusy}"  DisplayAfter="0" BusyContent="Cargando..." x:Name="myBusyIndicator">
+        <Grid Background="{StaticResource BackgroundColorBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
+                <Button Content="Ordenes" Tag="Ordenes" Click="Button_Click" Style="{StaticResource HyperlinkLikeButton}" />
+            </StackPanel>
+
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Grid.Column="1" Grid.Row="0">
+                <Grid x:Name="GridPrincipal" HorizontalAlignment="Stretch" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+    
+</Window>

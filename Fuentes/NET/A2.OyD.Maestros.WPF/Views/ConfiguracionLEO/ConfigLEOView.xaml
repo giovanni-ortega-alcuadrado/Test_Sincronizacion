@@ -1,0 +1,110 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: ConfigLEOView.xaml
+    Generado el : 11/21/2011 16:36:47
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="ConfigLEOView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="600">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <!--<src:A2UtilsViewModel x:Key="A2VM"/>-->
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--<Grid.Resources>
+
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Configuración LEO" />
+                <TextBlock
+                    Style="{StaticResource txbNumRegistros}"
+                    Text="*"
+                    Visibility="{Binding ConfigLESelected.HasChanges, Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text="  (" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text="{Binding ListaConfigLEO.Count, StringFormat=n0}" />
+                <TextBlock Style="{StaticResource txbNumRegistros}" Text=" registros)" />
+            </StackPanel>
+
+            <Border Grid.Row="2" Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button
+                        x:Name="Aceptar"
+                        Width="85"
+                        Click="Aceptar_Click"
+                        Content="Aceptar" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="3" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="600">
+                    <A2UTILGEN:A2GridView
+                        x:Name="dg"
+                        Grid.Row="4"
+                        Grid.RowSpan="3"
+                        VerticalAlignment="Top"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding listadisponibles}"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        SelectedItem="{Binding disponibles, Mode=TwoWay}"
+                        ValidatesOnDataErrors="None">
+                        <A2UTILGEN:A2GridView.Columns>
+                            <Telerik:GridViewDataColumn Header="Seleccionar" SortMemberPath="Chequear">
+                                <Telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox
+                                            HorizontalAlignment="Center"
+                                            GotFocus="CheckBox_GotFocus"
+                                            IsChecked="{Binding Chequear, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            Tag="{Binding}"
+                                            ToolTipService.ToolTip="Chequear" />
+                                    </DataTemplate>
+                                </Telerik:GridViewDataColumn.CellTemplate>
+                            </Telerik:GridViewDataColumn>
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding Descripcion}" Header="Descripción" />
+                        </A2UTILGEN:A2GridView.Columns>
+                    </A2UTILGEN:A2GridView>
+                </Grid>
+            </Border>
+
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

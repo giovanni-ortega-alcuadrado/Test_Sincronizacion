@@ -1,0 +1,251 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: TipoProductoXEspecieView.xaml
+    Generado el : 12/10/2012 09:15:13
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="TipoProductoXEspecieView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:myControl="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--    -->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding TipoProductoSelected}"
+                    TextoFiltroTooltip="Nombre"
+                    TituloVista="Tipo Producto"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding TipoProductoSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaTipoProducto.Count}"
+                    VisibilidadRefrescarCombos="True" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" MaxWidth="650">
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding DataContext.visLista, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                MinHeight="120"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaTipoProductoPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding TipoProductoSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Código" SortMemberPath="Código">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Codigo, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Descripcion, Mode=TwoWay}" Header="Nombre" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="650">
+                            <!--  Dataform de búsqueda  -->
+                            <StackPanel
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                DataContext="{Binding cb}"
+                                Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <Grid MaxWidth="650">
+                                    <Telerik:DataFormDataField Label="Código" LabelPosition="Above">
+                                        <ComboBox
+                                            DisplayMemberPath="Descripcion"
+                                            ItemsSource="{Binding DataContext.ListaTipoProdutoCompleta, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding CodigoTipoProducto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            SelectedValuePath="Codigo" />
+                                    </Telerik:DataFormDataField>
+                                </Grid>
+                            </StackPanel>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                DataContext="{Binding TipoProductoSelected}"
+                                Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <Grid MaxWidth="650">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Label="Código"
+                                        LabelPosition="Above">
+                                        <TextBlock Text="{Binding Codigo, Mode=TwoWay}" ToolTipService.ToolTip="Código Tipo Producto" />
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="1"
+                                        Label="Descripción"
+                                        LabelPosition="Above">
+                                        <TextBlock
+                                            GotFocus="SeleccionarFocoControl"
+                                            Text="{Binding Descripcion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                            ToolTipService.ToolTip="Especie" />
+                                    </Telerik:DataFormDataField>
+
+                                    <Border Grid.Row="2" Style="{StaticResource Contenedor_TabControl}">
+                                        <TabControl>
+                                            <TabItem Header="Especies">
+                                                <StackPanel>
+                                                    <A2Utils:ControlMenuDetalleA2
+                                                        x:Name="cmTipoProductoXEspecie"
+                                                        IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        Mensaje="{Binding DataContext.MensajeMVVM, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                                        NombreDetalle="{Binding DataContext.NombreColeccionDetalle, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                                        ObjetoSeleccionado="{Binding DataContext.TipoProductoXEspeciSelected, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        PreguntarConfirmacion="False" />
+
+                                                    <A2UTILGEN:A2GridView
+                                                        x:Name="dgTipoProductoXEspecie"
+                                                        Height="150"
+                                                        VerticalAlignment="Top"
+                                                        AutoGenerateColumns="False"
+                                                        IsReadOnly="{Binding DataContext.EditandoDetalle, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ItemsSource="{Binding DataContext.ListaTipoProductoXEspecie, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                        SelectedItem="{Binding DataContext.TipoProductoXEspeciSelected, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                                        ValidatesOnDataErrors="None">
+                                                        <A2UTILGEN:A2GridView.Columns>
+                                                            <Telerik:GridViewDataColumn
+                                                                DataMemberBinding="{Binding ID, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                Header="Código"
+                                                                IsReadOnly="True" />
+                                                            <Telerik:GridViewDataColumn>
+                                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <myControl:BuscadorEspecieListaButon
+                                                                            Margin="3"
+                                                                            EstadoEspecie="A"
+                                                                            HabilitarConsultaISIN="False"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            finalizoBusqueda="Buscador_finalizoBusquedanemotecnicoBusqueda" />
+                                                                    </DataTemplate>
+                                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                                            </Telerik:GridViewDataColumn>
+                                                            <Telerik:GridViewDataColumn
+                                                                DataMemberBinding="{Binding IDEspecie, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                Header="Especie"
+                                                                IsReadOnly="True" />
+                                                            <Telerik:GridViewDataColumn Header="Permitir Negociar">
+                                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <CheckBox
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding PermiteNegociar, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                    </DataTemplate>
+                                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                                            </Telerik:GridViewDataColumn>
+                                                            <Telerik:GridViewDataColumn Header="Valor máximo negociación">
+                                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            GotFocus="SeleccionarFocoControl"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="999999999999999"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="4"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="Numeric"
+                                                                            Value="{Binding ValorMaxNegociacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                                    </DataTemplate>
+                                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                                            </Telerik:GridViewDataColumn>
+                                                            <Telerik:GridViewDataColumn Header="Cruce por faciales">
+                                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <CheckBox
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding CrucePorFaciales, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                    </DataTemplate>
+                                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                                            </Telerik:GridViewDataColumn>
+                                                        </A2UTILGEN:A2GridView.Columns>
+                                                    </A2UTILGEN:A2GridView>
+                                                </StackPanel>
+                                            </TabItem>
+                                        </TabControl>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

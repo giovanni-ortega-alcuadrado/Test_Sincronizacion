@@ -1,0 +1,270 @@
+﻿<UserControl
+    x:Class="ConfiguracionMotorCaluloView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controls="clr-namespace:SpreadsheetGear.Windows.Forms;assembly=SpreadsheetGear2017"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2Riesgos"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    VerticalAlignment="Stretch"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            Margin="0,10,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="10" />
+                <RowDefinition Height="Auto" MinHeight="10" />
+                <RowDefinition Height="Auto" MinHeight="10" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{StaticResource Title1}" Text="Configuración motor de cálculo" />
+
+            <Border Grid.Row="3" Style="{StaticResource Contenedor_TabControl}">
+                <Telerik:RadTabControl
+                    Name="tabBandas"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                    <Telerik:RadTabItem
+                        Name="Metodos"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Header="Métodos"
+                        IsSelected="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="10" />
+                                <RowDefinition Height="Auto" MinHeight="10" />
+                                <RowDefinition Height="Auto" MinHeight="6" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Row="1"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Style="{StaticResource Title5}"
+                                Text="Métodos" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Style="{StaticResource Title5}"
+                                Text="Versiones" />
+
+                            <Grid Grid.Row="2" Grid.Column="3">
+                                <StackPanel
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                                    <Button
+                                        Name="btnNuevoVersion"
+                                        Width="110"
+                                        Margin="0,0,5,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Click="btnNuevoVersion_Click"
+                                        Content="Nuevo"
+                                        Visibility="{Binding btnNuevaVersionVisibility, Converter={StaticResource VisibilityConverter}}" />
+                                    <Button
+                                        Name="btnBorrarVersion"
+                                        Width="110"
+                                        Margin="0,0,5,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Click="btnBorrarVersion_Click"
+                                        Content="Borrar"
+                                        Visibility="{Binding btnBorrarVersionVisibility, Converter={StaticResource VisibilityConverter}}" />
+                                    <Button
+                                        Name="btnDescargarVersion"
+                                        Width="110"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Click="btnDescargarVersion_Click"
+                                        Content="Descargar versión"
+                                        Visibility="{Binding btnBajarVersionVisibility, Converter={StaticResource VisibilityConverter}}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <A2UTILGEN:A2GridView
+                                x:Name="dgMetodos"
+                                Grid.Row="3"
+                                VerticalAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding DataContext.ListaMetodos, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding DataContext.MetodoSeleccionado, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Código"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Descripcion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Descripción"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn Header="¿Es Online?" IsReadOnly="True">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Online, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Version, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Versión"
+                                        IsReadOnly="True" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+
+                            <A2UTILGEN:A2GridView
+                                x:Name="dgVersiones"
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                VerticalAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding DataContext.ListaVersionesPorMetodo, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding DataContext.VersionSeleccionada, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Version, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Código"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Usuario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Creado por"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding FechaInicial, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Fecha"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn Header="Aprobado" IsReadOnly="True">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Aprobado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Autorizador, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Autorizado por"
+                                        IsReadOnly="True" />
+                                    <!--  Observaciones,Assembly  -->
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Assembly, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        Header="Distribución"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn Header="Observaciones" IsReadOnly="True">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Width="30"
+                                                    Click="btnInfoVersion_Click"
+                                                    Tag="{Binding}"
+                                                    ToolTipService.Placement="Left">
+                                                    <Button.Content>
+                                                        <Path
+                                                            Data="F1M66.9375,60.4683303833008L69.3984375,60.9605178833008 71.4140625,62.3198928833008 72.7734375,64.3355178833008 73.265625,66.7964553833008 72.7734375,69.2573928833008 71.4140625,71.2495803833008 69.3984375,72.5855178833008 66.9375,73.0777053833008 64.4765625,72.5855178833008 62.4609375,71.2495803833008 61.1015625,69.2573928833008 60.609375,66.7964553833008 61.1015625,64.3355178833008 62.4609375,62.3198928833008 64.4765625,60.9605178833008 66.9375,60.4683303833008z M48,60.4683303833008L50.4609375,60.9605178833008 52.4765625,62.3198928833008 53.8359375,64.3355178833008 54.328125,66.7964553833008 53.8359375,69.2573928833008 52.4765625,71.2495803833008 50.4609375,72.5855178833008 48,73.0777053833008 45.5390625,72.5855178833008 43.5234375,71.2495803833008 42.1640625,69.2573928833008 41.671875,66.7964553833008 42.1640625,64.3355178833008 43.5234375,62.3198928833008 45.5390625,60.9605178833008 48,60.4683303833008z M29.0625,60.4683303833008L31.5234375,60.9605178833008 33.515625,62.3198928833008 34.8515625,64.3355178833008 35.34375,66.7964553833008 34.8515625,69.2573928833008 33.515625,71.2495803833008 31.5234375,72.5855178833008 29.0625,73.0777053833008 26.6015625,72.5855178833008 24.5859375,71.2495803833008 23.2265625,69.2573928833008 22.734375,66.7964553833008 23.2265625,64.3355178833008 24.5859375,62.3198928833008 26.6015625,60.9605178833008 29.0625,60.4683303833008z M47.953125,29.8120803833008L42.978515625,30.1460647583008 38.1796875,31.1480178833008 33.62109375,32.7534866333008 29.3671875,34.8980178833008 25.4472637176514,37.5581741333008 21.890625,40.7105178833008 18.755859375,44.284740447998 16.1015625,48.2105178833008 13.9570302963257,52.464427947998 12.3515625,57.0230178833008 11.349609375,61.8218460083008 11.015625,66.7964553833008 11.349609375,71.7710647583008 12.3515625,76.5698928833008 13.9570302963257,81.1284866333008 16.1015625,85.3823928833008 18.755859375,89.3023147583008 21.890625,92.8589553833008 25.4472637176514,95.9937210083008 29.3671875,98.6480178833008 33.62109375,100.786689758301 38.1796875,102.374580383301 42.978515625,103.358955383301 47.953125,103.687080383301 52.9277305603027,103.353096008301 57.7265625,102.351142883301 62.2910118103027,100.745674133301 66.5625,98.6011428833008 70.5,95.9468460083008 74.0625,92.8120803833008 77.203125,89.2554397583008 79.875,85.3355178833008 82.037109375,81.0874710083008 83.6484375,76.5464553833008 84.650390625,71.7652053833008 84.984375,66.7964553833008 84.650390625,61.8218460083008 83.6484375,57.0230178833008 82.037109375,52.464427947998 79.875,48.2105178833008 77.197265625,44.284740447998 74.0390625,40.7105178833008 70.458984375,37.5581741333008 66.515625,34.8980178833008 62.2441368103027,32.7534866333008 57.6796875,31.1480178833008 52.8925743103027,30.1460647583008 47.953125,29.8120803833008z M48,26.4370803833008L53.4023399353027,26.8062210083008 58.640625,27.9136428833008 63.626953125,29.6831741333008 68.2734375,32.0386428833008 72.556640625,34.9507522583008 76.453125,38.3902053833008 79.8984375,42.292552947998 82.828125,46.5933303833008 85.1953125,51.251537322998 86.953125,56.2261428833008 88.04296875,61.4468460083008 88.40625,66.8433303833008 88.04296875,72.2749710083008 86.953125,77.5073928833008 85.1953125,82.4761428833008 82.828125,87.1167678833008 79.8984375,91.3941116333008 76.453125,95.2730178833008 72.556640625,98.6890335083008 68.2734375,101.577705383301 63.626953125,103.909736633301 58.640625,105.655830383301 53.4023399353027,106.745674133301 48,107.108955383301 42.57421875,106.745674133301 37.359375,105.655830383301 32.40234375,103.903877258301 27.75,101.554267883301 23.44921875,98.6480178833008 19.546875,95.2261428833008 16.107421875,91.3472366333008 13.1953115463257,87.0698928833008 10.845703125,82.4292678833008 9.09375,77.4605178833008 8.00390625,72.2398147583008 7.640625,66.8433303833008 8.00390625,61.4116897583008 9.09375,56.1792678833008 10.845703125,51.204662322998 13.1953115463257,46.5464553833008 16.107421875,42.245677947998 19.546875,38.3433303833008 23.44921875,34.9038772583008 27.75,31.9917678833008 32.408203125,29.6421585083008 37.3828125,27.8902053833008 42.603515625,26.8003616333008 48,26.4370803833008z"
+                                                            Fill="#FFFFFFFF"
+                                                            RenderTransformOrigin="0.5,0.5"
+                                                            Stretch="Uniform" />
+                                                    </Button.Content>
+                                                    <ToolTipService.ToolTip>
+                                                        <TextBlock
+                                                            MaxWidth="200"
+                                                            Text="{Binding Observaciones, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                            TextWrapping="Wrap" />
+                                                    </ToolTipService.ToolTip>
+                                                </Button>
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </Grid>
+                    </Telerik:RadTabItem>
+                    <Telerik:RadTabItem Name="OtrasConfiguraciones" Header="Otras configuraciones">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <!--  Notificación  -->
+                            <StackPanel Grid.Row="0" Orientation="Vertical">
+                                <Label
+                                    VerticalAlignment="Center"
+                                    Content="URL Notificaciones:  "
+                                    FontSize="14"
+                                    Style="{StaticResource EstiloLabel}" />
+                                <TextBox
+                                    x:Name="txtURLNotificaciones"
+                                    Width="600"
+                                    HorizontalAlignment="Left"
+                                    IsEnabled="False"
+                                    KeyDown="txtURLNotificaciones_KeyDown"
+                                    TextAlignment="Left" />
+                            </StackPanel>
+                            <!--  Autorizaciones  -->
+                            <StackPanel Grid.Row="1" Orientation="Vertical">
+                                <Label
+                                    VerticalAlignment="Center"
+                                    Content="Nuevas versiones requieren autorización:  "
+                                    FontSize="14"
+                                    Style="{StaticResource EstiloLabel}" />
+                                <CheckBox
+                                    Name="chkRequiereAutorizacion"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    IsEnabled="False" />
+                                <Label
+                                    VerticalAlignment="Center"
+                                    Content="URL Autorizaciones:  "
+                                    FontSize="14"
+                                    Style="{StaticResource EstiloLabel}" />
+                                <TextBox
+                                    x:Name="txtURLAutorizaciones"
+                                    Width="600"
+                                    HorizontalAlignment="Left"
+                                    IsEnabled="False"
+                                    KeyDown="txtURLAutorizaciones_KeyDown"
+                                    TextAlignment="Left" />
+                            </StackPanel>
+                        </Grid>
+                    </Telerik:RadTabItem>
+                </Telerik:RadTabControl>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

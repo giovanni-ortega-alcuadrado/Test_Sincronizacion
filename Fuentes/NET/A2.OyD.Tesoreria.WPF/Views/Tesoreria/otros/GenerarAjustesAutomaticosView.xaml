@@ -1,0 +1,188 @@
+﻿<UserControl
+    x:Class="GenerarAjustesAutomaticosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDTesoreria"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
+
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <ScrollViewer
+            x:Name="ScrollForma"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <Grid
+                x:Name="LayoutRoot"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource Title1}"
+                    Text="Generar Ajustes Automáticos" />
+
+
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource Contenedor_Estilo}">
+
+
+                    <Grid VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <Telerik:DataFormDataField Label="Consecutivo" LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cboConsecutivo"
+                                    Width="250"
+                                    HorizontalAlignment="Left"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCarga[CONSECUTIVONOTAS]}"
+                                    SelectedValue="{Binding ConsecutivoSeleccionado, Mode=TwoWay}"
+                                    SelectedValuePath="ID"
+                                    ToolTipService.ToolTip="Consecutivo" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Label="Archivo"
+                                LabelPosition="Above">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox
+                                        MinWidth="400"
+                                        IsEnabled="False"
+                                        Text="{Binding NombreArchivo}"
+                                        TextWrapping="Wrap" />
+                                    <OyD:ucBtnDialogoImportar
+                                        x:Name="btnSubirArchivo"
+                                        CargarArchivo="btnSubirArchivo_CargarArchivo"
+                                        Filtros="CSV files CSV (*.csv)|*.csv"
+                                        Proceso="ImpAjustesAutomaticos" />
+                                </StackPanel>
+                            </Telerik:DataFormDataField>
+
+                        </StackPanel>
+
+                        <Border Grid.Row="1" Style="{StaticResource Contenedor_Paginador}">
+                            <A2UTILGEN:A2DataPager
+                                x:Name="datapagerdetalle"
+                                PageSize="10"
+                                Source="{Binding Items, ElementName=dgLista}" />
+                        </Border>
+                        <A2UTILGEN:A2GridView
+                            x:Name="dgLista"
+                            Grid.Row="2"
+                            Height="150"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="{Binding DataContext.EditandoDetalle, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            ItemsSource="{Binding DataContext.ListaEncabezadoPaginada, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding intCodigo, Mode=TwoWay}"
+                                    Header="Código"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding strNombre, Mode=TwoWay}"
+                                    Header="Nombre banco"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding strDetalle, Mode=TwoWay}"
+                                    Header="Detalle"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding strTipo, Mode=TwoWay}"
+                                    Header="Tipo"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding dblValor, Mode=TwoWay, StringFormat='\{0:n2\}'}"
+                                    Header="Valor"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding dtmDcto, Mode=TwoWay, StringFormat='\{0:dd/MM/yyyy\}'}"
+                                    Header="Dcto"
+                                    IsReadOnly="True" />
+                                <Telerik:GridViewDataColumn
+                                    DataMemberBinding="{Binding strParametro, Mode=TwoWay}"
+                                    Header="Parámetro"
+                                    IsReadOnly="True" />
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+
+                        <StackPanel
+                            Grid.Row="4"
+                            Margin="0,0,5,5"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="btnGenerar"
+                                Width="130"
+                                Height="30"
+                                Click="btnGenerar_Click"
+                                Content="Generar" />
+
+                            <Button
+                                x:Name="btnAyuda"
+                                Width="130"
+                                Height="30"
+                                Click="btnAyuda_Click"
+                                Content="Ayuda" />
+                        </StackPanel>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+        </ScrollViewer>
+
+    </Telerik:RadBusyIndicator>
+</UserControl>

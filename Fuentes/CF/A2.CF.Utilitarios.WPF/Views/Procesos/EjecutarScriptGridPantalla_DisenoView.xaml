@@ -1,0 +1,109 @@
+﻿<Window
+    x:Class="EjecutarScriptGridPantalla_DisenoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2CFUtilitarios"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Actualización Diseño"
+    Width="450"
+    Height="400"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusyDiseno}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="0"
+                Label="Usuario"
+                LabelPosition="Above">
+                <TextBox
+                    GotFocus="seleccionarFocoControl"
+                    IsEnabled="False"
+                    MaxLength="100"
+                    Text="{Binding Diseno_Usuario, Mode=TwoWay}"
+                    TextAlignment="Left"
+                    TextWrapping="Wrap"
+                    ToolTipService.ToolTip="Diseño" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="0"
+                Label="Nombre"
+                LabelPosition="Above">
+                <TextBox
+                    GotFocus="seleccionarFocoControl"
+                    MaxLength="100"
+                    Text="{Binding Diseno_Edicion, Mode=TwoWay}"
+                    TextAlignment="Left"
+                    TextWrapping="Wrap"
+                    ToolTipService.ToolTip="Diseño" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="2"
+                Grid.Column="0"
+                Label="Descripción"
+                LabelPosition="Above">
+                <TextBox
+                    MinHeight="80"
+                    GotFocus="seleccionarFocoControl"
+                    MaxLength="500"
+                    Text="{Binding DescripcionDiseno_Edicion, Mode=TwoWay}"
+                    TextAlignment="Left"
+                    TextWrapping="Wrap"
+                    ToolTipService.ToolTip="Descripción" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="3"
+                Grid.Column="0"
+                Label="Habilitado para todos los usuarios"
+                LabelPosition="Above"
+                Visibility="{Binding MostrarTodosUsuarios}">
+                <CheckBox IsChecked="{Binding HabilitarTodosUsuarios, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <StackPanel
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="0,0,30,10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnGuardarNuevoDiseno"
+                    Click="btnGuardarNuevoDiseno_Click"
+                    Content="Guardar nuevo diseño" />
+                <Button
+                    x:Name="btnActualizarDiseno"
+                    Margin="5,0,0,0"
+                    Click="btnActualizarDiseno_Click"
+                    Content="Actualizar diseño"
+                    Visibility="{Binding MostrarActualizarDiseno}" />
+                <Button
+                    x:Name="btnCancelar"
+                    Margin="5,0,0,0"
+                    Click="btnCancelar_Click"
+                    Content="Cancelar" />
+            </StackPanel>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

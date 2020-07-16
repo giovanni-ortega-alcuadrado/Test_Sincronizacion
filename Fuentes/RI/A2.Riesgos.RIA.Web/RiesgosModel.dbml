@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbA2Utilidades_Net_Desarrollo" Class="RiesgosModelDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="" Member="ItemCombos">
+    <Type Name="ItemCombo" Id="ID4">
+      <Column Name="Categoria" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" CanBeNull="false" />
+      <Column Name="intID" Type="System.Nullable(Of System.Int32)" CanBeNull="true" />
+      <Column Name="Retorno" Type="System.String" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="MC.tblConsultas" Member="Consultas">
+    <Type Name="Consultas" Id="ID1">
+      <Column Name="intIDConsultas" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strConsulta" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="true" />
+      <Column Name="strProcedimiento" Type="System.String" DbType="Varchar(400) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId1">
+      <Argument Parameter="pintIDConsultas" Member="intIDConsultas" />
+      <Argument Parameter="pstrConsulta" Member="strConsulta" />
+      <Argument Parameter="pstrProcedimiento" Member="strProcedimiento" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrInfoSesion" Member="strInfoSesion" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />
+    </InsertFunction>
+    <UpdateFunction FunctionId="FunctionId1">
+      <Argument Parameter="pintIDConsultas" Member="intIDConsultas" />
+      <Argument Parameter="pstrConsulta" Member="strConsulta" />
+      <Argument Parameter="pstrProcedimiento" Member="strProcedimiento" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrInfoSesion" Member="strInfoSesion" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />
+    </UpdateFunction>
+    <DeleteFunction FunctionId="FunctionId2">
+      <Argument Parameter="pintIDConsultas" Member="intIDConsultas" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrInfoSesion" Member="strInfoSesion" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />
+    </DeleteFunction>
+  </Table>
+  <Table Name="MC.tblAlertas" Member="Alertas">
+    <Type Name="Alertas" Id="ID2">
+      <Column Name="intIDAlertas" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strMetodo" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="strConsulta" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="strValorAnterior" Type="System.String" DbType="VarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="strValorNuevo" Type="System.String" DbType="VarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="strTipoAlerta" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="strDestinatarios" Type="System.String" DbType="VarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="strAlerta" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="dtmActualizacion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblToolbarsPorAplicacion" Member="ToolbarsPorAplicacions">
+    <Type Name="ToolbarsPorAplicacion" Id="ID3">
+      <Column Name="intId" Member="lngId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="strNombreBoton" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="strToolTip" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Id="FunctionId1" Name="MC.usp_MC_Consultas_Actualizar" Method="usp_MC_Consultas_Actualizar">
+    <Parameter Name="pintIDConsultas" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="pstrConsulta" Type="System.String" DbType="Varchar(100) NOT NULL" />
+    <Parameter Name="pstrProcedimiento" Type="System.String" DbType="Varchar(400) NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="VarChar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId2" Name="MC.usp_MC_Consultas_Eliminar" Method="usp_MC_Consultas_Eliminar">
+    <Parameter Name="pintIDConsultas" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="varchar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="MC.usp_MC_Consultas_Filtrar" Method="usp_MC_Consultas_Filtrar">
+    <Parameter Name="pstrFiltro" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="MC.usp_MC_Consultas_Consultar" Method="usp_MC_Consultas_Consultar">
+    <Parameter Name="pstrAccion" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pstrConsulta" Type="System.String" DbType="Varchar(100) NOT NULL" />
+    <Parameter Name="pstrProcedimiento" Type="System.String" DbType="Varchar(400) NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="MC.usp_MC_Alertas_Consultar" Method="usp_MC_Alertas_Consultar">
+    <Parameter Name="pdtmFecha" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.uspA2CA_consultarToolbarsUsuario" Method="uspA2CA_consultarToolbarsUsuario">
+    <Parameter Name="pstrAplicacion" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrVersion" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(80)" />
+    <Parameter Name="pstrClave" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrToolbar" Type="System.String" DbType="VarChar(5000)" />
+    <Parameter Name="pstrSeparador" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="plogRetornarPredeterminada" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="pstrServidor" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrMaquina" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrDirIPMaquina" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrBrowser" Type="System.String" DbType="VarChar(250)" />
+    <Parameter Name="pintIdSesion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrDivision" Type="System.String" DbType="VarChar(40)" />
+    <Parameter Name="pstrUsrImpersonalizado" Type="System.String" DbType="VarChar(80)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="plogRegistrarLogin" Type="System.Boolean" DbType="Bit" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="dbo.uspA2utils_CargarCombos" Method="uspA2utils_CargarCombos">
+    <Parameter Name="pstrListaNombreCombos" Type="System.String" DbType="VarChar(500)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <ElementType IdRef="ID4" />
+  </Function>
+  <Function Name="MC.usp_MC_Riesgo_Insertar" Method="usp_MC_Riesgo_Insertar">
+    <Parameter Name="pstrAplicacion" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrVersion" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrTitulo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrNombre" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="pstrTooltip" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="pstrRoles" Type="System.String" DbType="VarChar(500)" />
+    <Parameter Name="pstrDescripcion" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="pstrNombrePadre" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="pstrNombreTipoObjeto" Type="System.String" DbType="VarChar(25)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="VarChar(8000)" Direction="InOut" />
+    <ElementType Name="usp_MC_Riesgo_InsertarResult">
+      <Column Name="lngIdMenu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="MC.usp_MC_Riesgo_Eliminar" Method="usp_MC_Riesgo_Eliminar">
+    <Parameter Name="pstrAplicacion" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrVersion" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrTitulo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="VarChar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

@@ -1,0 +1,208 @@
+﻿<UserControl
+    x:Class="CalificacionesEmisorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--<Grid.Resources>
+
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding CalificacionesEmisorSelected}"
+                    TextoFiltroTooltip="Filtra por los campos Emisor y Calificaión inversión"
+                    TituloVista="Calificaciones Emisor"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding CalificacionesEmisorSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaCalificacionesEmisor.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" Grid.Row="1">
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaCalificacionesEmisorPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding CalificacionesEmisorSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Id tipo emisor" SortMemberPath="Id Calificación emisor">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding intIdCalificacionEmisor}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding DescripcionEmisor}" Header="Emisor" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding DescripcionCalificacionInversion}" Header="Calificaión inversión" />
+                                    <Telerik:GridViewDataColumn Header="Log transmitir a Super" IsReadOnly="True">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding logTransmitirASuper, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" IsEnabled="False" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmFechaCalificacionEmisor}" Header="Fecha" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  Dataform de búsqueda  -->
+                            <StackPanel
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                DataContext="{Binding cb}"
+                                Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Telerik:DataFormDataField Grid.Row="0" Label="ID calificación emisor">
+                                        <A2UTILGEN:A2NumericBox
+                                            FontSize="8"
+                                            Maximum="9999999"
+                                            Minimum="0"
+                                            ShowButtons="False"
+                                            ToolTipService.ToolTip="ID calificación emisor"
+                                            Value="{Binding intIdCalificacionEmisor, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField Grid.Row="1" Label="Emisor">
+                                        <ComboBox
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            DisplayMemberPath="Nombre"
+                                            ItemsSource="{Binding DataContext.ListaEmisores, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding intIdEmisor, Mode=TwoWay}"
+                                            SelectedValuePath="IdEmisor" />
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField Grid.Row="2" Label="Calificación inversión">
+                                        <ComboBox
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            DisplayMemberPath="strNombreCalificacionInversion"
+                                            ItemsSource="{Binding DataContext.ListaCalificacionInversion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding intIdCalificacionInversion, Mode=TwoWay}"
+                                            SelectedValuePath="intIdCalificacionInversion" />
+                                    </Telerik:DataFormDataField>
+                                </Grid>
+                            </StackPanel>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                VerticalAlignment="Top"
+                                IsEnabled="{Binding Editando}"
+                                Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <Grid DataContext="{Binding CalificacionesEmisorSelected}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Telerik:DataFormDataField Grid.Row="0" Label="ID calificación emisor">
+                                        <A2UTILGEN:A2NumericBox
+                                            FontSize="8"
+                                            Maximum="9999999"
+                                            Minimum="0"
+                                            ShowButtons="False"
+                                            ToolTipService.ToolTip="ID calificación emisor"
+                                            Value="{Binding intIdCalificacionEmisor, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField Grid.Row="1" Label="Emisor">
+                                        <ComboBox
+                                            DisplayMemberPath="Nombre"
+                                            ItemsSource="{Binding DataContext.ListaEmisores, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding intIdEmisor, Mode=TwoWay}"
+                                            SelectedValuePath="IdEmisor" />
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField Grid.Row="2" Label="Calificación inversión">
+                                        <ComboBox
+                                            DisplayMemberPath="strNombreCalificacionInversion"
+                                            ItemsSource="{Binding DataContext.ListaCalificacionInversion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding intIdCalificacionInversion, Mode=TwoWay}"
+                                            SelectedValuePath="intIdCalificacionInversion" />
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField Grid.Row="3" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=logTransmitirASuper}">
+                                        <CheckBox IsChecked="{Binding logTransmitirASuper, Mode=TwoWay}" />
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField Grid.Row="4" Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=dtmFechaCalificacionEmisor}">
+                                        <A2UTILGEN:A2DatePicker IsEnabled="{Binding DataContext.HabilitarFecha, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedDate="{Binding dtmFechaCalificacionEmisor, Mode=TwoWay}" />
+                                    </Telerik:DataFormDataField>
+                                </Grid>
+                            </StackPanel>
+
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

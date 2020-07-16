@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbOyDCITI" EntityNamespace="OyDCitiBank" Class="OyDCitiBankDatacontext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.tblExcepcionesRDIP" Member="ExcepcionesRDIP">
+    <Type Name="ExcepcionesRDI" Id="ID2">
+      <Column Name="lngidRegistro" Member="idRegistro" Type="System.int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="lngidOrden" Member="idOrden" Type="System.Nullable(Of System.int32)" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="strClaseOrden" Member="ClaseOrden" Type="System.String" DbType="Char(1) NULL" CanBeNull="true" />
+      <Column Name="strUsuarioAdvertencia" Member="UsuarioAdvertencia" Type="System.String" DbType="Varchar(30) NULL" CanBeNull="true" />
+      <Column Name="strIdEspecie" Member="IdEspecie" Type="System.String" DbType="Varchar(15) NULL" CanBeNull="true" />
+      <Column Name="dtmRegistro" Member="Registro" Type="System.Nullable(Of System.DateTime)" DbType="Datetime NULL" CanBeNull="true" />
+      <Column Name="lngIDComitente" Member="IDComitente" Type="System.String" DbType="Char(17) NULL" CanBeNull="true" />
+      <Column Name="strNombre" Member="Nombre" Type="System.String" DbType="varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strClasificacionRiesgoEspecie" Member="ClasificacionRiesgoEspecie" Type="System.int32" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="strPerfilInversionistaIR" Member="PerfilInversionistaIR" Type="System.Nullable(Of System.int32)" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="strComentario" Member="Comentario" Type="System.String" DbType="Varchar(255)" CanBeNull="true" />
+      <Column Name="strNuevoComentario" Member="NuevoComentario" Type="System.String" DbType="Varchar(255)" CanBeNull="true" />
+      <Column Name="strUsuarioComentario" Member="UsuarioComentario" Type="System.String" DbType="Varchar(30)" CanBeNull="true" />
+      <Column Name="dtmFechaComentario" Member="FechaComentario" Type="System.DateTime" DbType="Datetime" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(1000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId1">
+      <Argument Parameter="plngidRegistro" Member="idRegistro" />
+      <Argument Parameter="pstrComentario" Member="Comentario" />
+      <Argument Parameter="pstrUsuarioComentario" Member="UsuarioComentario" />
+      <Argument Parameter="infosesion" Member="InfoSesion" />
+    </InsertFunction>
+    <UpdateFunction FunctionId="FunctionId1">
+      <Argument Parameter="plngidRegistro" Member="idRegistro" />
+      <Argument Parameter="pstrComentario" Member="Comentario" />
+      <Argument Parameter="pstrUsuarioComentario" Member="UsuarioComentario" />
+      <Argument Parameter="infosesion" Member="InfoSesion" />
+    </UpdateFunction>
+    <DeleteFunction FunctionId="FunctionId2">
+      <Argument Parameter="plngidRegistro" Member="idRegistro" />
+      <Argument Parameter="infosesion" Member="InfoSesion" />
+    </DeleteFunction>
+  </Table>
+  <Table Name="" Member="Auditorias">
+    <Type Name="Auditoria">
+      <Column Name="Servidor" Type="System.String" DbType="VarChar(50)" CanBeNull="false" />
+      <Column Name="Maquina" Type="System.String" DbType="VarChar(50)" CanBeNull="false" />
+      <Column Name="DirIPMaquina" Type="System.String" DbType="VarChar(50)" CanBeNull="false" />
+      <Column Name="Browser" Type="System.String" DbType="VarChar(250)" CanBeNull="false" />
+      <Column Name="ErrorPersonalizado" Type="System.Byte" CanBeNull="false" />
+      <Column Name="ID" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="ItemCombos">
+    <Type Name="ItemCombo" Id="ID1">
+      <Column Name="Categoria" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" CanBeNull="false" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblCodificacionContable" Member="CodificacionContable">
+    <Type Name="CodificacionContabl" Id="ID3">
+      <Column Name="lngIDCodificacion" Member="IDCodificacion" Type="System.int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="lngIDComisionista" Member="IDComisionista" Type="System.int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="lngIDSucComisionista" Member="IDSucComisionista" Type="System.int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strModulo" Member="Modulo" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="strTipoOperacion" Member="TipoOperacion" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="strUsarFecha" Member="UsarFecha" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="strTipoCliente" Member="TipoCliente" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="lngBranch" Member="Branch" Type="System.int32" DbType="Int" CanBeNull="true" />
+      <Column Name="numCuentaCosmos" Member="CuentaCosmos" Type="System.Decimal" DbType="Decimal" CanBeNull="true" />
+      <Column Name="lngCodigoTransaccion" Member="CodigoTransaccion" Type="System.int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strIndicadorMvto" Member="IndicadorMvto" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="lngNroLote" Member="NroLote" Type="System.int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strDetalleAdicional" Member="DetalleAdicional" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="strTextoDetalle" Member="TextoDetalle" Type="System.String" DbType="Varchar(255)" CanBeNull="true" />
+      <Column Name="strNroReferencia" Member="NroReferencia" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="logPorOperacion" Member="PorOperacion" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="strVlrAReportar" Member="VlrAReportar" Type="System.String" DbType="Varchar(2)" CanBeNull="true" />
+      <Column Name="strProducto" Member="Producto" Type="System.String" DbType="Varchar(5)" CanBeNull="true" />
+      <Column Name="strNroBase" Member="NroBase" Type="System.String" DbType="Varchar(10)" CanBeNull="true" />
+      <Column Name="logSucursalContable" Member="SucursalContable" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="strConsecutivoTesoreria" Member="ConsecutivoTesoreria" Type="System.String" DbType="Varchar(15)" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="Actualizacion" Type="System.DateTime" DbType="Datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(1000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId3">
+      <Argument Parameter="plngIDCodificacion" Member="IDCodificacion" />
+      <Argument Parameter="pstrModulo" Member="Modulo" />
+      <Argument Parameter="pstrTipoOperacion" Member="TipoOperacion" />
+      <Argument Parameter="pstrUsarFecha" Member="UsarFecha" />
+      <Argument Parameter="pstrTipoCliente" Member="TipoCliente" />
+      <Argument Parameter="plngBranch" Member="Branch" />
+      <Argument Parameter="pnumCuentaCosmos" Member="CuentaCosmos" />
+      <Argument Parameter="plngCodigoTransaccion" Member="CodigoTransaccion" />
+      <Argument Parameter="pstrIndicadorMvto" Member="IndicadorMvto" />
+      <Argument Parameter="plngNroLote" Member="NroLote" />
+      <Argument Parameter="pstrDetalleAdicional" Member="DetalleAdicional" />
+      <Argument Parameter="pstrTextoDetalle" Member="TextoDetalle" />
+      <Argument Parameter="pstrNroReferencia" Member="NroReferencia" />
+      <Argument Parameter="plogPorOperacion" Member="PorOperacion" />
+      <Argument Parameter="pstrVlrAReportar" Member="VlrAReportar" />
+      <Argument Parameter="pstrProducto" Member="Producto" />
+      <Argument Parameter="pstrNroBase" Member="NroBase" />
+      <Argument Parameter="plogSucursalContable" Member="SucursalContable" />
+      <Argument Parameter="pstrConsecutivoTesoreria" Member="ConsecutivoTesoreria" />
+      <Argument Parameter="pdtmActualizacion" Member="Actualizacion" />
+      <Argument Parameter="pstrUsuario" Member="Usuario" />
+      <Argument Parameter="infosesion" Member="InfoSesion" />
+    </InsertFunction>
+    <UpdateFunction FunctionId="FunctionId3">
+      <Argument Parameter="plngIDCodificacion" Member="IDCodificacion" />
+      <Argument Parameter="pstrModulo" Member="Modulo" />
+      <Argument Parameter="pstrTipoOperacion" Member="TipoOperacion" />
+      <Argument Parameter="pstrUsarFecha" Member="UsarFecha" />
+      <Argument Parameter="pstrTipoCliente" Member="TipoCliente" />
+      <Argument Parameter="plngBranch" Member="Branch" />
+      <Argument Parameter="pnumCuentaCosmos" Member="CuentaCosmos" />
+      <Argument Parameter="plngCodigoTransaccion" Member="CodigoTransaccion" />
+      <Argument Parameter="pstrIndicadorMvto" Member="IndicadorMvto" />
+      <Argument Parameter="plngNroLote" Member="NroLote" />
+      <Argument Parameter="pstrDetalleAdicional" Member="DetalleAdicional" />
+      <Argument Parameter="pstrTextoDetalle" Member="TextoDetalle" />
+      <Argument Parameter="pstrNroReferencia" Member="NroReferencia" />
+      <Argument Parameter="plogPorOperacion" Member="PorOperacion" />
+      <Argument Parameter="pstrVlrAReportar" Member="VlrAReportar" />
+      <Argument Parameter="pstrProducto" Member="Producto" />
+      <Argument Parameter="pstrNroBase" Member="NroBase" />
+      <Argument Parameter="plogSucursalContable" Member="SucursalContable" />
+      <Argument Parameter="pstrConsecutivoTesoreria" Member="ConsecutivoTesoreria" />
+      <Argument Parameter="pdtmActualizacion" Member="Actualizacion" />
+      <Argument Parameter="pstrUsuario" Member="Usuario" />
+      <Argument Parameter="infosesion" Member="InfoSesion" />
+    </UpdateFunction>
+    <DeleteFunction FunctionId="FunctionId4">
+      <Argument Parameter="plngID" Member="IDCodificacion" />
+      <Argument Parameter="pstrModulo" Member="Modulo" />
+      <Argument Parameter="pstrUsuario" Member="Usuario" />
+      <Argument Parameter="infoSesion" Member="InfoSesion" />
+    </DeleteFunction>
+  </Table>
+  <Table Name="" Member="ConsecutivosDocumentos">
+    <Type Name="ConsecutivosDocumento" Id="ID4">
+      <Column Name="strDocumento" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="strNombreConsecutivo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="strDescripcion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="intIDConsecutivoDocumento" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strTipoCuenta" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.spA2utils_CargarCombos" Method="spA2utils_CargarCombos">
+    <Parameter Name="ListaNombreCombos" Parameter="listaNombreCombos" Type="System.String" DbType="VarChar(500)" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Id="FunctionId1" Name="dbo.usp_ExcepcionesRDIP_Modificar_OyDNet" Method="usp_ExcepcionesRDIP_Modificar_OyDNet">
+    <Parameter Name="plngidRegistro" Type="System.int32" DbType="int" Direction="InOut" />
+    <Parameter Name="pstrComentario" Type="System.String" DbType="varchar(255)" />
+    <Parameter Name="pstrUsuarioComentario" Type="System.String" DbType="varchar(30)" />
+    <Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId2" Name="dbo.usp_ExcepcionesRDIP_Eliminar_OyDNet" Method="usp_ExcepcionesRDIP_Eliminar_OyDNet">
+    <Parameter Name="plngidRegistro" Type="System.int32" DbType="int" />
+    <Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_ExcepcionesRDIP_Consultar_OyDNet" Method="usp_ExcepcionesRDIP_Consultar_OyDNet">
+    <Parameter Name="plngidOrden" Type="System.int32" DbType="int" />
+    <Parameter Name="pstrClaseOrden" Type="System.String" DbType="char(1)" />
+    <Parameter Name="pstrUsuarioAdvertencia" Type="System.String" DbType="varchar(30)" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="varchar(15)" />
+    <Parameter Name="pdtmRegistro" Type="System.DateTime" DbType="datetime" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="char(17)" />
+    <Parameter Name="pstrClasificacionRiesgoEspecie" Type="System.int32" DbType="int" />
+    <Parameter Name="pstrPerfilInversionistaIR" Type="System.int32" DbType="int" />
+    <Parameter Name="pdtmFechaComentario" Type="System.DateTime" DbType="datetime" />
+    <Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.uspOyDNet_ExcepcionesRDIP_Filtrar" Method="uspOyDNet_ExcepcionesRDIP_Filtrar">
+    <Parameter Name="pstrfiltro" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Id="FunctionId3" Name="dbo.uspOyDNet_CitiBank_CodificacionContable_Actualizar" Method="uspOyDNet_CitiBank_CodificacionContable_Actualizar">
+    <Parameter Name="plngIDCodificacion" Type="System.int32" DbType="int" Direction="InOut" />
+    <Parameter Name="pstrModulo" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="pstrTipoOperacion" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="pstrUsarFecha" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="pstrTipoCliente" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="plngBranch" Type="System.int32" DbType="int" />
+    <Parameter Name="pnumCuentaCosmos" Type="System.Decimal" DbType="decimal" />
+    <Parameter Name="plngCodigoTransaccion" Type="System.int32" DbType="int" />
+    <Parameter Name="pstrIndicadorMvto" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="plngNroLote" Type="System.int32" DbType="int" />
+    <Parameter Name="pstrDetalleAdicional" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="pstrTextoDetalle" Type="System.String" DbType="varchar(255)" />
+    <Parameter Name="pstrNroReferencia" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="plogPorOperacion" Type="System.Boolean" DbType="bit" />
+    <Parameter Name="pstrVlrAReportar" Type="System.String" DbType="varchar(2)" />
+    <Parameter Name="pstrProducto" Type="System.String" DbType="varchar(5)" />
+    <Parameter Name="pstrNroBase" Type="System.String" DbType="varchar(10)" />
+    <Parameter Name="plogSucursalContable" Type="System.Boolean" DbType="bit" />
+    <Parameter Name="pstrConsecutivoTesoreria" Type="System.String" DbType="varchar(15)" />
+    <Parameter Name="pdtmActualizacion" Type="System.DateTime" DbType="datetime" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="varchar(60)" />
+    <Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.uspOyDNet_CitiBank_CodificacionContable_Consultar" Method="uspOyDNet_CitiBank_CodificacionContable_Consultar">
+    <Parameter Name="plngIDCodificacion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrModulo" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="dbo.uspOyDNet_CitiBank_CodificacionContable_Filtrar" Method="uspOyDNet_CitiBank_CodificacionContable_Filtrar">
+    <Parameter Name="pstrfiltro" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="dbo.uspOyDNet_CitiBank_ListaConsecutivos" Method="uspOyDNet_CitiBank_ListaConsecutivos">
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <ElementType IdRef="ID4" />
+  </Function>
+  <Function Id="FunctionId4" Name="dbo.uspOyDNet_CitiBank_CodificacionContable_Eliminar" Method="uspOyDNet_CitiBank_CodificacionContable_Eliminar">
+    <Parameter Name="plngID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrModulo" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="InfoSesion" Parameter="infoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Return Type="System.Int32" />
+  </Function>
+	<Function Name="dbo.uspOyDNet_Clientes_SaldoDisponible_ConsultarSaldo" Method="uspOyDNet_Clientes_SaldoDisponible_ConsultarSaldo">
+		<Parameter Name="pbitSaldoDisponibleChequeado" Parameter="boolSaldoDisponibleChequeado" Type="System.Boolean" DbType="Bit" />
+		<Parameter Name="pstrCodigoCliente" Type="System.String" DbType="varchar" />
+		<Parameter Name="pdtmFecha" Type="System.DateTime" DbType="Datetime NOT NULL" />
+		<Parameter Name="pcurSaldoCorte" Type="System.Decimal" DbType="Money" Direction="InOut"/>
+		<Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+		<Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+		<Return Type="System.Int32" />
+	</Function>
+	<Function Name="dbo.uspOyDNet_TrasladarSaldo_ConsultarPendientePorAprobar" Method="uspOyDNet_TrasladarSaldo_ConsultarPendientePorAprobar">
+		<Parameter Name="plngIDComitente" Type="System.String" DbType="char(17)" />
+		<Parameter Name="pcurValorPendientePA" Type="System.Decimal" DbType="Money NOT NULL" Direction="InOut" />
+		<Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+		<Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+		<Return Type="System.Int32" />
+	</Function>
+	<Function Name="dbo.uspOyDNet_TrasladarSaldo_GrabarNota" Method="uspOyDNet_TrasladarSaldo_GrabarNota">
+		<Parameter Name="pstrTipoNota" Type="System.String" DbType="VarChar(2)" />
+		<Parameter Name="pstrNombreConsecutivo" Type="System.String" DbType="VarChar(15)" />
+		<Parameter Name="plngIDComitente" Type="System.String" DbType="VarChar(17)" />
+		<Parameter Name="pcurValorATrasladar" Type="System.Decimal" DbType="Money NOT NULL" />
+		<Parameter Name="pstrIdCuentaContable" Type="System.String" DbType="VarChar(15)" />
+		<Parameter Name="pdtmDocumento" Type="System.DateTime" DbType="Datetime NOT NULL" />
+		<Parameter Name="pintModuloDestino" Type="System.int32" DbType="int" />
+		<Parameter Name="pstrNombreCliente" Type="System.String" DbType="VarChar" />
+		<Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+		<Parameter Name="infosesion" Type="System.String" DbType="VarChar(1000)" />
+		<Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+		<Return Type="System.Int32" />
+	</Function>
+</Database>

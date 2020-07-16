@@ -1,0 +1,264 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: Bancos_BancosNacionalesRelacionadosView.xaml
+    Generado el : 04/11/2012 14:00:10
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="Bancos_BancosNacionalesRelacionadosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <!--<Grid.Resources>
+                <A2Utils:DataContextProxy  x:Key="DataContextProxy"></A2Utils:DataContextProxy>
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding Bancos_BancosNacionalesRelacionadoSelected}"
+                    TextoFiltroTooltip="Filtra por el campo Banco"
+                    TituloVista="Bancos Nacionales Relacionados"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding Bancos_BancosNacionalesRelacionadoSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaBancos_BancosNacionalesRelacionados.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" Grid.Row="1">
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaBancos_BancosNacionalesRelacionadosPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding Bancos_BancosNacionalesRelacionadoSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Banco" SortMemberPath="IDBanco">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IDBanco}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreBanco}" Header="Nombre Banco" />
+                                    <Telerik:GridViewDataColumn Header="Banco Nacional" SortMemberPath="IdBancoNacional">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IdBancoNacional}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Telerik:DataFormDataField
+                                                Grid.Column="0"
+                                                VerticalAlignment="Top"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDBanco}"
+                                                LabelPosition="Above">
+                                                <A2UTILGEN:A2NumericBox
+                                                    Maximum="2147483647"
+                                                    Minimum="0"
+                                                    NumberDecimalDigits="0"
+                                                    ShowButtons="False"
+                                                    ValueFormat="NoSeparator"
+                                                    Value="{Binding IDBanco, Mode=TwoWay}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Column="1"
+                                                VerticalAlignment="Top"
+                                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreBanco}"
+                                                LabelPosition="Above">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox
+                                                        Grid.Column="0"
+                                                        IsEnabled="False"
+                                                        Text="{Binding NombreBanco, Mode=TwoWay}" />
+                                                    <my1:BuscadorGenericoListaButon
+                                                        Grid.Column="1"
+                                                        Margin="2,0,0,0"
+                                                        Agrupamiento=""
+                                                        CampoBusqueda="IDBanco"
+                                                        EstadoItem="A"
+                                                        Etiqueta="Lisa bancos"
+                                                        TipoItem="RelacionBancos"
+                                                        finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+
+                                                </Grid>
+                                            </Telerik:DataFormDataField>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding Bancos_BancosNacionalesRelacionadoSelected}"
+                                    IsEnabled="{Binding Editando}">
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    VerticalAlignment="Top"
+                                                    Label="Banco"
+                                                    LabelPosition="Above">
+                                                    <TextBox
+                                                        IsEnabled="False"
+                                                        Text="{Binding IDBanco}"
+                                                        ToolTipService.ToolTip="Banco" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    VerticalAlignment="Top"
+                                                    Label="Nombre Banco"
+                                                    LabelPosition="Above">
+                                                    <TextBox
+                                                        IsEnabled="False"
+                                                        Text="{Binding NombreBanco}"
+                                                        ToolTipService.ToolTip="Banco" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                                <Border Style="{StaticResource Contenedor_TabControl}">
+                                    <TabControl Height="280">
+                                        <TabItem Name="TabBancosNacionalesRelacionados" Header="Bancos ">
+                                            <StackPanel>
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <ListBox
+                                                        Name="listaBancos"
+                                                        Width="630"
+                                                        Height="236"
+                                                        ItemsSource="{Binding DisponiblesBancos, Mode=TwoWay}">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox
+                                                                    Name="chkResgistradas"
+                                                                    Content="{Binding NombreBanco}"
+                                                                    IsChecked="{Binding Chequear, Mode=TwoWay}"
+                                                                    IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </TabItem>
+                                    </TabControl>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

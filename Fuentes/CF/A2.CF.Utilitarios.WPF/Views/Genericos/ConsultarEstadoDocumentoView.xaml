@@ -1,0 +1,137 @@
+﻿<Window
+    x:Class="ConsultarEstadoDocumentoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:scr="clr-namespace:A2CFUtilitarios"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Estados Documento"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <scr:ConsultarEstadosDocumentoViewModel x:Key="vmEstadosDocumento" />
+        <scr:VisibilityConverter x:Key="VisibilityConverter" />
+    </Window.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button
+                    x:Name="btnRefrescar"
+                    Width="15"
+                    Height="15"
+                    Padding="0"
+                    HorizontalAlignment="Center"
+                    Click="btnRefrescar_Click"
+                    Style="{StaticResource btnRefrescar}"
+                    ToolTipService.ToolTip="Refrescar" />
+
+                <StackPanel
+                    Margin="5,0,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{Binding MostrarNumeroUnico}">
+                    <Label Margin="5,0,5,0" Content="Número unico documento" />
+                    <Label Content="{Binding IDNumeroUnico}" />
+                </StackPanel>
+
+                <StackPanel
+                    Margin="5,0,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{Binding MostarIDDocumento}">
+                    <Label Margin="5,0,5,0" Content="Número documento" />
+                    <Label Content="{Binding IDDocumento}" />
+                </StackPanel>
+            </StackPanel>
+
+            <A2UTILGEN:A2GridView
+                x:Name="GridRegistroEstados"
+                Grid.Row="1"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding ListaEstadosDocumento}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ValidatesOnDataErrors="None">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding FechaRegistro, Mode=TwoWay, StringFormat='dd/MM/yyyy hh:mm:ss tt', ConverterCulture=es-CO}" Header="Fecha registro" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Actualizacion, Mode=TwoWay, StringFormat='dd/MM/yyyy hh:mm:ss tt', ConverterCulture=es-CO}" Header="Fecha actualización" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Usuario, Mode=TwoWay}" Header="Usuario" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding ReglaIncumplida, Mode=TwoWay}" Header="Módulo/Regla" />
+                    <Telerik:GridViewDataColumn Header="Descripción Regla">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    MaxWidth="500"
+                                    Text="{Binding DescripcionReglaIncumplida, Mode=TwoWay}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn Header="Notas usuario">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    MaxWidth="500"
+                                    Text="{Binding JustificacionUsuarioRegla, Mode=TwoWay}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreNivelAprobacion, Mode=TwoWay}" Header="Aprobación" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreEstado, Mode=TwoWay}" Header="Estado" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding UsuarioAprobador, Mode=TwoWay}" Header="Usuario aprobador" />
+                    <Telerik:GridViewDataColumn Header="Comentario aprobador">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    MaxWidth="500"
+                                    Text="{Binding ComentarioAprobador, Mode=TwoWay}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding ErrorSistema, Mode=TwoWay}" Header="Error sistema" />
+                    <Telerik:GridViewDataColumn Header="Descripción error">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    MaxWidth="500"
+                                    Text="{Binding DescripcionErrorSistema, Mode=TwoWay}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+
+                    <Telerik:GridViewDataColumn Header="Información adicional">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    VerticalAlignment="Center"
+                                    Click="HyperlinkButton_Click_1"
+                                    Content="Ver"
+                                    Style="{StaticResource HyperlinkLikeButton}"
+                                    Tag="{Binding InformacionAdicional}"
+                                    Visibility="{Binding MostrarInformacionAdicional, Converter={StaticResource VisibilityConverter}}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

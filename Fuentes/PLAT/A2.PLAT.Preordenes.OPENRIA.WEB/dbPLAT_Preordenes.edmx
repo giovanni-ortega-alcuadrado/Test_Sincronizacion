@@ -1,0 +1,767 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbPLAT_Preordenes.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblPreOrdenes">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dtmFechaInversion" Type="datetime" Nullable="false" />
+          <Property Name="dtmFechaVigencia" Type="datetime" Nullable="false" />
+          <Property Name="intIDCodigoPersona" Type="int" Nullable="false" />
+          <Property Name="strTipoPreOrden" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="strTipoInversion" Type="varchar" MaxLength="2" />
+          <Property Name="intIDEntidad" Type="int" />
+          <Property Name="strInstrumento" Type="varchar" MaxLength="15" />
+          <Property Name="strIntencion" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="dblValor" Type="float" Nullable="false" />
+          <Property Name="dblPrecio" Type="float" Nullable="false" />
+          <Property Name="dblRentabilidadMinima" Type="float" Nullable="false" />
+          <Property Name="dblRentabilidadMaxima" Type="float" Nullable="false" />
+          <Property Name="strInstrucciones" Type="varchar" MaxLength="500" />
+          <Property Name="logActivo" Type="bit" Nullable="false" />
+          <Property Name="strObservaciones" Type="varchar" MaxLength="500" />
+          <Property Name="strUsuario" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="dtmFechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="dtmActualizacion" Type="datetime" Nullable="false" />
+          <Property Name="strUsuarioInsercion" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="logEsParcial" Type="bit" />
+          <Property Name="intIDPreOrdenOrigen" Type="int" />
+          <Property Name="dblValorPendiente" Type="float" />
+          <Property Name="intNroParcial" Type="int" />
+          <Property Name="strOrigenAnulacion" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Function Name="usp_PreOrdenes_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pdtmFechaInversion" Type="datetime" Mode="In" />
+          <Parameter Name="pdtmFechaVigencia" Type="datetime" Mode="In" />
+          <Parameter Name="pintIDCodigoPersona" Type="int" Mode="In" />
+          <Parameter Name="pstrTipoPreOrden" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoInversion" Type="varchar" Mode="In" />
+          <Parameter Name="pintIDEntidad" Type="int" Mode="In" />
+          <Parameter Name="pstrInstrumento" Type="varchar" Mode="In" />
+          <Parameter Name="pstrIntencion" Type="varchar" Mode="In" />
+          <Parameter Name="pdblValor" Type="float" Mode="In" />
+          <Parameter Name="pdblPrecio" Type="float" Mode="In" />
+          <Parameter Name="pdblRentabilidadMinima" Type="float" Mode="In" />
+          <Parameter Name="pdblRentabilidadMaxima" Type="float" Mode="In" />
+          <Parameter Name="pstrInstrucciones" Type="varchar" Mode="In" />
+          <Parameter Name="plogActivo" Type="bit" Mode="In" />
+          <Parameter Name="pstrDetallePortafolio" Type="varchar(max)" Mode="In" />
+          <Parameter Name="pstrTablaValidaciones" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_Cliente_ConsultarPortafolio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pstrIDComitente" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoInversion" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInstrumento" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pdtmFechaInversion" Type="datetime" Mode="In" />
+          <Parameter Name="pdtmFechaVigencia" Type="datetime" Mode="In" />
+          <Parameter Name="pintIDPersona" Type="int" Mode="In" />
+          <Parameter Name="pstrIDComitente" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoPreOrden" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoInversion" Type="varchar" Mode="In" />
+          <Parameter Name="pintIDEntidad" Type="int" Mode="In" />
+          <Parameter Name="pstrIntencion" Type="varchar" Mode="In" />
+          <Parameter Name="plogActivo" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_ConsultarID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_ConsultarID_Cruzada" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrTipoOperacion" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrObservaciones" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_Entidad_PorDefecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pstrInstrumento" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_Filtrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pstrFiltro" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_Portafolio_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintIDPreOrden" Type="int" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_PreOrdenes_Validar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pdtmFechaInversion" Type="datetime" Mode="In" />
+          <Parameter Name="pdtmFechaVigencia" Type="datetime" Mode="In" />
+          <Parameter Name="pintIDPersona" Type="int" Mode="In" />
+          <Parameter Name="pstrIDComitente" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoPreOrden" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoInversion" Type="varchar" Mode="In" />
+          <Parameter Name="pintIDEntidad" Type="int" Mode="In" />
+          <Parameter Name="pstrInstrumento" Type="varchar" Mode="In" />
+          <Parameter Name="pstrIntencion" Type="varchar" Mode="In" />
+          <Parameter Name="pdblValor" Type="float" Mode="In" />
+          <Parameter Name="pdblPrecio" Type="float" Mode="In" />
+          <Parameter Name="pdblRentabilidadMinima" Type="float" Mode="In" />
+          <Parameter Name="pdblRentabilidadMaxima" Type="float" Mode="In" />
+          <Parameter Name="pstrInstrucciones" Type="varchar" Mode="In" />
+          <Parameter Name="plogActivo" Type="bit" Mode="In" />
+          <Parameter Name="pstrDetallePortafolio" Type="varchar(max)" Mode="In" />
+          <Parameter Name="plogSoloValidar" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_VisorPreOrdenes_AsociarOrden" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="pstrOrigenOrden" Type="varchar" Mode="In" />
+          <Parameter Name="pintNroRegistro" Type="int" Mode="In" />
+          <Parameter Name="pstrClaseRegistro" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoOperacionRegistro" Type="varchar" Mode="In" />
+          <Parameter Name="pstrTipoOrigenRegistro" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_VisorPreOrdenes_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_VisorPreOrdenes_ConsultarCruzadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pdtmFechaInicial" Type="datetime" Mode="In" />
+          <Parameter Name="pdtmFechaFinal" Type="datetime" Mode="In" />
+          <Parameter Name="pintIDPreOrden" Type="int" Mode="In" />
+          <Parameter Name="plogSoloUsuario" Type="bit" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_VisorPreOrdenes_Generar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintIDRegistro" Type="int" Mode="In" />
+          <Parameter Name="pdblValorRegistro" Type="float" Mode="In" />
+          <Parameter Name="pstrRegistrosAsociados" Type="varchar(max)" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_VisorPreOrdenes_VerificarAsociarOrden" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="PREORDENES">
+          <Parameter Name="pintID" Type="int" Mode="In" />
+          <Parameter Name="plogRegistroValido" Type="bit" Mode="InOut" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="dbPLAT_PreordenesStoreContainer">
+          <EntitySet Name="tblPreOrdenes" EntityType="Self.tblPreOrdenes" Schema="PREORDENES" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbPLAT_Preordenes" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblPreOrdenes">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtmFechaInversion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtmFechaVigencia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="intIDCodigoPersona" Type="Int32" Nullable="false" />
+          <Property Name="strTipoPreOrden" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="strTipoInversion" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="intIDEntidad" Type="Int32" />
+          <Property Name="strInstrumento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="strIntencion" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dblValor" Type="Double" Nullable="false" />
+          <Property Name="dblPrecio" Type="Double" Nullable="false" />
+          <Property Name="dblRentabilidadMinima" Type="Double" Nullable="false" />
+          <Property Name="dblRentabilidadMaxima" Type="Double" Nullable="false" />
+          <Property Name="strInstrucciones" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="logActivo" Type="Boolean" Nullable="false" />
+          <Property Name="strUsuario" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dtmFechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtmActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuarioInsercion" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblPreOrdenes_Portafolio" Relationship="dbPLAT_Preordenes.FK_tblPreOrdenes_Portafolio_tblPreOrdenes" FromRole="tblPreOrdenes" ToRole="tblPreOrdenes_Portafolio" />
+          <Property Name="strObservaciones" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="logEsParcial" Type="Boolean" />
+          <Property Name="intIDPreOrdenOrigen" Type="Int32" />
+          <Property Name="dblValorPendiente" Type="Double" />
+          <Property Name="intNroParcial" Type="Int32" />
+          <Property Name="strOrigenAnulacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="dbPLAT_PreordenesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblPreOrdenes" EntityType="Self.tblPreOrdenes" />
+          <FunctionImport Name="usp_PreOrdenes_Validar" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pdtmFechaInversion" Mode="In" Type="DateTime" />
+            <Parameter Name="pdtmFechaVigencia" Mode="In" Type="DateTime" />
+            <Parameter Name="pintIDPersona" Mode="In" Type="Int32" />
+            <Parameter Name="pstrIDComitente" Mode="In" Type="String" />
+            <Parameter Name="pstrTipoPreOrden" Mode="In" Type="String" />
+            <Parameter Name="pstrTipoInversion" Mode="In" Type="String" />
+            <Parameter Name="pintIDEntidad" Mode="In" Type="Int32" />
+            <Parameter Name="pstrInstrumento" Mode="In" Type="String" />
+            <Parameter Name="pstrIntencion" Mode="In" Type="String" />
+            <Parameter Name="pdblValor" Mode="In" Type="Double" />
+            <Parameter Name="pdblPrecio" Mode="In" Type="Double" />
+            <Parameter Name="pdblRentabilidadMinima" Mode="In" Type="Double" />
+            <Parameter Name="pdblRentabilidadMaxima" Mode="In" Type="Double" />
+            <Parameter Name="pstrInstrucciones" Mode="In" Type="String" />
+            <Parameter Name="plogActivo" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrDetallePortafolio" Mode="In" Type="String" />
+            <Parameter Name="plogSoloValidar" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrMaquina" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_PreOrdenes_Cliente_ConsultarPortafolio" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblClientes_Portafolio)">
+            <Parameter Name="pstrIDComitente" Mode="In" Type="String" />
+            <Parameter Name="pstrTipoInversion" Mode="In" Type="String" />
+            <Parameter Name="pstrInstrumento" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_PreOrdenes_Consultar" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblPreOrdenes)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pdtmFechaInversion" Mode="In" Type="DateTime" />
+            <Parameter Name="pdtmFechaVigencia" Mode="In" Type="DateTime" />
+            <Parameter Name="pintIDPersona" Mode="In" Type="Int32" />
+            <Parameter Name="pstrIDComitente" Mode="In" Type="String" />
+            <Parameter Name="pstrTipoPreOrden" Mode="In" Type="String" />
+            <Parameter Name="pstrTipoInversion" Mode="In" Type="String" />
+            <Parameter Name="pintIDEntidad" Mode="In" Type="Int32" />
+            <Parameter Name="pstrIntencion" Mode="In" Type="String" />
+            <Parameter Name="plogActivo" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_PreOrdenes_Eliminar" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrObservaciones" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrMaquina" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_PreOrdenes_Filtrar" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblPreOrdenes)">
+            <Parameter Name="pstrFiltro" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_PreOrdenes_Portafolio_Consultar" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblClientes_Portafolio)">
+            <Parameter Name="pintIDPreOrden" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_PreOrdenes_ConsultarID" EntitySet="tblPreOrdenes" ReturnType="Collection(dbPLAT_Preordenes.tblPreOrdenes)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblPreOrdenes_Portafolio" EntityType="dbPLAT_Preordenes.tblPreOrdenes_Portafolio" />
+          <AssociationSet Name="FK_tblPreOrdenes_Portafolio_tblPreOrdenes" Association="dbPLAT_Preordenes.FK_tblPreOrdenes_Portafolio_tblPreOrdenes">
+            <End Role="tblPreOrdenes" EntitySet="tblPreOrdenes" />
+            <End Role="tblPreOrdenes_Portafolio" EntitySet="tblPreOrdenes_Portafolio" />
+          </AssociationSet>
+          <FunctionImport Name="usp_PreOrdenes_Entidad_PorDefecto" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblEntidadEspecie)">
+            <Parameter Name="pstrInstrumento" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_VisorPreOrdenes_Consultar" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblPreOrdenes_Visor)">
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_VisorPreOrdenes_ConsultarCruzadas" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblPreOrdenes_VisorCruces)">
+            <Parameter Name="pdtmFechaInicial" Mode="In" Type="DateTime" />
+            <Parameter Name="pdtmFechaFinal" Mode="In" Type="DateTime" />
+            <Parameter Name="pintIDPreOrden" Mode="In" Type="Int32" />
+            <Parameter Name="plogSoloUsuario" Mode="In" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_VisorPreOrdenes_Generar" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintIDRegistro" Mode="In" Type="Int32" />
+            <Parameter Name="pdblValorRegistro" Mode="In" Type="Double" />
+            <Parameter Name="pstrRegistrosAsociados" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrMaquina" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_PreOrdenes_ConsultarID_Cruzada" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblPreOrdenes_Cruzadas)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrTipoOperacion" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_VisorPreOrdenes_AsociarOrden" ReturnType="Collection(dbPLAT_Preordenes.CPX_tblValidacionesGenerales)">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="pstrOrigenOrden" Mode="In" Type="String" />
+            <Parameter Name="pintNroRegistro" Mode="In" Type="Int32" />
+            <Parameter Name="pstrClaseRegistro" Mode="In" Type="String" />
+            <Parameter Name="pstrTipoOperacionRegistro" Mode="In" Type="String" />
+            <Parameter Name="pstrTipoOrigenRegistro" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_VisorPreOrdenes_VerificarAsociarOrden">
+            <Parameter Name="pintID" Mode="In" Type="Int32" />
+            <Parameter Name="plogRegistroValido" Mode="InOut" Type="Boolean" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="CPX_tblValidacionesGenerales" >
+          <Property Type="Int32" Name="intIDRegistro" Nullable="true" />
+          <Property Type="Int32" Name="intIdValidacion" Nullable="true" />
+          <Property Type="Int32" Name="intOrden" Nullable="true" />
+          <Property Type="Boolean" Name="logInconsitencia" Nullable="true" />
+          <Property Type="String" Name="strCampo" Nullable="true" />
+          <Property Type="String" Name="strCodMensaje" Nullable="true" />
+          <Property Type="String" Name="strMensaje" Nullable="true" />
+          <Property Type="String" Name="strTipoMensaje" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblClientes_Portafolio" >
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="Int32" Name="lngIDRecibo" Nullable="true" />
+          <Property Type="Int32" Name="lngSecuencia" Nullable="true" />
+          <Property Type="String" Name="strNroTitulo" Nullable="true" />
+          <Property Type="String" Name="strInstrumento" Nullable="true" />
+          <Property Type="Double" Name="dblTasaReferencia" Nullable="true" />
+          <Property Type="Int32" Name="intIDEntidad" Nullable="true" />
+          <Property Type="String" Name="strNroDocumentoEntidad" Nullable="true" />
+          <Property Type="String" Name="strNombreEntidad" Nullable="true" />
+          <Property Type="Double" Name="dblValorNominal" Nullable="true" />
+          <Property Type="Double" Name="dblValorCompra" Nullable="true" />
+          <Property Type="Double" Name="dblVPNMercado" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaCompra" Nullable="true" />
+          <Property Type="Boolean" Name="logSeleccionado" Nullable="true" />
+          <Property Type="String" Name="strDescripcionInstrumento" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblPreOrdenes" >
+          <Property Type="Int32" Name="intID" Nullable="false" />
+          <Property Type="DateTime" Name="dtmFechaInversion" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaVigencia" Nullable="true" />
+          <Property Type="String" Name="intIDComitente" Nullable="true" />
+          <Property Type="String" Name="strNroDocumento" Nullable="true" />
+          <Property Type="String" Name="strNombre" Nullable="true" />
+          <Property Type="String" Name="strDescripcionTipoPreOrden" Nullable="true" />
+          <Property Type="String" Name="strDescripcionTipoInversion" Nullable="true" />
+          <Property Type="String" Name="strDescripcionIntencion" Nullable="true" />
+          <Property Type="Double" Name="dblValor" Nullable="true" />
+          <Property Type="String" Name="strUsuario" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaCreacion" Nullable="true" />
+          <Property Type="DateTime" Name="dtmActualizacion" Nullable="true" />
+          <Property Type="String" Name="strUsuarioInsercion" Nullable="true" />
+          <Property Type="Int32" Name="intIDPersona" Nullable="true" />
+          <Property Type="String" Name="strInstrumento" Nullable="true" />
+          <Property Type="String" Name="strDescripcionInstrumento" Nullable="true" />
+          <Property Type="String" Name="strNroDocumentoEntidad" Nullable="true" />
+          <Property Type="String" Name="strNombreEntidad" Nullable="true" />
+          <Property Type="Boolean" Name="logActivo" Nullable="true" />
+          <Property Type="Int32" Name="intIDPreOrdenOrigen" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblPreOrdenes_Portafolio">
+          <Key>
+            <PropertyRef Name="intID" />
+          </Key>
+          <Property Name="intID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intIDPreOrden" Type="Int32" Nullable="false" />
+          <Property Name="lngIDRecibo" Type="Int32" Nullable="false" />
+          <Property Name="lngSecuencia" Type="Int32" Nullable="false" />
+          <Property Name="strNroTitulo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="strInstrumento" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="dblTasaReferencia" Type="Double" />
+          <Property Name="intIDEntidad" Type="Int32" Nullable="false" />
+          <Property Name="dblValorNominal" Type="Double" Nullable="false" />
+          <Property Name="dblValorCompra" Type="Double" Nullable="false" />
+          <Property Name="dblVPNMercado" Type="Double" Nullable="false" />
+          <Property Name="dtmFechaCompra" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuario" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="dtmActualizacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="strUsuarioInsercion" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblPreOrdenes" Relationship="dbPLAT_Preordenes.FK_tblPreOrdenes_Portafolio_tblPreOrdenes" FromRole="tblPreOrdenes_Portafolio" ToRole="tblPreOrdenes" />
+        </EntityType>
+        <Association Name="FK_tblPreOrdenes_Portafolio_tblPreOrdenes">
+          <End Type="dbPLAT_Preordenes.tblPreOrdenes" Role="tblPreOrdenes" Multiplicity="1" />
+          <End Type="dbPLAT_Preordenes.tblPreOrdenes_Portafolio" Role="tblPreOrdenes_Portafolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPreOrdenes">
+              <PropertyRef Name="intID" />
+            </Principal>
+            <Dependent Role="tblPreOrdenes_Portafolio">
+              <PropertyRef Name="intIDPreOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="CPX_tblEntidadEspecie">
+          <Property Type="String" Name="strIDEspecie" MaxLength="15" Nullable="true" />
+          <Property Type="Decimal" Name="lngIDEmisor" Precision="15" Scale="0" Nullable="true" />
+          <Property Type="String" Name="strNroDocumento" MaxLength="15" Nullable="true" />
+          <Property Type="String" Name="strDigitoVerificacion" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="strNombre" MaxLength="50" Nullable="true" />
+          <Property Type="Int32" Name="intIDEntidad" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblPreOrdenes_Visor" >
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="Int32" Name="intIDPreOrdenVisualizar" Nullable="true" />
+          <Property Type="String" Name="strTipoPreOrden" Nullable="true" />
+          <Property Type="String" Name="strDescripcionTipoPreOrden" Nullable="true" />
+          <Property Type="String" Name="strTipoInversion" Nullable="true" />
+          <Property Type="String" Name="strDescripcionTipoInversion" Nullable="true" />
+          <Property Type="String" Name="strInstrumento" Nullable="true" />
+          <Property Type="Double" Name="dblValor" Nullable="true" />
+          <Property Type="Double" Name="dblValorPendiente" Nullable="true" />
+          <Property Type="Boolean" Name="logSeleccionado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblPreOrdenes_VisorCruces">
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="String" Name="strTipoInversionCompra" Nullable="true" />
+          <Property Type="Double" Name="dblValorCruzado" Nullable="true" />
+          <Property Type="Int32" Name="intIDPreOrdenCompra" Nullable="true" />
+          <Property Type="String" Name="strDescripcionTipoInversionCompra" Nullable="true" />
+          <Property Type="String" Name="strInstrumentoCompra" Nullable="true" />
+          <Property Type="Int32" Name="intIDPreOrdenVenta" Nullable="true" />
+          <Property Type="String" Name="strTipoInversionVenta" Nullable="true" />
+          <Property Type="String" Name="strDescripcionTipoInversionVenta" Nullable="true" />
+          <Property Type="String" Name="strInstrumentoVenta" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaCruce" Nullable="true" />
+          <Property Type="String" Name="strUsuario" Nullable="true" />
+          <Property Type="Boolean" Name="logTieneAsociacionCompra" Nullable="true" />
+          <Property Type="Boolean" Name="logTieneAsociacionVenta" Nullable="true" />
+          <Property Type="String" Name="strTipoOrigenOrdenCompra" Nullable="true" />
+          <Property Type="Int32" Name="intNroRegistroOrdenCompra" Nullable="true" />
+          <Property Type="String" Name="strTipoOrigenOrdenVenta" Nullable="true" />
+          <Property Type="Int32" Name="intNroRegistroOrdenVenta" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CPX_tblPreOrdenes_Cruzadas">
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="Guid" Name="guidCruce" Nullable="true" />
+          <Property Type="Int32" Name="intIDPreOrden" Nullable="true" />
+          <Property Type="Boolean" Name="logEsParcial" annotation:StoreGeneratedPattern="None" Nullable="true" />
+          <Property Type="Int32" Name="intNroParcial" Nullable="true" />
+          <Property Type="Double" Name="dblValorInicial" Nullable="true" />
+          <Property Type="Double" Name="dblValorAnterior" Nullable="true" />
+          <Property Type="Double" Name="dblValor" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaInversion" Precision="23" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaVigencia" Precision="23" Nullable="true" />
+          <Property Type="Int32" Name="intIDCodigoPersona" Nullable="true" />
+          <Property Type="String" Name="strTipoPreOrden" MaxLength="2" Nullable="true" />
+          <Property Type="String" Name="strTipoInversion" Nullable="true" MaxLength="2" />
+          <Property Type="Int32" Name="intIDEntidad" Nullable="true" />
+          <Property Type="String" Name="strInstrumento" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="strIntencion" MaxLength="2" Nullable="true" />
+          <Property Type="Double" Name="dblPrecio" Nullable="true" />
+          <Property Type="Double" Name="dblRentabilidadMinima" Nullable="true" />
+          <Property Type="Double" Name="dblRentabilidadMaxima" Nullable="true" />
+          <Property Type="String" Name="strInstrucciones" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="logActivo" Nullable="true" />
+          <Property Type="String" Name="strObservaciones" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="strUsuario" MaxLength="60" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaCreacion" Precision="23" Nullable="true" />
+          <Property Type="DateTime" Name="dtmActualizacion" Precision="23" Nullable="true" />
+          <Property Type="String" Name="strUsuarioInsercion" MaxLength="60" Nullable="true" />
+          <Property Type="Int32" Name="intIDPersona" Nullable="true" />
+          <Property Type="String" Name="intIDComitente" MaxLength="17" Nullable="true" />
+          <Property Type="String" Name="strNroDocumento" MaxLength="15" Nullable="true" />
+          <Property Type="String" Name="strNombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strTipoProducto" Nullable="true" />
+          <Property Type="String" Name="strIDReceptor" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbPLAT_PreordenesStoreContainer" CdmEntityContainer="dbPLAT_PreordenesEntities">
+          <EntitySetMapping Name="tblPreOrdenes">
+            <EntityTypeMapping TypeName="dbPLAT_Preordenes.tblPreOrdenes">
+              <MappingFragment StoreEntitySet="tblPreOrdenes">
+                <ScalarProperty Name="strOrigenAnulacion" ColumnName="strOrigenAnulacion" />
+                <ScalarProperty Name="intNroParcial" ColumnName="intNroParcial" />
+                <ScalarProperty Name="dblValorPendiente" ColumnName="dblValorPendiente" />
+                <ScalarProperty Name="intIDPreOrdenOrigen" ColumnName="intIDPreOrdenOrigen" />
+                <ScalarProperty Name="logEsParcial" ColumnName="logEsParcial" />
+                <ScalarProperty Name="strObservaciones" ColumnName="strObservaciones" />
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="dtmFechaInversion" ColumnName="dtmFechaInversion" />
+                <ScalarProperty Name="dtmFechaVigencia" ColumnName="dtmFechaVigencia" />
+                <ScalarProperty Name="intIDCodigoPersona" ColumnName="intIDCodigoPersona" />
+                <ScalarProperty Name="strTipoPreOrden" ColumnName="strTipoPreOrden" />
+                <ScalarProperty Name="strTipoInversion" ColumnName="strTipoInversion" />
+                <ScalarProperty Name="intIDEntidad" ColumnName="intIDEntidad" />
+                <ScalarProperty Name="strInstrumento" ColumnName="strInstrumento" />
+                <ScalarProperty Name="strIntencion" ColumnName="strIntencion" />
+                <ScalarProperty Name="dblValor" ColumnName="dblValor" />
+                <ScalarProperty Name="dblPrecio" ColumnName="dblPrecio" />
+                <ScalarProperty Name="dblRentabilidadMinima" ColumnName="dblRentabilidadMinima" />
+                <ScalarProperty Name="dblRentabilidadMaxima" ColumnName="dblRentabilidadMaxima" />
+                <ScalarProperty Name="strInstrucciones" ColumnName="strInstrucciones" />
+                <ScalarProperty Name="logActivo" ColumnName="logActivo" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="dtmFechaCreacion" ColumnName="dtmFechaCreacion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_Validar" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_Validar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_Cliente_ConsultarPortafolio" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_Cliente_ConsultarPortafolio">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblClientes_Portafolio">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="lngIDRecibo" ColumnName="lngIDRecibo" />
+                <ScalarProperty Name="lngSecuencia" ColumnName="lngSecuencia" />
+                <ScalarProperty Name="strNroTitulo" ColumnName="strNroTitulo" />
+                <ScalarProperty Name="strInstrumento" ColumnName="strInstrumento" />
+                <ScalarProperty Name="dblTasaReferencia" ColumnName="dblTasaReferencia" />
+                <ScalarProperty Name="intIDEntidad" ColumnName="intIDEntidad" />
+                <ScalarProperty Name="strNroDocumentoEntidad" ColumnName="strNroDocumentoEntidad" />
+                <ScalarProperty Name="strNombreEntidad" ColumnName="strNombreEntidad" />
+                <ScalarProperty Name="dblValorNominal" ColumnName="dblValorNominal" />
+                <ScalarProperty Name="dblValorCompra" ColumnName="dblValorCompra" />
+                <ScalarProperty Name="dblVPNMercado" ColumnName="dblVPNMercado" />
+                <ScalarProperty Name="dtmFechaCompra" ColumnName="dtmFechaCompra" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_Consultar" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_Consultar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblPreOrdenes">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="dtmFechaInversion" ColumnName="dtmFechaInversion" />
+                <ScalarProperty Name="dtmFechaVigencia" ColumnName="dtmFechaVigencia" />
+                <ScalarProperty Name="intIDComitente" ColumnName="intIDComitente" />
+                <ScalarProperty Name="strNroDocumento" ColumnName="strNroDocumento" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="strDescripcionTipoPreOrden" ColumnName="strDescripcionTipoPreOrden" />
+                <ScalarProperty Name="strDescripcionTipoInversion" ColumnName="strDescripcionTipoInversion" />
+                <ScalarProperty Name="strDescripcionIntencion" ColumnName="strDescripcionIntencion" />
+                <ScalarProperty Name="dblValor" ColumnName="dblValor" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="dtmFechaCreacion" ColumnName="dtmFechaCreacion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_Eliminar" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_Eliminar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_Filtrar" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_Filtrar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblPreOrdenes">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="dtmFechaInversion" ColumnName="dtmFechaInversion" />
+                <ScalarProperty Name="dtmFechaVigencia" ColumnName="dtmFechaVigencia" />
+                <ScalarProperty Name="intIDComitente" ColumnName="intIDComitente" />
+                <ScalarProperty Name="strNroDocumento" ColumnName="strNroDocumento" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="strDescripcionTipoPreOrden" ColumnName="strDescripcionTipoPreOrden" />
+                <ScalarProperty Name="strDescripcionTipoInversion" ColumnName="strDescripcionTipoInversion" />
+                <ScalarProperty Name="strDescripcionIntencion" ColumnName="strDescripcionIntencion" />
+                <ScalarProperty Name="dblValor" ColumnName="dblValor" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="dtmFechaCreacion" ColumnName="dtmFechaCreacion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_Portafolio_Consultar" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_Portafolio_Consultar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblClientes_Portafolio">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="lngIDRecibo" ColumnName="lngIDRecibo" />
+                <ScalarProperty Name="lngSecuencia" ColumnName="lngSecuencia" />
+                <ScalarProperty Name="strNroTitulo" ColumnName="strNroTitulo" />
+                <ScalarProperty Name="strInstrumento" ColumnName="strInstrumento" />
+                <ScalarProperty Name="dblTasaReferencia" ColumnName="dblTasaReferencia" />
+                <ScalarProperty Name="intIDEntidad" ColumnName="intIDEntidad" />
+                <ScalarProperty Name="strNroDocumentoEntidad" ColumnName="strNroDocumentoEntidad" />
+                <ScalarProperty Name="strNombreEntidad" ColumnName="strNombreEntidad" />
+                <ScalarProperty Name="dblValorNominal" ColumnName="dblValorNominal" />
+                <ScalarProperty Name="dblValorCompra" ColumnName="dblValorCompra" />
+                <ScalarProperty Name="dblVPNMercado" ColumnName="dblVPNMercado" />
+                <ScalarProperty Name="dtmFechaCompra" ColumnName="dtmFechaCompra" />
+                <ScalarProperty Name="logSeleccionado" ColumnName="logSeleccionado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_ConsultarID" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_ConsultarID">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_Entidad_PorDefecto" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_Entidad_PorDefecto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblEntidadEspecie">
+                <ScalarProperty Name="strIDEspecie" ColumnName="strIDEspecie" />
+                <ScalarProperty Name="lngIDEmisor" ColumnName="lngIDEmisor" />
+                <ScalarProperty Name="strNroDocumento" ColumnName="strNroDocumento" />
+                <ScalarProperty Name="strDigitoVerificacion" ColumnName="strDigitoVerificacion" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_VisorPreOrdenes_Consultar" FunctionName="dbPLAT_Preordenes.Store.usp_VisorPreOrdenes_Consultar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblPreOrdenes_Visor">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="intIDPreOrdenVisualizar" ColumnName="intIDPreOrdenVisualizar" />
+                <ScalarProperty Name="strTipoPreOrden" ColumnName="strTipoPreOrden" />
+                <ScalarProperty Name="strDescripcionTipoPreOrden" ColumnName="strDescripcionTipoPreOrden" />
+                <ScalarProperty Name="strTipoInversion" ColumnName="strTipoInversion" />
+                <ScalarProperty Name="strDescripcionTipoInversion" ColumnName="strDescripcionTipoInversion" />
+                <ScalarProperty Name="strInstrumento" ColumnName="strInstrumento" />
+                <ScalarProperty Name="dblValor" ColumnName="dblValor" />
+                <ScalarProperty Name="dblValorPendiente" ColumnName="dblValorPendiente" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_VisorPreOrdenes_ConsultarCruzadas" FunctionName="dbPLAT_Preordenes.Store.usp_VisorPreOrdenes_ConsultarCruzadas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblPreOrdenes_VisorCruces">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strTipoInversionCompra" ColumnName="strTipoInversionCompra" />
+                <ScalarProperty Name="dblValorCruzado" ColumnName="dblValorCruzado" />
+                <ScalarProperty Name="intIDPreOrdenCompra" ColumnName="intIDPreOrdenCompra" />
+                <ScalarProperty Name="strDescripcionTipoInversionCompra" ColumnName="strDescripcionTipoInversionCompra" />
+                <ScalarProperty Name="strInstrumentoCompra" ColumnName="strInstrumentoCompra" />
+                <ScalarProperty Name="intIDPreOrdenVenta" ColumnName="intIDPreOrdenVenta" />
+                <ScalarProperty Name="strTipoInversionVenta" ColumnName="strTipoInversionVenta" />
+                <ScalarProperty Name="strDescripcionTipoInversionVenta" ColumnName="strDescripcionTipoInversionVenta" />
+                <ScalarProperty Name="strInstrumentoVenta" ColumnName="strInstrumentoVenta" />
+                <ScalarProperty Name="dtmFechaCruce" ColumnName="dtmFechaCruce" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_VisorPreOrdenes_Generar" FunctionName="dbPLAT_Preordenes.Store.usp_VisorPreOrdenes_Generar" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_PreOrdenes_ConsultarID_Cruzada" FunctionName="dbPLAT_Preordenes.Store.usp_PreOrdenes_ConsultarID_Cruzada">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblPreOrdenes_Cruzadas">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="guidCruce" ColumnName="guidCruce" />
+                <ScalarProperty Name="intIDPreOrden" ColumnName="intIDPreOrden" />
+                <ScalarProperty Name="logEsParcial" ColumnName="logEsParcial" />
+                <ScalarProperty Name="intNroParcial" ColumnName="intNroParcial" />
+                <ScalarProperty Name="dblValorInicial" ColumnName="dblValorInicial" />
+                <ScalarProperty Name="dblValorAnterior" ColumnName="dblValorAnterior" />
+                <ScalarProperty Name="dblValor" ColumnName="dblValor" />
+                <ScalarProperty Name="dtmFechaInversion" ColumnName="dtmFechaInversion" />
+                <ScalarProperty Name="dtmFechaVigencia" ColumnName="dtmFechaVigencia" />
+                <ScalarProperty Name="intIDCodigoPersona" ColumnName="intIDCodigoPersona" />
+                <ScalarProperty Name="strTipoPreOrden" ColumnName="strTipoPreOrden" />
+                <ScalarProperty Name="strTipoInversion" ColumnName="strTipoInversion" />
+                <ScalarProperty Name="intIDEntidad" ColumnName="intIDEntidad" />
+                <ScalarProperty Name="strInstrumento" ColumnName="strInstrumento" />
+                <ScalarProperty Name="strIntencion" ColumnName="strIntencion" />
+                <ScalarProperty Name="dblPrecio" ColumnName="dblPrecio" />
+                <ScalarProperty Name="dblRentabilidadMinima" ColumnName="dblRentabilidadMinima" />
+                <ScalarProperty Name="dblRentabilidadMaxima" ColumnName="dblRentabilidadMaxima" />
+                <ScalarProperty Name="strInstrucciones" ColumnName="strInstrucciones" />
+                <ScalarProperty Name="logActivo" ColumnName="logActivo" />
+                <ScalarProperty Name="strObservaciones" ColumnName="strObservaciones" />
+                <ScalarProperty Name="strUsuario" ColumnName="strUsuario" />
+                <ScalarProperty Name="dtmFechaCreacion" ColumnName="dtmFechaCreacion" />
+                <ScalarProperty Name="dtmActualizacion" ColumnName="dtmActualizacion" />
+                <ScalarProperty Name="strUsuarioInsercion" ColumnName="strUsuarioInsercion" />
+                <ScalarProperty Name="intIDPersona" ColumnName="intIDPersona" />
+                <ScalarProperty Name="intIDComitente" ColumnName="intIDComitente" />
+                <ScalarProperty Name="strNroDocumento" ColumnName="strNroDocumento" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_VisorPreOrdenes_AsociarOrden" FunctionName="dbPLAT_Preordenes.Store.usp_VisorPreOrdenes_AsociarOrden" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPLAT_Preordenes.CPX_tblValidacionesGenerales">
+                <ScalarProperty Name="intIDRegistro" ColumnName="intIDRegistro" />
+                <ScalarProperty Name="intIdValidacion" ColumnName="intIdValidacion" />
+                <ScalarProperty Name="intOrden" ColumnName="intOrden" />
+                <ScalarProperty Name="logInconsitencia" ColumnName="logInconsitencia" />
+                <ScalarProperty Name="strCampo" ColumnName="strCampo" />
+                <ScalarProperty Name="strCodMensaje" ColumnName="strCodMensaje" />
+                <ScalarProperty Name="strMensaje" ColumnName="strMensaje" />
+                <ScalarProperty Name="strTipoMensaje" ColumnName="strTipoMensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_VisorPreOrdenes_VerificarAsociarOrden" FunctionName="dbPLAT_Preordenes.Store.usp_VisorPreOrdenes_VerificarAsociarOrden" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

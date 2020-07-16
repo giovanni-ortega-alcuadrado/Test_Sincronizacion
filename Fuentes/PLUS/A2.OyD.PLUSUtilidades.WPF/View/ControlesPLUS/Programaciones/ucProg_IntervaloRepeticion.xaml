@@ -1,0 +1,100 @@
+﻿<UserControl
+    x:Class="ucProg_IntervaloRepeticion"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2OYDPLUSUtilidades"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="{Binding}"
+    Height="{Binding}"
+    d:DesignHeight="300"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="188" />
+            <ColumnDefinition Width="262*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+            <RowDefinition Height="23" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Name="TextBlock1"
+            Margin="10,4,0,4"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Text="Intervalo de repetición" />
+        <TextBlock
+            Name="TextBlock2"
+            Grid.Row="1"
+            Margin="10,4,0,4"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Text="Comienzo:" />
+        <A2UTILGEN:A2DatePicker
+            x:Name="dtFechaInicio"
+            Grid.Row="2"
+            Width="150"
+            Margin="10,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            SelectedDate="{Binding ProgramacionSeleccionado.FechaInicio, Mode=TwoWay}" />
+        <RadioButton
+            Name="RadioButton1"
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="20,0,0,0"
+            VerticalAlignment="Center"
+            Content="Sin fecha de finalización"
+            IsChecked="{Binding FinalizacionSinFinalizacion, Mode=TwoWay}" />
+        <RadioButton
+            Name="RadioButton2"
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="20,0,0,0"
+            VerticalAlignment="Center"
+            Content="Finalizar después de:"
+            IsChecked="{Binding FinalizacionFinalizaDespues, Mode=TwoWay}" />
+        <RadioButton
+            Name="RadioButton3"
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="20,0,0,0"
+            VerticalAlignment="Center"
+            Content="Finalizar el:"
+            IsChecked="{Binding FinalizaEl, Mode=TwoWay}" />
+        <TextBox
+            Name="txtTotalRepeticiones"
+            Grid.Row="3"
+            Grid.Column="2"
+            Width="50"
+            HorizontalAlignment="Left"
+            IsEnabled="{Binding FinalizacionFinalizaDespues}"
+            Text="{Binding ProgramacionSeleccionado.Repeticiones, Mode=TwoWay}" />
+        <A2UTILGEN:A2DatePicker
+            Name="dtpFechaFinalizacion"
+            Grid.Row="4"
+            Grid.Column="2"
+            Width="150"
+            HorizontalAlignment="Left"
+            IsEnabled="{Binding FinalizaEl}"
+            SelectedDate="{Binding ProgramacionSeleccionado.FechaFinalizacion, Mode=TwoWay}" />
+        <TextBlock
+            Name="TextBlock3"
+            Grid.Row="3"
+            Grid.Column="2"
+            Margin="56,3,0,4"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Text="repeticiones" />
+    </Grid>
+</UserControl>

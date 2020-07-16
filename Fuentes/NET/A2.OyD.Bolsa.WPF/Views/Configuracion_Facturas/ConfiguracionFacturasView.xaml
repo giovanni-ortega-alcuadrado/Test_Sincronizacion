@@ -1,0 +1,743 @@
+﻿<UserControl
+    x:Class="ConfiguracionFacturasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDBolsa"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="1000">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="*" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding ConfiguracionSelected}"
+                    PreguntarConfirmacion="False"
+                    TituloVista="Configuración Facturas"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding ConfiguracionSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaConfiguracion.Count}"
+                    VisibilidadRefrescarCombos="True" />
+
+                <!--<TextBlock Text="(*) Campos por los cuales se realiza el filtro." Margin="5,0,0,0" Style="{StaticResource txbNumRegistros}"/>-->
+
+
+            </StackPanel>
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" Grid.Row="1">
+
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding visLista}">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="3"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaConfiguracionPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding ConfiguracionSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Registro Configuración" SortMemberPath="IDConfiguracionfacturas">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IDConfiguracionfacturas}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel x:Name="Editar" Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding ConfiguracionSelected}"
+                                    IsEnabled="{Binding Editando}">
+
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Orientation="Horizontal">
+                                                    <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Agrupamientos" />
+                                                </StackPanel>
+                                                <Grid
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,5,0,0">
+
+                                                    <Border
+                                                        Grid.Row="0"
+                                                        Padding="2"
+                                                        BorderBrush="Black"
+                                                        BorderThickness="1">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <StackPanel
+                                                                Grid.Row="0"
+                                                                Grid.Column="0"
+                                                                Orientation="Horizontal">
+
+                                                                <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Usar Fecha de: " />
+                                                                <CheckBox
+                                                                    VerticalAlignment="Center"
+                                                                    IsChecked="{Binding UsarFechade, Mode=TwoWay}"
+                                                                    IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                            </StackPanel>
+
+                                                            <Grid
+                                                                Grid.Row="1"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Border
+                                                                    Grid.Row="0"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    BorderBrush="Black"
+                                                                    BorderThickness="1">
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="*" />
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <RadioButton
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Margin="0,10,0,0"
+                                                                            Content="Fecha de liquidación "
+                                                                            GroupName="Busqueda"
+                                                                            IsChecked="{Binding FechaLiquidacion, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarAU, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                        <RadioButton
+                                                                            Grid.Row="2"
+                                                                            Grid.Column="0"
+                                                                            Content="Fecha de cumplimiento "
+                                                                            GroupName="Busqueda"
+                                                                            IsChecked="{Binding FechaCumplimiento, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarAU, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+
+                                                            <StackPanel
+                                                                Grid.Row="0"
+                                                                Grid.Column="1"
+                                                                Orientation="Horizontal">
+
+                                                                <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Tipo de Operación:" />
+                                                                <CheckBox
+                                                                    VerticalAlignment="Center"
+                                                                    IsChecked="{Binding TipoOperacion, Mode=TwoWay}"
+                                                                    IsEnabled="{Binding DataContext.HabTipoOperacionAgrup, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                            </StackPanel>
+
+
+                                                            <Grid
+                                                                Grid.Row="1"
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                </Grid.RowDefinitions>
+                                                                <Border
+                                                                    Grid.Row="0"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    BorderBrush="Black"
+                                                                    BorderThickness="1">
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBlock
+                                                                            Grid.Column="0"
+                                                                            Margin="2,5,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Venta:" />
+                                                                        <CheckBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding TipoOperacionVenta, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarATVenta, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                        <TextBlock
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="0"
+                                                                            Margin="2,5,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Compra:" />
+
+                                                                        <CheckBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding TipoOperacionCompra, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarATCompra, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+
+                                                            <StackPanel
+                                                                Grid.Row="0"
+                                                                Grid.Column="2"
+                                                                Orientation="Horizontal">
+
+                                                                <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Clase Operación:" />
+                                                            </StackPanel>
+                                                            <Grid
+                                                                Grid.Row="1"
+                                                                Grid.Column="2"
+                                                                VerticalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                </Grid.RowDefinitions>
+                                                                <Border
+                                                                    Grid.Row="0"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    BorderBrush="black"
+                                                                    BorderThickness="1">
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="auto" />
+                                                                            <ColumnDefinition Width="auto" />
+                                                                            <ColumnDefinition Width="auto" />
+                                                                            <ColumnDefinition Width="auto" />
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBlock
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Margin="2,9,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Acciones:" />
+
+                                                                        <CheckBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Margin="52,10,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding ClaseOperacionAcciones, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarAC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                        <TextBlock
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="2"
+                                                                            Margin="2,8,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Simultáneas:" />
+
+                                                                        <CheckBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="2"
+                                                                            Margin="65,9,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding ClaseOperacionRentaSimultaneas, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarAC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                        <TextBlock
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="0"
+                                                                            Margin="2,5,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Renta fija:" />
+
+                                                                        <CheckBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="0"
+                                                                            Margin="52,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding ClaseOperacionRentaFija, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarAC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                        <TextBlock
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="2"
+                                                                            Margin="2,4,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Repos:" />
+
+                                                                        <CheckBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="2"
+                                                                            Margin="65,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding ClaseOperacionRentaRepos, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarAC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+
+                                                <StackPanel
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Margin="0,5,0,0"
+                                                    Orientation="Horizontal">
+                                                    <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Ordenamientos" />
+                                                </StackPanel>
+                                                <Grid
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Margin="0,5,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto" />
+                                                        <RowDefinition Height="auto" />
+                                                        <RowDefinition Height="auto" />
+                                                        <RowDefinition Height="auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Border
+                                                        Grid.Row="0"
+                                                        Padding="2"
+                                                        VerticalAlignment="Stretch"
+                                                        BorderBrush="black"
+                                                        BorderThickness="1">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <StackPanel
+                                                                Grid.Row="0"
+                                                                Grid.Column="0"
+                                                                Orientation="Horizontal">
+
+                                                                <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Usar Fecha de: " />
+                                                                <CheckBox
+                                                                    VerticalAlignment="Center"
+                                                                    IsChecked="{Binding UsarFechade_ORD, Mode=TwoWay}"
+                                                                    IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                            </StackPanel>
+                                                            <Grid
+                                                                Grid.Row="1"
+                                                                Grid.Column="0"
+                                                                VerticalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                    <RowDefinition Height="auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Border
+                                                                    Grid.Row="0"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    BorderBrush="Black"
+                                                                    BorderThickness="1">
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="*" />
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <RadioButton
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Margin="0,10,0,0"
+                                                                            Content="Fecha de liquidación "
+                                                                            GroupName="Busqueda1"
+                                                                            IsChecked="{Binding FechaLiquidacion_ORD, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOU, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="2"
+                                                                            Width="20"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOULiq, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding intFechaLiquidacion, Mode=TwoWay}" />
+
+                                                                        <RadioButton
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="0"
+                                                                            Margin="0,10,0,0"
+                                                                            Content="Fecha de cumplimiento "
+                                                                            GroupName="Busqueda1"
+                                                                            IsChecked="{Binding FechaCumplimiento_ORD, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOU, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="2"
+                                                                            Width="20"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOUCumpl, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding intFechaCumplimiento, Mode=TwoWay}" />
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+
+
+                                                            <StackPanel
+                                                                Grid.Row="0"
+                                                                Grid.Column="1"
+                                                                Orientation="Horizontal">
+
+                                                                <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Tipo de Operación:" />
+                                                            </StackPanel>
+                                                            <Grid
+                                                                Grid.Row="1"
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                </Grid.RowDefinitions>
+                                                                <Border
+                                                                    Grid.Row="0"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    BorderBrush="Black"
+                                                                    BorderThickness="1">
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBlock
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Margin="2,10,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Venta:" />
+                                                                        <CheckBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="1"
+                                                                            Margin="2,7,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding VentaOrd, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOT, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="2"
+                                                                            Margin="5,0,0,0"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOTVenta, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding intTipoOperacion, Mode=TwoWay}" />
+
+
+                                                                        <TextBlock
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="0"
+                                                                            Margin="2,10,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Compra:" />
+                                                                        <CheckBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="1"
+                                                                            Margin="2,7,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding CompraOrd, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOT, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="2"
+                                                                            Margin="5,0,0,0"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOTcompra, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding TipoOperacionC, Mode=TwoWay}" />
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+
+                                                            <StackPanel
+                                                                Grid.Row="0"
+                                                                Grid.Column="2"
+                                                                Orientation="Horizontal">
+
+                                                                <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Clase Operación: " />
+                                                            </StackPanel>
+                                                            <Grid
+                                                                Grid.Row="1"
+                                                                Grid.Column="2"
+                                                                VerticalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                </Grid.RowDefinitions>
+                                                                <Border
+                                                                    Grid.Row="0"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    BorderBrush="black"
+                                                                    BorderThickness="1">
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBlock
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Margin="2,11,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Acciones:" />
+                                                                        <CheckBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
+                                                                            Margin="52,10,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding AccionesORD, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="1"
+                                                                            Width="20"
+                                                                            Margin="4"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOCAcci, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding intClaseOperacion, Mode=TwoWay}" />
+
+                                                                        <TextBlock
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="3"
+                                                                            Margin="2,11,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Simultáneas:" />
+                                                                        <CheckBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="3"
+                                                                            Margin="65,8,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding SimultaneasORD, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="5"
+                                                                            Width="20"
+                                                                            Margin="4"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOCSimul, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding NroOrdenSimultaneas, Mode=TwoWay}" />
+
+
+                                                                        <TextBlock
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="0"
+                                                                            Margin="2,5,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Renta fija:" />
+
+                                                                        <CheckBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="1"
+                                                                            Margin="-15,5,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding RentafijaORD, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="1"
+                                                                            Width="20"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOCRF, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding NroOrdenRF, Mode=TwoWay}" />
+
+                                                                        <TextBlock
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="3"
+                                                                            Margin="2,4,0,0"
+                                                                            Style="{StaticResource EstiloTextBlock}"
+                                                                            Text="Repos:" />
+                                                                        <CheckBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="3"
+                                                                            Margin="65,5,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            IsChecked="{Binding reposORD, Mode=TwoWay}"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOC, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                                        <A2UTILGEN:A2NumericBox
+                                                                            Grid.Row="1"
+                                                                            Grid.Column="5"
+                                                                            Width="20"
+                                                                            IsEnabled="{Binding DataContext.HabilitarOCRepos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            Maximum="10"
+                                                                            Minimum="0"
+                                                                            NumberDecimalDigits="0"
+                                                                            ShowButtons="False"
+                                                                            ValueFormat="NoSeparator"
+                                                                            Value="{Binding NroOrdenrepos, Mode=TwoWay}" />
+
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

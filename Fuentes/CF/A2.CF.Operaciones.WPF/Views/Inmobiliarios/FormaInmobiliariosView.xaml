@@ -1,0 +1,672 @@
+﻿<UserControl
+    x:Class="FormaInmobiliariosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OYDPLUSControles="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFOperaciones"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:clsLiderConverter x:Key="cvLider" />
+        <src:LongConverter x:Key="cvCodigo" />
+        <src:DateTimeHoraFinDiaConverter x:Key="cvDateTimeHoraFinDiaConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        DataContext="{Binding EncabezadoSeleccionado, Source={StaticResource VMInmuebles}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            Style="{StaticResource BorderFormSup}">
+            <Grid x:Name="GridControlesIniciales">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Label="ID registro"
+                    LabelPosition="Above">
+                    <TextBlock
+                        x:Name="txtIDRegistro"
+                        Style="{StaticResource ControlTextBlockNormalInfo}"
+                        Text="{Binding ID, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Label="Estado"
+                    LabelPosition="Above">
+                    <TextBlock
+                        x:Name="txtEstado"
+                        Style="{StaticResource ControlTextBlockNormalInfo}"
+                        Text="{Binding NombreEstado, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Label="Usuario registro"
+                    LabelPosition="Above">
+                    <TextBlock
+                        x:Name="txtUsuarioRegistro"
+                        Style="{StaticResource ControlTextBlockNormalInfo}"
+                        Text="{Binding Usuario, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Label="Fecha registro"
+                    LabelPosition="Above">
+                    <TextBlock
+                        x:Name="txtFechaRegistro"
+                        Style="{StaticResource ControlTextBlockNormalInfo}"
+                        Text="{Binding FechaRegistro, StringFormat='dd/MM/yyyy hh:mm:ss tt', Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Label="Código inmueble"
+                    LabelPosition="Above">
+                    <TextBox
+                        x:Name="txtCodigo"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARENCABEZADO], Source={StaticResource VMInmuebles}}"
+                        MaxLength="20"
+                        Text="{Binding Codigo, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Label="Tipo Activo inmobiliario"
+                    LabelPosition="Above">
+                    <ComboBox
+                        x:Name="cboTipoInmueble"
+                        DisplayMemberPath="Descripcion"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARENCABEZADO], Source={StaticResource VMInmuebles}}"
+                        ItemsSource="{Binding DiccionarioCombos[TIPOINMUEBLE], Source={StaticResource VMInmuebles}}"
+                        SelectedValue="{Binding Tipo, Mode=TwoWay}"
+                        SelectedValuePath="Codigo" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Label="Área"
+                    LabelPosition="Above">
+                    <TextBox
+                        x:Name="txtArea"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                        MaxLength="30"
+                        Text="{Binding Area, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Label="Código catastro"
+                    LabelPosition="Above">
+                    <TextBox
+                        x:Name="txtCodigoCatastro"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                        MaxLength="20"
+                        Text="{Binding CodigoCatastro, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Label="Dirección"
+                    LabelPosition="Above">
+                    <TextBox
+                        x:Name="txtDireccion"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                        MaxLength="50"
+                        Text="{Binding Direccion, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Label="Portafolio"
+                    LabelPosition="Above">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Background="{Binding FondoTextoBuscadores, Source={StaticResource VMInmuebles}}">
+                            <Border BorderBrush="Gray" BorderThickness="0.5">
+                                <TextBlock
+                                    x:Name="txtPortafolio"
+                                    Height="13"
+                                    MinWidth="120"
+                                    MouseLeftButtonDown="txtPortafolio_MouseLeftButtonDown"
+                                    Style="{StaticResource ControlTextBlockNormal}"
+                                    Text="{Binding IDComitente, Mode=TwoWay}" />
+                            </Border>
+                        </StackPanel>
+                        <Controles:BuscadorClienteListaButon
+                            x:Name="ctrlCliente"
+                            Margin="2,0,0,0"
+                            Agrupamiento="SOLOCLIENTES_COMPANIAS"
+                            EstadoComitente="A"
+                            IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                            finalizoBusqueda="ctrlCliente_comitenteAsignado" />
+                        <Button
+                            x:Name="btnLimpiarCliente"
+                            Margin="2,0,0,0"
+                            Click="btnLimpiarCliente_Click"
+                            IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                            Style="{StaticResource btnLimpiar}"
+                            ToolTipService.ToolTip="Limpiar cliente" />
+                    </StackPanel>
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="1"
+                    Grid.Column="6"
+                    Label=""
+                    LabelPosition="Above">
+                    <TextBox
+                        x:Name="txtNombrePortafolio"
+                        MinWidth="260"
+                        HorizontalAlignment="Left"
+                        IsEnabled="False"
+                        Text="{Binding NombreCliente, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Label="Fecha compra"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2DatePicker
+                        x:Name="dtmFechaCompra"
+                        HorizontalAlignment="Left"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                        SelectedDate="{Binding FechaCompra, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Label="Fecha cumplimiento"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2DatePicker
+                        x:Name="dtmFechaCumplimiento"
+                        HorizontalAlignment="Left"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                        SelectedDate="{Binding FechaCumplimiento, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Label="Valor inversión"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtValorCompra"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                        Maximum="999999999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding ValorCompra, Mode=TwoWay}" />
+
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Label="Moneda/Unidad negociación"
+                    LabelPosition="Above">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Background="{Binding FondoTextoBuscadores, Source={StaticResource VMInmuebles}}">
+                            <Border BorderBrush="Gray" BorderThickness="0.5">
+                                <TextBlock
+                                    x:Name="txtMonedaNegociacion"
+                                    MinWidth="160"
+                                    MouseLeftButtonDown="txtMonedaNegociacion_MouseLeftButtonDown"
+                                    Style="{StaticResource ControlTextBlockNormal}"
+                                    Text="{Binding NombreMonedaNegociacion, Mode=TwoWay}" />
+                            </Border>
+                        </StackPanel>
+                        <Controles:BuscadorGenericoListaButon
+                            x:Name="ctlBuscadorMonedaNegociacion"
+                            Margin="2,0,0,0"
+                            Agrupamiento=""
+                            CampoBusqueda="MonedaNegociacion"
+                            EstadoItem="A"
+                            Etiqueta="Moneda negociacion"
+                            IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                            TipoItem="Monedas"
+                            finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                    </StackPanel>
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Label="Tasa cambio"
+                    LabelPosition="Above">
+
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtTasaCambio"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARTASACAMBIO], Source={StaticResource VMInmuebles}}"
+                        Maximum="999999999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding TasaCambio, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="2"
+                    Grid.Column="5"
+                    Label="Valor operación"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtValorOperacion"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="False"
+                        Maximum="999999999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding ValorOperacion, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Label="Fecha ultima valoración"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2DatePicker
+                        x:Name="dtmFechaUltimaValoracion"
+                        IsEnabled="False"
+                        SelectedDate="{Binding FechaUltimaValoracion, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Label="Valor inversión actualizado"
+                    LabelPosition="Above">
+                    <A2UTILGEN:A2NumericBox
+                        x:Name="txtValorCompraActualizado"
+                        FuncionalidadAutocomplete="True"
+                        GotFocus="SeleccionarFocoControl"
+                        IsEnabled="False"
+                        Maximum="999999999999999"
+                        Minimum="0"
+                        NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                        ShowButtons="False"
+                        ValueFormat="Numeric"
+                        Value="{Binding ValorCompraActualizado, Mode=TwoWay}" />
+                </Telerik:DataFormDataField>
+
+                <Telerik:DataFormDataField
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="5"
+                    Label="Descripción"
+                    LabelPosition="Above">
+                    <TextBox
+                        x:Name="txtDescripcion"
+                        IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARNEGOCIO], Source={StaticResource VMInmuebles}}"
+                        MaxLength="200"
+                        Text="{Binding Descripcion, Mode=TwoWay}"
+                        TextWrapping="Wrap" />
+                </Telerik:DataFormDataField>
+            </Grid>
+        </Border>
+
+        <Border
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="0,5,0,0"
+            Style="{StaticResource Contenedor_TabControl}">
+            <TabControl
+                x:Name="tabControlesAdicionales"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+
+                <TabItem
+                    x:Name="tabItemValoresComisiones"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Header="Movimientos">
+                    <Telerik:RadBusyIndicator
+                        x:Name="myBusyCalculando"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BusyContent="Cargando..."
+                        DisplayAfter="0"
+                        IsBusy="{Binding IsBusyDetalles, Source={StaticResource VMInmuebles}}">
+                        <!--
+                            **************************************************************************************************************
+                            **************************************************************************************************************
+                        -->
+                        <!--  jugar con este  -->
+                        <StackPanel
+                            x:Name="stackDistribucionComisiones"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                            <Grid Grid.Row="2" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70*" />
+                                    <ColumnDefinition Width="30*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+
+                                    </Grid.RowDefinitions>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Label="Fecha inicial"
+                                        LabelPosition="Above">
+                                        <A2UTILGEN:A2DatePicker
+                                            x:Name="dtmFechaInicial"
+                                            HorizontalAlignment="Left"
+                                            SelectedDate="{Binding FechaInicialFiltro, Source={StaticResource VMInmuebles}, Mode=TwoWay}" />
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Label="Fecha inicial"
+                                        LabelPosition="Above">
+                                        <A2UTILGEN:A2DatePicker
+                                            x:Name="dtmFechaFinal"
+                                            HorizontalAlignment="Left"
+                                            SelectedDate="{Binding FechaFinalFiltro, Source={StaticResource VMInmuebles}, Mode=TwoWay}" />
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Label="Concepto"
+                                        LabelPosition="Above">
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Background="{Binding FondoTextoBuscadores, Source={StaticResource VMInmuebles}}">
+                                                <Border BorderBrush="Gray" BorderThickness="0.5">
+                                                    <TextBlock
+                                                        x:Name="txtConceptoFiltro"
+                                                        MinWidth="160"
+                                                        MouseLeftButtonDown="txtConceptoFiltro_MouseLeftButtonDown"
+                                                        Style="{StaticResource ControlTextBlockNormal}"
+                                                        Text="{Binding ConceptoFiltro, Mode=TwoWay}" />
+                                                </Border>
+                                            </StackPanel>
+                                            <Controles:BuscadorGenericoListaButon
+                                                x:Name="ctlConceptoFiltro"
+                                                Margin="2,0,0,0"
+                                                Agrupamiento=""
+                                                CampoBusqueda="DetalleConceptoFiltro"
+                                                EstadoItem="A"
+                                                Etiqueta="Concepto"
+                                                TipoItem="ConceptoInmobiliarios"
+                                                finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+
+                                            <Button
+                                                x:Name="btnLimpiarConsulta"
+                                                Grid.Column="3"
+                                                Margin="2,0,0,0"
+                                                Click="btnLimpiarConsulta_Click"
+                                                Style="{StaticResource btnLimpiar}"
+                                                ToolTipService.ToolTip="Limpiar campos" />
+                                        </StackPanel>
+                                    </Telerik:DataFormDataField>
+                                    <!--  *************************************************************************  -->
+                                    <Button
+                                        x:Name="btnConsultarDetalles"
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        VerticalAlignment="Bottom"
+                                        Click="btnConsultarDetalles_Click"
+                                        Content="Consultar" />
+
+                                </Grid>
+
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Bottom">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource Title4}"
+                                            Text="Datos nuevo registro" />
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Column="1"
+                                            Label="Tipo movimiento"
+                                            LabelPosition="Above">
+                                            <ComboBox
+                                                x:Name="cboTipoMovimiento"
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARDETALLE], Source={StaticResource VMInmuebles}}"
+                                                ItemsSource="{Binding DiccionarioCombos[TIPOMOVIMIENTO], Source={StaticResource VMInmuebles}}"
+                                                SelectedValue="{Binding TipoMovimientoNuevo, Source={StaticResource VMInmuebles}, Mode=TwoWay}"
+                                                SelectedValuePath="Codigo" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Column="2"
+                                            Label="Concepto"
+                                            LabelPosition="Above"
+                                            Visibility="{Binding MostrarSeleccionConceptoNota, Source={StaticResource VMInmuebles}}">
+
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel Background="{Binding FondoTextoBuscadores, Source={StaticResource VMInmuebles}}">
+                                                    <Border BorderBrush="Gray" BorderThickness="0.5">
+                                                        <TextBlock
+                                                            x:Name="txtConceptoNuevoRegistro"
+                                                            Height="19"
+                                                            MinWidth="120"
+                                                            Margin="2,0,0,0"
+                                                            VerticalAlignment="Center"
+                                                            MouseLeftButtonDown="txtConceptoNuevoRegistro_MouseLeftButtonDown"
+                                                            Text="{Binding ConceptoNuevoRegistro, Source={StaticResource VMInmuebles}, Mode=TwoWay}" />
+                                                    </Border>
+                                                </StackPanel>
+                                                <Controles:BuscadorGenericoListaButon
+                                                    x:Name="ctlConceptoNuevo"
+                                                    Margin="2,0,0,0"
+                                                    Agrupamiento=""
+                                                    CampoBusqueda="DetalleConceptoNuevo"
+                                                    EstadoItem="A"
+                                                    Etiqueta="Concepto"
+                                                    GotFocus="ctlConceptoNuevo_GotFocus"
+                                                    IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARDETALLE], Source={StaticResource VMInmuebles}}"
+                                                    TipoItem="ConceptoInmobiliarios"
+                                                    finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                            </StackPanel>
+                                        </Telerik:DataFormDataField>
+
+                                        <Button
+                                            x:Name="btnNuevoDetalle"
+                                            Grid.Column="3"
+                                            Margin="2,0,0,0"
+                                            Click="btnNuevoDetalle_Click"
+                                            Content="Nuevo"
+                                            IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARDETALLE], Source={StaticResource VMInmuebles}}" />
+                                        <Button
+                                            x:Name="btnEditarDetalle"
+                                            Grid.Column="4"
+                                            Margin="2,0,0,0"
+                                            Click="btnEditarDetalle_Click"
+                                            Content="Editar"
+                                            IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARDETALLE], Source={StaticResource VMInmuebles}}" />
+                                        <Button
+                                            x:Name="btnBorrarDetalle"
+                                            Grid.Column="5"
+                                            Margin="2,0,0,0"
+                                            Click="btnBorrarDetalle_Click"
+                                            Content="Borrar"
+                                            IsEnabled="{Binding DiccionarioHabilitarCampos[HABILITARDETALLE], Source={StaticResource VMInmuebles}}" />
+
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+                            <!--  hasta aqui  -->
+                            <!--
+                                ****************************************************************************************************
+                                ****************************************************************************************************
+                            -->
+
+
+                            <A2UTILGEN:A2GridView
+                                x:Name="dgDetalles"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                CanUserDeleteRows="False"
+                                CanUserInsertRows="False"
+                                IsHitTestVisible="True"
+                                ItemsSource="{Binding ListaDetalle, Source={StaticResource VMInmuebles}}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                SelectedItem="{Binding DetalleSeleccionado, Source={StaticResource VMInmuebles}, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding ID, Mode=TwoWay}" Header="ID" />
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding FechaMovimiento, Mode=TwoWay}"
+                                        Header="Fecha movimiento"
+                                        IsReadOnly="True" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding TipoMovimiento, Mode=TwoWay}" Header="Tipo movimiento" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Concepto, Mode=TwoWay}" Header="Concepto" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Detalle, Mode=TwoWay}" Header="Detalle" />
+                                    <Telerik:GridViewDataColumn Header="Valor">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <A2UTILGEN:A2NumericBox
+                                                    FuncionalidadAutocomplete="True"
+                                                    IsEnabled="False"
+                                                    NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                                                    ShowButtons="False"
+                                                    ValueFormat="Numeric"
+                                                    Value="{Binding Valor, Mode=TwoWay}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <!--<Telerik:GridViewDataColumn Header="Base IVA">
+                                    <Telerik:GridViewDataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <A2UTILGEN:A2NumericBox FuncionalidadAutocomplete="True" Value="{Binding BaseIva, Mode=TwoWay}"
+                                                                             ShowButtons="False"
+                                                                             ValueFormat="Numeric" NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                                                                             IsEnabled="False"
+                                                                             />
+                                        </DataTemplate>
+                                    </Telerik:GridViewDataColumn.CellTemplate>
+                                </Telerik:GridViewDataColumn>-->
+                                    <!--<Telerik:GridViewDataColumn DataMemberBinding="{Binding Secuencia, Mode=TwoWay}"
+                                                                Header="Secuencia Detalle"/>-->
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding DescripcionEstado, Mode=TwoWay}" Header="Estado" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivo, Mode=TwoWay}" Header="Consecutivo" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding IDDocumento, Mode=TwoWay}" Header="ID Documento" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Telerik:RadBusyIndicator>
+                </TabItem>
+
+            </TabControl>
+        </Border>
+    </Grid>
+
+</UserControl>

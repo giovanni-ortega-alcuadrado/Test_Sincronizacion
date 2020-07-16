@@ -1,0 +1,141 @@
+﻿<UserControl
+    x:Class="ModificacionMasivaReceptores"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDClientes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="350"
+    MaxWidth="800">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+    <Border>
+        <Grid
+            x:Name="LayoutRoot"
+            MaxWidth="800"
+            ShowGridLines="False">
+            <Telerik:RadBusyIndicator
+                x:Name="myBusyIndicator"
+                BusyContent="Cargando..."
+                DisplayAfter="0"
+                IsBusy="{Binding IsBusy}">
+                <Grid MaxWidth="800" DataContext="{Binding GeneraArchivoCliSelected}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Width="496"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource Title1}"
+                        Text="Modificación Receptores" />
+
+
+                    <StackPanel
+                        Grid.Row="1"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource stpFiltro}">
+                        <Border Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                            <StackPanel
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <!--<Button Content="Aplazar"  fxui:Interaction.Action="$model.Aplazamientos()" Margin="0,0,10,0" Height="20" Width="85" IsEnabled="{Binding habilitaboton}">
+
+                                    </Button>-->
+                                <Button
+                                    x:Name="btnAceptar"
+                                    Width="85"
+                                    Margin="3"
+                                    Click="Button_Click_1"
+                                    Content="Aceptar" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <Border Grid.Row="2" Style="{StaticResource Contenedor_Estilo}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border
+                                Grid.Row="0"
+                                Margin="4"
+                                Style="{StaticResource Contenedor_TabControl}">
+                                <TabControl x:Name="tbiGeneral">
+                                    <TabItem x:Name="Todosclientes" Header="Todos los clientes">
+                                        <StackPanel>
+                                            <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Receptorant}" LabelPosition="Above">
+                                                <ComboBox
+                                                    x:Name="cboReceptorant"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosA2[CodReceptor], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding Receptorant, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Receptor anterior" />
+
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Receptoract}" LabelPosition="Above">
+                                                <ComboBox
+                                                    x:Name="cboReceptorAct"
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombosA2[CodReceptor], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding Receptoract, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Receptor actual" />
+
+                                            </Telerik:DataFormDataField>
+                                        </StackPanel>
+                                    </TabItem>
+                                    <TabItem x:Name="AlgunosClientes" Header="Algunos Clientes">
+                                        <StackPanel>
+                                            <Grid MaxWidth="800">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <!--<Button Content="Archivo fuente..." Click="Button_Click3" Height="20" ></Button>-->
+                                                <local:ucBtnDialogoImportar
+                                                    x:Name="ucbtnCargar"
+                                                    VerticalAlignment="Bottom"
+                                                    Filtros="*.txt|*.txt" />
+                                                <Telerik:DataFormDataField
+                                                    Grid.Column="1"
+                                                    IsEnabled="False"
+                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreArchivoAC}">
+                                                    <TextBox Text="{Binding NombreArchivoAC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="NombreArchivo" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </StackPanel>
+                                    </TabItem>
+                                </TabControl>
+                            </Border>
+
+                            <Grid Grid.Row="1" MaxWidth="800">
+                                <!--<Button Content="Resultado" Width="80" Height="20" Margin="13,0,0,0" HorizontalAlignment="Left" Click="Button_Click"></Button>-->
+                                <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreArchivo}" LabelPosition="Above">
+                                    <TextBox Text="{Binding NombreArchivo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="NombreArchivo" />
+                                </Telerik:DataFormDataField>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Telerik:RadBusyIndicator>
+        </Grid>
+    </Border>
+</UserControl>
+

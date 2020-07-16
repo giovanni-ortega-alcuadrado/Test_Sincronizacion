@@ -1,0 +1,151 @@
+﻿<Window
+    x:Class="TrasladosenLineaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Traslados en linea"
+    Width="700"
+    Height="Auto"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </Window.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Telerik:DataFormDataField
+                Grid.Column="0"
+                Label="Seleccionar Todos"
+                LabelPosition="Above">
+                <CheckBox
+                    x:Name="chkSeleccionarTotos"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding logSeleccionartodos, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Border
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource Contenedor_Paginador}">
+                <A2UTILGEN:A2DataPager
+                    x:Name="datapagerdetalle"
+                    PageSize="10"
+                    Source="{Binding Items, ElementName=dgLista}" />
+            </Border>
+            <A2UTILGEN:A2GridView
+                x:Name="dgLista"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="150"
+                VerticalAlignment="Top"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding ListaDetallePaginada}"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SelectedItem="{Binding TrasladoenLineaSelected, Mode=TwoWay}"
+                ValidatesOnDataErrors="None">
+                <A2UTILGEN:A2GridView.Columns>
+                    <!--  =======================================================================================  -->
+                    <Telerik:GridViewDataColumn Header="Selección">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    x:Name="chkSeleccion"
+                                    Margin="0,0,-50,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding logSeleccionado, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <!--  =======================================================================================  -->
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding strNroCuenta}"
+                        Header="Cuenta"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding dtmFecha}"
+                        Header="Fecha"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding curValor}"
+                        Header="Valor"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding strCodigoTransaccion}"
+                        Header="Código transacción"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding strReferencia}"
+                        Header="Referencia"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding strEstado}"
+                        Header="Estado"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding str}"
+                        Header="IDRCRecaudo"
+                        IsReadOnly="True" />
+                    <!--  =======================================================================================  -->
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="0,0,5,5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnEliminar"
+                    Width="130"
+                    Height="30"
+                    Click="btnEliminar_Click"
+                    Content="Eliminar" />
+                <Button
+                    x:Name="btnAceptar"
+                    Width="130"
+                    Height="30"
+                    Click="btnAceptar_Click"
+                    Content="Aceptar" />
+                <Button
+                    x:Name="btnCancelar"
+                    Width="130"
+                    Height="30"
+                    Click="btnCancelar_Click"
+                    Content="Cancelar" />
+            </StackPanel>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>
