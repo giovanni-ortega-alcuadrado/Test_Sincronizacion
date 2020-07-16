@@ -13,7 +13,7 @@ GO
 
 Procedimiento [MAESTROS_GEN].[usp_PreOrdenes_Actualizar]
  
-Descripción: Actualiza los registros en la tabla de PREORDENES.tblPreOrdenes.
+Descripciï¿½n: Actualiza los registros en la tabla de PREORDENES.tblPreOrdenes.
 
 Desarrollado por: Natalia Andrea Otalvaro
 Fecha: Enero 24/2019
@@ -59,10 +59,11 @@ ALTER PROCEDURE [PREORDENES].[usp_PreOrdenes_Actualizar]
 @plogActivo				BIT,
 @pstrDetallePortafolio	VARCHAR(MAX),
 @pstrTablaValidaciones	VARCHAR(100),
-@pstrUsuario			VARCHAR(60), -- Usuario que ejecuta la acción
-@pstrMaquina			VARCHAR(60), -- Maquina que ejecuta la acción
-@pstrInfosesion			VARCHAR(2000) = Null -- XML con inofrmación que se utiliza para auditoria (usuario, ip máquina usuario, nombre máquina usuario, servidor web, etc.)
+@pstrUsuario			VARCHAR(60), -- Usuario que ejecuta la acciï¿½n
+@pstrMaquina			VARCHAR(60), -- Maquina que ejecuta la acciï¿½n
+@pstrInfosesion			VARCHAR(2000) = Null, -- XML con inofrmaciï¿½n que se utiliza para auditoria (usuario, ip mï¿½quina usuario, nombre mï¿½quina usuario, servidor web, etc.)
 --WITH ENCRYPTION
+@pstrInfosesionTEMPORAL		VARCHAR(2000) = Null
 AS 
 
 SET NOCOUNT ON
@@ -108,7 +109,7 @@ DECLARE @xmlDetalle			XML,
 		@strTopico				VARCHAR(200)
 
 BEGIN TRY
-	-- Concatenar todos los parámetros para guardarlos en el log de uso
+	-- Concatenar todos los parï¿½metros para guardarlos en el log de uso
 	SET @strParametros = '@pintID=' + isnull('''' + CONVERT(VARCHAR,@pintID) + '''', 'null') + 
 						',@pdtmFechaInversion=' + isnull('''' + CONVERT(VARCHAR,@pdtmFechaInversion) + '''', 'null') + 
 						',@pdtmFechaVigencia=' + isnull('''' + CONVERT(VARCHAR,@pdtmFechaVigencia) + '''', 'null') + 
@@ -131,12 +132,12 @@ BEGIN TRY
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Inicializar auditoria de uso
-	SELECT @intInconsistencias = 1, @strOpcion = 'PreOrdenes', @strProceso= 'Actualizar', @strProcedimiento = OBJECT_NAME(@@PROCID), @strObjeto = '', @pstrUsuario=ISNULL(@pstrUsuario,'') 	-- Asignar valor a los parámetros para identIFicar la opción ejecutada
+	SELECT @intInconsistencias = 1, @strOpcion = 'PreOrdenes', @strProceso= 'Actualizar', @strProcedimiento = OBJECT_NAME(@@PROCID), @strObjeto = '', @pstrUsuario=ISNULL(@pstrUsuario,'') 	-- Asignar valor a los parï¿½metros para identIFicar la opciï¿½n ejecutada
 	EXEC @intIdAuditoria = PLATAFORMA.uspA2_Util_CrearLogAuditoriaUso @pstrOpcion= @strOpcion, @pstrProceso = @strProceso, @pstrObjeto = @strObjeto, @pstrProcedimiento = @strProcedimiento, @pstrParametros = @strParametros, @pstrUsuario = @pstrUsuario, @pstrInfosesion = @pstrInfosesion
 
 	IF EXISTS (SELECT * FROM tempdb.sys.sysobjects WHERE id = object_id('TempDB..' + @pstrTablaValidaciones, 'U'))
 	BEGIN	
-		-- Instrucción para consultar el mensaje que se debe retornar
+		-- Instrucciï¿½n para consultar el mensaje que se debe retornar
 		set @strSQLMsg = 'Insert Into  ' + @pstrTablaValidaciones + ' (strCodMensaje, strTipoMensaje, strMensaje, logInconsitencia, intIDRegistro) ' +
 			             '    SELECT strCodMensaje, strTipoMensaje, strMensaje, logInconsistencia, @pintIDRegistro ' +
 					     '    FROM PLATAFORMA.ufnA2_Mensajes_obtenerInfoMsgProceso(@pstrCodigoMsg, @pstrParametrosMsg, @pstrProducto, @pstrGrupo)' --CCM201710
@@ -290,7 +291,7 @@ BEGIN TRY
 			SET @strMensajeConsola = ''
 			SET @strXLM='<PreOrden>'
 						+'<ID>' + CONVERT(VARCHAR(20), @pintID) + '</ID>'
-						+'<Accion>Ingreso/Modificación de PreOrden</Accion>'
+						+'<Accion>Ingreso/Modificaciï¿½n de PreOrden</Accion>'
 						+'<Estado>Pendiente</Estado>'
 						+'</PreOrden>'
 
@@ -308,18 +309,18 @@ BEGIN TRY
 			--*********************************************************************************************************************
 			-----------------------------------------------------------------------------------------------------------------
 
-			-- Notificar que la actualización finalizó exitosamente
+			-- Notificar que la actualizaciï¿½n finalizï¿½ exitosamente
 			exec sp_executesql @strSQLMsg, N'@pstrCodigoMsg varchar(100), @pstrParametrosMsg varchar(1000), @pstrProducto varchar(25), @pstrModulo varchar(25), @pstrGrupo varchar(50), @pintIDRegistro INT', 'PLATAFORMA_ACTUALIZACION_EXITOSA', '', '', '', '', @pintID --CCM201710
 		END 
 		ELSE -- IF @intInconsistencias = 0
 		BEGIN
-			-- Notificar que la actualización NO finalizó exitosamente
+			-- Notificar que la actualizaciï¿½n NO finalizï¿½ exitosamente
 			exec sp_executesql @strSQLMsg, N'@pstrCodigoMsg varchar(100), @pstrParametrosMsg varchar(1000), @pstrProducto varchar(25), @pstrModulo varchar(25), @pstrGrupo varchar(50), @pintIDRegistro INT', 'PLATAFORMA_ACTUALIZACION_INCONSISTENTE', '', '', '', '', @pintID --CCM201710
 		END -- IF @intInconsistencias = 0
 	END
 	ELSE
 	BEGIN
-		-- Notificar que la actualización NO se realizó
+		-- Notificar que la actualizaciï¿½n NO se realizï¿½
 		SET @strMsg = PLATAFORMA.ufnA2_Mensajes_obtenerMsgProceso('PLATAFORMA_ACTUALIZACION_NO_REALIZADA', '', '', '') --CCM201710
 		raiserror(@strMsg, 16, @intCodigoMsgErr)
 	END
