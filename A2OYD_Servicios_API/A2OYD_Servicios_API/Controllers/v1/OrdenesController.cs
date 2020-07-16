@@ -54,14 +54,14 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/ConsultarGastos", parametros.ToString(), "Inicio ejecución.");
-                var gastosorden = await contextobdoyd.gastosorden.FromSql("[APIADCAP].[usp_OrdenesController_Get_OrdenesGastos] @pstrJsonEnvio=@pstrJsonEnvio, @pstrusuario=@pstrusuario,@pstraplicacion=@pstraplicacion ",
-                    new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/ConsultarGastos", parametros.ToString(), "Inicio ejecución.");
+                var gastosorden = await contextobdoyd.gastosorden.FromSql("[APIADCAP].[usp_OrdenesController_Get_OrdenesGastos] @strJsonEnvio, @pstrusuario,@pstraplicacion ",
+                    new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                     new SqlParameter("@pstrusuario", ""),
                     new SqlParameter("@pstraplicacion", "")).ToListAsync();
                 Utilidades.UtilidadesController utilidad = new Utilidades.UtilidadesController();
                 List<Entidades.Ordenes.GastoOrdenEncabezado> resultadoseparado = utilidad.GastoOrdenSepararEncabezadoyDetalle(gastosorden);
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/ConsultarGastos", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/ConsultarGastos", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Ordenes.GastoOrdenEncabezadoDTO>>(resultadoseparado);
             }
             catch (Exception errror)
@@ -90,14 +90,14 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/Ingresar", parametros.ToString(), "Inicio ejecución.");
-                string valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("OrdenesController", "Post_Ingresar");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_OrdenesController_Post_Ingresar] @pstrJsonEnvio=@pstrJsonEnvio,@pstrJsonValoresDefecto=@pstrJsonValoresDefecto, @pstrusuario=@pstrusuario,@pstraplicacion=@pstraplicacion ",
-                    new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/Ingresar", parametros.ToString(), "Inicio ejecución.");
+                Task<string> valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("OrdenesController", "Post_Ingresar");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_OrdenesController_Post_Ingresar] @strJsonEnvio,@pstrJsonValoresDefecto, @pstrusuario,@pstraplicacion ",
+                    new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                     new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
                     new SqlParameter("@pstrusuario", ""),
                     new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/Ingresar", mensajes.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/Ingresar", mensajes.ToString(), "Finaliza ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
@@ -119,12 +119,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/ConsultarEstado", parametros.ToString(), "Inicio ejecución.");
-                var ordenesestado = await contextobdoyd.estadosorden.FromSql("[APIADCAP].[usp_OrdenesController_Get_OrdenesEstado] 	@pstrJsonEnvio=@pstrJsonEnvio, @pstrusuario=@pstrusuario, @pstraplicacion=@pstraplicacion",
-                    new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/ConsultarEstado", parametros.ToString(), "Inicio ejecución.");
+                var ordenesestado = await contextobdoyd.estadosorden.FromSql("[APIADCAP].[usp_OrdenesController_Get_OrdenesEstado] 	@strJsonEnvio, @pstrusuario, @pstraplicacion",
+                    new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                     new SqlParameter("@pstrusuario", ""),
                     new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/ConsultarEstado", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/ConsultarEstado", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Ordenes.EstadoOrdenDTO>>(ordenesestado);
 
             }
@@ -146,12 +146,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/Cancelar", parametros.ToString(), "Inicio ejecución.");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_OrdenesController_Delete_Cancelar] @pstrJsonEnvio=@pstrJsonEnvio, @pstrusuario=@pstrusuario, @pstraplicacion=@pstraplicacion",
-                    new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/Cancelar", parametros.ToString(), "Inicio ejecución.");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_OrdenesController_Delete_Cancelar] @strJsonEnvio, @pstrusuario, @pstraplicacion",
+                    new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                     new SqlParameter("@pstrusuario", ""),
                     new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/Cancelar", mensajes.ToString(), "Inicio ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/Cancelar", mensajes.ToString(), "Inicio ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
@@ -182,12 +182,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/Modificar", parametros.ToString(), "Inicio ejecución.");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_OrdenesController_Put_Modificar] @pstrJsonEnvio=@pstrJsonEnvio, @pstrusuario=@pstrusuario,@pstraplicacion=@pstraplicacion ",
-                    new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/Modificar", parametros.ToString(), "Inicio ejecución.");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_OrdenesController_Put_Modificar] @strJsonEnvio, @pstrusuario,@pstraplicacion ",
+                    new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                     new SqlParameter("@pstrusuario", ""),
                     new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/V1/Ordenes/Modificar", mensajes.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("OrdenesController", "A2/Ordenes/Modificar", mensajes.ToString(), "Finaliza ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }

@@ -20,7 +20,7 @@ namespace A2OYD_Servicios_API.Parametros.Personas
         public Int64?  intcodigooydordenante { get; set; }
         public List<Parametros.Genericos.Direccion> direccion { get; set; }
         public string stractividadeconomica { get; set; }
-        public string stractividadUIF { get; set; }
+        public string strcodigoCIIU { get; set; }
         public bool? logpoliticamenteexpuesto { get; set; }
         public string telefonocontacto { get; set; }
         public string celularcontacto { get; set; }

@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using A2Utilidades.Web.API.Generico.Utilidades;
-using A2OYD_Servicios_API.Entidades.Personas;
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
@@ -46,12 +45,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Inicio ejecución.");
-                var clientescuentasbancarias = await contextobdoyd.clientecuentasbancarias.FromSql("[APIADCAP].[usp_PersonasController_Get_ClientesCuentasBancarias] @pstrJsonEnvio=@pstrJsonEnvio ,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Inicio ejecución.");
+                var clientescuentasbancarias = await contextobdoyd.clientecuentasbancarias.FromSql("[APIADCAP].[usp_PersonasController_Get_ClientesCuentasBancarias] @strJsonEnvio ,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Personas.ClienteCuentaBancoDTO>>(clientescuentasbancarias);
             }
             catch (Exception errror)
@@ -74,15 +73,15 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Ingresar", parametros.ToString(), "Inicio ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Ingresar", parametros.ToString(), "Inicio ejecución.");
                 //Entidades.Genericas.MensajeRespuesta mensajes = new Entidades.Genericas.MensajeRespuesta();
-                string valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_ClientesCuentasBancarias");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Post_ClientesCuentasBancarias] @pstrJsonEnvio=@pstrJsonEnvio,@pstrJsonValoresDefecto=@pstrJsonValoresDefecto,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                Task<string> valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_ClientesCuentasBancarias");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Post_ClientesCuentasBancarias] @strJsonEnvio,@pstrJsonValoresDefecto,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Ingresar", mensajes.ToString(), "Inicio ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Ingresar", mensajes.ToString(), "Inicio ejecución.");
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
             catch (Exception errror)
@@ -102,12 +101,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Eliminar", parametros.ToString(), "Inicio ejecución.");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Delete_ClientesCuentasBancarias] @pstrJsonEnvio=@pstrJsonEnvio,@pstrusuario=@pstrusuario,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Eliminar", parametros.ToString(), "Inicio ejecución.");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Post_ClientesCuentasBancarias] @strJsonEnvio,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Eliminar", mensajes.ToString(), "Inicio ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Eliminar", mensajes.ToString(), "Inicio ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
@@ -129,18 +128,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-               
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/ConsultarCodigosOyD", parametros.ToString(), "Inicio ejecución.");
-                var codigosoyd = await contextobdoyd.clientecodigosoyd.FromSql("[APIADCAP].[usp_PersonasController_Get_CodigosOyD] @pstrJsonEnvio=@pstrJsonEnvio ,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/ConsultarCodigosOyD", parametros.ToString(), "Inicio ejecución.");
+                var codigosoyd = await contextobdoyd.clientecodigosoyd.FromSql("[APIADCAP].[usp_PersonasController_Get_CodigosOyD] @strJsonEnvio ,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                foreach (ClienteCodigoOyD persona in codigosoyd)
-                {
-                    persona.Asociar_Lista_Direccion();
-                }
-                
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/ConsultarCodigosOyD", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/ConsultarCodigosOyD", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Personas.ClienteCodigoOyDDTO>>(codigosoyd);
             }
             catch (Exception errror)
@@ -164,12 +157,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Modificar", parametros.ToString(), "Inicio ejecución.");
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Put_ClientesCuentasBancarias] @pstrJsonEnvio=@pstrJsonEnvio,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Modificar", parametros.ToString(), "Inicio ejecución.");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Put_ClientesCuentasBancarias] @strJsonEnvio,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Modificar", mensajes.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Modificar", mensajes.ToString(), "Finaliza ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
@@ -199,63 +192,49 @@ namespace A2OYD_Servicios_API.Controllers.v1
         /// "logpoliticamenteexpuesto" Indica si el cliente es politicamente expuesto o no 
         /// "telefonocontacto" Numero de telefono del contacto del cliente 
         /// "celularcontacto"  Numero de celunar del contacto del cliente
-        /// "emailcontacto" Email del contacto del cliente</param>
+        /// "emailcontacto"> Tipo: bool; Email del contacto del cliente</param>
         /// <returns></returns>
         [HttpPost("Ingresar")]
         public async Task<ActionResult<Models.DTO.Entidades.Genericas.MensajeRespuestaSeparadoDTO>> Post_Ingresar([FromBody] Parametros.Personas.PostClientesIngresar parametros)
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Ingresar", parametros.ToString(), "Inicio ejecución.");
-                Models.DTO.Parametros.Personas.PostClientesIngresarDTO parametrosDTO = new Models.DTO.Parametros.Personas.PostClientesIngresarDTO();
-                parametrosDTO=mapper.Map<Models.DTO.Parametros.Personas.PostClientesIngresarDTO>(parametros);
-                List<Models.DTO.Parametros.Genericos.DireccionDTO> direccionesDTO = new List<Models.DTO.Parametros.Genericos.DireccionDTO>(); // mapper.Map<List<Models.DTO.Parametros.Genericos.DireccionDTO>>(parametros.direccion); direccionDTO[0].stridentificacion = parametrosDTO.stridentiicacion;
-                Models.DTO.Parametros.Genericos.DireccionDTO direccionDTO;
-                foreach (Parametros.Genericos.Direccion direccion in parametros.direccion)
-                {
-                    direccionDTO = new Models.DTO.Parametros.Genericos.DireccionDTO();
-                    direccionDTO.intidciudad = direccion.intidciudad;
-                    direccionDTO.intiddepartamento = direccion.intiddepartamento;
-                    direccionDTO.intidpais = direccion.intidpais;
-                    direccionDTO.strdireccion = direccion.strdireccion;
-                    direccionDTO.stridentificacion = parametros.stridentiicacion;
-                    direccionesDTO.Add(direccionDTO);
-                }
-    
-                string valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar","tblclientes");
-                string valorespordefectoClientesOrdenantes = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesOrdenantes");
-                string valorespordefectoClientesReceptores = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesReceptores");
-                string valorespordefectoClientesCuentas = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesCuentas");
-                string valorespordefectoClientesBeneficiarios = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesBeneficiarios");
-                string valorespordefectoClientesAficiones = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesAficiones");
-                string valorespordefectoClientesDeportes = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesDeportes");
-                string valorespordefectoClientesDoctosClientes = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesDoctosClientes");
-                string valorespordefectoClientesFicha = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesFicha");
-                string valorespordefectoClientesTipoEntidad = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesTipoEntidad");
-                string valorespordefectoClientesPaisesFATCA = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesPaisesFATCA");
-                string valorespordefectoClientesDepEconomica = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesDepEconomica");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Ingresar", parametros.ToString(), "Inicio ejecución.");
+                List<Models.DTO.Parametros.Personas.PostClientesIngresarDTO>  parametrosDTO = mapper.Map<List<Models.DTO.Parametros.Personas.PostClientesIngresarDTO>>(parametros);
+                List<Models.DTO.Parametros.Genericos.DireccionDTO> direccionDTO = mapper.Map<List<Models.DTO.Parametros.Genericos.DireccionDTO>>(parametros.direccion);
+                direccionDTO[1].stridentificacion = parametrosDTO[1].stridentiicacion;
+                Task<string> valorespordefecto = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar","tblclientes");
+                Task<string> valorespordefectoClientesOrdenantes = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesOrdenantes");
+                Task<string> valorespordefectoClientesReceptores = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesReceptores");
+                Task<string> valorespordefectoClientesCuentas = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesCuentas");
+                Task<string> valorespordefectoClientesBeneficiarios = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesBeneficiarios");
+                Task<string> valorespordefectoClientesAficiones = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesAficiones");
+                Task<string> valorespordefectoClientesDeportes = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesDeportes");
+                Task<string> valorespordefectoClientesDoctosClientes = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesDoctosClientes");
+                Task<string> valorespordefectoClientesFicha = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesFicha");
+                Task<string> valorespordefectoClientesTipoEntidad = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesTipoEntidad");
+                Task<string> valorespordefectoClientesPaisesFATCA = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesPaisesFATCA");
+                Task<string> valorespordefectoClientesDepEconomica = utilidadcontroller.Obtener_Valores_por_Defecto_json("PersonasController", "Post_Ingresar", "tblClientesDepEconomica");
 
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Post_Ingresar] @pstrJsonEnvio=@pstrJsonEnvio,@pstrJsonValoresDefecto=@pstrJsonValoresDefecto,@pstrJsonClientesOrdenantes=@pstrJsonClientesOrdenantes, @pstrJsonClientesReceptores=@pstrJsonClientesReceptores," +
-                                                                            "@pstrJsonClientesCuentas=@pstrJsonClientesCuentas,@pstrJsonClientesBeneficiarios=@pstrJsonClientesBeneficiarios,@pstrJsonClientesDirecciones=@pstrJsonClientesDirecciones,@pstrJsonClientesAficiones=@pstrJsonClientesAficiones," +
-                                                                            "@pstrJsonClientesDeportes=@pstrJsonClientesDeportes,@pstrJsonClientesDoctosClientes=@pstrJsonClientesDoctosClientes,@pstrJsonClientesFicha=@pstrJsonClientesFicha,@pstrJsonClientesTipoEntidad=@pstrJsonClientesTipoEntidad,@pstrJsonClientesPaisesFATCA=@pstrJsonClientesPaisesFATCA," +
-                                                                            "@pstrJsonClientesDepEconomica=@pstrJsonClientesDepEconomica,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametrosDTO)),
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Post_Ingresar] @strJsonEnvio,@pstrJsonValoresDefecto,@pstrJsonClientesOrdenantes, @pstrJsonClientesReceptores," +
+                                                                            "@pstrJsonClientesCuentas,@pstrJsonClientesBeneficiarios,@pstrJsonClientesDirecciones,@pstrJsonClientesAficiones," +
+                                                                            "@pstrJsonClientesDeportes,@pstrJsonClientesDoctosClientes,@pstrJsonClientesFicha,@pstrJsonClientesTipoEntidad,@pstrJsonClientesPaisesFATCA," +
+                                                                            "@pstrJsonClientesDepEconomica,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametrosDTO)),
                         new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
                         new SqlParameter("@pstrJsonClientesOrdenantes", valorespordefectoClientesOrdenantes),
                         new SqlParameter("@pstrJsonClientesReceptores", valorespordefectoClientesReceptores),
                         new SqlParameter("@pstrJsonClientesCuentas", valorespordefectoClientesCuentas),
                         new SqlParameter("@pstrJsonClientesBeneficiarios", valorespordefectoClientesBeneficiarios),
-                        new SqlParameter("@pstrJsonClientesDirecciones", Newtonsoft.Json.JsonConvert.SerializeObject(direccionesDTO)),
-                        new SqlParameter("@pstrJsonClientesAficiones", valorespordefectoClientesAficiones),
-                        new SqlParameter("@pstrJsonClientesDeportes", valorespordefectoClientesDeportes),
-                        new SqlParameter("@pstrJsonClientesDoctosClientes", valorespordefectoClientesDoctosClientes),
-                        new SqlParameter("@pstrJsonClientesFicha", valorespordefectoClientesFicha),
-                        new SqlParameter("@pstrJsonClientesTipoEntidad", valorespordefectoClientesTipoEntidad),
-                        new SqlParameter("@pstrJsonClientesPaisesFATCA", valorespordefectoClientesPaisesFATCA),
-                        new SqlParameter("@pstrJsonClientesDepEconomica", valorespordefectoClientesDepEconomica),
+                        new SqlParameter("@pstrJsonClientesDirecciones", Newtonsoft.Json.JsonConvert.SerializeObject(parametrosDTO)),
+                        new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
+                        new SqlParameter("@strJsonEnvio", valorespordefecto),
+                        new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
+                        new SqlParameter("@strJsonEnvio", valorespordefecto),
+                        new SqlParameter("@pstrJsonValoresDefecto", valorespordefecto),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Ingresar", mensajes.ToString(), "Inicio ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Ingresar", mensajes.ToString(), "Inicio ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
@@ -272,7 +251,7 @@ namespace A2OYD_Servicios_API.Controllers.v1
         /// "logpersonajuridica" Indica si es persona natural o juridica
         /// "strnombre" Nombre de la persona
         /// "strapelido" Apellido de la persona
-        /// "strtipoidentificacion" Tipo de identificacion, debe corresponder con el codigo retornado en el maestro de tipos de identificacion (C,N...)
+        /// "strtipoidentificacion" Tipo de identificacion, debe corresponder con el maestro de tipos de identificacion
         /// "stridentiicacion" Numero de identificacion
         /// "strestadocivil" Codigo del estado civil, debe corresponder con el maestro de estado civil
         /// "dtmfechanacimiento" Fecha de nacimiento
@@ -280,7 +259,7 @@ namespace A2OYD_Servicios_API.Controllers.v1
         /// "strsexo" Sexo (M:Masculino, F:Femenino)
         /// "intcodigooydordenante" Codigo oyd del ordenante de la cuenta
         /// "direccion" Datos de la direccion de la persona
-        /// "stractividadeconomica" Codigo CIIU de la Actividad economica
+        /// "stractividadeconomica" Actividad economica
         /// "strcodigoCIIU" Codigo CIIU de la persona, debe corresponder con el maestro de codigos CIIU
         /// "logpoliticamenteexpuesto" Indica si el cliente es politicamente expuesto o no 
         /// "telefonocontacto" Numero de telefono del contacto del cliente 
@@ -293,28 +272,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Modificar", parametros.ToString(), "Inicio ejecución.");
-                Models.DTO.Parametros.Personas.PutClientesModificarDTO parametrosDTO = new Models.DTO.Parametros.Personas.PutClientesModificarDTO();
-                parametrosDTO = mapper.Map<Models.DTO.Parametros.Personas.PutClientesModificarDTO>(parametros);
-                List<Models.DTO.Parametros.Genericos.DireccionDTO> direccionesDTO = new List<Models.DTO.Parametros.Genericos.DireccionDTO>(); // mapper.Map<List<Models.DTO.Parametros.Genericos.DireccionDTO>>(parametros.direccion); direccionDTO[0].stridentificacion = parametrosDTO.stridentiicacion;
-                Models.DTO.Parametros.Genericos.DireccionDTO direccionDTO;
-                foreach (Parametros.Genericos.Direccion direccion in parametros.direccion)
-                {
-                    direccionDTO = new Models.DTO.Parametros.Genericos.DireccionDTO();
-                    direccionDTO.intidciudad = direccion.intidciudad;
-                    direccionDTO.intiddepartamento = direccion.intiddepartamento;
-                    direccionDTO.intidpais = direccion.intidpais;
-                    direccionDTO.strdireccion = direccion.strdireccion;
-                    direccionDTO.stridentificacion = parametros.stridentiicacion;
-                    direccionesDTO.Add(direccionDTO);
-                }
-
-                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Put_Modificar] @pstrJsonEnvio=@pstrJsonEnvio, @pstrJsonClientesDirecciones=@pstrJsonClientesDirecciones, @pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametrosDTO)),
-                        new SqlParameter("@pstrJsonClientesDirecciones", Newtonsoft.Json.JsonConvert.SerializeObject(direccionesDTO)),
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Modificar", parametros.ToString(), "Inicio ejecución.");
+                var mensajes = await contextobdoyd.mensajerespuesta.FromSql("[APIADCAP].[usp_PersonasController_Put_Modificar] @strJsonEnvio,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Modificar", mensajes.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Modificar", mensajes.ToString(), "Finaliza ejecución.");
 
                 return utilidadcontroller.SepararErroresyExitosos(mensajes);
             }
@@ -335,12 +298,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cuentas/ConsultarDatos", parametros.ToString(), "Inicio ejecución.");
-                var datoscuentas = await contextobdoyd.clientesdatoscuentas.FromSql("[APIADCAP].[usp_PersonasController_Get_consultardatoscuentas] @pstrJsonEnvio=@pstrJsonEnvio ,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cuentas/ConsultarDatos", parametros.ToString(), "Inicio ejecución.");
+                var datoscuentas = await contextobdoyd.clientesdatoscuentas.FromSql("[APIADCAP].[usp_PersonasController_Get_consultardatoscuentas] @strJsonEnvio ,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cuentas/ConsultarDatos", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cuentas/ConsultarDatos", parametros.ToString(), "Finaliza ejecución.");
 
                 List<Entidades.Personas.ClienteDatosCuentaDetalle> resultadoseparado = utilidadcontroller.ClienteDatosCuentaSepararEncabezadoyDetalle(datoscuentas);
                 return mapper.Map<List<Models.DTO.Entidades.Personas.ClienteDatosCuentaDetalleDTO>>(resultadoseparado);
@@ -362,12 +325,12 @@ namespace A2OYD_Servicios_API.Controllers.v1
         {
             try
             {
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Inicio ejecución.");
-                var clienteencargos = await contextobdoyd.clienteencargos.FromSql("[APIADCAP].[usp_PersonasController_Get_ClienteConsultarEncargo] @pstrJsonEnvio=@pstrJsonEnvio ,@pstrusuario=@pstrusuario ,@pstraplicacion=@pstraplicacion",
-                        new SqlParameter("@pstrJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Inicio ejecución.");
+                var clienteencargos = await contextobdoyd.clienteencargos.FromSql("[APIADCAP].[usp_PersonasController_Get_ClienteConsultarEncargo] @strJsonEnvio ,@pstrusuario ,@pstraplicacion",
+                        new SqlParameter("@strJsonEnvio", Newtonsoft.Json.JsonConvert.SerializeObject(parametros)),
                         new SqlParameter("@pstrusuario", ""),
                         new SqlParameter("@pstraplicacion", "")).ToListAsync();
-                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/V1/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Finaliza ejecución.");
+                utilidadesgenericas.CrearLogSeguimiento("PersonasController", "A2/Personas/Cliente/CuentasBancarias/Consultar", parametros.ToString(), "Finaliza ejecución.");
                 return mapper.Map<List<Models.DTO.Entidades.Personas.ClienteEncargoDTO>>(clienteencargos);
             }
             catch (Exception errror)

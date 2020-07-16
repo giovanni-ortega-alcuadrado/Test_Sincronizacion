@@ -7,7 +7,6 @@ namespace A2OYD_Servicios_API.Models.DTO.Parametros.Genericos
 {
     public class DireccionDTO
     {
-        
         public Int64 intcodigooyd { get; set; }
         public string stridentificacion { get; set; }
         public string strdireccion { get; set; }

@@ -7,7 +7,8 @@ namespace A2OYD_Servicios_API.Entidades.Rentabilidad
 {
     public class Rentabilidad
     {
-        public decimal? rentabilidad { get; set; }
+        public decimal? tirperiodo { get; set; }
+        public decimal? tiractualizada { get; set; }
 
     }
 }

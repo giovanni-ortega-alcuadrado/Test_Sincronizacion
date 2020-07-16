@@ -8,6 +8,7 @@ namespace A2OYD_Servicios_API.Parametros.Genericos
 {
     public class Direccion
     {
+        [Required]
         public string strdireccion { get; set; }
         public int intidpais { get; set; }
         public int intidciudad { get; set; }
