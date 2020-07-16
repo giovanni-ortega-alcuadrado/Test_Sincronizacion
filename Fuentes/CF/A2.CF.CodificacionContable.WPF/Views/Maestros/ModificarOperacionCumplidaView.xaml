@@ -1,0 +1,149 @@
+﻿<UserControl
+    x:Class="ModificarOperacionCumplidaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCodificacionContable"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="350"
+    MaxWidth="800">
+
+    <!--
+        Descripción:    Diseño para la pantalla Modificaciones de Operaciones Cumplidas (Cálculos Financieros)
+        Responsable:    Germán Arbey González Osorio - Alcuadrado (S.A.)
+        Fecha:          Abril 22/2014
+    -->
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="5" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="130" />
+                <RowDefinition Height="Auto" MinHeight="45" />
+                <RowDefinition Height="Auto" MinHeight="5" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource Title1}" Text="Modificación de operaciones cumplidas" />
+            </StackPanel>
+
+            <Grid x:Name="grdGridForma" Grid.Row="2">
+                <Border VerticalAlignment="Top">
+                    <Grid>
+                        <StackPanel
+                            x:Name="Actualizar"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Height="Auto"
+                            HorizontalAlignment="Stretch">
+                            <StackPanel>
+                                <Border Style="{StaticResource Contenedor_Paginador}">
+                                    <A2UTILGEN:A2DataPager
+                                        x:Name="datapager2"
+                                        PageSize="10"
+                                        Source="{Binding Items, ElementName=dgOperaciones}" />
+                                </Border>
+                                <A2UTILGEN:A2GridView
+                                    x:Name="dgOperaciones"
+                                    Height="300"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateColumns="False"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding DataContext.ListaOperacionesPaginadas, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    SelectedItem="{Binding DataContext.OperacionSeleccionada, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                    ValidatesOnDataErrors="None">
+                                    <A2UTILGEN:A2GridView.Columns>
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding lngID, Mode=OneWay}" Header="Liquidación" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding lngParcial, Mode=OneWay}" Header="Parcial" />
+                                        <Telerik:GridViewDataColumn
+                                            DataMemberBinding="{Binding dtmLiquidacion, StringFormat='dd/MM/yyyy', Mode=OneWay}"
+                                            Header="Fecha Liquidación"
+                                            IsReadOnly="True" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding strTipo, Mode=OneWay}" Header="Tipo" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding strClaseOrden, Mode=OneWay}" Header="Clase Orden" />
+                                        <Telerik:GridViewDataColumn DataMemberBinding="{Binding strCambios, Mode=OneWay}" Header="Cambios" />
+                                        <Telerik:GridViewDataColumn>
+                                            <Telerik:GridViewDataColumn.Header>
+                                                <CheckBox
+                                                    x:Name="chkSeleccionarTodos"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Click="chkSeleccionarTodos_Click"
+   
+                                                    IsChecked="False">
+                                                    <CheckBox.ContentTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="Actualizar" Style="{StaticResource LabelTextBlockForm}" />
+                                                        </DataTemplate>
+                                                    </CheckBox.ContentTemplate>
+
+                                                </CheckBox>
+                                            </Telerik:GridViewDataColumn.Header>
+                                            <Telerik:GridViewDataColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox
+                                                        x:Name="chkBoxActualizar"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        IsChecked="{Binding logActualizar, Mode=TwoWay}" />
+                                                </DataTemplate>
+                                            </Telerik:GridViewDataColumn.CellTemplate>
+                                        </Telerik:GridViewDataColumn>
+                                    </A2UTILGEN:A2GridView.Columns>
+                                </A2UTILGEN:A2GridView>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.RowSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Telerik:DataFormDataField Label="Extensión archivo" LabelPosition="Above">
+                    <ComboBox
+                        DisplayMemberPath="Descripcion"
+                        ItemsSource="{Binding DiccionarioCombos[EXTENSIONESEXPORTAR], Source={StaticResource A2VM}}"
+                        SelectedValue="{Binding ExtensionArchivo, Mode=TwoWay}"
+                        SelectedValuePath="ID" />
+                </Telerik:DataFormDataField>
+
+                <Button
+                    x:Name="btnExportar"
+                    Grid.Column="1"
+                    Width="75"
+                    Height="28"
+                    Margin="5,15,5,0"
+                    HorizontalAlignment="Center"
+                    Click="btnExportar_Click"
+                    Content="Exportar" />
+
+                <Button
+                    x:Name="btnActualizar"
+                    Grid.Column="2"
+                    Width="75"
+                    Height="28"
+                    Margin="5,15,5,0"
+                    HorizontalAlignment="Center"
+                    Click="btnActualizar_Click"
+                    Content="Actualizar" />
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

@@ -1,0 +1,107 @@
+﻿<UserControl
+    x:Class="ActualizarInformacionFinanciera"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDClientes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="350"
+    MaxWidth="900">
+
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <!--<src:A2UtilsViewModel x:Key="A2VM"/>-->
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Telerik:RadBusyIndicator
+            x:Name="myBusyIndicator"
+            BusyContent="Cargando..."
+            DisplayAfter="0"
+            IsBusy="{Binding IsBusy}">
+            <StackPanel DataContext="{Binding SaldosSelected}" Orientation="Vertical">
+                <TextBlock
+                    Height="40"
+                    Style="{StaticResource Title1}"
+                    Text="Actualizar Información Financiera" />
+
+                <Border Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btnAceptar"
+                            Width="135"
+                            Content="Actualizar Información" />
+                        <Button
+                            x:Name="btnAyuda"
+                            Width="105"
+                            Margin="5"
+                            Content="Ayuda" />
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Contenedor_Estilo}">
+                    <StackPanel Orientation="Vertical">
+                        <A2UTILGEN:A2GridView
+                            x:Name="dg"
+                            Height="220"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding DataContext.ListaDatosFinancieros, RelativeSource={RelativeSource AncestorType=Grid}}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            ValidatesOnDataErrors="None">
+                            <A2UTILGEN:A2GridView.Columns>
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding Nrodocumento}" Header="Nro Documento" />
+                                <Telerik:GridViewDataColumn
+                                    DataFormatString="c2"
+                                    DataMemberBinding="{Binding Ingresos}"
+                                    Header="Ingresos" />
+                                <Telerik:GridViewDataColumn
+                                    DataFormatString="c2"
+                                    DataMemberBinding="{Binding Egresos}"
+                                    Header="Egresos" />
+                                <Telerik:GridViewDataColumn
+                                    DataFormatString="c2"
+                                    DataMemberBinding="{Binding Activos}"
+                                    Header="Activos" />
+                                <Telerik:GridViewDataColumn
+                                    DataFormatString="c2"
+                                    DataMemberBinding="{Binding Pasivos}"
+                                    Header="Pasivos" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding CodigoCIIU}" Header="Codigo CIIU" />
+                                <Telerik:GridViewDataColumn DataMemberBinding="{Binding SegmentoComercial}" Header="Segmento Comercial" />
+                            </A2UTILGEN:A2GridView.Columns>
+                        </A2UTILGEN:A2GridView>
+                        <!--<StackPanel Height="15" />-->
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <local:ucBtnDialogoImportar
+                                x:Name="ucbtnCargar"
+                                Width="170"
+                                Margin="5,0,0,0"
+                                Filtros="*.csv|*.csv" />
+                            <TextBox
+                                x:Name="txtNombrearchivo"
+                                Grid.Column="1"
+                                Margin="0,0,5,0"
+                                IsEnabled="False" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Telerik:RadBusyIndicator>
+    </Grid>
+</UserControl>

@@ -1,0 +1,173 @@
+﻿<UserControl
+    x:Class="CuentasDepositoCliente"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2ComunesControl"
+    Width="200"
+    MaxWidth="250"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.Resources>
+            <src:CuentasDepositoClienteViewModel x:Key="VM" />
+            <src:TextoVacioVisibilityConverter x:Key="TextoVacioVisibilityConverter" />
+        </Grid.Resources>
+
+        <ComboBox
+            x:Name="cboCuentasDeposito"
+            Width="200"
+            Height="30"
+            Margin="0"
+            ItemsSource="{Binding CuentasDeposito, Source={StaticResource VM}}"
+            SelectedItem="{Binding CuentaDepositoSeleccionada, Mode=TwoWay, Source={StaticResource VM}}"
+            SelectionChanged="cboCuentasDeposito_SelectionChanged">
+
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel
+                        Width="320"
+                        Height="Auto"
+                        MinHeight="80"
+                        Orientation="Vertical"
+                        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=NombreDeposito}" Visibility="{Binding Path=NombreDeposito, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                            <TextBlock Text="(" />
+                            <TextBlock Text="{Binding Path=Deposito}" Visibility="{Binding Path=Deposito, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                            <TextBlock Text=") Nro:" />
+                            <TextBlock Text="{Binding Path=NroCuentaDeposito}" Visibility="{Binding Path=NroCuentaDeposito, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2"
+                                Content="Beneficiarios:" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontStyle="Italic"
+                                Text="{Binding Path=NombreBeneficiario1}"
+                                Visibility="{Binding Path=NombreBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+
+                            <StackPanel
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=TipoIdBeneficiario1}" Visibility="{Binding Path=TipoIdBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                                <TextBlock Text=" nro. " Visibility="{Binding Path=TipoIdBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}"/>
+                                <TextBlock Text="{Binding Path=NroDocBeneficiario1}" Visibility="{Binding Path=NroDocBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                            </StackPanel>
+
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                FontStyle="Italic"
+                                Text="{Binding Path=NombreBeneficiario2}"
+                                Visibility="{Binding Path=NombreBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+
+                            <StackPanel
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=TipoIdBeneficiario2}" Visibility="{Binding Path=TipoIdBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                                <TextBlock Text=" nro. " Visibility="{Binding Path=TipoIdBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}"/>
+                                <TextBlock Text="{Binding Path=NroDocBeneficiario2}" Visibility="{Binding Path=NroDocBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Line
+                            Height="1"
+                            Margin="0"
+                            Stretch="Fill"
+                            Stroke="Silver"
+                            X1="0"
+                            X2="200"
+                            Y1="20"
+                            Y2="20" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+
+            <ToolTipService.ToolTip>
+                <ToolTip>
+                    <Grid DataContext="{Binding CuentaDepositoSeleccionada, Source={StaticResource VM}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            Content="Beneficiarios" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontStyle="Italic"
+                            Text="{Binding Path=NombreBeneficiario1}"
+                            Visibility="{Binding Path=NombreBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=TipoIdBeneficiario1}" Visibility="{Binding Path=TipoIdBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                            <TextBlock Text=" " Visibility="{Binding Path=TipoIdBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                            <TextBlock Text="{Binding Path=NroDocBeneficiario1}" Visibility="{Binding Path=NroDocBeneficiario1, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            FontStyle="Italic"
+                            Text="{Binding Path=NombreBeneficiario2}"
+                            Visibility="{Binding Path=NombreBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+
+                        <StackPanel
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=TipoIdBeneficiario2}" Visibility="{Binding Path=TipoIdBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                            <TextBlock Text=" " Visibility="{Binding Path=TipoIdBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding Path=NroDocBeneficiario2}" Visibility="{Binding Path=NroDocBeneficiario2, Converter={StaticResource TextoVacioVisibilityConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </ToolTip>
+            </ToolTipService.ToolTip>
+        </ComboBox>
+    </Grid>
+</UserControl>

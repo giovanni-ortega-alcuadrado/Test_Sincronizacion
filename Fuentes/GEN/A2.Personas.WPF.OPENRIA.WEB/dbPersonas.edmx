@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbPersonasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="usp_Personas_Buscador_Personas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Personas">
+          <Parameter Name="pstrCondicionFiltro" Type="varchar" Mode="In" />
+          <Parameter Name="pstrRol" Type="varchar" Mode="In" />
+          <Parameter Name="pstrUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pstrInfosesion" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="dbPersonasModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbPersonasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbPersonasEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="usp_Personas_Buscador_Personas" ReturnType="Collection(dbPersonasModel.CPX_BuscadorPersonas)">
+            <Parameter Name="pstrCondicionFiltro" Mode="In" Type="String" />
+            <Parameter Name="pstrRol" Mode="In" Type="String" />
+            <Parameter Name="pstrUsuario" Mode="In" Type="String" />
+            <Parameter Name="pstrInfosesion" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="CPX_tblValidacionesPersonas" >
+          <Property Type="Int32" Name="intIdValidacion" Nullable="true" />
+          <Property Type="String" Name="strTipoMensaje" Nullable="true" />
+          <Property Type="String" Name="strCodMensaje" Nullable="true" />
+          <Property Type="String" Name="strMensaje" Nullable="true" />
+          <Property Type="String" Name="strCampo" Nullable="true" />
+          <Property Type="Int16" Name="intOrden" Nullable="true" />
+          <Property Type="Boolean" Name="logInconsitencia" Nullable="true" />
+          <Property Type="Int32" Name="intIDRegistro" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_Personas_Buscador_Personas_Result">
+          <Property Type="Int32" Name="intID" Nullable="false" />
+          <Property Type="String" Name="strNombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strTipoIdentificacion" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="strNroDocumento" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="dtmFechaExpedicionDoc" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="intIDSucursal" Nullable="true" />
+          <Property Type="Int32" Name="intIDPoblacionDoc" Nullable="true" />
+          <Property Type="Int32" Name="intIDDepartamentoDoc" Nullable="true" />
+          <Property Type="Int32" Name="intIDPaisDoc" Nullable="false" />
+          <Property Type="Boolean" Name="logPoderParaFirmar" Nullable="true" />
+          <Property Type="String" Name="strNombreCompleto" Nullable="false" MaxLength="403" />
+          <Property Type="String" Name="strNombre1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strNombre2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strApellido1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strApellido2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strCodigoOyD" Nullable="false" MaxLength="17" />
+          <Property Type="String" Name="strSeleccion" Nullable="true" MaxLength="17" />
+          <Property Type="Boolean" Name="logMostrarCodigo" Nullable="true" />
+          <Property Type="String" Name="strNombreEtiqueta" Nullable="false" MaxLength="8" />
+          <Property Type="Int32" Name="logPersonaNatural" Nullable="false" />
+          <Property Type="Int32" Name="logPersonaJuridica" Nullable="false" />
+          <Property Type="String" Name="strCadenaBusqueda" Nullable="true" MaxLength="551" />
+        </ComplexType>
+        <ComplexType Name="usp_Personas_Buscador_Personas_Result1">
+          <Property Type="Int32" Name="intID" Nullable="false" />
+          <Property Type="String" Name="strNombreCompleto" Nullable="false" MaxLength="403" />
+          <Property Type="String" Name="strNombre" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strNombre1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strNombre2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strApellido1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strApellido2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strTipoIdentificacion" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="strNroDocumento" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="strCodigoOyD" Nullable="false" MaxLength="17" />
+          <Property Type="String" Name="strSeleccion" Nullable="true" MaxLength="17" />
+          <Property Type="Boolean" Name="logMostrarCodigo" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaExpedicionDoc" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="intIDSucursal" Nullable="true" />
+          <Property Type="Int32" Name="intIDPoblacionDoc" Nullable="true" />
+          <Property Type="Int32" Name="intIDDepartamentoDoc" Nullable="true" />
+          <Property Type="Int32" Name="intIDPaisDoc" Nullable="false" />
+          <Property Type="Boolean" Name="logPoderParaFirmar" Nullable="true" />
+          <Property Type="String" Name="strNombreEtiqueta" Nullable="false" MaxLength="8" />
+          <Property Type="Int32" Name="logPersonaNatural" Nullable="false" />
+          <Property Type="Int32" Name="logPersonaJuridica" Nullable="false" />
+          <Property Type="String" Name="strCadenaBusqueda" Nullable="true" MaxLength="551" />
+        </ComplexType>
+        <ComplexType Name="CPX_BuscadorPersonas">
+          <Property Type="Int32" Name="intID" Nullable="true" />
+          <Property Type="String" Name="strNombreCompleto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="strNombre" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="strNombre1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="strNombre2" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="strApellido1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="strApellido2" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="strTipoIdentificacion" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="strNroDocumento" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="strCodigoOyD" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="strSeleccion" Nullable="true" MaxLength="17" />
+          <Property Type="Boolean" Name="logMostrarCodigo" Nullable="true" />
+          <Property Type="DateTime" Name="dtmFechaExpedicionDoc" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="intIDSucursal" Nullable="true" />
+          <Property Type="Int32" Name="intIDPoblacionDoc" Nullable="true" />
+          <Property Type="Int32" Name="intIDDepartamentoDoc" Nullable="true" />
+          <Property Type="Int32" Name="intIDPaisDoc" Nullable="true" />
+          <Property Type="Boolean" Name="logPoderParaFirmar" Nullable="true" />
+          <Property Type="String" Name="strNombreEtiqueta" Nullable="true" MaxLength="30" />
+          <Property Type="Boolean" Name="logPersonaNatural" Nullable="true" />
+          <Property Type="Boolean" Name="logPersonaJuridica" Nullable="true" />
+          <Property Type="String" Name="strCadenaBusqueda" Nullable="true" MaxLength="200" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbPersonasModelStoreContainer" CdmEntityContainer="dbPersonasEntities" >
+          <FunctionImportMapping FunctionImportName="usp_Personas_Buscador_Personas" FunctionName="dbPersonasModel.Store.usp_Personas_Buscador_Personas">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="dbPersonasModel.CPX_BuscadorPersonas">
+                <ScalarProperty Name="intID" ColumnName="intID" />
+                <ScalarProperty Name="strNombreCompleto" ColumnName="strNombreCompleto" />
+                <ScalarProperty Name="strNombre" ColumnName="strNombre" />
+                <ScalarProperty Name="strNombre1" ColumnName="strNombre1" />
+                <ScalarProperty Name="strNombre2" ColumnName="strNombre2" />
+                <ScalarProperty Name="strApellido1" ColumnName="strApellido1" />
+                <ScalarProperty Name="strApellido2" ColumnName="strApellido2" />
+                <ScalarProperty Name="strTipoIdentificacion" ColumnName="strTipoIdentificacion" />
+                <ScalarProperty Name="strNroDocumento" ColumnName="strNroDocumento" />
+                <ScalarProperty Name="strCodigoOyD" ColumnName="strCodigoOyD" />
+                <ScalarProperty Name="strSeleccion" ColumnName="strSeleccion" />
+                <ScalarProperty Name="logMostrarCodigo" ColumnName="logMostrarCodigo" />
+                <ScalarProperty Name="dtmFechaExpedicionDoc" ColumnName="dtmFechaExpedicionDoc" />
+                <ScalarProperty Name="intIDSucursal" ColumnName="intIDSucursal" />
+                <ScalarProperty Name="intIDPoblacionDoc" ColumnName="intIDPoblacionDoc" />
+                <ScalarProperty Name="intIDDepartamentoDoc" ColumnName="intIDDepartamentoDoc" />
+                <ScalarProperty Name="intIDPaisDoc" ColumnName="intIDPaisDoc" />
+                <ScalarProperty Name="logPoderParaFirmar" ColumnName="logPoderParaFirmar" />
+                <ScalarProperty Name="strNombreEtiqueta" ColumnName="strNombreEtiqueta" />
+                <ScalarProperty Name="logPersonaNatural" ColumnName="logPersonaNatural" />
+                <ScalarProperty Name="logPersonaJuridica" ColumnName="logPersonaJuridica" />
+                <ScalarProperty Name="strCadenaBusqueda" ColumnName="strCadenaBusqueda" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

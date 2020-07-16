@@ -1,0 +1,296 @@
+﻿<UserControl
+    x:Class="ConsecutivoEquivalenciasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="600">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                    PreguntarConfirmacion="False"
+                    TituloVista="Consecutivo equivalencias"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding ConsecutivosEquivalenciasSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaConsecutivosEquivalencias.Count}"
+                    VisibilidadRefrescarCombos="True" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+
+                <Grid x:Name="grdGridForma">
+                    <Border>
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Width="Auto"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="15"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="1"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaConsecutivosEquivalenciasPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                SelectedItem="{Binding ConsecutivosEquivalenciasSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="ID" SortMemberPath="ID">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IDTesoreriaConsecutivosEquivalencias, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivoCE}" Header="Nombre Consecutivo CE" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivoRC}" Header="Nombre Consecutivo RC" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding NombreConsecutivoNotas}" Header="Nombre Consecutivo Notas" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid MaxWidth="600">
+                            <!--  ====================  -->
+                            <!--  Dataform de búsqueda  -->
+                            <!--  ====================  -->
+                            <!--<A2UTILGEN:A2DataForm x:Name="dfBuscar" AutoGenerateFields="False"  CommandButtonsVisibility="None"
+	                        VerticalAlignment="Stretch" Visibility="{Binding visBuscando}" CurrentItem="{Binding cb}"
+							BorderThickness="0" >
+                            <A2UTILGEN:A2DataForm.EditTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="White" BorderThickness="2">
+                                        <Grid
+                                      VerticalAlignment="Top"
+                                      >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+
+
+                                            <StackPanel Orientation="Vertical"
+
+                                                        Grid.Row="0" Grid.Column="0" >
+
+                                                <Telerik:DataFormDataField  Label="Consecutivo Recibos de caja"
+                                                                            LabelPosition="Above"
+
+                                                                            >
+                                                    <TextBox Width="150" Height="30"
+                                                        Text="{Binding NombreConsecutivoRC, Mode=TwoWay,NotifyOnValidationError=True,  ValidatesOnExceptions=True }"
+                                                        MaxLength="50" IsEnabled="False"/>
+                                                    <Controles:BuscadorGenericoListaButon CampoBusqueda="ConsecutivoRC"
+                                                                  Etiqueta="Consecutivo RC"
+                                                                  TipoItem="ConsecutivoRC"
+                                                                  EstadoItem="A"
+                                                                  finalizoBusqueda="BuscadorGenerico_finalizoBusquedaRC"
+                                                                  IsEnabled="{Binding DataContext.editar, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+
+
+                                                </Telerik:DataFormDataField>
+
+                                                <Telerik:DataFormDataField  Label="NIT"
+                                                                            LabelPosition="Above"
+
+                                                                            >
+
+                                                </Telerik:DataFormDataField>
+
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Vertical"
+
+                                                        Margin="10, 2, 0, 10"
+                                                        Grid.Row="0" Grid.Column="1" >
+
+                                                <Telerik:DataFormDataField  Label="Tipo identificación"
+                                                                            LabelPosition="Above"
+
+                                                                            >
+
+                                                </Telerik:DataFormDataField>
+
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </A2UTILGEN:A2DataForm.EditTemplate>
+                        </A2UTILGEN:A2DataForm>-->
+
+                            <StackPanel
+                                x:Name="Editar"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Height="Auto"
+                                Visibility="{Binding visNavegando}">
+                                <!--  ============================  -->
+                                <!--  Dataform edición de registro  -->
+                                <!--  ============================  -->
+                                <Grid
+                                    x:Name="gridEd"
+                                    MaxWidth="600"
+                                    VerticalAlignment="Top"
+                                    DataContext="{Binding ConsecutivosEquivalenciasSelected}">
+                                    <Grid.ColumnDefinitions />
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="AUTO" />
+                                        <RowDefinition Height="AUTO" />
+                                        <RowDefinition Height="AUTO" />
+                                    </Grid.RowDefinitions>
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Label=" Consecutivo Comprobantes de egreso">
+                                        <Grid MaxWidth="600">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox
+                                                IsEnabled="False"
+                                                MaxLength="50"
+                                                Text="{Binding NombreConsecutivoCE, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                            <my1:BuscadorGenericoListaButon
+                                                Grid.Column="1"
+                                                Margin="2,0,0,0"
+                                                CampoBusqueda="ConsecutivoCE"
+                                                EstadoItem="A"
+                                                Etiqueta="Consecutivo CE"
+                                                IsEnabled="{Binding DataContext.editar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                TipoItem="ConsecutivoCE"
+                                                finalizoBusqueda="BuscadorGenerico_finalizoBusquedaCE" />
+                                        </Grid>
+                                    </Telerik:DataFormDataField>
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Label="Consecutivo recibo de caja">
+                                        <Grid MaxWidth="600">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox
+                                                IsEnabled="False"
+                                                MaxLength="50"
+                                                Text="{Binding NombreConsecutivoRC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                            <my1:BuscadorGenericoListaButon
+                                                Grid.Column="1"
+                                                Margin="2,0,0,0"
+                                                CampoBusqueda="ConsecutivoRC"
+                                                EstadoItem="A"
+                                                Etiqueta="Consecutivo RC"
+                                                IsEnabled="{Binding DataContext.editar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                TipoItem="ConsecutivoRC"
+                                                finalizoBusqueda="BuscadorGenerico_finalizoBusquedaRC" />
+                                        </Grid>
+                                    </Telerik:DataFormDataField>
+
+                                    <Telerik:DataFormDataField
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Label="Consecutivo Notas">
+                                        <Grid MaxWidth="600">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox
+                                                IsEnabled="False"
+                                                MaxLength="50"
+                                                Text="{Binding NombreConsecutivoNotas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                            <my1:BuscadorGenericoListaButon
+                                                Grid.Column="1"
+                                                Margin="2,0,0,0"
+                                                CampoBusqueda="ConsecutivoNotas"
+                                                EstadoItem="A"
+                                                Etiqueta="Consecutivo Notas"
+                                                IsEnabled="{Binding DataContext.editar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                TipoItem="ConsecutivoNotas"
+                                                finalizoBusqueda="BuscadorGenerico_finalizoBusquedaNotas" />
+                                        </Grid>
+                                    </Telerik:DataFormDataField>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

@@ -1,0 +1,390 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: ConsecutivosDocumentosView.xaml
+    Generado el : 04/05/2011 13:47:01
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="CuentasRecaudadorasView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="550">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:BooleanoConverterRadio x:Key="BooleanoConverterRadio" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <A2utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Filtra Código, Tipo cuenta, Tipo recibo caja"
+                    TituloVista="Tipos de cuentas recaudadoras"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding ConsecutivosDocumentoSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}"
+                    VisibilidadRefrescarCombos="True" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma">
+                    <Border>
+                        <StackPanel
+                            x:Name="Buscar"
+                            Grid.Column="0"
+                            Height="Auto"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding visLista}">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Código" SortMemberPath="ID">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding ID, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Tipo cuenta" SortMemberPath="DescripcionTipoCuenta">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding DescripcionTipoCuenta}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn Header="Tipo recibo caja" SortMemberPath="DescripcionTipoReciboCaja">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding DescripcionTipoReciboCaja}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Actualizacion, StringFormat='\{0:yyyy-MM-dd\}'}" Header="Actualización" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Usuario}" Header="Usuario" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Label="Código">
+                                                <TextBox
+                                                    MaxLength="12"
+                                                    Text="{Binding Codigo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    ToolTipService.ToolTip="Código" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Label="Tipo cuenta recaudadora">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCarga[TIPO_CTA_RECAUDADORA], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding TipoCuenta, Mode=TwoWay}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Label="Tipo recibo caja">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCarga[TIPORECIBOCAJA], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding TipoReciboCaja, Mode=TwoWay}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Label="Registrar cheques">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCarga[REGISTRARCHEQUES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding RegistrarCheque, Mode=TwoWay}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Label="Manejo de comisiones">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCarga[MANEJOCOMISIONES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding ManejoComisiones, Mode=TwoWay}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                Label="Manejo de traslados">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DataContext.DiccionarioCarga[MANEJOTRASLADOS], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding ManejoTraslados, Mode=TwoWay}"
+                                                    SelectedValuePath="ID" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding EncabezadoSeleccionado}"
+                                    IsEnabled="{Binding Editando}">
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    IsEnabled="False"
+                                                    Label="Código">
+                                                    <TextBox
+                                                        MaxLength="12"
+                                                        Text="{Binding ID, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Código" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Label="Tipo cuenta recaudadora">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCarga[TIPO_CTA_RECAUDADORA], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding TipoCuenta, Mode=TwoWay}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Label="Tipo recibo caja">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCarga[TIPORECIBOCAJA], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding TipoReciboCaja, Mode=TwoWay}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Label="Registrar cheques">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCarga[REGISTRARCHEQUES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding RegistrarCheques, Mode=TwoWay}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Label="Manejo de comisiones">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCarga[MANEJOCOMISIONES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding ManejoComisiones, Mode=TwoWay}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    Label="Manejo de traslados">
+                                                    <ComboBox
+                                                        DisplayMemberPath="Descripcion"
+                                                        ItemsSource="{Binding DataContext.DiccionarioCarga[MANEJOTRASLADOS], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        SelectedValue="{Binding ManejoTraslado, Mode=TwoWay}"
+                                                        SelectedValuePath="ID" />
+                                                </Telerik:DataFormDataField>
+
+                                                <Border
+                                                    Grid.Row="6"
+                                                    Grid.Column="0"
+                                                    Margin="7,5,7,0"
+                                                    BorderBrush="Gray"
+                                                    BorderThickness="1">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <Label
+                                                            Margin="0,0,0,0"
+                                                            HorizontalAlignment="Left"
+                                                            Content="Detalle"
+                                                            Style="{StaticResource LabelForm}" />
+
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+
+                                                            <Telerik:DataFormDataField
+                                                                Grid.Row="0"
+                                                                Grid.Column="0"
+                                                                Label="Fecha">
+                                                                <CheckBox IsChecked="{Binding DetalleFecha, Mode=TwoWay}" />
+                                                            </Telerik:DataFormDataField>
+                                                            <Telerik:DataFormDataField
+                                                                Grid.Row="0"
+                                                                Grid.Column="1"
+                                                                Label="Referencia">
+                                                                <CheckBox IsChecked="{Binding DetalleReferencia, Mode=TwoWay}" />
+                                                            </Telerik:DataFormDataField>
+                                                            <Telerik:DataFormDataField
+                                                                Grid.Row="0"
+                                                                Grid.Column="2"
+                                                                Label="Nombre transacción">
+                                                                <CheckBox IsChecked="{Binding DetalleNombreTransaccion, Mode=TwoWay}" />
+                                                            </Telerik:DataFormDataField>
+
+                                                            <Telerik:DataFormDataField
+                                                                Grid.Row="1"
+                                                                Grid.Column="0"
+                                                                Grid.ColumnSpan="3"
+                                                                Label="Detalle personalizado">
+                                                                <TextBox MaxLength="40" Text="{Binding DetallePersonalizado, Mode=TwoWay}" />
+                                                            </Telerik:DataFormDataField>
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <Telerik:DataFormDataField
+                                                    Grid.Row="7"
+                                                    Grid.Column="0"
+                                                    Label="Cuenta centralizadora">
+                                                    <CheckBox IsChecked="{Binding CuentaCentralizadora, Mode=TwoWay}" />
+                                                </Telerik:DataFormDataField>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

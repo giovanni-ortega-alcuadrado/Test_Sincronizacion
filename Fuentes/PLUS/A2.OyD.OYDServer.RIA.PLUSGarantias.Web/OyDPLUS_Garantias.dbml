@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbOyDNetPlusV12" Class="OyDPLUSGarantiasDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="" Member="Auditorias">
+    <Type Name="Auditoria">
+      <Column Name="Servidor" Type="System.String" DbType="VarChar(50)" CanBeNull="false" />
+      <Column Name="Maquina" Type="System.String" DbType="VarChar(50)" CanBeNull="false" />
+      <Column Name="DirIPMaquina" Type="System.String" DbType="VarChar(50)" CanBeNull="false" />
+      <Column Name="Browser" Type="System.String" DbType="VarChar(250)" CanBeNull="false" />
+      <Column Name="ErrorPersonalizado" Type="System.Byte" CanBeNull="false" />
+      <Column Name="ID" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+
+  <Table Name="" Member="ItemComboGarantias">
+    <Type Name="ItemComboGarantia" Id="IDItemComboGarantia">
+      <Column Name="Categoria" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" CanBeNull="false" />
+      <Column Name="intID" Type="System.Nullable(Of System.Int32)" CanBeNull="true" />
+      <Column Name="Retorno" Type="System.String" CanBeNull="true" />
+    </Type>
+  </Table>
+  
+  <Table Name="dbo.VisorDeGarantias" Member="VisorDeGarantias">
+    <Type Name="VisorDeGarantias" Id="ID2">
+      <Column Name="intId" Member="ID" Type="System.Int32" CanBeNull="false" />
+      <Column Name="lngIDComitente" Member="IDCliente" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strNrodocumento" Member="NroDocumento" Type="System.String" CanBeNull="true" />
+      <Column Name="strNombreCliente" Member="NombreCliente" Type="System.String" CanBeNull="true" />
+      <Column Name="strTipoProducto" Member="TipoProducto" Type="System.String" CanBeNull="true" />
+      <Column Name="dblSaldoBloqueado" Member="SaldoBloqueado" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblBloqueadoTitulos" Member="BloqueadoTitulos" Type="System.Double" CanBeNull="true" />
+      <Column Name="lngIdLiquidacion" Member="IDLiquidacion" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="lngParcial" Member="Parcial" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strTipo" Member="Tipo" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strClaseOrden" Member="ClaseOrden" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dtmLiquidacion" Member="FechaLiquidacion" Type="System.DateTime" IsPrimaryKey="true" CanBeNull="true" />
+      <Column Name="strIdEspecie" Member="IDEspecie" Type="System.String" CanBeNull="true" />
+      <Column Name="Curtotalliq_Inicio" Member="totalliq_Inicio" Type="System.Double" CanBeNull="true" />
+      <Column Name="dtmCumplimiento_Inicio" Member="Cumplimiento_Inicio" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="Curtotalliq_Regreso" Member="totalliq_Regreso" Type="System.Double" CanBeNull="true" />
+      <Column Name="dtmCumplimiento_Regreso" Member="CumplimientoRegreso" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="ValorBloquear" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="Prioridad" Type="System.Int32" CanBeNull="true" />
+      <Column Name="PrioridadGrupo" Type="System.Int32" CanBeNull="true" />
+      <Column Name="PuedeBloquear" Storage="_Bloqueando" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="PuedeDesBloquear" Storage="_DesBloqueando" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="strDescripcionTipoOferta" Member="DescripcionTipoOferta" Type="System.String" CanBeNull="true" />
+      <Column Name="strNombreClase" Member="NombreClase" Type="System.String" CanBeNull="true" />
+      <Column Name="strNombreTipoOperacion" Member="NombreTipoOperacion" Type="System.String" CanBeNull="true" />    
+      <Column Name="numPorcCastigoLegal" Member="PorcCastigoLegal" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="numPorcCastigoInterno" Member="PorcCastigoInterno" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="numPorcCumplimientoLegal" Member="PorcCumplimientoLegal" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="numPorcCumplimientoInterno" Member="PorcCumplimientoInterno" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="numPorcAmarilloCumpLegal" Member="PorcAmarilloCumpLegal" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="numPorcRojoCumpLegal" Member="PorcRojoCumpLegal" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="numPorcAmarilloCumpInterno" Member="PorcAmarilloCumpInterno" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="numPorcRojoCumpInterno" Member="PorcRojoCumpInterno" Type="System.Decimal" CanBeNull="true" />
+      <Column Name="dblValorLegalRequerido" Member="ValorLegalRequerido" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblValorInternoRequerido" Member="ValorInternoRequerido" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblValorTotalRequerido" Member="ValorTotalRequerido" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblValorLegalAsociado" Member="ValorLegalAsociado" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblValorInternoAsociado" Member="ValorInternoAsociado" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblValorTotalAsociado" Member="ValorTotalAsociado" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblCoberturaBolsa" Member="CoberturaBolsa" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblCoberturaValores" Member="CoberturaValores" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblCoberturaTotal" Member="CoberturaTotal" Type="System.Double" CanBeNull="true" />
+      <Column Name="strTipoGarantia" Member="TipoGarantia" Type="System.String" CanBeNull="true" />
+      <Column Name="dblSaldoBloqueadoXLiq" Member="SaldoBloqueadoXLiq" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblBloqueadoTitulosXLiq" Member="BloqueadoTitulosXLiq"  Type="System.Double" CanBeNull="true" />
+      <Column Name="dblSaldoCliente" Member="SaldoCliente"  Type="System.Double" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TitulosGarantias" Member="TitulosGarantias">
+    <Type Name="TitulosGarantia" Id="ID1">
+      <Column Name="intId" Member="ID" Type="System.Int32" CanBeNull="true" />
+      <Column Name="lngIdRecibo" Member="IDRecibo" Type="System.Int32"  IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="lngSecuencia" Member="Secuencia" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strIdEspecie" Member="Especie" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dblCantidad" Member="Cantidad" Type="System.Double" CanBeNull="true" />
+      <Column Name="dblCantidadReasignar" Member="CantidadReasignar" Type="System.Double" CanBeNull="true" />
+      <Column Name="strEstadoActual" Member="EstadoActual" Type="System.String" CanBeNull="true" />
+      <Column Name="strMotivoBloqueo" Member="MotivoBloqueo" Type="System.String" CanBeNull="true" />
+      <Column Name="strNotasBloqueo" Member="NotasBloqueo" Type="System.String" CanBeNull="true" />
+      <Column Name="strIsin" Member="Isin" Type="System.String" CanBeNull="true" />
+      <Column Name="lngFungible" Member="Fungible" Type="System.Int32" CanBeNull="true" />
+      <Column Name="lngIdCuentaDeceval" Member="IdCuentaDeceval" Type="System.Int32" CanBeNull="true" />
+      <Column Name="strFondo" Member="Fondo" Type="System.String" CanBeNull="true" />
+      <Column Name="strModalidad" Member="Modalidad" Type="System.String" CanBeNull="true" />
+      <Column Name="dtmEmision" Member="Emision" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="dtmVencimiento" Member="Vencimiento" Type="System.DateTime" CanBeNull="true" />
+      <Column Name="dtmRecibo" Member="FechaRecibo" Type="System.DateTime" CanBeNull="false" />
+      <Column Name="curTotal" Member="Total" Type="System.Double" CanBeNull="true" />
+      <Column Name="curTotalAdmisible" Member="TotalAdmisible" Type="System.Double" CanBeNull="true" />
+      <Column Name="lngIdComitente" Member="IDCliente" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="logBloqueado" Member="Bloqueado" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="BloquearDesbloqueado" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="DesBloquearBloqueado" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="Bloquear" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="EditarBloqueando" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="intIdLiquidacion" Member="IDLiquidacionBloqueo" Type="System.Int32" CanBeNull="true" />
+      <Column Name="CantidadBloquear" Type="System.Double" CanBeNull="true" />
+      <Column Name="logTituloEditable" Member="TituloEditable" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="logSAG"  Member="SAG"  Type="System.Boolean" CanBeNull="true" />
+      <Column Name="strRadicado" Member="Radicado" Type="System.String" CanBeNull="true" />
+      <Column Name="PuedeReasignar" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="Reasignar" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="intIdBloqueo" Member="IdBloqueo" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strRadicadoReasignar" Member="RadicadoReasignar"   Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      
+      </Type>
+  </Table>
+  <Table Name="dbo.tblRespuestaValidaciones" Member="RespuestaValidaciones">
+    <Type Name="RespuestaValidaciones" Id="ID3">
+      <Column Name="intID" Member="ID" Type="System.int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="logExitoso" Member="Exitoso" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="logDetieneIngreso" Member="DetieneIngreso" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="logRequiereConfirmacion" Member="RequiereConfirmacion" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="logRequiereJustificacion" Member="RequiereJustificacion" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="logRequiereAprobacion" Member="RequiereAprobacion" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="strRegla" Member="Regla" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="true" />
+      <Column Name="strNombreRegla" Member="NombreRegla" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="true" />
+      <Column Name="strConfirmacion" Member="Confirmacion" Type="System.String" DbType="Varchar(200) NOT NULL" CanBeNull="true" />
+      <Column Name="strMensaje" Member="Mensaje" Type="System.String" DbType="Varchar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="strCausasJustificacion" Member="CausasJustificacion" Type="System.String" DbType="Varchar(5000) NOT NULL" CanBeNull="true" />
+      <Column Name="lngIDOrdenIdentity" Member="IDOrdenIdentity" Type="System.Nullable(Of System.int32)" DbType="INT NOT NULL" CanBeNull="true" />
+      <Column Name="strDetalleRegla" Member="DetalleRegla" Type="System.String" DbType="Varchar(max) NOT NULL" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SaldosCliente" Member="SaldosCliente">
+    <Type Name="SaldosCliente" Id="ID4">
+      <Column Name="lngIDComitente" Member="IDComitente" Type="System.String" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dblSaldoCliente" Member="SaldoCliente" Type="System.Double" DbType="float" CanBeNull="true" />
+     </Type>
+  </Table>
+  <Table Name="dbo.SaldosBloqueados" Member="SaldosBloqueados">
+    <Type Name="SaldosBloqueados" Id="IDSaldosBloqueados">
+      <Column Name="lngIdRegistro" Member="IdRegistro"   Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="lngIDDocumento" Member="IDDocumento"  Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="strNombreConsecutivo" Member="NombreConsecutivo"  Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="intIdTesoreria" Member="IdTesoreria"  Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="lngIDComitente" Member="IDComitente"  Type="System.String" DbType="Char(17) NOT NULL" CanBeNull="false" />
+      <Column Name="intIDLiquidacion" Member="IDLiquidacion"  Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="lngParcial" Member="Parcial"  Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strTipo" Member="Tipo"  Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="strClase" Member="Clase"  Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="intTipoMercado" Member="TipoMercado"  Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="logSAG" Member="SAG"  Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="strRadicado" Member="Radicado"   Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="curValorBloqueado" Member="ValorBloqueado" Type="System.Double" CanBeNull="true" />
+      <Column Name="curValorReasignar" Member="ValorReasignar" Type="System.Double" CanBeNull="true" />
+      <Column Name="logDesbloqueando" Member="Desbloqueando" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="logDesbloquearSaldo" Member="DesbloquearSaldo" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="Reasignar" Type="System.Boolean" CanBeNull="true" />
+      <Column Name="intIdBloqueo" Member="IdBloqueo" Type="System.Int32" IsDbGenerated="true"  DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="strRadicadoReasignar" Member="RadicadoReasignar"   Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      </Type>
+  </Table>
+  <Function Name="OYDPLUSGarantias.uspOyDNet_Garantias_Custodias_Consultar" Method="uspOyDNet_Garantias_Custodias_Consultar">
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Char(17)" />
+    <Parameter Name="pintIDLiquidacion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngParcial" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipo" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pstrClase" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pdtmLiquidacion" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pstrEstadoTitulo" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pintTipoMercado" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="VarChar(15)" />
+    <Parameter Name="pdblCantidad" Type="System.Double" DbType="Float" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="OYDPLUSGarantias.uspOyDNet_Garantias_Operaciones_Consultar" Method="uspOyDNet_Garantias_Operaciones_Consultar">
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Char(17)" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="VarChar(15)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pintIDLiquidacion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngParcial" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipo" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pstrClase" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pdtmLiquidacion" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pintTipoMercado" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipoGarantia" Type="System.String" DbType="VarChar(3)" />
+    <Parameter Name="plogActualizarDatos" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="plogEnviarCorreos" Type="System.Boolean" DbType="Bit" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="OYDPLUSGarantias.uspOyDNet_Garantias_SaldosBloqueados_Consultar" Method="uspOyDNet_Garantias_SaldosBloqueados_Consultar">
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Char(17)" />
+    <Parameter Name="pintIDLiquidacion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngParcial" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipo" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pstrClase" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pdtmLiquidacion" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pintTipoMercado" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+      <ElementType IdRef="IDSaldosBloqueados" />
+  </Function>
+  <Function Name="OYDPLUSGarantias.uspOyDNet_Garantias_Saldos_Bloquear_Liberar" Method="uspOyDNet_Garantias_Saldos_Bloquear_Liberar">
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="VarChar(17)" />
+    <Parameter Name="pstrMotivoBloqueoSaldo" Type="System.String" DbType="VarChar(3)" />
+    <Parameter Name="pcurValorBloqueado" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="pstrNaturaleza" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pdtmFechaBloqueo" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pstrDetalleBloqueo" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="pintIDLiquidacion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngParcial" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipo" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pstrClase" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pdtmLiquidacion" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pintTipoMercado" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plogSAG" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="pstrRadicado" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="plogReasiganar" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="pcurValorReasignar" Type="System.Decimal" DbType="Money" />
+    <Parameter Name="pintIdBloqueo" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="OYDPLUSGarantias.uspOyDNet_Garantias_Custodias_Bloquear_Liberar" Method="uspOyDNet_Garantias_Custodias_Bloquear_Liberar">
+    <Parameter Name="plngIdRecibo" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngSecuencia" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrMotivoBloqueo" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pstrNotasBloqueo" Type="System.String" DbType="VarChar(300)" />
+    <Parameter Name="pdblCantidad" Type="System.Double" DbType="Float" />
+    <Parameter Name="pstrAccionAEjecutar" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pdtmRecibo" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pintIDLiquidacion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngParcial" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipo" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pstrClase" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="pdtmLiquidacion" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pintTipoMercado" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plogSAG" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="pstrRadicado" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="plogReasiganar" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="pdblCantidadReasignar"	Type="System.Double" DbType="Float" />
+    <Parameter Name="pintIdBloqueo" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pINTErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="dbo.uspValidarSaldoClientesTesoreria_OyDNet" Method="uspValidarSaldoClientesTesoreria_OyDNet">
+    <Parameter Name="plngIDComisionista" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngIDSucComisionista" Type="System.Int32" DbType="Int" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Char(17)" />
+    <Parameter Name="pdtmDocumento" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="sp_VerificarSaldoResult">
+      <Column Name="SaldoCliente" Type="System.Double" DbType="Float" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="OYDPLUSGarantias.uspOyDNet_Garantias_SaldoCliente_Consultar" Method="uspOyDNet_Garantias_SaldoCliente_Consultar">
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Char(17)" />
+    <Parameter Name="pdtmCorte" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID4" />
+  </Function>
+
+  <Function Name="OYDPLUSGarantias.uspOyDNet_Garantias_CargarCombos" Method="uspOyDNet_Garantias_CargarCombos">
+    <Parameter Name="pstrListaNombreCombos" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrCondicionTexto" Type="System.String" DbType="VarChar(500)" />
+    <Parameter Name="pintCondicionNumerica" Type="System.Int32" DbType="int" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <ElementType IdRef="IDItemComboGarantia" />
+  </Function>
+  
+</Database>

@@ -1,0 +1,639 @@
+﻿<Window
+    x:Class="TrasladoFondosGeneracionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Generación de traslados"
+    Width="Auto"
+    Height="Auto"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <ScrollViewer
+            MaxHeight="500"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="LayoutRoot" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel   Width="500" Grid.Row="0" Orientation="Vertical">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title6}"
+                        Text="{Binding DiccionarioDescripcionCampos[TITULO_COMPROBANTESEGRESO]}" />
+
+                    <Border HorizontalAlignment="Stretch">
+                        <Grid x:Name="GridCamposComprobantes">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVOCE_FIRMA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[CONSECUTIVOCE_FIRMA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVOCE_FIRMA]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVOCE_FIRMA]}"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[EGRESOS]}"
+                                    SelectedValue="{Binding CONSECUTIVOCE_FIRMA, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVOCE_COMPANIA]}"
+                                Grid.Column="0"
+                                Label="{Binding DiccionarioDescripcionCampos[CONSECUTIVOCE_COMPANIA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVOCE_COMPANIA]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVOCE_COMPANIA]}"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[EGRESOS_COMPANIA]}"
+                                    SelectedValue="{Binding CONSECUTIVOCE_COMPANIA, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[BANCOCE_FIRMA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[BANCOCE_FIRMA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[BANCOCE_FIRMA]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_BANCOCE_FIRMA}" />
+                                    <Controles:BuscadorGenericoListaButon
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Agrupamiento="BANCOSXMONEDA"
+                                        CampoBusqueda="BANCOCE_FIRMA"
+                                        Condicion1="{Binding IDCompaniaFirma}"
+                                        Condicion2="{Binding lngIDMoneda}"
+                                        Etiqueta="Bancos firma comisionista"
+                                        TipoItem="cuentasbancarias"
+                                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[BANCOCE_COMPANIA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[BANCOCE_COMPANIA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[BANCOCE_COMPANIA]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_BANCOCE_COMPANIA}" />
+                                    <Controles:BuscadorGenericoListaButon
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Agrupamiento="BANCOSXMONEDA"
+                                        CampoBusqueda="BANCOCE_COMPANIA"
+                                        Condicion1="{Binding IDCompania}"
+                                        Condicion2="{Binding lngIDMoneda}"
+                                        Etiqueta="Bancos compañia"
+                                        TipoItem="cuentasbancarias"
+                                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[IDCONCEPTOCE]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[IDCONCEPTOCE]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[IDCONCEPTOCE]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_IDCONCEPTOCE}" />
+                                    <Button
+                                        x:Name="btnIDCONCEPTOCE"
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Click="btnIDCONCEPTOCE_Click"
+                                        Style="{StaticResource btnBuscar}" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title6}"
+                        Text="{Binding DiccionarioDescripcionCampos[TITULO_RECIBOSCAJA]}" />
+
+                    <Border HorizontalAlignment="Stretch">
+                        <Grid x:Name="GridCamposRecibos">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVORC_FIRMA]}"
+                                Grid.Column="0"
+                                Label="{Binding DiccionarioDescripcionCampos[CONSECUTIVORC_FIRMA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVORC_FIRMA]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVORC_FIRMA]}"
+                                    Grid.Column="1"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[CAJA]}"
+                                    SelectedValue="{Binding CONSECUTIVORC_FIRMA, Mode=TwoWay}"
+                                    SelectedValuePath="ID"
+                                    Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVORC_FIRMA]}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVORC_COMPANIA]}"
+                                Grid.Column="0"
+                                Label="{Binding DiccionarioDescripcionCampos[CONSECUTIVORC_COMPANIA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVORC_COMPANIA]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVORC_COMPANIA]}"
+                                    Grid.Column="1"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[CAJA_COMPANIA]}"
+                                    SelectedValue="{Binding CONSECUTIVORC_COMPANIA, Mode=TwoWay}"
+                                    SelectedValuePath="ID"
+                                    Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVORC_COMPANIA]}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[BANCORC_FIRMA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[BANCORC_FIRMA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[BANCORC_FIRMA]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_BANCORC_FIRMA}" />
+                                    <Controles:BuscadorGenericoListaButon
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Agrupamiento="BANCOSXMONEDA"
+                                        CampoBusqueda="BANCORC_FIRMA"
+                                        Condicion1="{Binding IDCompaniaFirma}"
+                                        Condicion2="{Binding lngIDMoneda}"
+                                        Etiqueta="Bancos firma comisionista"
+                                        TipoItem="cuentasbancarias"
+                                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[BANCORC_COMPANIA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[BANCORC_COMPANIA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[BANCORC_COMPANIA]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_BANCORC_COMPANIA}" />
+                                    <Controles:BuscadorGenericoListaButon
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Agrupamiento="BANCOSXMONEDA"
+                                        CampoBusqueda="BANCORC_COMPANIA"
+                                        Condicion1="{Binding IDCompania}"
+                                        Condicion2="{Binding lngIDMoneda}"
+                                        Etiqueta="Bancos compañia"
+                                        TipoItem="cuentasbancarias"
+                                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[IDCONCEPTORC]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[IDCONCEPTORC]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[IDCONCEPTORC]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_IDCONCEPTORC}" />
+                                    <Button
+                                        x:Name="btnIDCONCEPTORC"
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Click="btnIDCONCEPTORC_Click"
+                                        Style="{StaticResource btnBuscar}" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVONC_FIRMA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[CONSECUTIVONC_FIRMA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVONC_FIRMA]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVONC_FIRMA]}"
+                                    Grid.Column="1"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[NOTAS]}"
+                                    SelectedValue="{Binding CONSECUTIVONC_FIRMA, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVONC_COMPANIA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[CONSECUTIVONC_COMPANIA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[CONSECUTIVONC_COMPANIA]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[CONSECUTIVONC_COMPANIA]}"
+                                    Grid.Column="1"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[NOTAS_COMPANIA]}"
+                                    SelectedValue="{Binding CONSECUTIVONC_COMPANIA, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[BANCONC_FIRMA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[BANCONC_FIRMA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[BANCONC_FIRMA]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_BANCONC_FIRMA}" />
+                                    <Controles:BuscadorGenericoListaButon
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Agrupamiento="BANCOSXMONEDA"
+                                        CampoBusqueda="BANCONC_FIRMA"
+                                        Condicion1="{Binding IDCompaniaFirma}"
+                                        Condicion2="{Binding lngIDMoneda}"
+                                        Etiqueta="Bancos firma comisionista"
+                                        TipoItem="cuentasbancarias"
+                                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[BANCONC_COMPANIA]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[BANCONC_COMPANIA]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[BANCONC_COMPANIA]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_BANCONC_COMPANIA}" />
+                                    <Controles:BuscadorGenericoListaButon
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Agrupamiento="BANCOSXMONEDA"
+                                        CampoBusqueda="BANCONC_COMPANIA"
+                                        Condicion1="{Binding IDCompania}"
+                                        Condicion2="{Binding lngIDMoneda}"
+                                        Etiqueta="Bancos compañia"
+                                        TipoItem="cuentasbancarias"
+                                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[IDCONCEPTONC]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[IDCONCEPTONC]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[IDCONCEPTONC]}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_IDCONCEPTONC}" />
+                                    <Button
+                                        x:Name="btnIDCONCEPTONC"
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Click="btnIDCONCEPTONC_Click"
+                                        Style="{StaticResource btnBuscar}" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[BANCOGIRADORRC]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[BANCOGIRADORRC]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[BANCOGIRADORRC]}">
+                                <A2UTILGEN:A2NumericBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[BANCOGIRADORRC]}"
+                                    Grid.Column="1"
+                                    Maximum="2147483647"
+                                    ShowButtons="False"
+                                    Visibility="{Binding DiccionarioHabilitarCampos[BANCOGIRADORRC]}"
+                                    Value="{Binding BANCOGIRADORRC, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[NROCHEQUERC]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[NROCHEQUERC]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[NROCHEQUERC]}">
+                                <A2UTILGEN:A2NumericBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[NROCHEQUERC]}"
+                                    Grid.Column="1"
+                                    Maximum="999999999999999"
+                                    ShowButtons="False"
+                                    Value="{Binding NROCHEQUERC, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[FECHACONSIGNACIONRC]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[FECHACONSIGNACIONRC]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[FECHACONSIGNACIONRC]}">
+                                <A2UTILGEN:A2DatePicker
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[FECHACONSIGNACIONRC]}"
+                                    Grid.Column="1"
+                                    SelectedDate="{Binding FECHACONSIGNACIONRC, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[OBSERVACIONESRC]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[OBSERVACIONESRC]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[OBSERVACIONESRC]}">
+                                <TextBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[OBSERVACIONESRC]}"
+                                    Grid.Column="1"
+                                    Text="{Binding OBSERVACIONESRC, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[TIPOPRODUCTORC]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[TIPOPRODUCTORC]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[TIPOPRODUCTORC]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[TIPOPRODUCTORC]}"
+                                    Grid.Column="1"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[TIPOPRODUCTO]}"
+                                    SelectedValue="{Binding TIPOPRODUCTORC, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Vertical">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title6}"
+                        Text="{Binding DiccionarioDescripcionCampos[TITULO_CAMPOSCOMUNES]}" />
+
+                    <Border HorizontalAlignment="Stretch">
+                        <Grid x:Name="GridCamposVisualizar" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[CENTROCOSTO]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[CENTROCOSTO]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[CENTROCOSTO]}">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="AUTO" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsReadOnly="True"
+                                        Text="{Binding DESCRIPCION_CENTROCOSTO}" />
+                                    <Button
+                                        x:Name="btnCENTROCOSTO"
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        Click="btnCENTROCOSTO_Click"
+                                        Style="{StaticResource btnBuscar}" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[FORMAPAGO]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[FORMAPAGO]}"
+                                Visibility="{Binding DiccionarioHabilitarCampos[FORMAPAGO]}">
+                                <ComboBox
+                                    Grid.Row="{Binding DiccionarioOrdenCampos[FORMAPAGO]}"
+                                    Grid.Column="1"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombos[FORMAPAGO]}"
+                                    SelectedValue="{Binding FORMAPAGO, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="{Binding DiccionarioOrdenCampos[TIPOCHEQUECE]}"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Label="{Binding DiccionarioDescripcionCampos[TIPOCHEQUECE]}"
+                                
+                                Visibility="{Binding DiccionarioHabilitarCampos[TIPOCHEQUECE]}">
+                            <ComboBox
+                                Grid.Row="{Binding DiccionarioOrdenCampos[TIPOCHEQUECE]}"
+                                Grid.Column="1"                               
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding HABILITARTIPOCHEQUE}"
+                                ItemsSource="{Binding DiccionarioCombos[TIPOSELLO]}"
+                                SelectedValue="{Binding TIPOCHEQUECE, Mode=TwoWay}"
+                                SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+                                
+                            
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="3"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btnAceptar"
+                          Width="100"
+                        Margin="5"
+                        Click="Aceptar_Click"
+                        Content="Generar" />
+                    <Button
+                        x:Name="btnCancelar"
+                          Width="100"
+                        Margin="10"
+                        Click="btnCancelar_Click"
+                        Content="Cancelar" />
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Telerik:RadBusyIndicator>
+</Window>

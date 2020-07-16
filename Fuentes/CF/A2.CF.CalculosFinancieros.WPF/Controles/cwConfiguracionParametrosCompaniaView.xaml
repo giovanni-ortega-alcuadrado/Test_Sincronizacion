@@ -1,0 +1,229 @@
+﻿<Window
+    x:Class="cwConfiguracionParametrosCompaniaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Configuracion parametros compañía (Detalle)"
+    Width="700"
+    Height="Auto"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel
+            Grid.Row="0"
+            Margin="0,-40,0,0"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Label
+                Margin="0,15,0,5"
+                Content="Categoria"
+                Style="{StaticResource EstiloLabel}" />
+            <TextBox
+                x:Name="TxtCategoriaCompañia"
+                Width="300"
+                Height="Auto"
+                Margin="-50,69,0,10"
+                HorizontalAlignment="Left"
+                IsEnabled="True"
+                IsReadOnly="True"
+                MaxLength="50"
+                RenderTransformOrigin="0.49,1.731"
+                TabIndex="-1"
+                Text="{Binding strCategoriaParametro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                TextAlignment="Left"
+                ToolTipService.ToolTip="Nombre" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Label
+                Margin="370,-35,0,0"
+                Content="Parametro"
+                Style="{StaticResource EstiloLabel}" />
+            <TextBox
+                x:Name="TxtParametroCompañia"
+                Width="280"
+                Height="Auto"
+                Margin="-50,30,0,10"
+                HorizontalAlignment="Left"
+                IsEnabled="True"
+                IsReadOnly="True"
+                TabIndex="-1"
+                Text="{Binding strParametro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                TextAlignment="Left"
+                ToolTipService.ToolTip="Nombre" />
+        </StackPanel>
+
+
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,-40,0,0"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <StackPanel
+                x:Name="SpValor"
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5,30,112,0"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label
+                    Height="14"
+                    Content="Valor Parametro"
+                    Style="{StaticResource EstiloLabel}" />
+                <TextBox
+                    x:Name="TxtValorParametro"
+                    Width="650"
+                    Height="60"
+                    Margin="-1,0,0,0"
+                    HorizontalAlignment="Left"
+                    AcceptsReturn="True"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsEnabled="True"
+                    IsReadOnly="False"
+                    TabIndex="-1"
+                    Text="{Binding strValorParametro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    TextAlignment="Left"
+                    TextWrapping="Wrap"
+                    ToolTipService.ToolTip="Valor parametro"
+                    VerticalScrollBarVisibility="Auto" />
+
+                <!--<TextBox TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     Height="60"
+                     Width="650"
+                     Name="TxtValorParametro"
+                     Text="{Binding strValorParametro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                     ToolTipService.ToolTip="Valor parametro"
+                     />-->
+
+            </StackPanel>
+
+
+
+        </StackPanel>
+
+
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,-40,0,0"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Label
+                Margin="0,20,0,5"
+                Content="Descripción parametro"
+                Style="{StaticResource EstiloLabel}" />
+            <TextBox
+                x:Name="TxtDescripcionParametro"
+                Width="300"
+                Height="Auto"
+                Margin="-120,69,0,10"
+                HorizontalAlignment="Left"
+                IsEnabled="True"
+                IsReadOnly="True"
+                MaxLength="50"
+                RenderTransformOrigin="0.49,1.731"
+                TabIndex="-1"
+                Text="{Binding strDescripcionParametro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                TextAlignment="Left"
+                ToolTipService.ToolTip="Nombre" />
+
+
+            <Label
+                Margin="70,25,0,5"
+                Content="Maneja Fecha"
+                Style="{StaticResource EstiloLabel}"
+                Visibility="{Binding MostrarFechaInicial, Mode=TwoWay}" />
+            <CheckBox
+                x:Name="chkManejaFecha"
+                Margin="-70,58,31,0"
+                VerticalAlignment="Center"
+                Content=""
+                IsChecked="{Binding logManejaFechaParametro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                IsEnabled="False"
+                TabIndex="-1"
+                ToolTipService.ToolTip="Maneja Fecha"
+                Visibility="{Binding MostrarFechaInicial, Mode=TwoWay}" />
+
+            <!--<Label Content="Fecha inicial" Margin="20,20,0,0"
+                                                   Style="{StaticResource EstiloLabel}"/>
+            <A2UTILGEN:A2DatePicker SelectedDate="{Binding dtmFechaInicialParametro, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                                                                HorizontalAlignment="Left"
+                                                                Width="145"
+                                                                ToolTipService.ToolTip="Fecha inicial"
+                                                                Margin="-40,60,0,0,"
+                                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                TabIndex="-1"/>-->
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="10,40,0,0"
+                IsEnabled="True"
+                Label="Fecha inicial"
+                LabelPosition="Above"
+                TabIndex="11"
+                Visibility="{Binding MostrarFechaInicial, Mode=TwoWay}">
+                <A2UTILGEN:A2DatePicker
+                    Width="150"
+                    HorizontalAlignment="Left"
+                    SelectedDate="{Binding dtmFechaInicialParametro, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                    ToolTipService.ToolTip="Fecha inicial"
+                    Visibility="Visible" />
+            </Telerik:DataFormDataField>
+
+
+
+        </StackPanel>
+
+
+        <StackPanel
+            Grid.Row="3"
+            Margin="0,30,0,20"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnAceptar"
+                Width="117"
+                Height="35"
+                Margin="0,0,0,-10"
+                HorizontalAlignment="Right"
+                Click="btnAceptar_Click"
+                Content="Aceptar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="{Binding HabilitarBotonesEditar, Mode=TwoWay}" />
+            <Button
+                x:Name="btnCerrar"
+                Width="117"
+                Height="Auto"
+                Margin="0,0,0,-10"
+                HorizontalAlignment="Right"
+                Click="btnCerrar_Click"
+                Content="Cerrar"
+                Style="{StaticResource btnGenerico}"
+                Visibility="Visible" />
+
+
+        </StackPanel>
+    </Grid>
+</Window>

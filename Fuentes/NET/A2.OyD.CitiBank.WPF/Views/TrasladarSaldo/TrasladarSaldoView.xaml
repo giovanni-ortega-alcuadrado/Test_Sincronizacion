@@ -1,0 +1,296 @@
+﻿<UserControl
+    x:Class="TrasladarSaldoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDCitiBank"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="600"
+    MaxWidth="750">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+        <src:StringConverter x:Key="StringConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Style="{StaticResource stpHead}">
+                <TextBlock Style="{StaticResource Title1}" Text="Traslados Cta Remunerada y Saldo Disponible" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource stpFiltro}">
+                <TextBlock
+                    Height="Auto"
+                    Margin="3"
+                    Foreground="Red"
+                    Text="{Binding ErrorForma}"
+                    Visibility="{Binding VisibilidadErrores}" />
+            </StackPanel>
+
+            <Grid
+                x:Name="grdGridForma"
+                Grid.Row="2"
+                Grid.Column="1">
+
+                <Border>
+                    <!--  Dataform Principal  -->
+                    <A2UTILGEN:A2DataForm
+                        x:Name="dfTrasladarSaldo"
+                        VerticalAlignment="Top"
+                        AutoGenerateFields="False"
+                        CommandButtonsVisibility="None"
+                        CurrentItem="{Binding DataContext.trasladarSaldo, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <A2UTILGEN:A2DataForm.EditTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Label
+                                        Margin="5,5,0,0"
+                                        Content="Saldo"
+                                        Style="{StaticResource LabelForm}" />
+                                    <Border Margin="5,0,0,0" Style="{StaticResource BordeAgrupar}">
+                                        <StackPanel>
+                                            <Label
+                                                Margin="5,5,0,0"
+                                                Content="Parámetros"
+                                                Style="{StaticResource LabelForm}" />
+                                            <Border Margin="5,0,5,0" Style="{StaticResource BordeAgrupar}">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Grid.ColumnSpan="2"
+                                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IdComitente}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="70*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox MaxLength="17" Text="{Binding IdComitente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                            <my1:BuscadorClienteListaButon
+                                                                Grid.Column="1"
+                                                                Margin="2,0,0,0"
+                                                                CampoBusqueda="IDComitente"
+                                                                EstadoComitente="A"
+                                                                TipoVinculacion="C"
+                                                                finalizoBusqueda="Buscar_finalizoBusqueda" />
+                                                            <TextBox
+                                                                Grid.Column="2"
+                                                                Margin="2,0,0,0"
+                                                                IsEnabled="False"
+                                                                Text="{Binding Nombre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                        </Grid>
+                                                    </Telerik:DataFormDataField>
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Row="1"
+                                                        IsEnabled="False"
+                                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Fecha}">
+                                                        <A2UTILGEN:A2DatePicker SelectedDate="{Binding Fecha, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                    </Telerik:DataFormDataField>
+                                                    <Border
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,0,10">
+                                                        <StackPanel
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Bottom"
+                                                            Orientation="Horizontal">
+
+                                                            <RadioButton
+                                                                VerticalAlignment="Center"
+                                                                Content="Disponible"
+                                                                GroupName="rdbSaldo"
+                                                                IsChecked="{Binding rdbSaldoDisponibleChequeado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+
+                                                            <RadioButton
+                                                                Margin="10,0,0,0"
+                                                                Content="De la Cuenta Remunerada"
+                                                                GroupName="rdbSaldo"
+                                                                IsChecked="{Binding rdbCtaRemuneradaChequeado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                            <Border Margin="5,5,5,5" Style="{StaticResource BordeAgrupar}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button
+                                                        x:Name="btnConsultar"
+                                                        Width="110"
+                                                        Margin="10,10,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Click="btnConsultar_Click"
+                                                        Content="Consultar Saldo" />
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Column="1"
+                                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=valorSaldoDebito}"
+                                                        LabelPosition="Above">
+                                                        <TextBox IsEnabled="False" Text="{Binding valorSaldoDebito, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                    </Telerik:DataFormDataField>
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Column="2"
+                                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=valorSaldoCredito}"
+                                                        LabelPosition="Above">
+                                                        <TextBox IsEnabled="False" Text="{Binding valorSaldoCredito, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                    </Telerik:DataFormDataField>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Label
+                                        Margin="5,5,0,0"
+                                        Content="Traslado"
+                                        Style="{StaticResource LabelForm}" />
+                                    <Border Style="{StaticResource BordeAgrupar}">
+                                        <StackPanel>
+                                            <Label
+                                                Margin="5,5,0,0"
+                                                Content="Parámetros"
+                                                Style="{StaticResource LabelForm}" />
+                                            <Border Margin="5,0,5,5" Style="{StaticResource BordeAgrupar}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Border
+                                                        Grid.Column="0"
+                                                        Grid.ColumnSpan="2"
+                                                        Width="400"
+                                                        Margin="5,5,0,5"
+                                                        HorizontalAlignment="Left">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Telerik:DataFormDataField HorizontalAlignment="Left" IsEnabled="False">
+                                                                <RadioButton
+                                                                    Content="Hacia la Cuenta Remunerada"
+                                                                    GroupName="rdbTraslado"
+                                                                    IsChecked="{Binding rdbSaldoDisponibleChequeado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                            </Telerik:DataFormDataField>
+                                                            <Telerik:DataFormDataField HorizontalAlignment="Left" IsEnabled="False">
+                                                                <RadioButton
+                                                                    Content="Hacia el Saldo Disponible"
+                                                                    GroupName="rdbTraslado"
+                                                                    IsChecked="{Binding rdbCtaRemuneradaChequeado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                            </Telerik:DataFormDataField>
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Grid.ColumnSpan="2"
+                                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=consecutivoCtaRemunerada}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30*" />
+                                                                <ColumnDefinition Width="70*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox IsEnabled="False" Text="{Binding consecutivoCtaRemunerada, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                            <TextBox
+                                                                Grid.Column="1"
+                                                                Margin="2,0,0,0"
+                                                                IsEnabled="False"
+                                                                Text="{Binding DescripcionconsecutivoCtaRemunerada, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                        </Grid>
+                                                    </Telerik:DataFormDataField>
+
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Row="2"
+                                                        Grid.Column="0"
+                                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=valorATrasladar}">
+                                                        <A2UTILGEN:A2NumericBox
+                                                            NumberDecimalDigits="2"
+                                                            ShowButtons="False"
+                                                            ValueFormat="Numeric"
+                                                            Value="{Binding valorATrasladar, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                    </Telerik:DataFormDataField>
+
+                                                    <Telerik:DataFormDataField
+                                                        Grid.Row="3"
+                                                        Grid.Column="1"
+                                                        Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDCuentaContable}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBox IsEnabled="False" Text="{Binding IDCuentaContable, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                            <my1:BuscadorGenericoListaButon
+                                                                Grid.Column="1"
+                                                                Margin="2,0,0,0"
+                                                                CampoBusqueda="IDCuentaContable"
+                                                                Etiqueta="Cuentas Contables"
+                                                                TipoItem="CuentasContables"
+                                                                finalizoBusqueda="BuscadorGenerico_finalizoBusquedaCtasContables" />
+                                                        </Grid>
+                                                    </Telerik:DataFormDataField>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Button
+                                            x:Name="btnTrasladar"
+                                            Width="110"
+                                            Margin="5"
+                                            Click="btnTrasladar_Click"
+                                            Content="Trasladar Saldo" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </A2UTILGEN:A2DataForm.EditTemplate>
+                    </A2UTILGEN:A2DataForm>
+                </Border>
+
+            </Grid>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+
+</UserControl>
+
+
+

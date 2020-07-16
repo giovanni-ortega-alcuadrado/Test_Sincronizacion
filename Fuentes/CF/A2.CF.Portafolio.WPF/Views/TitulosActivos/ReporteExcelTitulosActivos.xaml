@@ -1,0 +1,324 @@
+﻿<UserControl
+    x:Class="ReporteExcelTitulosActivos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:src="clr-namespace:A2CFPortafolio"
+    MinWidth="600"
+    MaxWidth="700">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.Resources />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="496"
+                    Height="54"
+                    Style="{StaticResource Title1}"
+                    Text="Informe General de Custodias Ampliado" />
+            </StackPanel>
+
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource ContenedorBotonesSecundario_Estilo}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button
+                            x:Name="btnCancelar"
+                            Grid.Column="1"
+                            Width="80"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnCancelar_Click"
+                            Content="Cancelar" />
+                        <Button
+                            x:Name="btnAceptar"
+                            Grid.Column="2"
+                            Width="85"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="btnAceptar_Click"
+                            Content="Aceptar" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <!--<TextBlock Text="{Binding ErrorForma}" Height="Auto" Foreground="Red"  Margin="3"  Visibility="{Binding VisibilidadErrores}"></TextBlock>-->
+
+            <Border
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma" DataContext="{Binding DataContext.cb, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Style="{StaticResource BordeAgrupar}">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="Descripción" />
+                            <TextBlock Grid.Row="1" Text="Imprime Reporte General de Custodias Ampliado" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="1" Style="{StaticResource BordeAgrupar}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Deposito}"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbFondo"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CitiBank_ReporteExcelTitulos_UbicacionTitulo], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding Deposito, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Sucursal}"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbSucursal"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CitiBank_ReporteExcelTitulos_Sucursales], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding Sucursal, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Receptor}"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbReceptor"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CitiBank_ReporteExcelTitulos_Receptores], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding Receptor, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                VerticalAlignment="Top"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Estado}"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cmbEstado"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CitiBank_ReporteExcelTitulos_Estado], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding Estado, Mode=TwoWay}"
+                                    SelectedValuePath="ID"
+                                    SelectionChanged="cmbEstado_SelectionChanged" />
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoBloqueo}"
+                                LabelPosition="Above"
+                                Visibility="{Binding DataContext.cb, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <ComboBox
+                                    x:Name="cmbTipoBloqueo"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DiccionarioCombosEspecificos[CitiBank_ReporteExcelTitulos_TipoBloqueo], Source={StaticResource A2VM}}"
+                                    SelectedValue="{Binding TipoBloqueo, Mode=TwoWay}"
+                                    SelectedValuePath="ID" />
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDComitenteDesde}"
+                                LabelPosition="Above">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsEnabled="False"
+                                        MaxLength="17"
+                                        Text="{Binding IDComitenteDesde, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        TextAlignment="Left" />
+                                    <my1:BuscadorClienteListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="Nombre"
+                                        TipoVinculacion="C"
+                                        finalizoBusqueda="Buscar_finalizoBusquedaComitenteDesde" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Grid.ColumnSpan="2"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDComitenteHasta}"
+                                LabelPosition="Above">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsEnabled="False"
+                                        MaxLength="17"
+                                        Text="{Binding IDComitenteHasta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        TextAlignment="Left" />
+                                    <my1:BuscadorClienteListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="Nombre"
+                                        TipoVinculacion="C"
+                                        finalizoBusqueda="Buscar_finalizoBusquedaComitenteHasta" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDEspecieDesde}"
+                                LabelPosition="Above">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsEnabled="False"
+                                        Text="{Binding IDEspecieDesde, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                    <my1:BuscadorEspecieListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="IdEspecie"
+                                        ClaseOrden="T"
+                                        Etiqueta="Lista de Especies"
+                                        finalizoBusqueda="Buscar_finalizoBusquedaEspecieDesde" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDEspecieHasta}"
+                                LabelPosition="Above">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Grid.Column="0"
+                                        IsEnabled="False"
+                                        Text="{Binding IDEspecieHasta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                    <my1:BuscadorEspecieListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="IdEspecie"
+                                        ClaseOrden="T"
+                                        Etiqueta="Lista de Especies"
+                                        TraerEspeciesVencidas="True"
+                                        finalizoBusqueda="Buscar_finalizoBusquedaEspecieHasta" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+                            <Telerik:DataFormDataField
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Fecha}"
+                                LabelPosition="Above">
+                                <A2UTILGEN:A2DatePicker
+                                    Height="25"
+                                    DisplayDateEnd="{Binding Fecha, Mode=OneTime}"
+                                    IsTabStop="False"
+                                    SelectedDate="{Binding Fecha, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                            </Telerik:DataFormDataField>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" Style="{StaticResource BordeAgrupar}">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Telerik:DataFormDataField Label="Destino">
+                                <CheckBox
+                                    Content="Excel"
+                                    IsChecked="True"
+                                    IsEnabled="False" />
+                            </Telerik:DataFormDataField>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+
+
+</UserControl>
+

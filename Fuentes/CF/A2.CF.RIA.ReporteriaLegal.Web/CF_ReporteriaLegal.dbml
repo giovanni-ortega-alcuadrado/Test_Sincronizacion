@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Database Name="" EntityNamespace="CFReporteriaLegal" Class="ReporteriaLegalDBML" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.tblConfiguracionReportes" Member="ConfiguracionReportes">
+    <Type Name="ConfiguracionReportes" Id="IDConfiguracionReportes">
+      <Column Name="intIDFormato" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strNombreFormato" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionFormato" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="true" />
+      <Column Name="strProforma" Type="System.String" DbType="Varchar(max) NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoInforme" Type="System.String" DbType="Varchar(1000) NOT NULL" CanBeNull="true" />
+      <Column Name="strCircularExportar" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strEntidadControl" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="true" />
+      <Column Name="logSeleccionado" Type="System.Nullable(of System.Boolean)" DbType="Bit NOT NULL" CanBeNull="true" />
+      <Column Name="strCodigoISOPais" Type="System.String" DbType="Varchar(2) NULL" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="IDFuncionPorDefinir" />
+    <UpdateFunction FunctionId="IDFuncionPorDefinir" />
+  </Table>
+  <Table Name="tblEntidadControl" Member="tblEntidadControl">
+    <Type Name="tblEntidadControl" Id="IDtblEntidadControl">
+      <Column Name="strEntidadControl" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="false" IsPrimaryKey="true"/>
+      <Column Name="strDescripcion" Type="System.String" DbType="Varchar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="strCodigoISOPais" Type="System.String" DbType="Varchar(2) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="tblValoresDefecto" Member="tblValoresDefecto">
+    <Type Name="tblValoresDefecto" Id="IDtblValoresDefecto">
+      <Column Name="intID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strCodigoDefecto" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="false" IsPrimaryKey="true"/>
+      <Column Name="strValorDefecto" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="false" IsPrimaryKey="true"/>
+      <Column Name="strDescripcion" Type="System.String" DbType="Varchar(200) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="tblCombosReporteria" Member="tblCombosReporteria">
+    <Type Name="tblCombosReporteria" Id="IDtblCombosReporteria">
+      <Column Name="intID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="intIDCodigo" Type="System.Nullable(Of System.Int32)" DbType="Int" CanBeNull="true" />
+      <Column Name="strTopico" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="false" IsPrimaryKey="true"/>
+      <Column Name="strCodigo" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="false" IsPrimaryKey="true"/>
+      <Column Name="strDescripcion" Type="System.String" DbType="Varchar(200) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+
+  <Function Id="IDFuncionPorDefinir" Name="FuncionPorDefinir">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ConfiguracionReportes_Consultar" Method="uspCalculosFinancieros_ConfiguracionReportes_Consultar">
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="IDConfiguracionReportes" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ObtenerNombreFormato" Method="uspCalculosFinancieros_ObtenerNombreFormato">
+    <Parameter Name="pstrRetorno" Type="System.String" DbType="Varchar(80) NULL" />
+    <Parameter Name="pstrFechaExportacion" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrNombreFormato" Type="System.String" DbType="VarChar(80)" Direction="InOut" />
+    <Parameter Name="pstrListaArchivosAExportar" Type="System.String" DbType="VarChar(300)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ConfiguracionReportes_ConsultarEntidadControl" Method="uspCalculosFinancieros_ConfiguracionReportes_ConsultarEntidadControl">
+    <Parameter Name="pstrCodigoPais" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="IDtblEntidadControl" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ConfiguracionReportes_ValoresDefecto" Method="uspCalculosFinancieros_ConfiguracionReportes_ValoresDefecto">
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="IDtblValoresDefecto" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ConfiguracionReportes_ConsultarCombos" Method="uspCalculosFinancieros_ConfiguracionReportes_ConsultarCombos">
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="IDtblCombosReporteria" />
+  </Function>
+</Database>

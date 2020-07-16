@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="ucProg_RecurrenciaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:A2OYDPLUSUtilidades"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    Width="{Binding}"
+    Height="{Binding}"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <local:DisplayNameConverter x:Key="DisplayConverter" />
+        <local:clsVisibilityConverter x:Key="VisibilityConverter" />
+        <local:clsInVisibilityConverter x:Key="InVisibilityConverter" />
+        <local:clsInBooleanConverter x:Key="InBooleanConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Height="{Binding}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="14" />
+            <ColumnDefinition Width="96" />
+            <ColumnDefinition Width="278*" />
+            <ColumnDefinition Width="12" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23" />
+            <RowDefinition Height="110*" />
+        </Grid.RowDefinitions>
+
+        <Label
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="-2"
+            VerticalAlignment="Bottom"
+            Content="Recurrencia"
+            IsEnabled="{Binding EstadoControlRecurrente}" />
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="{Binding}"
+            Height="{Binding}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <RadioButton
+                Margin="2"
+                Content="Diaria"
+                IsChecked="{Binding RecurrenciaDiaria, Mode=TwoWay}" />
+            <RadioButton
+                Margin="2"
+                Content="Semanal"
+                IsChecked="{Binding RecurrenciaSemenal, Mode=TwoWay}" />
+            <RadioButton
+                Margin="2"
+                Content="Mensual"
+                IsChecked="{Binding RecurrenciaMensual, Mode=TwoWay}" />
+            <RadioButton
+                Margin="2"
+                Content="Anual"
+                IsChecked="{Binding RecurrenciaAnual, Mode=TwoWay}" />
+        </StackPanel>
+
+        <StackPanel
+            x:Name="contProgramacion"
+            Grid.Row="1"
+            Grid.Column="2"
+            Height="100"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+
+            <local:ucProgRecurrenteDiaria
+                x:Name="prRecurrenteDiaria"
+                HorizontalAlignment="Left"
+                HorizontalContentAlignment="Left"
+                Visibility="{Binding RecurrenciaDiaria, Converter={StaticResource VisibilityConverter}}" />
+            <local:ucProgRecurrenteSemanal x:Name="prRecurrenteSemanal" Visibility="{Binding RecurrenciaSemenal, Converter={StaticResource VisibilityConverter}}" />
+            <local:ucProgRecurrenteMensual x:Name="prRecurrenteMensual" Visibility="{Binding RecurrenciaMensual, Converter={StaticResource VisibilityConverter}}" />
+            <local:ucProgRecurrenteAnual x:Name="prRecurrenteAnual" Visibility="{Binding RecurrenciaAnual, Converter={StaticResource VisibilityConverter}}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

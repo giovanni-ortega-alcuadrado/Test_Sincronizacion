@@ -1,0 +1,92 @@
+﻿<Window
+    x:Class="DetalleInversionistasDeceval"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    x:Name="DetalleInversionistasDeceval"
+    Title="Detalle Inversionistas"
+    Width="Auto"
+    Height="Auto"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Column="0"
+                    Height="25"
+                    Content="Código OyD: " />
+                <TextBlock
+                    Grid.Column="1"
+                    Height="25"
+                    Margin="0,10,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding IDComitente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    ToolTipService.ToolTip="Codigo OyD" />
+
+                <Button
+                    x:Name="btnRefrescar"
+                    Grid.Column="2"
+                    Width="25"
+                    Height="25"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Right"
+                    Click="btnRefrescar_Click"
+                    Style="{StaticResource btnRefrescar}"
+                    ToolTipService.ToolTip="Traer Detalle Inversionista" />
+            </Grid>
+
+            <A2UTILGEN:A2GridView
+                x:Name="dg"
+                Grid.Row="1"
+                Width="700"
+                Height="400"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding ListaDetalleInversionistas}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SelectedItem="{Binding DetalleInversionistasSelected, Mode=TwoWay}"
+                ValidatesOnDataErrors="None">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Fecha, StringFormat='dd/MM/yyyy hh:mm:ss tt', ConverterCulture=es-CO}" Header="Fecha" />
+                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding Detalle}" Header="Detalle" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+
+            <Button
+                x:Name="Cerrar"
+                Grid.Row="2"
+                Width="75"
+                Height="23"
+                HorizontalAlignment="Right"
+                Click="Cerrar_Click"
+                Content="Cerrar" />
+
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

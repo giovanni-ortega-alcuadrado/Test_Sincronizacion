@@ -1,0 +1,487 @@
+﻿<UserControl
+    x:Class="OrdenesPLUSView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OYDPLUSControles="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSOrdenesBolsa"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="1000"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:clsLiderConverter x:Key="cvLider" />
+        <src:LongConverter x:Key="cvCodigo" />
+        <src:DateTimeHoraFinDiaConverter x:Key="cvDateTimeHoraFinDiaConverter" />
+        <src:BooleanInvertidoConverter x:Key="BooleanInvertidoConverter" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top">
+            <Grid.Resources />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid
+                x:Name="stackBotones"
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <A2:ControlMenuA2
+                    x:Name="cm"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DiccionarioBotonesOrdenes, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HabilitarNavegacionRegistros="False"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    ManejaMakerAndChecker="False"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding OrdenOYDPLUSSelected}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Número de orden"
+                    TituloVistaMostrar="False"
+                    VisibilidadRefrescarCombos="True" />
+            </Grid>
+
+            <Grid
+                x:Name="stackTicket"
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    x:Name="btnRefrescarPreciosBolsa"
+                    Grid.Column="0"
+                    Width="25"
+                    Height="25"
+                    Click="btnRefrescarPreciosBolsa_Click"
+                    Style="{StaticResource btnRefrescar}"
+                    ToolTipService.ToolTip="Traer Precios Bolsa" />
+                <A2UTILGEN:A2DataForm
+                    x:Name="df"
+                    Grid.Column="1"
+                    Height="Auto"
+                    HorizontalAlignment="Stretch"
+                    AutoEdit="True"
+                    AutoGenerateFields="False"
+                    BorderThickness="0"
+                    CommandButtonsVisibility="None"
+                    CurrentItem="{Binding OrdenDataForm}">
+                    <A2UTILGEN:A2DataForm.EditTemplate>
+                        <DataTemplate>
+                            <Grid
+                                x:Name="GridMensajes"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top">
+                                <OYDPLUSControles:MensajeDinamicoView
+                                    Defecto="{Binding DataContext.DefectoPrecio, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    ListaMensaje="{Binding DataContext.ListaMensajes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Titulo="{Binding DataContext.TituloMensaje, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    VelocidadTexto="{Binding DataContext.VelocidadMensaje, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </A2UTILGEN:A2DataForm.EditTemplate>
+                </A2UTILGEN:A2DataForm>
+            </Grid>
+
+            <Border
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{StaticResource Contenedor_Estilo}">
+                <ScrollViewer
+                    x:Name="ScrollForma"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto">
+                    <Grid x:Name="grdGridForma" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Height="Auto"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding DataContext.visLista, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <ListBox
+                                x:Name="lstVistaDatos"
+                                Grid.Column="0"
+                                ItemContainerStyle="{StaticResource ListBoxItemTab}"
+                                ItemsSource="{Binding ListaDatos}"
+                                SelectedItem="{Binding VistaSeleccionada, Mode=TwoWay}"
+                                Style="{StaticResource ListBoxTab}" />
+
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    x:Name="btnRefrescarPantalla"
+                                    Grid.Column="0"
+                                    Width="25"
+                                    Height="25"
+                                    Click="btnRefrescarPantalla_Click"
+                                    Style="{StaticResource btnRefrescar}"
+                                    ToolTipService.ToolTip="Refrescar" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Stretch"
+                                    Style="{StaticResource Contenedor_Paginador}">
+                                    <A2UTILGEN:A2DataPager
+                                        x:Name="datapager1"
+                                        PageSize="10"
+                                        Source="{Binding Items, ElementName=dg}" />
+                                </Border>
+                            </Grid>
+
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                HorizontalAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                CanUserDeleteRows="False"
+                                CanUserInsertRows="False"
+                                FrozenColumnCount="2"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaOrdenesOYDPLUSPaged}"
+                                SelectedItem="{Binding OrdenOYDPLUSSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Número orden *" IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BooleanInvertidoConverter}}">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding NroOrden, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="Número orden *" IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Click="DataGridHyperlinkColumn_Click_1"
+                                                    Content="{Binding NroOrden, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}"
+                                                    Tag="{Binding}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Version}"
+                                        Header="Versión"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn Width="Auto" IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BooleanInvertidoConverter}}">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <OYDPLUSControles:ConsultarEstadosDocumentoBoton
+                                                    Margin="5,0,5,0"
+                                                    IDDocumento="{Binding NroOrden}"
+                                                    IDNumeroUnico="{Binding IDNroOrden}"
+                                                    Modulo="{Binding DataContext.Modulo, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding FechaOrden, StringFormat='dd/MM/yyyy hh:mm:ss tt', ConverterCulture=es-CO}"
+                                        Header="Fecha orden"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding NombreEstadoOrden, Mode=TwoWay}"
+                                        Header="Estado"
+                                        IsReadOnly="True"
+                                        IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BooleanInvertidoConverter}}" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding NombreCliente, Mode=TwoWay}"
+                                        Header="Cliente"
+                                        IsReadOnly="True"
+                                        IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BooleanInvertidoConverter}}" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding Especie, Mode=TwoWay}"
+                                        Header="Especie"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataFormatString="n3"
+                                        DataMemberBinding="{Binding Cantidad, Mode=TwoWay}"
+                                        Header="Cantidad orden"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataFormatString="n3"
+                                        DataMemberBinding="{Binding CantidadCalzada, Mode=TwoWay}"
+                                        Header="Cantidad calzada"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataFormatString="n3"
+                                        DataMemberBinding="{Binding SaldoOrden, Mode=TwoWay}"
+                                        Header="Saldo pendiente"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataFormatString="C2"
+                                        DataMemberBinding="{Binding Precio, Mode=TwoWay}"
+                                        Header="Precio"
+                                        IsReadOnly="True"
+                                        IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BooleanInvertidoConverter}}" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding NombreTipoOrden, Mode=TwoWay}"
+                                        Header="Tipo orden"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding NombreTipoNegocio, Mode=TwoWay}"
+                                        Header="Tipo negocio"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding NombreTipoOperacion, Mode=TwoWay}"
+                                        Header="Tipo operación"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding NombreTipoProducto, Mode=TwoWay}"
+                                        Header="Tipo producto"
+                                        IsReadOnly="True"
+                                        IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BooleanInvertidoConverter}}" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding UsuarioOperador, Mode=TwoWay}"
+                                        Header="Usuario operador"
+                                        IsReadOnly="True"
+                                        IsVisible="{Binding DataContext.HabilitarBotonesCruzada, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BooleanInvertidoConverter}}" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+
+                        </StackPanel>
+
+
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid
+                                x:Name="GridBusqueda"
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                DataContext="{Binding BusquedaOrdenOyDPlus}"
+                                Visibility="{Binding DataContext.visBuscando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NroOrden}"
+                                    LabelPosition="Above">
+                                    <A2UTILGEN:A2NumericBox
+                                        x:Name="txtNroOrdenBusqueda"
+                                        FuncionalidadAutocomplete="True"
+                                        GotFocus="SeleccionarFocoControl"
+                                        Maximum="2147483648"
+                                        Minimum="0"
+                                        ShowButtons="False"
+                                        Value="{Binding NroOrden, Mode=TwoWay}" />
+                                </Telerik:DataFormDataField>
+
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Version}"
+                                    LabelPosition="Above">
+                                    <A2UTILGEN:A2NumericBox
+                                        x:Name="txtVersionBusqueda"
+                                        FuncionalidadAutocomplete="True"
+                                        GotFocus="SeleccionarFocoControl"
+                                        Maximum="50"
+                                        Minimum="0"
+                                        ShowButtons="False"
+                                        Value="{Binding Version, Mode=TwoWay}" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EstadoOrden}"
+                                    LabelPosition="Above">
+                                    <ComboBox
+                                        x:Name="cboEstadosBusqueda"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding DataContext.DiccionarioCombosOYDPlusCompleta[O_ESTADOS_ORDEN], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding EstadoOrden, Mode=TwoWay}"
+                                        SelectedValuePath="Retorno" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Receptor}"
+                                    LabelPosition="Above">
+                                    <ComboBox
+                                        x:Name="cboReceptorBusqueda"
+                                        Grid.Row="0"
+                                        Grid.Column="7"
+                                        DisplayMemberPath="Nombre"
+                                        ItemsSource="{Binding DataContext.ListaReceptoresUsuarioBusqueda, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding Receptor, Mode=TwoWay}"
+                                        SelectedValuePath="CodigoReceptor" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="4"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoOrden}"
+                                    LabelPosition="Above">
+                                    <ComboBox
+                                        x:Name="cboTipoOrdenBusqueda"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding DataContext.DiccionarioCombosOYDPlusCompleta[TIPOORDENGENERAL], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding TipoOrden, Mode=TwoWay}"
+                                        SelectedValuePath="Retorno" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="5"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoNegocio}"
+                                    LabelPosition="Above">
+                                    <ComboBox
+                                        x:Name="cboTipoNegocioBusqueda"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding DataContext.DiccionarioCombosOYDPlusCompleta[TIPONEGOCIO_ORDENES], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding TipoNegocio, Mode=TwoWay}"
+                                        SelectedValuePath="Retorno" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="6"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoOperacion}"
+                                    LabelPosition="Above">
+                                    <ComboBox
+                                        x:Name="cboTipoOperacionBusqueda"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding DataContext.DiccionarioCombosOYDPlusCompleta[TIPOOPERACIONBUSQUEDA], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding TipoOperacion, Mode=TwoWay}"
+                                        SelectedValuePath="Retorno" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="7"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoProducto}"
+                                    LabelPosition="Above">
+                                    <ComboBox
+                                        x:Name="cboTipoProductoBusqueda"
+                                        DisplayMemberPath="Descripcion"
+                                        ItemsSource="{Binding DataContext.DiccionarioCombosOYDPlusCompleta[TIPOPRODUCTO], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        SelectedValue="{Binding TipoProducto, Mode=TwoWay}"
+                                        SelectedValuePath="Retorno" />
+                                </Telerik:DataFormDataField>
+
+                                <Telerik:DataFormDataField
+                                    Grid.Row="0"
+                                    Grid.Column="8"
+                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FechaOrden}"
+                                    LabelPosition="Above">
+                                    <A2UTILGEN:A2DatePicker
+                                        x:Name="FechaOrdenB"
+                                        SelectedDate="{Binding FechaOrden, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        ToolTipService.ToolTip="Fecha de elaboración de la orden" />
+                                </Telerik:DataFormDataField>
+
+                            </Grid>
+
+                            <Grid
+                                x:Name="GridEdicion"
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                DataContext="{Binding OrdenOYDPLUSSelected}"
+                                Visibility="{Binding DataContext.visNavegando, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

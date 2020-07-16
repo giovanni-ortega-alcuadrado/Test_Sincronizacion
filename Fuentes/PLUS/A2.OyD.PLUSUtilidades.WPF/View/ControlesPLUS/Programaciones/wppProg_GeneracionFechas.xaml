@@ -1,0 +1,64 @@
+﻿<Window
+    x:Class="wppProg_GeneracionFechas"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c1Data="clr-namespace:C1.Silverlight.DataGrid;assembly=C1.Silverlight.DataGrid.5"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Simulador fechas"
+    Width="400"
+    Height="380"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource Contenedor_Paginador}">
+                <A2UTILGEN:A2DataPager
+                    x:Name="datapager1"
+                    PageSize="10"
+                    Source="{Binding Items, ElementName=dgResultado}" />
+            </Border>
+            <A2UTILGEN:A2GridView
+                x:Name="dgResultado"
+                Grid.Row="1"
+                Height="296"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding ListaFechasGeneradasPaginada}"
+                ValidatesOnDataErrors="None">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn
+                        Width="100"
+                        DataMemberBinding="{Binding Fecha, StringFormat=\{0:d\}, Mode=TwoWay}"
+                        Header="Fecha"
+                        IsReadOnly="True" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+
+            <Button
+                x:Name="OKButton"
+                Grid.Row="2"
+                Width="75"
+                Height="28"
+                HorizontalAlignment="Right"
+                Click="OKButton_Click"
+                Content="Aceptar" />
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

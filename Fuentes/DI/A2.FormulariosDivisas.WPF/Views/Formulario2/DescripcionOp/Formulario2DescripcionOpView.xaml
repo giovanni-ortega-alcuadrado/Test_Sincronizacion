@@ -1,0 +1,124 @@
+﻿<UserControl
+    x:Class="Formulario2DescripcionOpView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2FormulariosDivisasWPF"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
+    <UserControl.Resources>
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            Background="{StaticResource BackgroundColorBrush}"
+            ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <A2Utils:ControlMenuDetalleA2
+                x:Name="cmDetalle"
+                Grid.Row="0"
+                HorizontalAlignment="Right"
+                Background="Blue"
+                HabilitarBotonEditar="True"
+                IsEnabled="{Binding HabilitarBotonesAcciones}"
+                Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                NombreDetalle="{Binding NombreColeccionDetalle, Mode=TwoWay}"
+                ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                PreguntarConfirmacion="False" />
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Paginador}">
+                <A2UTILGEN:A2DataPager
+                    x:Name="datapager1"
+                    IsEnabled="True"
+                    PageSize="5"
+                    Source="{Binding Items, ElementName=dg}" />
+            </Border>
+
+            <A2UTILGEN:A2GridView
+                x:Name="dg"
+                Grid.Row="2"
+                Height="Auto"
+                VerticalAlignment="Top"
+                AutoGenerateColumns="False"
+                FrozenColumnCount="2"
+                IsReadOnly="True"
+                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}"
+                TextBlock.TextAlignment ="{Binding DataContext.DiccionarioEtiquetasPantalla[VIIDDECLARANTE].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+
+                <Telerik:RadGridView.Columns>
+
+                    <Telerik:GridViewDataColumn Header="{Binding DataContext.DiccionarioEtiquetasPantalla[IDDESC].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    VerticalAlignment="Center"
+                                    Click="VisualizarDetalle"
+                                    Content="{Binding secuencia, Mode=TwoWay}"
+                                    Style="{StaticResource HyperlinkLikeButton}"
+                                    Tag="{Binding secuencia}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+
+                    <Telerik:GridViewDataColumn Width="200" Header="{Binding DataContext.DiccionarioEtiquetasPantalla[14NUMERAL].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[14NUMERAL].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    DisplayMemberPath="strConcatenacion"
+                                    IsEnabled="False"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding DataContext.ListaNumerales, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    SelectedValue="{Binding intNumeral}"
+                                    SelectedValuePath="lngID" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+
+                    <Telerik:GridViewDataColumn Header="{Binding DataContext.DiccionarioEtiquetasPantalla[15VALORUSD].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}" IsReadOnly="True">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <Telerik:RadNumericUpDown
+                                    BorderBrush="{Binding DataContext.DiccionarioEtiquetasPantalla[15VALORUSD].Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    IsEnabled="False"
+                                    Maximum="99999999999999"
+                                    Minimum="0"
+                                    NumberDecimalDigits="4"
+                                    ShowButtons="False"
+                                    ValueFormat="Numeric"
+                                    Value="{Binding dblValorUSD}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+
+
+                    <Telerik:GridViewDataColumn
+                        DataMemberBinding="{Binding dblValorUSD}"
+                        Header="{Binding DataContext.DiccionarioEtiquetasPantalla[15VALORUSD].Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        IsReadOnly="True" />
+                </Telerik:RadGridView.Columns>
+            </A2UTILGEN:A2GridView>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>

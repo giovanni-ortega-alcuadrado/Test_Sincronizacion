@@ -1,0 +1,240 @@
+﻿<Window
+    x:Class="DetalleInmobiliarioView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:ControlesPLUS="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:myCrtl="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Detalle inmobiliario"
+    Height="Auto"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyCalculando"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusyDetalles, Source={StaticResource VMInmuebles}}">
+        <Grid x:Name="LayoutRoot" DataContext="{Binding DetalleSeleccionado, Source={StaticResource VMInmuebles}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="ID" Style="{StaticResource EstiloLabel}" />
+                <TextBox
+                    x:Name="txtID"
+                    IsEnabled="False"
+                    Text="{Binding ID, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Fecha movimiento" Style="{StaticResource EstiloLabel}" />
+                <A2UTILGEN:A2DatePicker
+                    x:Name="dtmFechaMovimiento"
+                    HorizontalAlignment="Left"
+                    SelectedDate="{Binding FechaMovimiento, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnAnterior"
+                    Click="btnAnterior_Click"
+                    Style="{StaticResource EstiloBotonAnteriorHerramienta_PLUS}" />
+                <Button
+                    x:Name="btnSiguiente"
+                    Click="btnSiguiente_Click"
+                    Style="{StaticResource EstiloBotonSiguienteHerramienta_PLUS}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Concepto" Style="{StaticResource EstiloLabel}" />
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Background="{Binding FondoTextoBuscadores, Source={StaticResource VMInmuebles}}">
+                        <TextBlock
+                            x:Name="txtConcepto"
+                            MinWidth="160"
+                            MouseLeftButtonDown="txtConcepto_MouseLeftButtonDown"
+                            Text="{Binding Concepto, Mode=TwoWay}" />
+                    </StackPanel>
+                    <myCrtl:BuscadorGenericoListaButon
+                        x:Name="ctlConcepto"
+                        Margin="2,0,0,0"
+                        Agrupamiento=""
+                        CampoBusqueda="DETALLECONCEPTO"
+                        EstadoItem="A"
+                        Etiqueta="Concepto"
+                        TipoItem="ConceptoInmobiliarios"
+                        finalizoBusqueda="BuscadorGenericoListaButon_finalizoBusqueda" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Detalle" Style="{StaticResource EstiloLabel}" />
+                <TextBox
+                    x:Name="txtDetalle"
+                    MaxLength="80"
+                    Text="{Binding Detalle, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Tipo movimiento" Style="{StaticResource EstiloLabel}" />
+                <TextBox
+                    x:Name="txtTipoMovimiento"
+                    IsEnabled="False"
+                    Text="{Binding TipoMovimiento, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Valor" Style="{StaticResource EstiloLabel}" />
+                <A2UTILGEN:A2NumericBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    FuncionalidadAutocomplete="True"
+                    Maximum="999999999999999"
+                    Minimum="0"
+                    NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding Valor, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Base IVA" Style="{StaticResource EstiloLabel}" />
+                <A2UTILGEN:A2NumericBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    FuncionalidadAutocomplete="True"
+                    Maximum="{Binding MaximoBaseIVA, Source={StaticResource VMInmuebles}}"
+                    Minimum="0"
+                    NumberDecimalDigits="{Binding CantidadDecimales, Source={StaticResource VMInmuebles}}"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding BaseIva, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Consecutivo" Style="{StaticResource EstiloLabel}" />
+                <TextBox
+                    x:Name="txtConsecutivo"
+                    IsEnabled="False"
+                    Text="{Binding NombreConsecutivo, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical">
+                <Label Content="Nro documento" Style="{StaticResource EstiloLabel}" />
+                <TextBox
+                    x:Name="txtIDDocumento"
+                    IsEnabled="False"
+                    Text="{Binding IDDocumento, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Margin="0,15,0,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnGrabarYSalir"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Right"
+                    Click="btnGrabarYSalir_Click"
+                    Content="Grabar y salir" />
+                <Button
+                    x:Name="btnGrabarYContinuar"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Right"
+                    Click="btnGrabarYContinuar_Click"
+                    Content="Grabar y continuar" />
+                <Button
+                    x:Name="btnBorrar"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Right"
+                    Click="btnBorrar_Click"
+                    Content="Borrar" />
+                <Button
+                    x:Name="btnCancelar"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Right"
+                    Click="btnCancelar_Click"
+                    Content="Cancelar" />
+            </StackPanel>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+
+</Window>

@@ -1,0 +1,71 @@
+﻿<Window
+    x:Class="DetalleModalCalculadoraView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="{Binding strTituloPantalla, Mode=TwoWay}"
+    Width="500"
+    Height="300"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0">
+        <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+            <Grid
+                x:Name="LayoutRoot"
+                Height="260"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ScrollViewer
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Width="480"
+                    Height="220"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto">
+                    <A2UTILGEN:A2GridView
+                        x:Name="gdDetalleGenerico"
+                        VerticalAlignment="Top"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ListaDetalles, Mode=TwoWay}"
+                        ValidatesOnDataErrors="None">
+                        <A2UTILGEN:A2GridView.Columns>
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDetalle, Mode=OneWay}" Header="Detalle" />
+                            <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcion, Mode=OneWay}" Header="Descripción" />
+                        </A2UTILGEN:A2GridView.Columns>
+                    </A2UTILGEN:A2GridView>
+                </ScrollViewer>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btnAceptar"
+                        Width="75"
+                        Height="28"
+                        Click="Aceptar_Click"
+                        Content="Aceptar" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Telerik:RadBusyIndicator>
+</Window>

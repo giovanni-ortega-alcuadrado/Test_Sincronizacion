@@ -1,0 +1,647 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database EntityNamespace="CFCodificacionContable" Class="CodificacionContableDBML" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+
+  <!-- ===================================================================================================================================================== -->
+  <!-- Tablas Dinámica contable - CCM20151115 -->
+  <!-- ===================================================================================================================================================== -->
+
+  <Table Name="tblDinamicaContable" Member="DinamicaContable">
+    <Type Name="DinamicaContable" Id="ID7">
+      <Column Name="intIdDinamicaContable" Member="IdDinamicaContable" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strCodEventoContable" Member="CodEventoContable" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strEventoContable" Member="EventoContable" Type="System.String" DbType="Varchar(250) NULL" CanBeNull="true" />
+      <Column Name="intIdFechaGeneracion" Member="IdFechaGeneracion" Type="System.Int32" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="FechaActualizacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strFechaGeneracion" Member="FechaGeneracion" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Member="InfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Member="MsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="tblDinamicaContableConfig" Member="DinamicaContableConfig">
+    <Type Name="DinamicaContableConfig" Id="ID8">
+      <Column Name="intIdDinamicaContableConfig" Member="IdDinamicaContableConfig" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strNombreConfig" Member="NombreConfiguracion" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strCodTipoCompania" Member="CodTipoCompania" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strTipoCompania" Member="TipoCompania" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strDescripcion" Member="Descripcion" Type="System.String" DbType="Varchar(250) NOT NULL" CanBeNull="true" />
+      <Column Name="intIdCompaniaBasePUC" Member="IdCompaniaBasePUC" Type="System.Int32" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="logActiva" Member="EstaActiva" Type="System.Boolean" DbType="Bit NULL" CanBeNull="true" />
+      <Column Name="logConfiguracionBase" Member="ConfiguracionBase" Type="System.Boolean" DbType="Bit NULL" CanBeNull="true" />
+      <Column Name="dtmFechaInactivacion" Member="FechaInactivacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strActiva" Member="Activa" Type="System.String" DbType="Varchar(25) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="FechaActualizacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="tblDinamicaContableConfigDinamica" Member="DinamicaContableConfigDinamica">
+    <Type Name="DinamicaContableConfigDinamica" Id="ID9">
+      <Column Name="intIdDinamicaContableDetalle" Member="IdDinamicaContableDetalle" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="intIdDinamicaContableConfigNorma" Member="IdDinamicaContableConfigNorma" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="intIdDinamicaContable" Member="IdDinamicaContable" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strCodConceptoContable" Member="CodConceptoContable" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strConceptoContable" Member="ConceptoContable" Type="System.String" DbType="Varchar(250) NULL" CanBeNull="true" />
+      <Column Name="strCodNaturaleza" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strNaturaleza" Member="Naturaleza" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strCodTipoValor" Member="CodTipoValor" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoValor" Member="TipoValor" Type="System.String" DbType="Varchar(250) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContable" Member="CuentaContable" Type="System.String" DbType="Varchar(25) NOT NULL" CanBeNull="true" />
+      <Column Name="logActiva" Member="EstaActiva" Type="System.Boolean" DbType="Bit NULL" CanBeNull="true" />
+      <Column Name="dtmFechaInactivacion" Member="FechaInactivacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strActiva" Member="Activa" Type="System.String" DbType="Varchar(25) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="FechaActualizacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="tblDinamicaContableConfigConceptosComunes" Member="DinamicaContableConfigConceptosComunes">
+    <Type Name="DinamicaContableConfigConceptosComunes" Id="ID10">
+      <Column Name="intId" Member="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strIdNormaContable" Member="IdNormaContable" Type="System.String" DbType="Varchar(25) NOT NULL" CanBeNull="true" />
+      <Column Name="strIdTipoInversion" Member="IdTipoInversion" Type="System.String" DbType="Varchar(25) NOT NULL" CanBeNull="true" />
+      <Column Name="intIdDinamicaContableConfig" Member="IdDinamicaContableConfigNorma" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="intIdConceptoContable" Member="IdConceptoContable" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strConceptoContable" Member="ConceptoContable" Type="System.String" DbType="Varchar(250) NULL" CanBeNull="true" />
+      <Column Name="intIdNaturaleza" Member="IdNaturaleza" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strNaturaleza" Member="Naturaleza" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="intIdTipoCCosto" Member="IdTipoCCosto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoCCosto" Member="TipoCCosto" Type="System.String" DbType="Varchar(250) NOT NULL" CanBeNull="true" />
+      <Column Name="intIdTipoTercero" Member="IdTipoTercero" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoTercero" Member="TipoTercero" Type="System.String" DbType="Varchar(250) NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoValor" Member="TipoValor" Type="System.String" DbType="Varchar(250) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContable" Member="CuentaContable" Type="System.String" DbType="Varchar(25) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmFechaInactivacion" Member="FechaInactivacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="FechaActualizacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="tblDinamicaContableConfigConceptosEspecificos" Member="DinamicaContableConfigConceptosEspecificos">
+    <Type Name="DinamicaContableConfigConceptosEspecificos" Id="ID11">
+      <Column Name="intIdConceptoContable" Member="IdConceptoContable" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strIdClaseContable" Member="IdClaseContable" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strConceptoContable" Member="ConceptoContable" Type="System.String" DbType="Varchar(250) NULL" CanBeNull="true" />
+      <Column Name="intIdNaturaleza" Member="IdNaturaleza" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strNaturaleza" Member="Naturaleza" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="intIdTipoCCosto" Member="IdTipoCCosto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoCCosto" Member="TipoCCosto" Type="System.String" DbType="Varchar(250) NOT NULL" CanBeNull="true" />
+      <Column Name="intIdTipoTercero" Member="IdTipoTercero" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoTercero" Member="TipoTercero" Type="System.String" DbType="Varchar(250) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContable" Member="CuentaContable" Type="System.String" DbType="Varchar(25) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="FechaActualizacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="tblDinamicaContableListas" Member="DinamicaContableListas">
+    <Type Name="DinamicaContableListas" Id="ID12">
+      <Column Name="intIdLista" Member="IdLista" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="intIdDependeDe" Member="IdDependeDe" Type="System.Int32" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="strCodigo" Member="Codigo" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strDescripcion" Member="Descripcion" Type="System.String" DbType="Varchar(250) NULL" CanBeNull="true" />
+      <Column Name="strTopico" Member="Topico" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Member="FechaActualizacion" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Member="Usuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Member="InfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Member="MsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+
+  <!-- ===================================================================================================================================================== -->
+  <!-- FIN Tablas Dinámica contable -->
+  <!-- ===================================================================================================================================================== -->
+
+
+  <!--ENTIDADES-->
+  <!--***************************************************************************************-->
+  <!--ConfiguracionContableXModulo-->
+  <!--***************************************************************************************-->
+  <Table Name="tblConfiguracionContableXModulo" Member="ConfiguracionContableXModulo">
+    <Type Name="ConfiguracionContableXModulo" Id="ID1">
+      <Column Name="IntId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="intPadre" Type="System.Int32" DbType="Int NULL" CanBeNull="true" />
+      <Column Name="strRetorno" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strTopico" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId1" />
+    <UpdateFunction FunctionId="FunctionId1" />
+    <DeleteFunction FunctionId="FunctionId2" />    
+  </Table>
+  <!--***************************************************************************************-->
+  <!--CodificacionContable-->
+  <!--***************************************************************************************-->
+  <Table Name="tblConfiguracionContable" Member="CodificacionContable">
+    <Type Name="CodificacionContable" Id="ID2">
+      <Column Name="intID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strDescripcionNormaContable" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strNormaContable" Type="System.String" DbType="Varchar(2) NOT NULL" CanBeNull="true" />
+      <Column Name="strModulo" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="intModulo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="srtNegocio" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="intNegocio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strOperacion" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="intOperacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strDuracion" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="intDuracion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoFecha" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="intTipoFecha" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionTipoProducto" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="intTipoProducto" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionTipoInversion" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoInversion" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strIdMoneda" Type="System.String" DbType="Varchar(5) NOT NULL" CanBeNull="true" />
+      <Column Name="lngIdMoneda" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="dtmFechaInicio" Type="System.DateTime" DbType="Datetime NOT NULL" CanBeNull="true" />
+      <Column Name="logActivo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId3">
+      <!--<Argument Parameter="plngID" Member="intID" />
+      <Argument Parameter="pstrNormaContable" Member="strNormaContable" />
+      <Argument Parameter="plngModulo" Member="intModulo" />
+      <Argument Parameter="plngNegocio" Member="intNegocio" />
+      <Argument Parameter="plngOperacion" Member="intOperacion" />
+      <Argument Parameter="plngDuracion" Member="intDuracion" />
+      <Argument Parameter="plngTipoFecha" Member="intTipoFecha" />
+      <Argument Parameter="plngTipoProducto" Member="intTipoProducto" />
+      <Argument Parameter="plngTipoInversion" Member="intTipoInversion" />
+      <Argument Parameter="plngIdMoneda" Member="lngIdMoneda" />
+      <Argument Parameter="pdtmFechaInicio" Member="dtmFechaInicio" />
+      <Argument Parameter="plogActivo" Member="logActivo" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />-->
+    </InsertFunction>
+    <UpdateFunction FunctionId="FunctionId3">
+      <!--<Argument Parameter="plngID" Member="intID" />
+      <Argument Parameter="pstrNormaContable" Member="strNormaContable" />
+      <Argument Parameter="plngModulo" Member="intModulo" />
+      <Argument Parameter="plngNegocio" Member="intNegocio" />
+      <Argument Parameter="plngOperacion" Member="intOperacion" />
+      <Argument Parameter="plngDuracion" Member="intDuracion" />
+      <Argument Parameter="plngTipoFecha" Member="intTipoFecha" />
+      <Argument Parameter="plngTipoProducto" Member="intTipoProducto" />
+      <Argument Parameter="plngTipoInversion" Member="intTipoInversion" />
+      <Argument Parameter="plngIdMoneda" Member="lngIdMoneda" />
+      <Argument Parameter="pdtmFechaInicio" Member="dtmFechaInicio" />
+      <Argument Parameter="plogActivo" Member="logActivo" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />-->
+    </UpdateFunction>
+    <DeleteFunction FunctionId="FunctionId4">
+      <Argument Parameter="plngID" Member="intID" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />
+    </DeleteFunction>
+  </Table>
+  <!--***************************************************************************************-->
+  <!--CodificacionContableDetalle-->
+  <!--***************************************************************************************-->
+  <Table Name="tblConfiguracionContableDetalle" Member="CodificacionContableDetalle">
+    <Type Name="CodificacionContableDetalle" Id="ID3">
+      <Column Name="intID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strDescripcionNormaContable" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="intContableConcepto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionValor" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strValor" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionNIT" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strNIT" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strCtaContable" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionCentroCostos" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strCentroCostos" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strComprobante" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionNaturaleza" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strNaturaleza" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strDetalle" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="true" />
+      <Column Name="strDocReferencia" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionNitExterno" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strNitExterno" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strCamposTotalizados" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strCentroCostosFijo" Type="System.String" DbType="Varchar(20) NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId5" />
+    <UpdateFunction FunctionId="FunctionId5" />
+    <DeleteFunction FunctionId="FunctionId6" />
+  </Table>
+  <!--***************************************************************************************-->
+  <!--ConfiguracionContableXValor-->
+  <!--***************************************************************************************-->
+  <Table Name="tblConfiguracionContableXValor" Member="ConfiguracionContableXValor">
+    <Type Name="ConfiguracionContableXValor" Id="ID4">
+      <Column Name="intIDConfiguracionContableXValor" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strTopico" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcion" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strRetorno" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="logTotalizado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId7" />
+    <UpdateFunction FunctionId="FunctionId7" />
+    <DeleteFunction FunctionId="FunctionId8" />
+  </Table>
+  <!--***************************************************************************************-->
+  <!--ConfiguracionContableConcepto-->
+  <!--***************************************************************************************-->
+  <Table Name="TblConfiguracionContableConcepto" Member="ConfiguracionContableConcepto">
+    <Type Name="ConfiguracionContableConcepto" Id="ID5">
+      <Column Name="intID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strConcepto" Type="System.String" DbType="Varchar(100) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionConcepto" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContableDBPositiva" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContableDBNegativa" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContableCRPositiva" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContableCRNegativa" Type="System.String" DbType="Varchar(20) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContableDBCompleta" Type="System.String" DbType="Varchar(41) NOT NULL" CanBeNull="true" />
+      <Column Name="strCuentaContableCRCompleta" Type="System.String" DbType="Varchar(41) NOT NULL" CanBeNull="true" />
+      <Column Name="strDetalleTipoTitulos" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoTitulos" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="intTipoProducto" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="true" />
+      <Column Name="strDetalleTipoProducto" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strNormaContable" Type="System.String" DbType="Varchar(2) NOT NULL" CanBeNull="true" />
+      <Column Name="strNormaContableDescripcion" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="strTipoInversion" Type="System.String" DbType="Varchar(80) NOT NULL" CanBeNull="true" />
+      <Column Name="strDescripcionTipoInversion" Type="System.String" DbType="Varchar(50) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmActualizacion" Type="System.DateTime" DbType="Datetime NOT NULL" CanBeNull="false" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="strInfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId9">
+      <Argument Parameter="plngID" Member="intID" />
+      <Argument Parameter="pstrNormaContable" Member="strNormaContable" />
+      <Argument Parameter="pstrConcepto" Member="strConcepto" />
+      <Argument Parameter="pstrCuentaContableDBPositiva" Member="strCuentaContableDBPositiva" />
+      <Argument Parameter="pstrCuentaContableDBNegativa" Member="strCuentaContableDBNegativa" />
+      <Argument Parameter="pstrCuentaContableCRPositiva" Member="strCuentaContableCRPositiva" />
+      <Argument Parameter="pstrCuentaContableCRNegativa" Member="strCuentaContableCRNegativa" />
+      <Argument Parameter="pstrTipoTitulo" Member="strTipoTitulos" />
+      <Argument Parameter="pintTipoProducto" Member="intTipoProducto" />
+      <Argument Parameter="pstrTipoInversion" Member="strTipoInversion" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrInfoSesion" Member="strInfoSesion" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />
+    </InsertFunction>
+    <UpdateFunction FunctionId="FunctionId9">
+      <Argument Parameter="plngID" Member="intID" />
+      <Argument Parameter="pstrNormaContable" Member="strNormaContable" />
+      <Argument Parameter="pstrConcepto" Member="strConcepto" />
+      <Argument Parameter="pstrCuentaContableDBPositiva" Member="strCuentaContableDBPositiva" />
+      <Argument Parameter="pstrCuentaContableDBNegativa" Member="strCuentaContableDBNegativa" />
+      <Argument Parameter="pstrCuentaContableCRPositiva" Member="strCuentaContableCRPositiva" />
+      <Argument Parameter="pstrCuentaContableCRNegativa" Member="strCuentaContableCRNegativa" />
+      <Argument Parameter="pstrTipoTitulo" Member="strTipoTitulos" />
+      <Argument Parameter="pintTipoProducto" Member="intTipoProducto" />
+      <Argument Parameter="pstrTipoInversion" Member="strTipoInversion" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrInfoSesion" Member="strInfoSesion" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />
+    </UpdateFunction>
+    <DeleteFunction FunctionId="FunctionId10">
+      <Argument Parameter="plngID" Member="intID" />
+      <Argument Parameter="pstrUsuario" Member="strUsuario" />
+      <Argument Parameter="pstrInfoSesion" Member="strInfoSesion" />
+      <Argument Parameter="pstrMsgValidacion" Member="strMsgValidacion" />
+    </DeleteFunction>
+  </Table>
+  <!--***************************************************************************************-->
+  <!--ModificacionOperacionesCumplidas-->
+  <!--***************************************************************************************-->
+  <Table Name="" Member="OperacionesCumplidas">
+    <Type Name="OperacionesCumplidas" Id="ID6">
+      <Column Name="lngID" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="lngParcial" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dtmLiquidacion" Type="System.Nullable(of System.DateTime)" IsPrimaryKey="true" DbType="Datetime NOT NULL" />
+      <Column Name="strTipo" Type="System.String" IsPrimaryKey="true" DbType="VarChar(1) NOT NULL" />
+      <Column Name="strClaseOrden" Type="System.String" IsPrimaryKey="true" DbType="VarChar(1) NOT NULL" />
+      <Column Name="strCambios" Type="System.String" DbType="VarChar(500) NOT NULL" />
+      <Column Name="logActualizar" Type="System.Boolean" DbType="bit NOT NULL" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <UpdateFunction FunctionId="FunctionId11">
+      <Argument Parameter="plngID" Member="lngID" />
+      <Argument Parameter="plngParcial" Member="lngParcial" />
+      <Argument Parameter="pdtmLiquidacion" Member="dtmLiquidacion" />
+      <Argument Parameter="pstrTipo" Member="strTipo" />
+      <Argument Parameter="pstrClaseOrden" Member="strClaseOrden" />
+      <Argument Parameter="pstrCambios" Member="strCambios" />
+      <Argument Parameter="plogActualizar" Member="logActualizar" />
+    </UpdateFunction>
+  </Table>
+  <!--***************************************************************************************-->
+
+
+  <!--FUNCIONES-->
+  <!--***************************************************************************************-->
+  <!--Función ConfiguracionContableXModulo-->
+  <!--***************************************************************************************-->
+  <Function Id="FunctionId1" Name="PorDefinir1" Method="PorDefinir1">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId2" Name="PorDefinir2" Method="PorDefinir2">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="uspOyDNet_CodificacionContable_LlenarCombosConfiguracion" Method="uspOyDNet_CodificacionContable_LlenarCombosConfiguracion">
+    <Parameter Name="pintPadre" Type="System.Int32" DbType="Int NULL" />
+    <Parameter Name="pstrTopico" Type="System.String" DbType="Varchar(50) NULL" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID1" /> 
+  </Function>
+  <!--***************************************************************************************-->
+  <!--Función CodificacionContable-->
+  <!--***************************************************************************************-->
+  <Function Id="FunctionId3" Name="PorDefinir3" Method="PorDefinir3">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="uspOyDNet_Maestros_CodificacionContable_Actualizar" Method="uspOyDNet_Maestros_CodificacionContable_Actualizar">
+    <Parameter Name="plngID" Type="System.Int32" DbType="Int NOT NULL" Direction="InOut" />
+    <Parameter Name="pstrNormaContable" Type="System.String" DbType="Varchar(2) NOT NULL" />
+    <Parameter Name="plngModulo" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngNegocio" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngOperacion" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngDuracion" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngTipoFecha" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="pintTipoProducto" Type="System.Int32" DbType="INT NOT NULL" />
+    <Parameter Name="pstrTipoInversion" Type="System.String" DbType="Varchar(80) NOT NULL" />
+    <Parameter Name="plngIdMoneda" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="pdtmFechaInicio" Type="System.DateTime" DbType="Datetime NOT NULL" />
+    <Parameter Name="plogActivo" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="pxmlDetalleGrid" Type="System.String" DbType="Text NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="VarChar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId4" Name="uspOyDNet_Maestros_CodificacionContable_Eliminar" Method="uspOyDNet_Maestros_CodificacionContable_Eliminar">
+    <Parameter Name="plngID" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="varchar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="uspOyDNet_Maestros_CodificacionContable_Filtrar" Method="uspOyDNet_Maestros_CodificacionContable_Filtrar">
+    <Parameter Name="pstrFiltro" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="uspOyDNet_Maestros_CodificacionContable_Consultar"  Method="uspOyDNet_Maestros_CodificacionContable_Consultar">
+    <Parameter Name="pstrAccion" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="plngID" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngModulo" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngNegocio" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngOperacion" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngDuracion" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="plngTipoFecha" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="pintTipoProducto" Type="System.Int32" DbType="INT NOT NULL" />
+    <Parameter Name="pstrTipoInversion" Type="System.String" DbType="Varchar(80) NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <!--***************************************************************************************-->
+  <!--Función CodificacionContableDetalle-->
+  <!--***************************************************************************************-->
+  <Function Id="FunctionId5" Name="PorDefinir5" Method="PorDefinir5">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId6" Name="PorDefinir6" Method="PorDefinir6">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="uspOyDNet_Maestros_CodificacionContableDetalle_Consultar" Method="uspOyDNet_Maestros_CodificacionContableDetalle_Consultar">
+    <Parameter Name="pstrAccion" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="plngID" Type="System.Int32" DbType="Int NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <!--***************************************************************************************-->
+  <!--Función ConfiguracionContableXValor-->
+  <!--***************************************************************************************-->
+  <Function Id="FunctionId7" Name="PorDefinir7" Method="PorDefinir7">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId8" Name="PorDefinir8" Method="PorDefinir8">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="uspConfiguracionContableXValor_Consultar" Method="uspConfiguracionContableXValor_Consultar">
+    <Parameter Name="plogTotalizado" Type="System.Boolean" DbType="Bit NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID4" />
+  </Function>
+  <!--***************************************************************************************-->
+  <!--Función ConfiguracionContableConcepto-->
+  <!--***************************************************************************************-->
+  <Function Id="FunctionId9" Name="uspOyDNet_Maestros_CodificacionContableConcepto_Actualizar" Method="uspOyDNet_Maestros_CodificacionContableConcepto_Actualizar">
+    <Parameter Name="plngID" Type="System.Int32" DbType="Int" Direction="InOut"  />
+    <Parameter Name="pstrNormaContable" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pstrConcepto" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrCuentaContableDBPositiva" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pstrCuentaContableDBNegativa" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pstrCuentaContableCRPositiva" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pstrCuentaContableCRNegativa" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pstrTipoTitulo" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pintTipoProducto" Type="System.Int32" DbType="INT" />
+    <Parameter Name="pstrTipoInversion" Type="System.String" DbType="VarChar(80)" />    
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="VarChar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId10" Name="uspOyDNet_Maestros_CodificacionContableConcepto_Eliminar" Method="uspOyDNet_Maestros_CodificacionContableConcepto_Eliminar">
+    <Parameter Name="plngID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="varchar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="uspOyDNet_Maestros_CodificacionContableConcepto_Filtrar" Method="uspOyDNet_Maestros_CodificacionContableConcepto_Filtrar">
+    <Parameter Name="pstrFiltro" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID5" />
+  </Function>  
+  <Function Name="uspOyDNet_Maestros_CodificacionContableConcepto_Consultar" Method="uspOyDNet_Maestros_CodificacionContableConcepto_Consultar">
+    <Parameter Name="pstrAccion" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pstrConcepto" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrNormaContable" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pstrCuentaContableDBPositiva" Type="System.String" DbType="Varchar(20)" />
+    <Parameter Name="pstrCuentaContableDBNegativa" Type="System.String" DbType="Varchar(20)" />
+    <Parameter Name="pstrCuentaContableCRPositiva" Type="System.String" DbType="Varchar(20)" />
+    <Parameter Name="pstrCuentaContableCRNegativa" Type="System.String" DbType="Varchar(20)" />
+    <Parameter Name="pstrTipoTitulo" Type="System.String" DbType="Varchar(2)" />
+    <Parameter Name="pintTipoProducto" Type="System.Int32" DbType="INT" />
+    <Parameter Name="pstrTipoInversion" Type="System.String" DbType="VarChar(80)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID5" />
+  </Function>
+  <!--***************************************************************************************-->
+  <!--Función OperacionesCumplidas-->
+  <!--***************************************************************************************-->
+  <Function Name="CF.uspCalculosFinancieros_OperacionesCumplidasConsultar" Method="uspCalculosFinancieros_OperacionesCumplidasConsultar">
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60) NOT NULL" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID6" />
+  </Function>
+  <Function Id="FunctionId11" Name="UpdateOperacionesCumplidas" Method="UpdateOperacionesCumplidas">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_OperacionesCumplidasActualizar" Method="uspCalculosFinancieros_OperacionesCumplidasActualizar">
+    <Parameter Name="pxmlOperacionesCumplidas" Type="System.String" DbType="Text NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="Varchar(8000) NULL" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+
+
+
+  <!-- ===================================================================================================================================================== -->
+  <!-- Procedimientos Dinámica contable -->
+  <!-- ===================================================================================================================================================== -->
+
+  <Function Name="CF.uspCF_Maestros_DinamicaContable_Filtrar" Method="uspCF_Maestros_DinamicaContable_Filtrar">
+    <Parameter Name="pstrFiltro" Type="System.String" DbType="VarChar (50)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID7" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContable_Consultar" Method="uspCF_Maestros_DinamicaContable_Consultar">
+    <Parameter Name="pstrAccion" Type="System.String" DbType="VarChar (20)" />
+    <Parameter Name="pintIdDinamicaContable" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrCodNormaContable" Type="System.String" DbType="VarChar (2)" />
+    <Parameter Name="pstrCodDinamicaContable" Type="System.String" DbType="VarChar (50)" />
+    <Parameter Name="pstrDescripcion" Type="System.String" DbType="VarChar (50)" />
+    <Parameter Name="pstrFechaAplicacion" Type="System.String" DbType="VarChar (50)" />
+    <Parameter Name="plogActiva" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID7" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContableConfig_Filtrar" Method="uspCF_Maestros_DinamicaContableConfig_Filtrar">
+    <Parameter Name="pstrFiltro" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID8" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContableConfig_Consultar" Method="uspCF_Maestros_DinamicaContableConfig_Consultar">
+    <Parameter Name="pstrAccion" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="pintIdDinamicaContableConfig" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipoCompania" Type="System.String" DbType="VarChar(25)" />
+    <Parameter Name="pstrNombreConfig" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrDescripcion" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrActiva" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID8" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContableConfig_ConsultarDinamica" Method="uspCF_Maestros_DinamicaContableConfig_ConsultarDinamica">
+    <Parameter Name="pintIdDinamicaContableConfigNorma" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID9" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContableConfig_ConsultarConceptosComunes" Method="uspCF_Maestros_DinamicaContableConfig_ConsultarConceptosComunes">
+    <Parameter Name="pintIdDinamicaContableConfig" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrCodNormaContableTipoInversion" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID10" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContableConfig_ConsultarConceptosClaseContable" Method="uspCF_Maestros_DinamicaContableConfig_ConsultarConceptosClaseContable">
+    <Parameter Name="pintIdDinamicaContableConfig" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrCodNormaContableTipoInversion" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrIdClaseContable" Type="System.String" DbType="VarChar(25)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID11" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContableConfig_Combos" Method="uspCF_Maestros_DinamicaContableConfig_Combos">
+    <Parameter Name="pstrTopico" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pintIdDinamicaContableConfig" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrCodigo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID12" />
+  </Function>
+  <Function Name="CF.uspCF_Maestros_DinamicaContableConfig_Actualizar" Method="uspCF_Maestros_DinamicaContableConfig_Actualizar">
+    <Parameter Name="pintIdDinamicaContableConfig" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrNombreConfig" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrActiva" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="pstrDescripcion" Type="System.String" DbType="VarChar(250)" />
+    <Parameter Name="pstrCodNormaContableTipoInversion" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="pstrDinamicaContable" Type="System.String" DbType="VarChar(max)" />
+    <Parameter Name="pstrConceptosComunes" Type="System.String" DbType="VarChar(max)" />
+    <Parameter Name="pstrConceptosEspecificos" Type="System.String" DbType="VarChar(max)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintIdCompaniaBasePUC" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pstrTipoCompania" Type="System.String" DbType="VarChar(25)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="VarChar(8000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+
+  <!-- ===================================================================================================================================================== -->
+  <!-- FIN Procedimientos Dinámica contable -->
+  <!-- ===================================================================================================================================================== -->
+
+</Database>

@@ -1,0 +1,122 @@
+﻿<Window
+    x:Class="CargarArchivosView_MI"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    Title="Cargar archivos al servidor"
+    Width="763"
+    Height="586"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Grid
+        x:Name="LayoutRoot"
+        Height="550"
+        Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="524*" />
+            <RowDefinition Height="53*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="31*" />
+                <RowDefinition Height="212*" />
+                <RowDefinition Height="27*" />
+                <RowDefinition Height="307*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Width="60"
+                    Height="18"
+                    Text="  Usuario: " />
+                <TextBlock
+                    x:Name="tbUsuario"
+                    Width="657"
+                    Height="18"
+                    HorizontalAlignment="Left"
+                    Text="ALCUADRADO\rafael.cordero" />
+            </StackPanel>
+            <!--<fu:Page x:Name="ctlCargarArchivos" TerminoCargarArchivos="ctlCargarArchivos_TerminoCargarArchivos" Grid.Row="1" Margin="6,0,5,0"></fu:Page>-->
+            <Button
+                x:Name="OKButton"
+                Grid.Row="3"
+                Width="75"
+                Margin="0,254,92,16"
+                HorizontalAlignment="Right"
+                Click="OKButton_Click"
+                Content="Aceptar" />
+            <Button
+                x:Name="CancelButton"
+                Grid.Row="3"
+                Width="75"
+                Margin="0,254,5,16"
+                HorizontalAlignment="Right"
+                Click="CancelButton_Click"
+                Content="Cancelar" />
+            <Label
+                Name="Label1"
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                Width="172"
+                Height="17"
+                Margin="6,13,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="Listado de archivos de usuario" />
+        </Grid>
+        <StackPanel Margin="4,267,1,0">
+            <Button
+                Width="112"
+                Height="25"
+                Click="BorrarArchivoSeleccionado_Click"
+                Content="Borrar"
+                ToolTipService.ToolTip="Borrar el archivo seleccionado" />
+            <A2UTILGEN:A2GridView
+                Name="dg"
+                Height="175"
+                Margin="0,5,0,0"
+                AutoGenerateColumns="False"
+                IsReadOnly="False"
+                ItemsSource="{Binding ListaArchivosPaged}"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                SelectedItem="{Binding ArchivoSeleccionado, Mode=TwoWay}"
+                SelectionMode="Single">
+                <A2UTILGEN:A2GridView.Columns>
+                    <Telerik:GridViewDataColumn Header="Nombre" SortMemberPath="Nombre">
+                        <Telerik:GridViewDataColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Margin="5,0,5,0"
+                                    VerticalAlignment="Center"
+                                    Click="NavegarArchivoSeleccionado_Click"
+                                    Content="{Binding Nombre}"
+                                    Style="{StaticResource HyperlinkLikeButton}"
+                                    ToolTipService.ToolTip="{Binding RutaWeb}" />
+                            </DataTemplate>
+                        </Telerik:GridViewDataColumn.CellTemplate>
+                    </Telerik:GridViewDataColumn>
+                    <Telerik:GridViewDataColumn
+                        Width="150"
+                        DataMemberBinding="{Binding FechaHora}"
+                        Header="Hora"
+                        IsReadOnly="True" />
+                    <Telerik:GridViewDataColumn
+                        Width="80"
+                        DataMemberBinding="{Binding KBytes}"
+                        Header="KBytes"
+                        IsReadOnly="True" />
+                </A2UTILGEN:A2GridView.Columns>
+            </A2UTILGEN:A2GridView>
+            <Border Style="{StaticResource Contenedor_Paginador}">
+                <A2UTILGEN:A2DataPager
+                    Name="DataPager1"
+                    Height="24"
+                    PageSize="6"
+                    Source="{Binding Items, ElementName=dg}" />
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

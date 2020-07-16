@@ -1,0 +1,210 @@
+﻿<UserControl
+    x:Class="ReportesOrdenesPLUSView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OYDPLUSControles="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDPLUSOrdenes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MaxWidth="750"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+    <!--  ***************************************  -->
+    <StackPanel Orientation="Vertical">
+        <TextBlock
+            Margin="10"
+            Style="{StaticResource Title1}"
+            Text="Reporte Ordenes Plus" />
+        <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+            <Telerik:RadBusyIndicator
+                x:Name="myBusyIndicator"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BusyContent="Cargando..."
+                DisplayAfter="0"
+                IsBusy="{Binding IsBusy}">
+                <StackPanel x:Name="Editar" HorizontalAlignment="Center">
+                    <!--  *************************************  -->
+
+                    <Grid
+                        x:Name="LayoutRoot"
+                        Margin="2"
+                        HorizontalAlignment="Center">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Label="Tipo Reporte"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cboTipoReporte"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DataContext.DiccionarioCombosOYDPlus[TIPOREPORTEORDENES], RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                    SelectedValue="{Binding TipoReporte, Mode=TwoWay}"
+                                    SelectedValuePath="Retorno" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Label="Modulos"
+                                LabelPosition="Above">
+                                <ComboBox
+                                    x:Name="cboModulos"
+                                    Width="Auto"
+                                    DisplayMemberPath="Descripcion"
+                                    ItemsSource="{Binding DataContext.DiccionarioCombosOYDPlus[MODULOSORDENESPLUS], RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    SelectedValue="{Binding Modulo, Mode=TwoWay}"
+                                    SelectedValuePath="Retorno" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                IsEnabled="{Binding DataContext.HabilitarControles, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                Label="Receptor"
+                                LabelPosition="Above">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        IsEnabled="False"
+                                        IsReadOnly="True"
+                                        Text="{Binding DataContext.NombreReceptor, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" />
+                                    <Controles:BuscadorGenericoListaButon
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        CampoBusqueda="receptores"
+                                        EstadoItem="A"
+                                        TipoItem="receptoresusuario"
+                                        finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                    <Button
+                                        x:Name="btnLimpiarReceptor"
+                                        Grid.Column="2"
+                                        Margin="2,0,0,0"
+                                        Click="btnLimpiarReceptor_Click_1"
+                                        Style="{StaticResource btnLimpiar}"
+                                        ToolTipService.ToolTip="Limpiar cliente" />
+                                </Grid>
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Label="Cliente"
+                                LabelPosition="Above">
+                                <Controles:BuscadorCliente
+                                    x:Name="ctrlCliente"
+                                    BorrarCliente="{Binding DataContext.BorrarCliente, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CargarClientesRestriccion="True"
+                                    CargarClientesTercero="Collapsed"
+                                    EstadoComitente="A"
+                                    IDReceptor="{Binding DataContext.idReceptorCliente, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    comitenteAsignado="ctrlCliente_comitenteAsignado" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                IsEnabled="{Binding DataContext.HabilitarEspecies, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Label="De la Especie"
+                                LabelPosition="Above">
+                                <Controles:BuscadorEspecie
+                                    x:Name="ctlrEspecies"
+                                    BorrarEspecie="{Binding DataContext.BorrarEspecie, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    BuscarAlIniciar="False"
+                                    HabilitarConsultaISIN="False"
+                                    VerDetalle="False"
+                                    especieAsignada="ctlrEspecies_especieAsignada" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                IsEnabled="{Binding DataContext.HabilitarEspecies, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Label="A la Especie"
+                                LabelPosition="Above">
+                                <Controles:BuscadorEspecie
+                                    x:Name="ctlrEspecies2"
+                                    BorrarEspecie="{Binding DataContext.BorrarEspecie, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    BuscarAlIniciar="False"
+                                    HabilitarConsultaISIN="False"
+                                    VerDetalle="False"
+                                    especieAsignada="ctlrEspecies_especieAsignada2" />
+
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{Binding DataContext.HabilitarControles, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                Label="De la Fecha"
+                                LabelPosition="Above">
+                                <A2UTILGEN:A2DatePicker
+                                    x:Name="dtmFecha"
+                                    Width="auto"
+                                    SelectedDate="{Binding FechaDesde, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <Telerik:DataFormDataField
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{Binding DataContext.HabilitarControles, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                                Label="A la Fecha"
+                                LabelPosition="Above">
+                                <A2UTILGEN:A2DatePicker
+                                    x:Name="dtmFecha2"
+                                    Width="auto"
+                                    SelectedDate="{Binding FechaHasta, Mode=TwoWay}" />
+                            </Telerik:DataFormDataField>
+
+                            <StackPanel
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                                <Button Click="Button_Click" Content="Ver Reporte" />
+                                <Button Click="Button_Click_1" Content="Generar Excel" />
+                            </StackPanel>
+
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+
+            </Telerik:RadBusyIndicator>
+        </Border>
+
+    </StackPanel>
+
+
+</UserControl>

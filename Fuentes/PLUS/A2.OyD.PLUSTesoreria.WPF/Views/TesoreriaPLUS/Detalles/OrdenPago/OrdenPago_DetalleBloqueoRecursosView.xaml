@@ -1,0 +1,122 @@
+﻿<Window
+    x:Class="OrdenPago_DetalleBloqueoRecursosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:ControlesPLUS="clr-namespace:A2OYDPLUSUtilidades;assembly=A2.OyD.PLUSUtilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:myCrtl="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    Title="Bloqueo recursos"
+    Height="Auto"
+    MinWidth="650"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="Cargando...."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="0"
+                Label="Motivo bloqueo"
+                LabelPosition="Above">
+                <ComboBox
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCombosOYDPlusCompleto[MOTIVOBLOQUEOSALDO]}"
+                    SelectedValue="{Binding MotivoBloqueo, Mode=TwoWay}"
+                    SelectedValuePath="Retorno"
+                    ToolTipService.ToolTip="Tipo Bloqueo" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="1"
+                IsEnabled="{Binding HabilitarValorEnDetalle}"
+                Label="Valor bloqueado"
+                LabelPosition="Above">
+                <A2UTILGEN:A2NumericBox
+                    VerticalAlignment="Center"
+                    GotFocus="SeleccionarFocoControl"
+                    Maximum="99999999999999"
+                    Minimum="0"
+                    NumberDecimalDigits="2"
+                    ShowButtons="False"
+                    ValueFormat="Numeric"
+                    Value="{Binding ValorGenerar, Mode=TwoWay}" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="0"
+                Grid.Column="2"
+                Label="Naturaleza"
+                LabelPosition="Above">
+                <ComboBox
+                    DisplayMemberPath="Descripcion"
+                    ItemsSource="{Binding DiccionarioCombosOYDPlusCompleto[NATURALEZABLOQUEO]}"
+                    SelectedValue="{Binding Naturaleza, Mode=TwoWay}"
+                    SelectedValuePath="Retorno"
+                    ToolTipService.ToolTip="Naturaleza" />
+            </Telerik:DataFormDataField>
+
+            <Telerik:DataFormDataField
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Label="Detalle de bloqueo"
+                LabelPosition="Above">
+                <TextBox
+                    Name="txtConcepto"
+                    Height="45"
+                    GotFocus="SeleccionarFocoControl"
+                    Text="{Binding DetalleConcepto, Mode=TwoWay}"
+                    TextChanged="txtConcepto_TextChanged_1"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+            </Telerik:DataFormDataField>
+
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Margin="7"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnGuardarSalir"
+                    HorizontalAlignment="Right"
+                    Click="BtnGuardarSalir_Click"
+                    Content="Grabar y salir"
+                    IsEnabled="{Binding HabilitarGuardarYSalir}" />
+                <Button
+                    x:Name="btnGuardarContinuar"
+                    HorizontalAlignment="Right"
+                    Click="BtnGuardarContinuar_Click"
+                    Content="Grabar y continuar"
+                    IsEnabled="{Binding HabilitarGuardarContinuar}" />
+                <Button
+                    x:Name="btnCancelar"
+                    HorizontalAlignment="Right"
+                    Click="BtnCancelar_Click"
+                    Content="Cancelar" />
+            </StackPanel>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</Window>

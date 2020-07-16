@@ -1,0 +1,107 @@
+﻿<UserControl
+    x:Class="Omnibus_ImportarArchivosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCalculosFinancieros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="400">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+
+
+    <StackPanel>
+        <TextBlock Style="{StaticResource Title1}" Text="Importar archivos Omnibus" />
+        <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+            <Telerik:RadBusyIndicator
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                BusyContent="Consultando...."
+                DisplayAfter="0"
+                IsBusy="{Binding IsBusy}">
+
+                <Grid MaxWidth="600">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Label="Tipo importación"
+                        LabelPosition="Above">
+                        <ComboBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Stretch"
+                            DisplayMemberPath="strModulo"
+                            ItemsSource="{Binding ListaComboModulos}"
+                            SelectedValue="{Binding ImportacionSeleccionada, Mode=TwoWay}"
+                            SelectedValuePath="strModulo"
+                            TabIndex="1"
+                            ToolTipService.ToolTip="Tipo importación" />
+                    </Telerik:DataFormDataField>
+
+
+                    <Telerik:DataFormDataField
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Label="Archivo"
+                        LabelPosition="Above">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBox
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                IsEnabled="False"
+                                Text="{Binding NombreArchivoSeleccionado, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                ToolTipService.ToolTip="Archivo seleccionado" />
+                            <my1:ucBtnDialogoImportar
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="2,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                CargarArchivoGenerico="ucBtnDialogoImportar_CargarArchivoGenerico"
+                                ErrorImportandoArchivo="ucBtnDialogoImportar_ErrorImportandoArchivo"
+                                Filtros="{Binding ExtensionesPermitidasArchivo}"
+                                Generico="True"
+                                IsEnabled="{Binding HabilitarSeleccionArchivo}"
+                                Proceso="{Binding ImportacionSeleccionada}"
+                                SubirArchivo="ucBtnDialogoImportar_SubirArchivo" />
+                        </Grid>
+                    </Telerik:DataFormDataField>
+                </Grid>
+            </Telerik:RadBusyIndicator>
+
+        </Border>
+    </StackPanel>
+
+</UserControl>
+

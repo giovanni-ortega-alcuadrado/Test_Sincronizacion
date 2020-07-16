@@ -1,0 +1,224 @@
+﻿<UserControl
+    x:Class="TiposEmisoresView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFEspecies"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="450"
+    MaxWidth="650">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            MinWidth="450"
+            MaxWidth="650"
+            
+            ShowGridLines="False">
+            <!--<Grid.Resources>
+
+            </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="{Binding IsItemValid, ElementName=df}"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding TiposEmisoresSelected}"
+                    TextoFiltroTooltip="Filtra por los campos Emisor y Descripción tipo emisor"
+                    TituloVista="Tipos Emisores"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding TiposEmisoresSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaTiposEmisores.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma">
+
+                    <Border Style="{StaticResource Contenedor_Estilo}">
+                        <StackPanel
+                            x:Name="Buscar"
+                            Height="Auto"
+                            VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaTiposEmisoresPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding TiposEmisoresSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+                                    <Telerik:GridViewDataColumn Header="Id tipo emisor" SortMemberPath="Id tipo emisor">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    VerticalContentAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding intIdTipoEmisor}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding intCodTipoEmisor}" Header="Código tipo emisor" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding DescripcionEmisor}" Header="Emisor" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionTipoEmisor}" Header="Descripción tipo emisor" />
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding dtmActualizacion, StringFormat=dd/MM/yyyy}" Header="Fecha" />
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Telerik:DataFormDataField Grid.Row="0" Label="ID Tipo emisor">
+                                                <A2UTILGEN:A2NumericBox
+                                                    FontSize="8"
+                                                    Maximum="9999999"
+                                                    Minimum="0"
+                                                    ShowButtons="False"
+                                                    ToolTipService.ToolTip="ID Tipo emisor"
+                                                    Value="{Binding intIdTipoEmisor, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="1" Label="Código tipo emisor">
+                                                <A2UTILGEN:A2NumericBox
+                                                    FontSize="8"
+                                                    Maximum="9999999"
+                                                    Minimum="0"
+                                                    ShowButtons="False"
+                                                    ToolTipService.ToolTip="Código emisor"
+                                                    Value="{Binding intCodTipoEmisor, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="2" Label="Emisor">
+                                                <ComboBox
+                                                    DisplayMemberPath="Nombre"
+                                                    ItemsSource="{Binding DataContext.ListaEmisores, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding intIdEmisor, Mode=TwoWay}"
+                                                    SelectedValuePath="IdEmisor" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="df"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding TiposEmisoresSelected}"
+                                IsEnabled="{Binding Editando}"
+                                Visibility="{Binding visNavegando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Telerik:DataFormDataField Grid.Row="0" Label="ID Tipo emisor">
+                                                <A2UTILGEN:A2NumericBox
+                                                    FontSize="8"
+                                                    Maximum="9999999"
+                                                    Minimum="0"
+                                                    ShowButtons="False"
+                                                    ToolTipService.ToolTip="ID Tipo emisor"
+                                                    Value="{Binding intIdTipoEmisor, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="1" Label="Código tipo emisor">
+                                                <A2UTILGEN:A2NumericBox
+                                                    FontSize="8"
+                                                    Maximum="9999999"
+                                                    Minimum="0"
+                                                    ShowButtons="False"
+                                                    ToolTipService.ToolTip="Código emisor"
+                                                    Value="{Binding intCodTipoEmisor, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="2" Label="Emisor">
+                                                <ComboBox
+                                                    DisplayMemberPath="Nombre"
+                                                    ItemsSource="{Binding DataContext.ListaEmisores, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    SelectedValue="{Binding intIdEmisor, Mode=TwoWay}"
+                                                    SelectedValuePath="IdEmisor" />
+                                            </Telerik:DataFormDataField>
+                                            <Telerik:DataFormDataField Grid.Row="3" Label="Descripción tipo emisor">
+                                                <TextBox
+                                                    Text="{Binding strDescripcionTipoEmisor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    TextAlignment="Left"
+                                                    ToolTipService.ToolTip="Descripción tipo emisor" />
+                                            </Telerik:DataFormDataField>
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

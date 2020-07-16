@@ -1,0 +1,239 @@
+﻿<UserControl
+    x:Class="BuscadorCliente"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:inputToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:A2PersonasWPF"
+    MinWidth="120"
+    MinHeight="20"
+    Margin="0"
+    d:DesignHeight="121"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0"
+        VerticalAlignment="Top">
+        <Grid.Resources>
+            <src:BuscadorClienteViewModel x:Key="VM" />
+            <src:clsClienteConverter x:Key="cvCliente" />
+            <src:clsFiltroBuscadorClientes x:Key="clsFiltroBuscadorClientes" />
+
+            <!--  DataTemplate  -->
+            <DataTemplate x:Key="ListaDataTemplate">
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Orientation="Horizontal">
+                            <TextBlock Text="Código OYD " />
+                            <TextBlock FontWeight="Bold" Text="{Binding Path=ItemBusqueda.strCodigoOyD}" />
+                            <TextBlock Text=", " />
+                            <TextBlock Text="{Binding Path=ItemBusqueda.intID}" />
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding Path=ItemBusqueda.strNombre}" />
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=ItemBusqueda.strTipoIdentificacion}" />
+                            <TextBlock Text=" " />
+                            <TextBlock Text="{Binding Path=ItemBusqueda.strNroDocumento}" />
+                        </StackPanel>
+                    </Grid>
+                    <Line
+                        Height="1"
+                        Margin="0,0,0,0"
+                        Stretch="Fill"
+                        Stroke="Silver"
+                        X1="0"
+                        X2="200"
+                        Y1="20"
+                        Y2="20" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="22" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            Orientation="Vertical">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <!--
+                    Modificado por Juan David Correa.
+                    Fecha: Agosto 03 del 2012
+                    Se adiciona la opción para que en el buscador se carguen los clientes de otro receptor.
+                -->
+                <!--<Label
+                    x:Name="lblClienteTercero"
+                    Content="Carga cliente tercero"
+                    Style="{StaticResource EstiloLabel}"
+                    Visibility="{Binding MostrarClientesTercero, Source={StaticResource VM}}" />-->
+                <!--<CheckBox
+                    x:Name="chkClienteTercero"
+                    Margin="2,0,0,0"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ClienteTercero, Source={StaticResource VM}, Mode=TwoWay}"
+                    Visibility="{Binding MostrarClientesTercero, Source={StaticResource VM}}" />-->
+            </StackPanel>
+            <TextBlock
+                Foreground="Gray"
+                Visibility="{Binding MostrarConsultando, Source={StaticResource VM}}"
+                Text="Consultando Persona....."
+                 />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal">
+            <!--<inputToolkit:AutoCompleteBox x:Name="acbClientes"
+                                          FilterMode="Custom"
+                                          ItemTemplate="{StaticResource ListaDataTemplate}"
+                                          ItemsSource="{Binding Comitentes, Source={StaticResource VM}}"
+                                          ValueMemberBinding="{Binding Converter={StaticResource cvCliente}}"
+                                          SelectedItem="{Binding ComitenteSeleccionado, Mode=TwoWay, Source={StaticResource VM}}"
+                                          MinimumPrefixLength="1"
+                                          IsTextCompletionEnabled="False"
+                                          IsEnabled="{Binding Path=Activar}"
+                                          SelectionChanged="acbClientes_SelectionChanged"
+                                          MinWidth="200"
+                                          Height="22"
+                                          TextChanged="acbClientes_TextChanged"
+                                          KeyUp="acbClientes_KeyUp"
+                                          KeyDown="acbClientes_KeyDown">-->
+
+            <Telerik:RadAutoCompleteBox
+                x:Name="acbClientes"
+                Height="22"
+                MinWidth="200"
+                AutoCompleteMode="Suggest"
+                DisplayMemberPath="DescripcionBuscador"
+                DropDownItemTemplate="{StaticResource ListaDataTemplate}"
+                DropDownWidth="300" 
+                KeyDown="acbPersonas_KeyDown"
+                KeyUp="acbPersona_KeyUp"
+                SelectionChanged="acbPersona_SelectionChanged"
+                IsEnabled="{Binding Path=Activar}"                
+                FilteringBehavior="{StaticResource clsFiltroBuscadorClientes}"
+                SelectionMode="Single"
+                TextSearchMode="Contains"                
+                ItemsSource="{Binding ListaBusquedaControl, Mode=TwoWay,Source={StaticResource VM}}"
+                SelectedItem="{Binding ItemSeleccionadoBuscador, Mode=TwoWay, Source={StaticResource VM}}" >
+
+
+     
+               
+
+                <!--<ToolTipService.ToolTip>
+                    <ToolTip>
+                        <StackPanel Orientation="Vertical" DataContext="{Binding ComitenteSeleccionado, Source={StaticResource VM}}">
+                            <TextBlock Text="{Binding Path=Nombre}" />
+
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Path=TipoIdentificacion}" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Path=NroDocumento}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ToolTip>
+                </ToolTipService.ToolTip>-->
+            </Telerik:RadAutoCompleteBox>
+
+            <Button
+                x:Name="cmdBuscar"
+                Height="22"
+                Click="cmdBuscar_Click"
+                Content="..."                
+                Style="{StaticResource btnBuscar}"
+                ToolTipService.ToolTip="Buscar personas" />
+            
+        </StackPanel>
+
+        
+        <Grid
+            x:Name="grDatosClt"
+            Grid.Row="2"
+            Grid.Column="0"
+            DataContext="{Binding ComitenteSeleccionado, Source={StaticResource VM}}"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" MinWidth="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.ColumnSpan="3"
+                Orientation="Horizontal">
+                <TextBlock Text="Código OYD " />
+                <TextBlock FontWeight="Bold" Text="{Binding strCodigoOyD}" />
+            </StackPanel>
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="{Binding Nombre}" />
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Orientation="Horizontal">
+                <TextBlock Text="{Binding strTipoIdentificacion}" />
+                <TextBlock Text=" " />
+                <TextBlock Text="{Binding strNroDocumento}" />
+            </StackPanel>
+
+            <!--<TextBlock
+                Grid.Row="4"
+                Grid.Column="1"
+                Text="{Binding Estado}" />
+
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="1"
+                Text="{Binding Categoria}" />-->
+        </Grid>
+    </Grid>
+</UserControl>

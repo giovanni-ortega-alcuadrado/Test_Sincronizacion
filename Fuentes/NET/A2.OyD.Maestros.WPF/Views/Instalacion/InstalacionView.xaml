@@ -1,0 +1,1551 @@
+﻿<!--
+    Codigo generado
+    Plantilla: ViewTemplate2010
+    Archivo: InstalacionView.xaml
+    Generado el : 04/28/2011 11:32:49
+    Propiedad de Alcuadrado S.A. 2010
+-->
+<UserControl
+    x:Class="InstalacionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:my1="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDMaestros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="350"
+    MaxWidth="800">
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:A2UtilsViewModel x:Key="A2VM" />
+
+    </UserControl.Resources>
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{StaticResource stpFiltro}">
+                <!--  Editando="{Binding Editando, Mode= TwoWay}"  -->
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DF="{Binding df}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    EventoCancelarGrabacion="CancelarEditarRegistro_Click"
+                    EventoConfirmarGrabacion="cm_EventoConfirmarGrabacion"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    IsItemChanged="{Binding IsItemChanged, ElementName=df}"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding InstalacioSelected}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Filtra por el campo Linea1"
+                    TituloVista="Instalación."
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding InstalacioSelected.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaInstalacion.Count}"
+                    VisibilidadBusquedaAvanzada="False"
+                    VisibilidadRefrescarCombos="True" />
+                <!--<TextBlock Text="(*) Campos por los cuales se realiza el filtro." Margin="5,0,0,0" Style="{StaticResource txbNumRegistros}"/>-->
+
+
+            </StackPanel>
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+
+                <Grid
+                    x:Name="grdGridForma"
+                    Grid.Row="1"
+                    MaxWidth="800">
+
+
+                    <Border>
+                        <StackPanel x:Name="Buscar" Grid.Column="0">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaInstalacionPaged}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding InstalacioSelected, Mode=TwoWay}"
+                                ValidatesOnDataErrors="None">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="Registro Instalación" SortMemberPath="IDInstalacion">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding IDInstalacion}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn Header="Linea1" SortMemberPath="Linea1">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Linea1}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border>
+                        <Grid>
+                            <!--  Dataform de búsqueda  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoGenerateFields="False"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+
+                                            <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Linea1}">
+                                                <TextBox Text="{Binding Linea1, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Linea1" />
+                                            </Telerik:DataFormDataField>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <!--  Dataform edición de registro  -->
+                            <StackPanel x:Name="Editar" Visibility="{Binding visNavegando}">
+
+                                <A2UTILGEN:A2DataForm
+                                    x:Name="df"
+                                    VerticalAlignment="Top"
+                                    AutoGenerateFields="False"
+                                    CommandButtonsVisibility="None"
+                                    CurrentItem="{Binding InstalacioSelected}">
+
+                                    <!--<A2UTILGEN:A2DataForm.Resources>
+                                    <src1:DataContextProxy  x:Key="A2DataContextProxy"></src1:DataContextProxy>
+                                </A2UTILGEN:A2DataForm.Resources>-->
+
+                                    <A2UTILGEN:A2DataForm.EditTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <Border Style="{StaticResource Contenedor_TabControl}">
+                                                    <TabControl>
+                                                        <!--  Tab General  -->
+                                                        <TabItem Name="TabGeneral" Header="General">
+                                                            <!--<Grid ShowGridLines="False">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>-->
+
+                                                            <Grid
+                                                                Grid.Row="0"
+                                                                Grid.Column="0"
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    IsEnabled="False"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IDBolsa}">
+                                                                    <ComboBox
+                                                                        DisplayMemberPath="Descripcion"
+                                                                        ItemsSource="{Binding DiccionarioCombosA2[Bolsas], Source={StaticResource A2VM}}"
+                                                                        SelectedValue="{Binding IDBolsa, StringFormat='#', Mode=TwoWay}"
+                                                                        SelectedValuePath="ID"
+                                                                        ToolTipService.ToolTip="Bolsa" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    IsEnabled="False"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IdPoblacion}">
+                                                                    <ComboBox
+                                                                        DisplayMemberPath="Descripcion"
+                                                                        ItemsSource="{Binding DiccionarioCombosA2[Ciudades], Source={StaticResource A2VM}}"
+                                                                        SelectedValue="{Binding IdPoblacion, StringFormat='#', Mode=TwoWay}"
+                                                                        SelectedValuePath="ID"
+                                                                        ToolTipService.ToolTip="Ciudad" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IvaComision}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="100"
+                                                                        Minimum="0"
+                                                                        NumberDecimalDigits="0"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="NitComisionista"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding IvaComision, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ReteIva}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="100"
+                                                                        Minimum="0"
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="ReteIva"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding ReteIva, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NombreCuenta}">
+                                                                    <TextBox
+                                                                        MaxLength="25"
+                                                                        Text="{Binding NombreCuenta, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="NombreCuenta" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="0"
+                                                                    IsEnabled="{Binding Editando}"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IVA}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="99"
+                                                                        Minimum="0"
+                                                                        NumberDecimalDigits="0"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="IVA"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding IVA, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="6"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=RteFuente}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="99"
+                                                                        Minimum="0"
+                                                                        NumberDecimalDigits="0"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="RteFuente"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding RteFuente, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="7"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=GMS}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="999999999999998"
+                                                                        Minimum="0"
+                                                                        NumberDecimalDigits="15"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="GMFInferior"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding GMS, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="8"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=GMFInferior}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="999999999999998"
+                                                                        Minimum="0"
+                                                                        NumberDecimalDigits="15"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="GMFInferior"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding GMFInferior, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="9"
+                                                                    Grid.Column="0"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Fecha de cierre del sistema" />
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="10"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Cierre}">
+                                                                    <A2UTILGEN:A2DatePicker SelectedDate="{Binding Cierre, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Cierre" />
+                                                                </Telerik:DataFormDataField>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Cobro del GMF" />
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CCosto}">
+                                                                    <Grid MaxWidth="800">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBox
+                                                                            IsEnabled="False"
+                                                                            MaxLength="40"
+                                                                            Text="{Binding CCosto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                            ToolTipService.ToolTip="CCosto" />
+                                                                        <my1:BuscadorGenericoListaButon
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            CampoBusqueda="CCosto"
+                                                                            EstadoItem="A"
+                                                                            Etiqueta="Centros de costo"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            TipoItem="CentrosCosto"
+                                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                                                    </Grid>
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CCostoContraparte}">
+                                                                    <Grid MaxWidth="800">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBox
+                                                                            IsEnabled="False"
+                                                                            MaxLength="40"
+                                                                            Text="{Binding CCostoContraparte, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                            ToolTipService.ToolTip="CCostoContraparte" />
+                                                                        <my1:BuscadorGenericoListaButon
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            CampoBusqueda="CCostoContraparte"
+                                                                            EstadoItem="A"
+                                                                            Etiqueta="Centros de costo"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            TipoItem="CentrosCosto"
+                                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusqueda" />
+                                                                    </Grid>
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Tipo}">
+                                                                    <ComboBox
+                                                                        DisplayMemberPath="ID"
+                                                                        IsEnabled="False"
+                                                                        ItemsSource="{Binding DiccionarioCombosA2[TipoGMF], Source={StaticResource A2VM}}"
+                                                                        SelectedValue="{Binding Tipo, StringFormat='#', Mode=TwoWay}"
+                                                                        SelectedValuePath="ID"
+                                                                        ToolTipService.ToolTip="Tipo" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContable}">
+                                                                    <Grid MaxWidth="800">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBox
+                                                                            IsEnabled="False"
+                                                                            Text="{Binding CtaContable, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                            ToolTipService.ToolTip="CtaContable" />
+                                                                        <my1:BuscadorGenericoListaButon
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            CampoBusqueda="IDCuentaContable"
+                                                                            Etiqueta="Cuentas Contables"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            TipoItem="CuentasContables"
+                                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusquedaCtaContable" />
+                                                                    </Grid>
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=tipoNotasCxC}"
+                                                                    Visibility="{Binding DataContext.visiblecxc, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                                    <ComboBox
+                                                                        DisplayMemberPath="ID"
+                                                                        ItemsSource="{Binding DiccionarioCombosA2[TipoGMF], Source={StaticResource A2VM}}"
+                                                                        SelectedValue="{Binding tipoNotasCxC, StringFormat='#', Mode=TwoWay}"
+                                                                        SelectedValuePath="ID"
+                                                                        ToolTipService.ToolTip="tipoNotasCxC" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="6"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContableContraparteNotasCxC}">
+                                                                    <Grid MaxWidth="800">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBox Text="{Binding CtaContableContraparteNotasCxC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CtaContableContraparteNotasCxC" />
+                                                                        <my1:BuscadorGenericoListaButon
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            CampoBusqueda="IDCuentaContable"
+                                                                            Etiqueta="Cuentas Contables"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            TipoItem="CuentasContables"
+                                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusquedaD" />
+                                                                    </Grid>
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="7"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContableContraparte}">
+                                                                    <Grid MaxWidth="800">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBox
+                                                                            IsEnabled="False"
+                                                                            Text="{Binding CtaContableContraparte, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                            ToolTipService.ToolTip="CtaContableContraparte" />
+                                                                        <my1:BuscadorGenericoListaButon
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            CampoBusqueda="IDCuentaContable"
+                                                                            Etiqueta="Cuentas Contables"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            TipoItem="CuentasContables"
+                                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusquedaCtaContableContraparte" />
+                                                                    </Grid>
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="8"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContableTrasladoDB}"
+                                                                    Visibility="{Binding DataContext.visible, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                                    <TextBox Text="{Binding CtaContableTrasladoDB, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CtaContableTrasladoDB" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="9"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContableTrasladoCR}"
+                                                                    Visibility="{Binding DataContext.visible, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                                    <TextBox Text="{Binding CtaContableTrasladoCR, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CtaContableTrasladoCR" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="2"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Datos de la firma comisionista" />
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NitComisionista}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        LostFocus="Consultarcontraparteotc"
+                                                                        Maximum="999999999999999"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="Nit. Comisionista"
+                                                                        Value="{Binding NitComisionista, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CodigoEntidadUIAF}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="999"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="Código Entidad  UIAF"
+                                                                        Value="{Binding CodigoEntidadUIAF, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TipoEntidadUIAF}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="999"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="Tipo Entidad UIAF"
+                                                                        Value="{Binding TipoEntidadUIAF, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=PorcentajeNoConstitutivoDeRenta}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        Maximum="999999"
+                                                                        Minimum="0"
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="Porcentaje No Constitutivo De Renta"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding PorcentajeNoConstitutivoDeRenta, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=IdContraparteOTC}">
+                                                                    <ComboBox
+                                                                        DisplayMemberPath="ID"
+                                                                        ItemsSource="{Binding DataContext.Contraparteotc, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        SelectedValue="{Binding IdContraparteOTC, Mode=TwoWay}"
+                                                                        SelectedValuePath="ID"
+                                                                        ToolTipService.ToolTip="Código Cliente" />
+                                                                </Telerik:DataFormDataField>
+
+                                                            </Grid>
+
+
+
+
+
+                                                            <!--ojo
+                                                                    <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContableTrasladoDB}" Visibility="{Binding DataContext.visible, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                                        <TextBox Text="{Binding CtaContableTrasladoDB, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CtaContableTrasladoDB" />
+                                                                    </Telerik:DataFormDataField>
+                                                                    <Telerik:DataFormDataField Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContableTrasladoCR}" Visibility="{Binding DataContext.visible, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                                        <TextBox Text="{Binding CtaContableTrasladoCR, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CtaContableTrasladoCR" />
+                                                                    </Telerik:DataFormDataField>
+
+                                                            -->
+
+                                                        </TabItem>
+                                                        <!--  Fin Tab General  -->
+                                                        <!--  Tab Clientes  -->
+                                                        <TabItem Name="TabClientes" Header="Clientes">
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Manejo de código " />
+
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Obligatoriedad en campos" />
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ClientesAutomatico}">
+                                                                    <CheckBox IsChecked="{Binding ClientesAutomatico, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ClientesAutomatico" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ClientesCedula}">
+                                                                    <CheckBox IsChecked="{Binding ClientesCedula, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ClientesCedula" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ClientesAgrupados}">
+                                                                    <CheckBox IsChecked="{Binding ClientesAgrupados, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ClientesAgrupados" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CuentasBancarias}">
+                                                                    <CheckBox IsChecked="{Binding CuentasBancarias, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CuentasBancarias" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=RepresentanteLegal}">
+                                                                    <CheckBox IsChecked="{Binding RepresentanteLegal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="RepresentanteLegal" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <!--  Fin Tab Clientes  -->
+                                                        <!--  Tab Parámetros Otros temas  -->
+                                                        <TabItem Name="TabParamOT" Header="Parámetros Otros temas">
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Contabilidad" />
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Servidor}">
+                                                                    <TextBox
+                                                                        MaxLength="50"
+                                                                        Text="{Binding Servidor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Servidor" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=BaseDatos}">
+                                                                    <TextBox
+                                                                        MaxLength="50"
+                                                                        Text="{Binding BaseDatos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="BaseDatos" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Owner}">
+                                                                    <TextBox
+                                                                        MaxLength="20"
+                                                                        Text="{Binding Owner, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Owner" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Compania}">
+                                                                    <TextBox Text="{Binding Compania, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Compania" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="0"
+                                                                    IsEnabled="False"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CtaContableClientes}">
+                                                                    <Grid MaxWidth="800">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBox Text="{Binding CtaContableClientes, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CtaContableClientes" />
+                                                                        <my1:BuscadorGenericoListaButon
+                                                                            Grid.Column="1"
+                                                                            Margin="2,0,0,0"
+                                                                            CampoBusqueda="IDCuentaContable"
+                                                                            Etiqueta="Cuentas Contables"
+                                                                            IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            TipoItem="CuentasContables"
+                                                                            finalizoBusqueda="BuscadorGenerico_finalizoBusquedaCta" />
+                                                                    </Grid>
+                                                                </Telerik:DataFormDataField>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Actualizador" />
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=PathActualiza}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding PathActualiza, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="PathActualiza" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Bus de Integración" />
+
+
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ServidorBus}">
+                                                                    <TextBox
+                                                                        MaxLength="30"
+                                                                        Text="{Binding ServidorBus, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="ServidorBus" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=BaseDatosBus}">
+                                                                    <TextBox
+                                                                        MaxLength="30"
+                                                                        Text="{Binding BaseDatosBus, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="BaseDatosBus" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=OwnerBus}">
+                                                                    <TextBox
+                                                                        MaxLength="20"
+                                                                        Text="{Binding OwnerBus, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="OwnerBus" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="6"
+                                                                    Grid.Column="1"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Preliquidador" />
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="7"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=RteComision}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="RteComision"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding RteComision, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="8"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=RteICA}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="RteICA"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding RteICA, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <!--  Fin Tab Parámetros Otros temas  -->
+                                                        <!--  Tab Reportes 1  -->
+
+                                                        <TabItem Name="TabReportes1" Header="Reportes 1">
+
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Encabezados" />
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Linea1}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Linea1, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Linea1" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca11}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca11, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca11" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca12}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca12, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca12" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca21}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca21, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca21" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca22}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca22, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca22" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="6"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca31}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca31, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca31" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="7"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca32}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca32, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca32" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="8"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca41}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca41, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca41" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="9"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Enca42}">
+                                                                    <TextBox
+                                                                        MaxLength="80"
+                                                                        Text="{Binding Enca42, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Enca42" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="10"
+                                                                    Grid.Column="0"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Pie de Página" />
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="11"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Resolucion}">
+                                                                    <TextBox
+                                                                        MaxLength="25"
+                                                                        Text="{Binding Resolucion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Resolucion" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="12"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Observacion1}">
+                                                                    <TextBox
+                                                                        MaxLength="135"
+                                                                        Text="{Binding Observacion1, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Observacion1" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="13"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Observacion2}">
+                                                                    <TextBox
+                                                                        MaxLength="135"
+                                                                        Text="{Binding Observacion2, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Observacion2" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="14"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=DefensorCliente}">
+                                                                    <TextBox
+                                                                        MaxLength="255"
+                                                                        Text="{Binding DefensorCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="DefensorCliente" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="15"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ReporteExtractoClientePedirRangos}">
+                                                                    <CheckBox IsChecked="{Binding ReporteExtractoClientePedirRangos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ReporteExtractoClientePedirRangos" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="15"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=DatosFinancieros}">
+                                                                    <CheckBox IsChecked="{Binding DatosFinancieros, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="DatosFinancieros" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+
+
+                                                        </TabItem>
+
+                                                        <!--  Fin Tab Reportes 1  -->
+                                                        <!--  Tab Reportes 2  -->
+                                                        <TabItem Name="TabReportes2" Header="Reportes 2">
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Encabezado" />
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaCaj}">
+                                                                    <CheckBox IsChecked="{Binding EncaCaj, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaCaj" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaEgr}">
+                                                                    <CheckBox IsChecked="{Binding EncaEgr, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaEgr" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaNot}">
+                                                                    <CheckBox IsChecked="{Binding EncaNot, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaNot" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaTit}">
+                                                                    <CheckBox IsChecked="{Binding EncaTit, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaTit" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaFac}">
+                                                                    <CheckBox IsChecked="{Binding EncaFac, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaFac" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="6"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaFacBca}">
+                                                                    <CheckBox IsChecked="{Binding EncaFacBca, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaFacBca" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="7"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaExt}">
+                                                                    <CheckBox IsChecked="{Binding EncaExt, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaExt" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="8"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EncaCus}">
+                                                                    <CheckBox IsChecked="{Binding EncaCus, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EncaCus" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Líneas" />
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=RCLineas}">
+                                                                    <CheckBox IsChecked="{Binding RCLineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="RCLineas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CELineas}">
+                                                                    <CheckBox IsChecked="{Binding CELineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CELineas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=NCLineas}">
+                                                                    <CheckBox IsChecked="{Binding NCLineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="NCLineas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TITLineas}">
+                                                                    <CheckBox IsChecked="{Binding TITLineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="TITLineas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FacLineas}">
+                                                                    <CheckBox IsChecked="{Binding FacLineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="FacLineas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="6"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FacBcaLineas}">
+                                                                    <CheckBox IsChecked="{Binding FacBcaLineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="FacBcaLineas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="7"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=EXTLineas}">
+                                                                    <CheckBox IsChecked="{Binding EXTLineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="EXTLineas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="8"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CusLineas}">
+                                                                    <CheckBox IsChecked="{Binding CusLineas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CusLineas" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="2"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Impresión por Usuario" />
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=UsuarioEntregas}">
+                                                                    <CheckBox IsChecked="{Binding UsuarioEntregas, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="UsuarioEntregas" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=UsuarioRecibido}">
+                                                                    <CheckBox
+                                                                        Grid.Row="3"
+                                                                        Grid.Column="2"
+                                                                        IsChecked="{Binding UsuarioRecibido, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="UsuarioRecibido" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=UsuarioCustodia}">
+                                                                    <CheckBox IsChecked="{Binding UsuarioCustodia, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="UsuarioCustodia" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=UsuarioSobrantes}">
+                                                                    <CheckBox IsChecked="{Binding UsuarioSobrantes, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="UsuarioSobrantes" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="6"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Usuario}">
+                                                                    <CheckBox IsChecked="{Binding Usuario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Usuario" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <TextBlock
+                                                                    Grid.Row="7"
+                                                                    Grid.Column="2"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Reporting Services" />
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="8"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=URL}">
+                                                                    <TextBox
+                                                                        MaxLength="100"
+                                                                        Text="{Binding URL, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="URL" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="9"
+                                                                    Grid.Column="2"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Path}">
+                                                                    <TextBox
+                                                                        MaxLength="100"
+                                                                        Text="{Binding Path, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Path" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+
+                                                        </TabItem>
+                                                        <!--  Fin Tab Reportes 2  -->
+                                                        <!--  Tab Bolsa  -->
+                                                        <TabItem Name="TabBolsa" Header="Bolsa">
+
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    FontSize="10"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#FF5C9AC9"
+                                                                    Text="  Configuración Ordenes" />
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FechaOrden}">
+                                                                    <CheckBox IsChecked="{Binding FechaOrden, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="FechaOrden" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Receptores}">
+                                                                    <CheckBox IsChecked="{Binding Receptores, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Receptores" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CargarReceptorCliente}">
+                                                                    <CheckBox IsChecked="{Binding CargarReceptorCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="CargarReceptorCliente" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=Ordenantes}">
+                                                                    <CheckBox IsChecked="{Binding Ordenantes, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="Ordenantes" />
+                                                                </Telerik:DataFormDataField>
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=SerBolsaFijo}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="SerBolsaFijo"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding SerBolsaFijo, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=SerBolsaFijoAcciones}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="SerBolsaFijoAcciones"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding SerBolsaFijoAcciones, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TopeSerBolsaFijoAcciones}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="TopeSerBolsaFijoAcciones"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding TopeSerBolsaFijoAcciones, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="1"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=FechaLimite}">
+                                                                    <A2UTILGEN:A2DatePicker SelectedDate="{Binding FechaLimite, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="FechaLimite" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <!--  Fin Tab Bolsa  -->
+                                                        <!--  Tab OPCF  -->
+                                                        <TabItem Name="TabOPCF" Header="OPCF">
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ValorContrato}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="ValorContrato"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding ValorContrato, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=DiaSemana}">
+                                                                    <ComboBox
+                                                                        DisplayMemberPath="Descripcion"
+                                                                        IsEnabled="False"
+                                                                        ItemsSource="{Binding DiccionarioCombosA2[diaSemana], Source={StaticResource A2VM}}"
+                                                                        SelectedValue="{Binding DiaSemana, StringFormat='#', Mode=TwoWay}"
+                                                                        SelectedValuePath="ID"
+                                                                        ToolTipService.ToolTip="DiaSemana" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=PorcentajeGarantia}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="PorcentajeGarantia"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding PorcentajeGarantia, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TarifaRteFuente}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="TarifaRteFuente"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding TarifaRteFuente, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+
+                                                        </TabItem>
+                                                        <!--  Fin Tab OPCF  -->
+                                                        <!--  Tab Divisas  -->
+                                                        <TabItem
+                                                            Name="TabDivisas"
+                                                            MaxWidth="800"
+                                                            Header="Divisas">
+                                                            <Grid IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" ShowGridLines="False">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CodigoIMC}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="CodigoIMC"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding CodigoIMC, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ValorInicial}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="ValorInicial"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding ValorInicial, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=TasaInicial}">
+                                                                    <A2UTILGEN:A2NumericBox
+                                                                        NumberDecimalDigits="2"
+                                                                        ShowButtons="False"
+                                                                        ToolTipService.ToolTip="TasaInicial"
+                                                                        ValueFormat="Numeric"
+                                                                        Value="{Binding TasaInicial, Mode=TwoWay}" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+
+                                                        </TabItem>
+                                                        <!--  Fin Tab Divisas  -->
+                                                        <!--  Tab Yankees  -->
+                                                        <TabItem Name="TabYankees" Header="Yankees">
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=DepositoExtranjero}">
+
+                                                                    <TextBox
+                                                                        MaxLength="30"
+                                                                        Text="{Binding DepositoExtranjero, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="DepositoExtranjero" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CustodioLocal}">
+                                                                    <TextBox
+                                                                        MaxLength="30"
+                                                                        Text="{Binding CustodioLocal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="CustodioLocal" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+
+                                                        </TabItem>
+                                                        <!--  Fin Tab Yankees  -->
+                                                        <!--  Tab OTC  -->
+                                                        <TabItem Name="TabOTC" Header="OTC">
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=AplazarOTC}">
+                                                                    <CheckBox IsChecked="{Binding AplazarOTC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="AplazarOTC" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <!--  Fin Tab OTC  -->
+                                                        <!--  Tab Tesorería  -->
+                                                        <TabItem Name="TabTesoreria" Header="Tesorería">
+
+                                                            <Grid
+                                                                MaxWidth="800"
+                                                                IsEnabled="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                ShowGridLines="False">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    IsReadOnly="True"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=CompaniaPrincipal}">
+                                                                    <TextBox
+                                                                        IsReadOnly="True"
+                                                                        MaxLength="25"
+                                                                        Text="{Binding CompaniaPrincipal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                                        ToolTipService.ToolTip="Linea1" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ValSobregiroCE}">
+                                                                    <CheckBox IsChecked="{Binding ValSobregiroCE, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ValSobregiroCE" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ValSobregiroNC}">
+                                                                    <CheckBox IsChecked="{Binding ValSobregiroNC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ValSobregiroNC" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ImpDocTesoreria}">
+                                                                    <CheckBox IsChecked="{Binding ImpDocTesoreria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ImpDocTesoreria" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="4"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ValidaCuentaSuperVal}">
+                                                                    <CheckBox IsChecked="{Binding ValidaCuentaSuperVal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ValidaCuentaSuperVal" />
+                                                                </Telerik:DataFormDataField>
+                                                                <Telerik:DataFormDataField
+                                                                    Grid.Row="5"
+                                                                    Grid.Column="0"
+                                                                    Label="{Binding Mode=OneWay, Converter={StaticResource ResourceKey=DisplayConverter}, ConverterParameter=ConceptoDetalleTesoreriaManual}">
+                                                                    <CheckBox IsChecked="{Binding ConceptoDetalleTesoreriaManual, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" ToolTipService.ToolTip="ConceptoDetalleTesoreriaManual" />
+                                                                </Telerik:DataFormDataField>
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <!--  Fin Tab Tesorería  -->
+                                                    </TabControl>
+                                                </Border>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </A2UTILGEN:A2DataForm.EditTemplate>
+                                </A2UTILGEN:A2DataForm>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+
+
+

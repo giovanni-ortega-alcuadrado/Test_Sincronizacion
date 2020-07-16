@@ -1,0 +1,641 @@
+﻿<UserControl
+    x:Class="PreciosEspeciesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:OyD="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2CFCalculosFinancieros"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    MinWidth="800"
+    MaxWidth="1100">
+
+
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:InVisibilityConverter x:Key="InVisibilityConverter" />
+        <src:BooleanConverter x:Key="BooleanConverter" />
+        <src:IntegerConverter x:Key="IntegerConverter" />
+    </UserControl.Resources>
+
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Grid
+            x:Name="LayoutRoot"
+            Background="{StaticResource BackgroundColorBrush}"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Fila del menu  -->
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <!--  Fila de la forma/grid  -->
+                <RowDefinition Height="Auto" MinHeight="43" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <A2Utils:ControlMenuA2
+                    x:Name="cm"
+                    DescripcionFiltro="{Binding DescripcionFiltroVM, Mode=TwoWay}"
+                    DicBotonesMenu="{Binding DicBotonesMenuVM, Mode=TwoWay}"
+                    EstadoMenu="{Binding EstadoMenuVM, Mode=TwoWay}"
+                    Filtro="{Binding FiltroVM, Mode=TwoWay}"
+                    HayDataForm="False"
+                    IsItemValid="True"
+                    ItemGridHyperlink="{Binding ItemSeleccionadoHyperlink, Mode=TwoWay}"
+                    Mensaje="{Binding MensajeMVVM, Mode=TwoWay}"
+                    MensajeError="{Binding ErrorForma}"
+                    Modo="{Binding ModoMVVM, Mode=TwoWay}"
+                    ObjetoSeleccionado="{Binding EncabezadoSeleccionado}"
+                    PreguntarConfirmacion="False"
+                    TextoFiltroTooltip="Especie, fecha precio"
+                    TipoAnimacion="Slide"
+                    TituloVista="Precios de especies"
+                    TituloVistaAdicional="registros"
+                    TituloVista_CambioSelected="{Binding EncabezadoSeleccionado.HasChanges}"
+                    TituloVista_CantidadRegistros="{Binding ListaEncabezado.Count}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                <Grid x:Name="grdGridForma">
+                    <Border>
+                        <!--  ===========================  -->
+                        <!--  Grid de navegación paginada  -->
+                        <!--  ===========================  -->
+                        <StackPanel x:Name="Buscar" VerticalAlignment="Top">
+                            <Border Style="{StaticResource Contenedor_Paginador}">
+                                <A2UTILGEN:A2DataPager
+                                    x:Name="datapager1"
+                                    PageSize="10"
+                                    Source="{Binding Items, ElementName=dg}" />
+                            </Border>
+                            <A2UTILGEN:A2GridView
+                                x:Name="dg"
+                                Height="Auto"
+                                VerticalAlignment="Top"
+                                AutoGenerateColumns="False"
+                                FrozenColumnCount="3"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ListaEncabezadoPaginada}"
+                                SelectedItem="{Binding EncabezadoSeleccionado, Mode=TwoWay}">
+                                <A2UTILGEN:A2GridView.Columns>
+
+                                    <Telerik:GridViewDataColumn Header="Especie" SortMemberPath="Especie">
+                                        <Telerik:GridViewDataColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.Hyperlink_CambiarAForma, RelativeSource={RelativeSource AncestorType=A2UTILGEN:A2GridView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding strIDEspecie, Mode=TwoWay}"
+                                                    Style="{StaticResource HyperlinkLikeButton}" />
+                                            </DataTemplate>
+                                        </Telerik:GridViewDataColumn.CellTemplate>
+                                    </Telerik:GridViewDataColumn>
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strISIN}" Header="ISIN" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding intNroEmision}" Header="Nro. emisión" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding dtmFechaArchivo, StringFormat='dd/MMM/yyyy'}"
+                                        Header="Fecha precio"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionMoneda}" Header="Moneda" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionProveedor}" Header="Proveedor" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionTipoInversion}" Header="Aplica a tipo de inversión" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblPrecio, StringFormat='\{0:N2\}'}" Header="Precio sucio" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblPrecioLimpio, StringFormat='\{0:N2\}'}" Header="Precio limpio" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strDescripcionModalidad}" Header="Modalidad" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding strTasaRef}" Header="Indicador" />
+
+                                    <Telerik:GridViewDataColumn DataMemberBinding="{Binding dblSpread}" Header="Spread" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding dtmEmision, StringFormat='dd/MMM/yyyy'}"
+                                        Header="Fecha emisión"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding dtmVencimiento, StringFormat='dd/MMM/yyyy'}"
+                                        Header="Fecha vencimiento"
+                                        IsReadOnly="True" />
+
+                                    <Telerik:GridViewDataColumn
+                                        DataMemberBinding="{Binding dtmActualizacion, StringFormat='dd MMM, yyyy hh:mm:ss tt'}"
+                                        Header="Fecha actualización"
+                                        IsReadOnly="True" />
+
+                                </A2UTILGEN:A2GridView.Columns>
+                            </A2UTILGEN:A2GridView>
+                        </StackPanel>
+                    </Border>
+
+                    <Border VerticalAlignment="Top">
+                        <Grid>
+                            <!--  ====================  -->
+                            <!--  Dataform de búsqueda  -->
+                            <!--  ====================  -->
+                            <A2UTILGEN:A2DataForm
+                                x:Name="dfBuscar"
+                                VerticalAlignment="Top"
+                                AutoEdit="True"
+                                AutoGenerateFields="False"
+                                Background="{StaticResource BackgroundColorBrush}"
+                                BorderThickness="0"
+                                CommandButtonsVisibility="None"
+                                CurrentItem="{Binding cb}"
+                                Visibility="{Binding visBuscando}">
+                                <A2UTILGEN:A2DataForm.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid VerticalAlignment="Top" Background="{StaticResource BackgroundColorBrush}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Label="Especie"
+                                                LabelPosition="Above">
+                                                <TextBox
+                                                    Name="txtIdEspecie"
+                                                    MaxLength="20"
+                                                    Text="{Binding strIDEspecie, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    ToolTipService.ToolTip="Nombre Especie" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Label="ISIN"
+                                                LabelPosition="Above">
+                                                <TextBox
+                                                    MaxLength="20"
+                                                    Text="{Binding strISIN, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    ToolTipService.ToolTip="Nombre isin" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Label="Fecha precio"
+                                                LabelPosition="Above">
+                                                <A2UTILGEN:A2DatePicker SelectedDate="{Binding dtmFechaArchivo, StringFormat='dd/MMM/yyyy', Mode=TwoWay}" ToolTipService.ToolTip="Fecha precio" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="3"
+                                                Label="Moneda"
+                                                LabelPosition="Above">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombos[CFmonedas], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strMoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Moneda" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="0"
+                                                Grid.Column="4"
+                                                Label="Proveedor"
+                                                LabelPosition="Above">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombos[CF_ProveedorPrecios], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strProveedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Proveedor" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Label="Precio sucio – Dirty price"
+                                                LabelPosition="Above">
+                                                <A2UTILGEN:A2NumericBox
+                                                    Format="N6"
+                                                    Maximum="999999999999999"
+                                                    Minimum="0"
+                                                    RangeValidationMode="Always"
+                                                    ShowButtons="False"
+                                                    TextAlignment="Right"
+                                                    ToolTipService.ToolTip="Valor Precio sucio – Dirty price"
+                                                    Value="{Binding dblPrecio, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Label="Precio limpio – Clean price"
+                                                LabelPosition="Above">
+                                                <A2UTILGEN:A2NumericBox
+                                                    Format="N6"
+                                                    Maximum="999999999999999"
+                                                    Minimum="0"
+                                                    RangeValidationMode="Always"
+                                                    ShowButtons="False"
+                                                    TextAlignment="Right"
+                                                    ToolTipService.ToolTip="Valor Precio limpio – Clean price"
+                                                    Value="{Binding dblPrecioLimpio, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="2"
+                                                Label="Aplica a tipo de inversión"
+                                                LabelPosition="Above">
+
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombos[TIPOINVERSION_COD_CONT], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strTipoInversion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Aplica a tipo de inversión" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="3"
+                                                Label="Indicador"
+                                                LabelPosition="Above"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombos[INDICADOR], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strTasaRef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="Descripcion"
+                                                    ToolTipService.ToolTip="Indicador"
+                                                    Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="1"
+                                                Grid.Column="4"
+                                                Label="Tasa - Puntos del indicador"
+                                                LabelPosition="Above"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <A2UTILGEN:A2NumericBox
+                                                    Format="0.####"
+                                                    Maximum="999999999999999"
+                                                    Minimum="-9999999999999"
+                                                    RangeValidationMode="Always"
+                                                    ShowButtons="False"
+                                                    TextAlignment="Right"
+                                                    ToolTipService.ToolTip="Tasa"
+                                                    Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    Value="{Binding dblSpread, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                            </Telerik:DataFormDataField>
+
+
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Label="Modalidad"
+                                                LabelPosition="Above"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <ComboBox
+                                                    DisplayMemberPath="Descripcion"
+                                                    ItemsSource="{Binding DiccionarioCombos[MODALIDAD], Source={StaticResource A2VM}}"
+                                                    SelectedValue="{Binding strModalidad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                    SelectedValuePath="ID"
+                                                    ToolTipService.ToolTip="Modalidad"
+                                                    Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Label="Fecha emisión"
+                                                LabelPosition="Above"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <A2UTILGEN:A2DatePicker
+                                                    SelectedDate="{Binding dtmEmision, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                                                    ToolTipService.ToolTip="Fecha emisión"
+                                                    Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                            </Telerik:DataFormDataField>
+
+                                            <Telerik:DataFormDataField
+                                                Grid.Row="2"
+                                                Grid.Column="2"
+                                                Label="Fecha vencimiento"
+                                                LabelPosition="Above"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <A2UTILGEN:A2DatePicker
+                                                    SelectedDate="{Binding dtmVencimiento, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                                                    ToolTipService.ToolTip="Fecha vencimiento"
+                                                    Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                            </Telerik:DataFormDataField>
+
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </A2UTILGEN:A2DataForm.EditTemplate>
+                            </A2UTILGEN:A2DataForm>
+
+                            <StackPanel
+                                x:Name="Editar"
+                                Height="Auto"
+                                HorizontalAlignment="Stretch"
+                                Visibility="{Binding visNavegando}">
+                                <!--  ============================  -->
+                                <!--  Dataform edición de registro  -->
+                                <!--  ============================  -->
+                                <Border>
+                                    <Grid
+                                        VerticalAlignment="Top"
+                                        Background="{StaticResource BackgroundColorBrush}"
+                                        DataContext="{Binding EncabezadoSeleccionado}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="27*" />
+                                            <ColumnDefinition Width="20*" />
+                                            <ColumnDefinition Width="20*" />
+                                            <ColumnDefinition Width="20*" />
+                                            <ColumnDefinition Width="20*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+
+                                        </Grid.RowDefinitions>
+
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            IsEnabled="{Binding DataContext.HabilitarCodPreciosEspecies, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Especie"
+                                            LabelPosition="Above">
+                                            <StackPanel>
+                                                <Grid Visibility="{Binding DataContext.EstadoVisibleBuscador, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto" />
+                                                        <ColumnDefinition Width="auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <OyD:BuscadorEspecie
+                                                        Name="Buscador"
+                                                        BorrarEspecie="{Binding DataContext.BorrarEspecie, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        BuscarAlIniciar="False"
+                                                        ClaseOrden="T"
+                                                        Editando="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        EspecieBuscar="{Binding DataContext.EspecieBuscar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        EstadoEspecie="A"
+                                                        HabilitarConsultaISIN="True"
+                                                        VerDetalle="False"
+                                                        especieAsignada="BuscadorEspecieListaButon_finalizoBusqueda"
+                                                        nemotecnicoAsignado="BuscadorEspecie_nemotecnicoAsignado_1" />
+
+                                                    <Button
+                                                        x:Name="btnLimpiarEspecie"
+                                                        Grid.Column="1"
+                                                        Margin="2,0,0,0"
+                                                        Click="btnLimpiarEspecie_Click"
+                                                        Cursor="Hand"
+                                                        Style="{StaticResource btnLimpiar}"
+                                                        ToolTipService.ToolTip="Limpiar especie"
+                                                        Visibility="{Binding DataContext.Editando, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                                                </Grid>
+                                                <Grid Visibility="{Binding DataContext.EstadoVisibleEspecie, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBox
+                                                        Name="txtIdEspecie"
+                                                        IsReadOnly="True"
+                                                        MaxLength="20"
+                                                        Text="{Binding strIDEspecie, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        ToolTipService.ToolTip="Nombre Especie" />
+
+
+                                                </Grid>
+                                            </StackPanel>
+
+
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Label="ISIN"
+                                            LabelPosition="Above">
+                                            <TextBox
+                                                IsEnabled="False"
+                                                IsReadOnly="True"
+                                                MaxLength="20"
+                                                Text="{Binding strISIN, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                ToolTipService.ToolTip="Nombre Especie" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Fecha precio"
+                                            LabelPosition="Above">
+                                            <A2UTILGEN:A2DatePicker
+                                                Name="DPFechaPrecio"
+                                                SelectedDate="{Binding dtmFechaArchivo, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                                                ToolTipService.ToolTip="Fecha precio" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="3"
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Moneda"
+                                            LabelPosition="Above">
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                ItemsSource="{Binding DiccionarioCombos[CFmonedas], Source={StaticResource A2VM}}"
+                                                SelectedValue="{Binding strMoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                SelectedValuePath="ID"
+                                                ToolTipService.ToolTip="Moneda" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="0"
+                                            Grid.Column="4"
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Proveedor"
+                                            LabelPosition="Above">
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                ItemsSource="{Binding DiccionarioCombos[CF_ProveedorPrecios], Source={StaticResource A2VM}}"
+                                                SelectedValue="{Binding strProveedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                SelectedValuePath="ID"
+                                                ToolTipService.ToolTip="Proveedor" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Label="Precio sucio – Dirty price"
+                                            LabelPosition="Above">
+                                            <A2UTILGEN:A2NumericBox
+                                                Format="N6"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Maximum="999999999999999"
+                                                Minimum="0"
+                                                RangeValidationMode="Always"
+                                                ShowButtons="False"
+                                                TextAlignment="Right"
+                                                ToolTipService.ToolTip="Valor Precio sucio – Dirty price"
+                                                Value="{Binding dblPrecio, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Label="Precio limpio – Clean price"
+                                            LabelPosition="Above">
+                                            <A2UTILGEN:A2NumericBox
+                                                Format="N6"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Maximum="999999999999999"
+                                                Minimum="0"
+                                                RangeValidationMode="Always"
+                                                ShowButtons="False"
+                                                TextAlignment="Right"
+                                                ToolTipService.ToolTip="Valor Precio limpio – Clean price"
+                                                Value="{Binding dblPrecioLimpio, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Aplica a tipo de inversión"
+                                            LabelPosition="Above">
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                ItemsSource="{Binding DiccionarioCombos[TIPOINVERSION_COD_CONT], Source={StaticResource A2VM}}"
+                                                SelectedValue="{Binding strTipoInversion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                SelectedValuePath="ID"
+                                                ToolTipService.ToolTip="Aplica a tipo de inversión" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="1"
+                                            Grid.Column="3"
+                                            IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Indicador"
+                                            LabelPosition="Above"
+                                            Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                ItemsSource="{Binding DiccionarioCombos[INDICADOR], Source={StaticResource A2VM}}"
+                                                SelectedValue="{Binding strTasaRef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                SelectedValuePath="Descripcion"
+                                                ToolTipService.ToolTip="Indicador"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="1"
+                                            Grid.Column="4"
+                                            IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Tasa - Puntos del indicador"
+                                            LabelPosition="Above"
+                                            Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <A2UTILGEN:A2NumericBox
+                                                Format="0.####"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Maximum="999999999999999"
+                                                Minimum="-9999999999999"
+                                                RangeValidationMode="Always"
+                                                ShowButtons="False"
+                                                TextAlignment="Right"
+                                                ToolTipService.ToolTip="Tasa"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Value="{Binding dblSpread, Mode=TwoWay, ValidatesOnExceptions=True}" />
+                                        </Telerik:DataFormDataField>
+
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Modalidad"
+                                            LabelPosition="Above"
+                                            Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <ComboBox
+                                                DisplayMemberPath="Descripcion"
+                                                IsEnabled="{Binding DataContext.HabilitarEncabezado, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                ItemsSource="{Binding DiccionarioCombos[MODALIDAD], Source={StaticResource A2VM}}"
+                                                SelectedValue="{Binding strModalidad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                SelectedValuePath="ID"
+                                                ToolTipService.ToolTip="Modalidad"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Fecha emisión"
+                                            LabelPosition="Above"
+                                            Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <A2UTILGEN:A2DatePicker
+                                                SelectedDate="{Binding dtmEmision, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                                                ToolTipService.ToolTip="Fecha emisión"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </Telerik:DataFormDataField>
+
+                                        <Telerik:DataFormDataField
+                                            Grid.Row="2"
+                                            Grid.Column="2"
+                                            IsEnabled="{Binding DataContext.HabilitarCampos, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Fecha vencimiento"
+                                            LabelPosition="Above"
+                                            Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <A2UTILGEN:A2DatePicker
+                                                SelectedDate="{Binding dtmVencimiento, StringFormat='dd/MMM/yyyy', Mode=TwoWay}"
+                                                ToolTipService.ToolTip="Fecha vencimiento"
+                                                Visibility="{Binding DataContext.HabilitarEncabezadoEspecieXClase, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                        </Telerik:DataFormDataField>
+
+
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Telerik:RadBusyIndicator>
+</UserControl>
+

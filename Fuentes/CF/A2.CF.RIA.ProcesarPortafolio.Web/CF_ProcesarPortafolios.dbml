@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database EntityNamespace="CFProcesarPortafolios" Class="ProcesarPortafoliosDBML" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="CF.tblAvanceProceso" Member="ProcesarPortafolio">
+    <Type Name="ProcesarPortafolio" Id="ID3">
+      <Column Name="intIDAvanceProceso" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strDescripcion" Type="System.String" DbType="Text NULL" CanBeNull="true" />
+      <Column Name="strTipo" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="strModulo" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="dtmAvance" Type="System.Nullable(of System.DateTime)" DbType="Datetime NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="dblCantidad" Type="System.Double" DbType="Float NULL" CanBeNull="true" />
+      <Column Name="dtmFechaProceso" Type="System.Nullable(of System.DateTime)" DbType="Datetime NULL" CanBeNull="true" />
+      <Column Name="strClave" Type="System.String" DbType="Varchar(50) NULL" CanBeNull="true" />
+      <Column Name="lngIDComitente" Type="System.String" DbType="Varchar(17) NULL" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="ProcesarUtilidadesCustodias">
+    <Type Name="ProcesarUtilidadesCustodias" Id="ID4">
+      <Column Name="intID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="dtmFecha" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" CanBeNull="false" />
+      <Column Name="lngIdRecibo" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Column Name="lngSecuencia" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Column Name="strNroTitulo" Type="System.String" DbType="VarChar(25)" CanBeNull="false" />
+      <Column Name="strIdEspecie" Type="System.String" DbType="VarChar(15)" CanBeNull="false" />
+      <Column Name="strTipo" Type="System.String" DbType="VarChar(2)" CanBeNull="false" />
+      <Column Name="strDescripcionTipo" Type="System.String" DbType="VarChar(50)" CanBeNull="false" />
+      <Column Name="dtmEmision" Type="System.Nullable(of System.DateTime)" DbType="Datetime" CanBeNull="false" />
+      <Column Name="dtmVencimiento" Type="System.Nullable(of System.DateTime)" DbType="Datetime" CanBeNull="false" />
+      <Column Name="dblValorCalculado" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="dblValorCobrado" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="strEstado" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="logCobro" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Column Name="logAnulado" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Column Name="dblIVA" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="dblPorcentajeRetencion" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="dblRetencion" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="dblReteica" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="dblOtrosImpuestos" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="strTipoCompania" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="lngIDComitente" Type="System.String" DbType="Char(17) NOT NULL" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+    <UpdateFunction FunctionId="FunctionId5" />
+  </Table>
+  <Table Name="tblClientes" Member="DatosPortafolios">
+    <Type Name="DatosPortafolios" Id="ID10">
+      <Column Name="intIDClientes" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="strNombre" Type="System.String" DbType="Varchar(200) NOT NULL" CanBeNull="true" />
+      <Column Name="dtmFechaCierrePortafolio" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" CanBeNull="true" />
+      <Column Name="strUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" CanBeNull="true" />
+      <Column Name="InfoSesion" Type="System.String" DbType="Varchar(max) NULL" CanBeNull="true" />
+      <Column Name="strMsgValidacion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+      <Column Name="pstrUsuarioConexion" Type="System.String" DbType="Varchar(100)" CanBeNull="true" />
+      <Column Name="pstrInfoConexion" Type="System.String" DbType="Varchar(8000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  
+  <Function Name="CF.uspCalculosFinancieros_AvanceProcesamiento" Method="uspCalculosFinancieros_AvanceProcesamiento">
+    <Parameter Name="pdtmFechaProcesoInicial" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pdtmFechaProcesoFinal" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrModulo" Type="System.String" DbType="Varchar(50) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_UtilidadesCustodiasConsultar" Method="uspCalculosFinancieros_UtilidadesCustodiasConsultar">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoCompania" Type="System.String" DbType="Varchar(80) NULL" />
+    <Parameter Name="pstrEstado" Type="System.String" DbType="Varchar(1) NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60) NOT NULL" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID4" />
+  </Function>
+  <Function Id="FunctionId5" Name="UpdateProcesarUtilidadesCustodias">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_EliminarCalculos" Method="uspCalculosFinancieros_EliminarCalculos">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrTipoProceso" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="plogEliminarCierreTodosLosPortafolios" Type="System.Boolean" DbType="BIT NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ValidarOperacionesPendientes" Method="uspCalculosFinancieros_ValidarOperacionesPendientes">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrTipoProceso" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrReconstruir" Type="System.String" DbType="Varchar(2) NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(MAX) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ValidarFechaCierrePortafolio" Method="uspCalculosFinancieros_ValidarFechaCierrePortafolio">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrTipoProceso" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="plogCerrarPortafolios" Type="System.Nullable(of System.Boolean)" DbType="Bit NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(MAX) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="Varchar(8000) NULL" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_CerrarFechaCierrePortafolio" Method="uspCalculosFinancieros_CerrarFechaCierrePortafolio">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="plogConfirmarCerrarPortafolio" Type="System.Nullable(of System.Boolean)" DbType="BIT NOT NULL" />
+    <Parameter Name="plogCerrarPortafolios" Type="System.Nullable(of System.Boolean)" DbType="BIT NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(MAX) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID3" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ValidarParametro_EliminarCierreTodosLosPortafolios" Method="uspCalculosFinancieros_ValidarParametro_EliminarCierreTodosLosPortafolios">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrTipoProceso" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="plogEliminarCierreTodosLosPortafolios" Type="System.Boolean" DbType="BIT NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(MAX) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="Varchar(8000) NULL" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ValidarFechaValoracionInferior" Method="uspCalculosFinancieros_ValidarFechaValoracionInferior">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrTipoProceso" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(MAX) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="Varchar(8000) NULL" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_UtilidadesCustodiasActualizar" Method="uspCalculosFinancieros_UtilidadesCustodiasActualizar">
+    <Parameter Name="pxmlCobroUtilidades" Type="System.String" DbType="Text NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrTipoProceso" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="Varchar(8000) NULL" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ValoracionPortafolio" Method="uspCalculosFinancieros_ValoracionPortafolio">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrTipoPortafolio" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="pstrTipoProceso" Type="System.String" DbType="Varchar(10) NULL" />
+    <Parameter Name="plogContabilizar" Type="System.Boolean" DbType="BIT NOT NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="Varchar(60) NOT NULL" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="Varchar(MAX) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="pstrMsgValidacion" Type="System.String" DbType="Varchar(8000) NULL" Direction="InOut" />
+    <Parameter Name="plogIniciarJobValoracion" Type="System.Nullable(of System.Boolean)" DbType="Bit" />
+    <Parameter Name="plogEliminarDatosResultadoMotor" Type="System.Nullable(of System.Boolean)" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_ValidarCobrosPendientes" Method="uspCalculosFinancieros_ValidarCobrosPendientes">
+    <Parameter Name="pdtmFechaValoracion" Type="System.Nullable(of System.DateTime)" DbType="Datetime NOT NULL" />
+    <Parameter Name="pstrIdEspecie" Type="System.String" DbType="Varchar(15) NULL" />
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17) NULL" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(60) NOT NULL" />
+    <Parameter Name="pstrInfosesion" Type="System.String" DbType="VarChar(1000) NULL" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="plogUtilidad" Type="System.Boolean" DbType="Bit NULL" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="CF.uspCalculosFinancieros_DatosPortafolio_Consultar" Method="uspCalculosFinancieros_DatosPortafolio_Consultar">
+    <Parameter Name="plngIDComitente" Type="System.String" DbType="Varchar(17)" />
+    <Parameter Name="pstrUsuario" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pstrInfoSesion" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pintErrorPersonalizado" Type="System.Byte" DbType="TinyInt" />
+    <ElementType IdRef="ID10" />
+  </Function>
+</Database>

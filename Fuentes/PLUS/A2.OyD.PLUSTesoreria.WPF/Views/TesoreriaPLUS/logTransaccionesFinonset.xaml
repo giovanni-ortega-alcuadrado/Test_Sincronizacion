@@ -1,0 +1,155 @@
+﻿<UserControl
+    x:Class="logTransaccionesFinonset"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2Utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:src="clr-namespace:A2OYDPLUSTesoreria"
+    MinWidth="800"
+    MaxWidth="900">
+    <UserControl.Resources>
+        <src:DisplayNameConverter x:Key="DisplayConverter" />
+        <src:VisibilityConverter x:Key="VisibilityConverter" />
+        <src:StringConverter x:Key="StringConverter" />
+        <src:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+
+    </UserControl.Resources>
+
+
+    <Telerik:RadBusyIndicator
+        x:Name="myBusyIndicator"
+        BusyContent="Cargando..."
+        DisplayAfter="0"
+        IsBusy="{Binding IsBusy}">
+        <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+            <Grid
+                x:Name="LayoutRoot"
+                Margin="5"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                ShowGridLines="False">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Label="Fecha Inicial"
+                        LabelPosition="Above">
+                        <A2UTILGEN:A2DatePicker SelectedDate="{Binding DataContext.dtmFechaInicial, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Telerik:DataFormDataField>
+                    <Telerik:DataFormDataField
+                        Grid.Row="0"
+                        Label="Fecha Final"
+                        LabelPosition="Above">
+                        <A2UTILGEN:A2DatePicker SelectedDate="{Binding DataContext.dtmFechaFinal, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Telerik:DataFormDataField>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btnConsultar"
+                        Click="btnConsultar_Click"
+                        Content="Consultar" />
+                    <Button
+                        x:Name="btnExportarExcel"
+                        Click="btnExportarExcel_Click"
+                        Content="Exportar Excel" />
+                </StackPanel>
+                <Border
+                    Grid.Row="2"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource Contenedor_Paginador}">
+                    <A2UTILGEN:A2DataPager
+                        x:Name="datapager1"
+                        PageSize="16"
+                        Source="{Binding Items, ElementName=dgppal}" />
+                </Border>
+                <A2UTILGEN:A2GridView
+                    Name="dgppal"
+                    Grid.Row="3"
+                    Height="450"
+                    VerticalAlignment="Top"
+                    AutoGenerateColumns="False"
+                    FrozenColumnCount="2"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ListaResultadosDocumentos_Paged}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    SelectedItem="{Binding SelectedDocumentos, Mode=TwoWay}"
+                    ValidatesOnDataErrors="None"
+                    Visibility="{Binding VerTabCheque}">
+                    <A2UTILGEN:A2GridView.Columns>
+
+                        <Telerik:GridViewDataColumn
+                            Width="100"
+                            DataMemberBinding="{Binding Cliente, Mode=TwoWay}"
+                            Header="Cliente"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="100"
+                            DataMemberBinding="{Binding NroDocumento, Mode=TwoWay}"
+                            Header="Documento"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="100"
+                            DataMemberBinding="{Binding Fondo, Mode=TwoWay}"
+                            Header="Fondo"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="100"
+                            DataMemberBinding="{Binding Encargo, Mode=TwoWay}"
+                            Header="Encargo"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="100"
+                            DataMemberBinding="{Binding Valor, Mode=TwoWay}"
+                            Header="Encargo"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="60"
+                            DataMemberBinding="{Binding TipoOperacion, Mode=TwoWay}"
+                            Header="Tipo operacion"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="60"
+                            DataMemberBinding="{Binding NroOperacion, Mode=TwoWay}"
+                            Header="Nro Operacion finonset"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="60"
+                            DataMemberBinding="{Binding NroOperacionOyD, Mode=TwoWay}"
+                            Header="Nro Operacion OyD"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="60"
+                            DataMemberBinding="{Binding NroOperacionFinonset, Mode=TwoWay}"
+                            Header="Nro Operacion Finonset"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="60"
+                            DataMemberBinding="{Binding Estado, Mode=TwoWay}"
+                            Header="Estado"
+                            IsReadOnly="True" />
+                        <Telerik:GridViewDataColumn
+                            Width="60"
+                            DataMemberBinding="{Binding Detalle, Mode=TwoWay}"
+                            Header="Detalle"
+                            IsReadOnly="True" />
+                    </A2UTILGEN:A2GridView.Columns>
+                </A2UTILGEN:A2GridView>
+            </Grid>
+        </Border>
+    </Telerik:RadBusyIndicator>
+
+
+</UserControl>

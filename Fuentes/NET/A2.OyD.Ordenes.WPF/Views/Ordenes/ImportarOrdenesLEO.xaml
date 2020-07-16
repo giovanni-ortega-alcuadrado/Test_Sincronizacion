@@ -1,0 +1,318 @@
+﻿<UserControl
+    x:Class="ImportarOrdenesLEO"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:A2="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:A2utils="clr-namespace:A2ControlMenu;assembly=A2ControlMenu.WPF"
+    xmlns:Controles="clr-namespace:A2ComunesControl;assembly=A2.OYD.Control.WPF"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDOrdenes"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <StackPanel.Resources />
+        <Telerik:RadBusyIndicator
+            x:Name="myBusyIndicator"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BusyContent="Cargando..."
+            DisplayAfter="0"
+            IsBusy="{Binding IsBusy}">
+
+            <Grid
+                x:Name="LayoutRoot"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <!--    -->
+                <Grid.Resources>
+                    <!--<A2:DataContextProxy x:Key="A2DataContextProxy" />-->
+
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="10" />
+                    <!--  Fila del menu  -->
+                    <RowDefinition Height="Auto" MinHeight="10" />
+                </Grid.RowDefinitions>
+                <!--  TITULO DE VISTA  -->
+                <StackPanel
+                    Grid.Row="0"
+                    Orientation="Vertical"
+                    Style="{StaticResource stpHead}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource Title1}"
+                        Text="Importar Archivos" />
+
+                </StackPanel>
+
+                <Border Grid.Row="1" Style="{StaticResource Contenedor_Estilo}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Ruta de archivo: " />
+                            <TextBox
+                                x:Name="txtRuta"
+                                Width="500"
+                                Padding="0,0,4,0" />
+                            <Controles:ucBtnDialogoImportar
+                                x:Name="btnSubirOrdenes"
+                                CargarArchivo="cargarArchivoLEO"
+                                Filtros="CSV (*.csv)|*.csv"
+                                Proceso="OrdenesLEO" />
+                        </StackPanel>
+                        <Telerik:RadBusyIndicator
+                            x:Name="biGenerarOrdenes"
+                            Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BusyContent="{Binding mensajeCarga}"
+                            DisplayAfter="0"
+                            IsBusy="{Binding OrdenesGeneradas}">
+                            <Grid
+                                x:Name="grdGridForma"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel
+                                        Grid.Row="0"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+                                        <Border
+                                            Margin="4"
+                                            HorizontalAlignment="Right"
+                                            Style="{StaticResource Contenedor_Paginador}">
+                                            <A2UTILGEN:A2DataPager
+                                                x:Name="dtpOrdenesLEO"
+                                                PageSize="20"
+                                                Source="{Binding Items, ElementName=dg}" />
+                                        </Border>
+                                        <Button
+                                            x:Name="btnGenerar"
+                                            Margin="4"
+                                            HorizontalAlignment="Right"
+                                            Command="{Binding GenerarOrdenes}"
+                                            Content="Generar órdenes LEO" />
+                                    </StackPanel>
+                                    <A2UTILGEN:A2GridView
+                                        x:Name="dg"
+                                        Grid.Row="1"
+                                        MinHeight="240"
+                                        AutoGenerateColumns="False"
+                                        ItemsSource="{Binding ListaOrdenesLEOPaged}"
+                                        SelectedItem="{Binding OrdenesLEOSelected, Mode=TwoWay}"
+                                        SelectionMode="Single"
+                                        ValidatesOnDataErrors="None">
+                                        <A2UTILGEN:A2GridView.Columns>
+                                            <Telerik:GridViewDataColumn>
+                                                <Telerik:GridViewDataColumn.Header>
+                                                    <CheckBox
+                                                        x:Name="chkAll"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Click="chkAll_Click"
+                                                        IsChecked="True">
+                                                        <CheckBox.ContentTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Style="{StaticResource LabelTextBlockForm}" Text="Todas/Ninguna" />
+                                                            </DataTemplate>
+                                                        </CheckBox.ContentTemplate>
+                                                    </CheckBox>
+                                                </Telerik:GridViewDataColumn.Header>
+
+                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox
+                                                            x:Name="chkBoxID"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            IsChecked="{Binding bitGenerarOrden, Mode=TwoWay}" />
+                                                    </DataTemplate>
+                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                            </Telerik:GridViewDataColumn>
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding Cliente}"
+                                                Header="Cod. Cliente"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding NombreCliente}"
+                                                Header="Nombre"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding Cantidad}"
+                                                Header="Cantidad"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding Tipo}"
+                                                Header="Tipo"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding Clase}"
+                                                Header="Clase"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding Usuario}"
+                                                Header="Usuario"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding Deposito}"
+                                                Header="Depósito"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding descDeposito}"
+                                                Header="Nombre depósito"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding lngidCuentaDeceval}"
+                                                Header="Cuenta depósito"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn Header="Tipo clasificación">
+                                                <Telerik:GridViewDataColumn.CellEditTemplate>
+                                                    <DataTemplate>
+                                                        <ComboBox
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            DisplayMemberPath="Nombre"
+                                                            ItemsSource="{Binding DataContext.lstTipoClasificacion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            SelectedValue="{Binding Path=TipoClasificacion, Mode=TwoWay}"
+                                                            SelectedValuePath="id" />
+                                                    </DataTemplate>
+                                                </Telerik:GridViewDataColumn.CellEditTemplate>
+                                            </Telerik:GridViewDataColumn>
+                                            <Telerik:GridViewDataColumn Header="Objeto clasificacion">
+                                                <Telerik:GridViewDataColumn.CellEditTemplate>
+                                                    <DataTemplate>
+                                                        <ComboBox
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            DisplayMemberPath="Descripcion"
+                                                            ItemsSource="{Binding lstComboClasificacion}"
+                                                            SelectedValue="{Binding Path=ObjetoClasificacion, Mode=TwoWay}"
+                                                            SelectedValuePath="ID" />
+                                                    </DataTemplate>
+                                                </Telerik:GridViewDataColumn.CellEditTemplate>
+                                            </Telerik:GridViewDataColumn>
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding NombreEspecie}"
+                                                Header="Especie"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding Ordenante}"
+                                                Header="Ordenante"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding NombreCliente}"
+                                                Header="Nombre"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding FechaIngreso}"
+                                                Header="Fecha ingreso"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding FechaVigencia}"
+                                                Header="Fecha vigencia"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding FechaEmision}"
+                                                Header="Fecha mision"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding FechaVencimiento}"
+                                                Header="Fecha vencimiento"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescCondNegociacion}"
+                                                Header="Condiciones N."
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescFormaPago}"
+                                                Header="Forma pago"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescTipoInversion}"
+                                                Header="Tipo inversión"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding ReceptorLeo}"
+                                                Header="Usuario LEO"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescCanalLeo}"
+                                                Header="Canal recepción"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescMedioVerificable}"
+                                                Header="Medio verificable"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescTLimite}"
+                                                Header="Tipo límite"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescEjecucion}"
+                                                Header="Ejecución"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn
+                                                DataMemberBinding="{Binding DescDuracion}"
+                                                Header="Duración"
+                                                IsReadOnly="True" />
+                                            <Telerik:GridViewDataColumn Header="Cantidad mínima" IsReadOnly="True">
+                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            Text="0.00" />
+                                                    </DataTemplate>
+                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                            </Telerik:GridViewDataColumn>
+                                            <Telerik:GridViewDataColumn Header="Cantidad visible">
+                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            Text="0.00" />
+                                                    </DataTemplate>
+                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                            </Telerik:GridViewDataColumn>
+                                            <Telerik:GridViewDataColumn Header="Precio Stop">
+                                                <Telerik:GridViewDataColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Center"
+                                                            Text="$ 0.00" />
+                                                    </DataTemplate>
+                                                </Telerik:GridViewDataColumn.CellTemplate>
+                                            </Telerik:GridViewDataColumn>
+                                        </A2UTILGEN:A2GridView.Columns>
+                                    </A2UTILGEN:A2GridView>
+                                </Grid>
+                            </Grid>
+                        </Telerik:RadBusyIndicator>
+
+                        <TextBox
+                            x:Name="txtEstadoArchivo"
+                            Grid.Row="2"
+                            Height="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{Binding strProgresoArchivo}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Telerik:RadBusyIndicator>
+    </StackPanel>
+
+</UserControl>

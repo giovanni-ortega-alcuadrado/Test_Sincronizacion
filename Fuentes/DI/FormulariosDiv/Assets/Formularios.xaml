@@ -1,0 +1,343 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
+
+    <!--  Global Settings  -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Brushes.xaml" />
+        <ResourceDictionary Source="Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  Sidebar  -->
+    <Style x:Key="BordeAgrupar" TargetType="Border">
+        <Setter Property="Margin" Value="3" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="BorderBrush" Value="Silver" />
+    </Style>
+
+    <Style x:Key="stpHead" TargetType="StackPanel">
+        <Setter Property="Background" Value="Transparent" />
+        <!--<Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFECF5FC" Offset="0"/>
+                    <GradientStop Color="#FF92CAF5" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect  Color="Gray" Direction="-45" Opacity="0.5" ShadowDepth="5">
+                </DropShadowEffect>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+    <Style x:Key="stpFiltro" TargetType="StackPanel">
+        <Setter Property="Background" Value="Transparent" />
+        <!--<Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA2D2F7" Offset="1"/>
+                    <GradientStop Color="#FF92CAF5" Offset="0"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect  Color="Gray" Direction="-45" Opacity="0.5" ShadowDepth="5">
+                </DropShadowEffect>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+    <Style x:Key="lblHead" TargetType="Label">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontSize" Value="18.667" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontFamily" Value="Calibri" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Grid>
+                        <Border
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="2">
+                            <ContentControl
+                                x:Name="ContentControl"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Cursor="{TemplateBinding Cursor}"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding FontSize}"
+                                FontStretch="{TemplateBinding FontStretch}"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                Foreground="{TemplateBinding Foreground}"
+                                IsTabStop="False" />
+                        </Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ValidationStates">
+                                <VisualState x:Name="Valid" />
+                                <VisualState x:Name="Invalid">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="ContentControl"
+                                            Storyboard.TargetProperty="Foreground"
+                                            Duration="0:0:1.5">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <SolidColorBrush Color="Red" />
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="RequiredStates">
+                                <VisualState x:Name="NotRequired" />
+                                <VisualState x:Name="Required">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="ContentControl"
+                                            Storyboard.TargetProperty="FontWeight"
+                                            Duration="0">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="SemiBold" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="txbNumRegistros" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="grdContent" TargetType="Grid">
+        <Setter Property="Margin" Value="5,0,5,5" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!--  Title  -->
+    <Style x:Key="Title" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TitleFontSize}" />
+        <Setter Property="Margin" Value="0,6,0,3" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+    </Style>
+
+    <!--  Subtitle  -->
+    <Style x:Key="Subtitle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource TextFontSize}" />
+        <Setter Property="Margin" Value="0,4,0,3" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!--  Title 1  -->
+    <Style x:Key="Title1" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource Title1FontSize}" />
+        <Setter Property="Margin" Value="0,5,0,2" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+    </Style>
+
+    <!--  Title 2  -->
+    <Style x:Key="Title2" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource Title2FontSize}" />
+        <Setter Property="Margin" Value="0,4,0,1" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+    </Style>
+
+    <!--  Title 3  -->
+    <Style x:Key="Title3" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource Title3FontSize}" />
+        <Setter Property="Margin" Value="0,4,0,1" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+    </Style>
+
+    <!--  Title 4  -->
+    <Style x:Key="Title4" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource Title4FontSize}" />
+        <Setter Property="Margin" Value="0,3,0,1" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+    </Style>
+
+    <!--  Title 5  -->
+    <Style x:Key="Title5" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource Title5FontSize}" />
+        <Setter Property="Margin" Value="5,3,0,1" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+    </Style>
+
+    <!--  Title 6  -->
+    <Style x:Key="Title6" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TitleFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource Title6FontSize}" />
+        <Setter Property="Margin" Value="0,2,0,1" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource LabelBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource LabelFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource LabelFontSize}" />
+        <Setter Property="Margin" Value="0,1,0,3" />
+    </Style>
+    <Style x:Key="EstiloLabel" TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource LabelBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource LabelFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource LabelFontSize}" />
+        <Setter Property="Margin" Value="0,1,0,3" />
+    </Style>
+    <Style x:Key="EstiloLabelRojo" TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource LabelFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource LabelFontSize}" />
+        <Setter Property="Margin" Value="0,1,0,3" />
+    </Style>
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource ControlButtonPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ControlButtonPrimaryTextBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource ContentFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource ContentFontSize}" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Padding" Value="5,6" />
+        <Setter Property="Height" Value="{StaticResource HeightButton}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border
+                            x:Name="Background"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" />
+                        <Rectangle
+                            x:Name="DisabledVisualElement"
+                            Fill="{StaticResource ControlsDisabledBrush}"
+                            IsHitTestVisible="false"
+                            Opacity="0" />
+                        <Border
+                            x:Name="MouseOverBorder"
+                            Background="{StaticResource ControlButtonPrimaryBrushMouseOver}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Opacity="0" />
+                        <Border
+                            x:Name="PressedBorder"
+                            Background="{StaticResource GrayBrush4}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Opacity="0" />
+                        <Rectangle
+                            x:Name="FocusRectangle"
+                            Margin="-1"
+                            Opacity="0"
+                            Stroke="{StaticResource TextBoxMouseOverInnerBorderBrush}" />
+                        <Rectangle
+                            x:Name="FocusInnerRectangle"
+                            Opacity="0"
+                            Stroke="{StaticResource TextBoxMouseOverBorderBrush}"
+                            StrokeThickness="{TemplateBinding BorderThickness}" />
+                        <ContentPresenter
+                            x:Name="contentPresenter"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MouseOverBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PressedBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0" Value="0.7" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.3" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FocusRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FocusInnerRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ControlLabelStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource LabelBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource LabelFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource LabelFontSize}" />
+        <!--<Setter Property="TextOptions.TextHintingMode" Value="Animated"/>-->
+        <Setter Property="Margin" Value="0,15,0,5" />
+    </Style>
+
+
+
+</ResourceDictionary>

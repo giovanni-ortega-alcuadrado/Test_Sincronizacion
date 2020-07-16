@@ -1,0 +1,60 @@
+﻿<Window
+    x:Class="ObservacionFacturas"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:A2UTILGEN="clr-namespace:A2Utilidades;assembly=A2.Controles.Utilidades.WPF"
+    xmlns:c2="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:src="clr-namespace:A2OYDBolsa"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    Title="Observación de anulación de facturas"
+    Width="350"
+    Height="190"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Window.Resources>
+        <src:A2UtilsViewModel x:Key="A2VM" />
+    </Window.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Telerik:RadBusyIndicator
+            x:Name="myBusyIndicator"
+            BusyContent="Cargando..."
+            DisplayAfter="0"
+            IsBusy="{Binding IsBusy}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel
+                        Width="300"
+                        HorizontalAlignment="Left"
+                        Orientation="Vertical">
+                        <Telerik:DataFormDataField Label="Observaciones">
+                            <TextBox
+                                Height="80"
+                                Margin="5,0,0,0"
+                                AcceptsReturn="True"
+                                Text="{Binding Observacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                TextWrapping="Wrap"
+                                ToolTipService.ToolTip="Observacion" />
+                        </Telerik:DataFormDataField>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button
+                        x:Name="OKButton"
+                        Width="85"
+                        Height="30"
+                        Margin="10,30,0,0"
+                        Content="Aceptar" />
+                    <Button
+                        x:Name="CancelButton"
+                        Width="85"
+                        Height="30"
+                        Margin="10,30,0,0"
+                        Content="Cancelar" />
+                </StackPanel>
+            </StackPanel>
+        </Telerik:RadBusyIndicator>
+    </Grid>
+</Window>
+
