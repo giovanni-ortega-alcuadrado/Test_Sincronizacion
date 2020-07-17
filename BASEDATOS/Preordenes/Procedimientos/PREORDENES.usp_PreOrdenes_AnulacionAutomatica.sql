@@ -13,7 +13,7 @@ GO
 
 Procedimiento [PREORDENES].[usp_PreOrdenes_AnulacionAutomatica]
  
-Descripción: Anula los registros que corresponda con la clave primaria que se reciba.
+Descripciï¿½n: Anula los registros que corresponda con la clave primaria que se reciba.
 			Aplica para la tabla de PREORDENES.tblPreOrdenes
 
 Desarrollado por: Natalia Andrea Otalvaro
@@ -24,6 +24,7 @@ Ejemplo:	exec [PREORDENES].[usp_PreOrdenes_AnulacionAutomatica]
 
 ALTER PROCEDURE [PREORDENES].[usp_PreOrdenes_AnulacionAutomatica]
 --WITH ENCRYPTION
+@pstrFiltro		VARCHAR(100)=''
 AS 
 
 SET NOCOUNT ON
@@ -37,12 +38,12 @@ DECLARE @strParametros VARCHAR(2000), @intNroRegistros INT, @strProcedimiento VA
 -----------------------------------------------------------------------------------------------------------------
 
 BEGIN TRY
-	-- Concatenar todos los parámetros para guardarlos en el log de uso
+	-- Concatenar todos los parï¿½metros para guardarlos en el log de uso
 	SET @strParametros = ''
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Inicializar auditoria de uso
-	SELECT @intInconsistencias = 1, @strOpcion = 'PreOrdenes', @strProceso= 'Anulacion automatica', @strProcedimiento = OBJECT_NAME(@@PROCID), @strObjeto = ''-- Asignar valor a los parámetros para identIFicar la opción ejecutada
+	SELECT @intInconsistencias = 1, @strOpcion = 'PreOrdenes', @strProceso= 'Anulacion automatica', @strProcedimiento = OBJECT_NAME(@@PROCID), @strObjeto = ''-- Asignar valor a los parï¿½metros para identIFicar la opciï¿½n ejecutada
 	EXEC @intIdAuditoria = PLATAFORMA.uspA2_Util_CrearLogAuditoriaUso @pstrOpcion= @strOpcion, @pstrProceso = @strProceso, @pstrObjeto = @strObjeto, @pstrProcedimiento = @strProcedimiento, @pstrParametros = @strParametros, @pstrUsuario = 'JOB ANULACION AUTOMATICA', @pstrInfosesion = NULL
 
 	-----------------------------------------------------------------------------------------------------------------
@@ -54,10 +55,10 @@ BEGIN TRY
 
 	--ANULA LOS REGISTROS QUE SE ENCUENTRAN VENCIDOS
 	UPDATE [PREORDENES].tblPreOrdenes 
-	SET logActivo=0, strOrigenAnulacion='VENCIMIENTO', strObservaciones='Inactivación por vencimiento.'
+	SET logActivo=0, strOrigenAnulacion='VENCIMIENTO', strObservaciones='Inactivaciï¿½n por vencimiento.'
 	WHERE CONVERT(VARCHAR(10), dtmFechaVigencia, 121)<CONVERT(VARCHAR(10), GETDATE(), 121)
 	
-	--TRASLADA LA INFORMACIÓN DE LAS PREORDENES QUE SE ENCUENTRAN INACTIVAS A LA TABLA DE HISTORICO
+	--TRASLADA LA INFORMACIï¿½N DE LAS PREORDENES QUE SE ENCUENTRAN INACTIVAS A LA TABLA DE HISTORICO
 	INSERT INTO PREORDENES.tblPreOrdenes_Anuladas(
 		intIDPreOrden
 		,strOrigenAnulacion
